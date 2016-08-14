@@ -1,0 +1,73 @@
+﻿Build started 8/6/2016 12:21:27 AM.
+     1>Project "C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Base\Base.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\/Common/Source" /I"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\/glew/include" /I"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\/glfw/include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _VARIADIC_MAX=10 /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\SceneAssignment2.cpp
+         SceneAssignment2.cpp
+     1>Source\SceneAssignment2.cpp(69): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(72): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(75): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(76): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(77): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(84): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(85): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(86): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(167): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(244): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(293): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SceneAssignment2.cpp(296): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SceneAssignment2.cpp(336): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SceneAssignment2.cpp(367): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SceneAssignment2.cpp(385): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(386): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(410): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(411): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(422): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(423): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(466): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(467): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(468): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(473): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(474): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(475): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(512): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(513): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(514): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(519): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(520): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(521): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(776): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SceneAssignment2.cpp(836): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(837): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SceneAssignment2.cpp(860): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SceneAssignment2.cpp(865): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SceneAssignment2.cpp(891): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SceneAssignment2.cpp(930): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Release\Base.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Release" /LIBPATH:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\/glfw/lib-msvc100" /LIBPATH:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\/glew/lib" Common.lib winmm.lib opengl32.lib glu32.lib glew32.lib glfw3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Release\Base.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Release\Base.lib" /MACHINE:X86 /SAFESEH Release\Application.obj
+         Release\Camera.obj
+         Release\GameObject.obj
+         Release\LoadOBJ.obj
+         Release\LoadTGA.obj
+         Release\main.obj
+         Release\Mesh.obj
+         Release\MeshBuilder.obj
+         Release\Player.obj
+         Release\SceneAssignment.obj
+         Release\SceneAssignment2.obj
+         Release\SceneAsteroid.obj
+         Release\SceneBase.obj
+         Release\SceneCollision.obj
+         Release\SceneKinematics.obj
+         Release\shader.obj
+         Release\TopDownCamera.obj
+         Release\Utility.obj
+         Release\Wave.obj
+         Generating code
+     1>c:\users\donov_000\desktop\poly stuffz\year 2\programming physics\dm2212_framework\base\source\gameobject.cpp(183): warning C4715: 'GameObject::CheckCollisionWith' : not all control paths return a value
+         Finished generating code
+         Base.vcxproj -> C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Release\Base.exe
+     1>Done Building Project "C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Base\Base.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.45
