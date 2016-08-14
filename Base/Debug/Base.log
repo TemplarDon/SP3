@@ -1,4 +1,4 @@
-﻿Build started 8/15/2016 12:58:31 AM.
+﻿Build started 8/15/2016 1:54:29 AM.
      1>Project "C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\SP3\Base\Base.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\SP3\/Common/Source" /I"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\SP3\/glew/include" /I"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\SP3\/glfw/include" /ZI /nologo /W3 /WX- /Od /Oy- /D _VARIADIC_MAX=10 /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\SP3.cpp
@@ -25,4 +25,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.36
+Time Elapsed 00:00:02.09
