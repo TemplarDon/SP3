@@ -3,13 +3,14 @@
 
 #include "GameObject.h"
 #include "BaseElement.h"
+
 enum ATTACK_TYPE
 {
-    NO_TYPE,//use this for non-interactable blocks
+    NO_ATTACK_TYPE,//use this for non-interactable blocks
     MELEE,
     RANGED,
     ABILITY,
-    TOTAL_TYPE,
+    TOTAL_ATTACK_TYPE,
 };
 
 class ElementalObject : public GameObject
