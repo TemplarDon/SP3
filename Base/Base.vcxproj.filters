@@ -4,9 +4,6 @@
     <ClCompile Include="Source\Application.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\AttackBase.cpp">
-      <Filter>Source files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Camera.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
@@ -49,12 +46,12 @@
     <ClCompile Include="Source\Utility.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\AttackBase.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\AttackBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\BaseElement.h">
@@ -115,6 +112,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\AttackBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
