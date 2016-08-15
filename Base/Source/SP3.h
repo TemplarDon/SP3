@@ -7,6 +7,7 @@
 #include <map>
 #include "Map.h"
 #include "GameObject_Map.h"
+#include "GameObjectManager.h"
 
 class SP3 : public SceneBase
 {
@@ -22,12 +23,9 @@ public:
 
 	void RenderGO(GameObject *go);
 
-	GameObject* FetchGameObject(OBJECT_TYPE ObjectType);
-	void SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible);
-
 protected:
 
-	std::vector<GameObject *> m_goList;
+	//std::vector<GameObject *> m_goList;
 
 	float m_speed;
 	float m_worldWidth;

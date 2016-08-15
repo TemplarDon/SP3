@@ -16,6 +16,8 @@ SP3::~SP3()
 {
 }
 
+std::vector<GameObject*> GameObjectManager::m_goList;
+
 void SP3::Init()
 {
 	SceneBase::Init();
@@ -37,68 +39,15 @@ void SP3::Init()
 
 	// ----------------- Example of Spawning Objects ------------ // 
 	// SpawnGameObject(OBJECT_TYPE (Eg. Environment, Projectile etc.), GAMEOBJECT_TYPE (Eg. GO_BALL, etc.), Position, Scale, Collidable, Visible)
-	SpawnGameObject(ENVIRONMENT, GO_BALL, Vector3(2, 2, 0), Vector3(1, 1, 1), true, true);
-	SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(5, 8, 0), Vector3(1, 1, 1), true, true);
+	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BALL, Vector3(2, 2, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
+	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(5, 8, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
 	// ---------------------------------------------------------- // 
-	
+
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//test.csv");
 
 	// ------------ Add Possible Function that reads m_Map and fills new vector with GameObjects ------------ // 
-}
-
-GameObject* SP3::FetchGameObject(OBJECT_TYPE ObjectType)
-{
-	GameObject* TempGameObject = NULL;
-
-	switch (ObjectType)
-	{
-		case OBJECT_TYPE::ENVIRONMENT:
-		{
-			TempGameObject = new Environment;
-			break;
-		}
-
-		case OBJECT_TYPE::PROJECTILE:
-		{
-			break;
-		}
-
-		case OBJECT_TYPE::PLAYER:
-		{		
-			break;
-		}
-
-		case OBJECT_TYPE::ENEMY:
-		{						
-			break;
-		}
-	}
-
-	return TempGameObject;
-}
-
-void SP3::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible)
-{
-	GameObject* go = FetchGameObject(ObjectType);
-
-	go->SetType(GoType);
-	go->SetPosition(Position);
-	go->SetScale(Scale);
-	go->SetCollidable(Collidable);
-	go->SetVisible(Visible);
-
-	switch (GoType)
-	{
-		case GO_BALL:
-		{
-			go->SetMesh(meshList[GO_BALL]);
-			break;
-		}
-	}
-
-	m_goList.push_back(go);
 }
 
 void SP3::Update(double dt)
@@ -141,7 +90,7 @@ void SP3::Render()
 
 	RenderMesh(meshList[GEO_AXES], false);
 
-	for (std::vector<GameObject *>::iterator it = m_goList.begin(); it != m_goList.end(); ++it)
+	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{
 		GameObject *go = (GameObject *)*it;
 		if (go->GetActive() && go->GetVisible())
@@ -163,11 +112,11 @@ void SP3::Exit()
 {
 	SceneBase::Exit();
 	//Cleanup GameObjects
-	while (m_goList.size() > 0)
+	while (GameObjectManager::m_goList.size() > 0)
 	{
-		GameObject *go = m_goList.back();
+		GameObject *go = GameObjectManager::m_goList.back();
 		delete go;
-		m_goList.pop_back();
+		GameObjectManager::m_goList.pop_back();
 	}
 
 	if (m_Map)
