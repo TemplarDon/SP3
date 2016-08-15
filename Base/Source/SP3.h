@@ -6,6 +6,7 @@
 #include "SceneBase.h"
 #include <map>
 #include "Map.h"
+#include "GameObject_Map.h"
 
 class SP3 : public SceneBase
 {
@@ -20,6 +21,8 @@ public:
 	virtual void Exit();
 
 	void RenderGO(GameObject *go);
+
+	void InitMap();
 
 	GameObject* FetchGameObject(OBJECT_TYPE ObjectType);
 	void SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible);
@@ -37,7 +40,6 @@ protected:
 
 	// Map
 	Map* m_Map;
-
 };
 
 #endif

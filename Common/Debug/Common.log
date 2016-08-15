@@ -1,9 +1,9 @@
-﻿Build started 8/14/2016 4:15:23 PM.
-     1>Project "C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\SP3\Common\Common.vcxproj" on node 2 (Build target(s)).
+﻿Build started 8/15/2016 9:32:22 AM.
+     1>Project "C:\Users\509n1\Desktop\SP3\Common\Common.vcxproj" on node 2 (Build target(s)).
      1>Lib:
-         Common.vcxproj -> C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\SP3\Debug\Common.lib
-     1>Done Building Project "C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\SP3\Common\Common.vcxproj" (Build target(s)).
+         Common.vcxproj -> C:\Users\509n1\Desktop\SP3\Debug\Common.lib
+     1>Done Building Project "C:\Users\509n1\Desktop\SP3\Common\Common.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.03
+Time Elapsed 00:00:00.83
