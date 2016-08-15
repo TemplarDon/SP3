@@ -52,14 +52,14 @@ Vector3 Projectile::getVelocity()
 	return m_Velocity;
 }
 
-void Projectile::setPosition(Vector3 Position)
-{
-	this->m_Position.Set(Position.x, Position.y, Position.z);
-}
-Vector3 Projectile::getPosition()
-{
-	return m_Position;
-}
+//void Projectile::setPosition(Vector3 Position)
+//{
+//	this->m_Position.Set(Position.x, Position.y, Position.z);
+//}
+//Vector3 Projectile::getPosition()
+//{
+//	return m_Position;
+//}
 
 void Projectile::setDirection(bool Direction)
 {
