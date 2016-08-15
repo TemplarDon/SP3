@@ -14,9 +14,7 @@ protected:
 	ElementalObject();
 	ELEMENT m_CurrElement;
 	virtual ELEMENT GetElement();
-	virtual void SetElement(ELEMENT SetElement);
-
-
+	virtual void SetElement(ELEMENT SetElement)
 
 };
 

@@ -11,16 +11,16 @@ enum ATTACK_TYPE
     MELEE,
     RANGED,
     ABILITY,
-    TOTAL_TYPE,
+    TOTAL_ATTACK_TYPE,
 };
 class AttackBase
 {
 public:
-    AttackBase(ELEMENT EntityElement, Vector3 EntityPos, int AttackDamage, float range);
+    AttackBase(ELEMENT EntityElement, Vector3 EntityPos, int AttackDamage = 0, float range = 0);
     ~AttackBase();
     int GetAttackDamage();
     //generic update to be used in Entity classes
-    void UpdateAttack(double dt);
+    void UpdateAttack(double dt, ELEMENT EntityCurrElement);
     //generic init
     void Init();
     
