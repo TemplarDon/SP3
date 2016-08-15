@@ -4,18 +4,20 @@
 
 
 
-Projectile::Projectile()
+Projectile::Projectile(bool Direction, Vector3 m_Position, Vector3 m_Velocity)
 {
-
+	this->Direction = Direction;
+	this->m_Position = m_Position;
+	this->m_Velocity = m_Velocity;
+	m_Normal.Set(0, 1, 0);
 }
 
-void Projectile::projectileUpdate()
+void Projectile::projectileUpdate(double dt)
 {
-
+	if (Direction)
+		this->m_Position += m_Velocity*dt;
+	else if (!Direction)
+		this->m_Position -= m_Velocity*dt;
 }
 
 
-//void Projectile::spawnProjectile(bool direction, Vector3 entityPosition, Vector3 scale, Mesh* mesh)
-//{
-//	SpawnGameObject(OBJECT_TYPE::PROJECTILE, GO_BULLET, entityPosition, scale, true, true, mesh)//std::vector<GameObject *> m_goList);
-//}
