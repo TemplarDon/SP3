@@ -17,3 +17,12 @@ void ElementalObject::SetElement(ELEMENT SetElement)
 {
 	m_CurrElement = SetElement;
 }
+
+ATTACK_TYPE ElementalObject::GetAttackType()
+{
+    return m_CurrAttackType;
+}
+void ElementalObject::SetAttackType(ATTACK_TYPE SetAttackType)
+{
+    m_CurrAttackType = SetAttackType;
+}

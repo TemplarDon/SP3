@@ -14,9 +14,12 @@ protected:
 	ElementalObject();
 
 	ELEMENT m_CurrElement;
+    ATTACK_TYPE m_CurrAttackType;
 
 	virtual ELEMENT GetElement();
+    virtual ATTACK_TYPE GetAttackType();
 	virtual void SetElement(ELEMENT SetElement);
+    virtual void SetAttackType(ATTACK_TYPE SetAttackType);
 };
 
 
