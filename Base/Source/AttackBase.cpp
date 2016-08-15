@@ -1,14 +1,14 @@
 #include "AttackBase.h"
-AttackBase::AttackBase(ELEMENT EntityElement, Vector3 EntityPos, int AttackDamage, float range)
+AttackBase::AttackBase()
+{
+   
+}
+void AttackBase::Init(ELEMENT EntityElement, Vector3 EntityPos, int AttackDamage, float range)
 {
     m_CurrElement = EntityElement;
     m_AttackDamage = AttackDamage;
     m_EntityPos = EntityPos;
     SetAttackType();
-    Init();
-}
-void AttackBase::Init()
-{
     if (m_CurrAttackType == MELEE)
         Init_Melee();
     else if (m_CurrAttackType == RANGED)
@@ -23,7 +23,9 @@ void AttackBase::Init_Melee()
 }
 void AttackBase::Init_Ranged()
 {
+    
     //init array of projectiles
+   
 }
 void AttackBase::Init_Ability()
 {

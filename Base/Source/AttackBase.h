@@ -16,13 +16,14 @@ enum ATTACK_TYPE
 class AttackBase
 {
 public:
-    AttackBase(ELEMENT EntityElement, Vector3 EntityPos, int AttackDamage = 0, float range = 0);
+    AttackBase();
     ~AttackBase();
     int GetAttackDamage();
     //generic update to be used in Entity classes
     void UpdateAttack(double dt, ELEMENT EntityCurrElement);
     //generic init
-    void Init();
+    void Init(ELEMENT EntityElement, Vector3 EntityPos, int AttackDamage = 0, float range = 0);
+    Projectile *m_Projectiles[25];
     
     
 
@@ -31,7 +32,8 @@ protected:
     bool m_AttackDirection;//true is right false is left
     int m_AttackDamage;
     float m_Range;
-    Vector3 m_EntityPos;//Position of entity using the attack    
+    Vector3 m_EntityPos;//Position of entity using the attack   
+    Vector3 m_Velocity;
     ATTACK_TYPE m_CurrAttackType;
     ELEMENT m_CurrElement;
 
