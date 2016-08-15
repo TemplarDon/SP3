@@ -3,13 +3,22 @@
 
 
 
-
-Projectile::Projectile(bool Direction, Vector3 m_Position, Vector3 m_Velocity,int damage)
+Projectile::Projectile()
+{
+	Direction = true;
+	m_Position.Set(0, 0, 0);
+	m_Velocity.Set(0, 0, 0);
+	damage = 0;
+	lifeTime = 0;
+	m_Normal.Set(0, 1, 0);
+}
+void Projectile::projectileInit(bool Direction, Vector3 m_Position, Vector3 m_Velocity,int damage,float time)
 {
 	this->Direction = Direction;
 	this->m_Position = m_Position;
 	this->m_Velocity = m_Velocity;
 	this->damage = damage;
+	this->lifeTime = time;
 	m_Normal.Set(0, 1, 0);
 }
 
@@ -61,3 +70,11 @@ bool Projectile::getDirection()
 	return Direction;
 }
 
+void  Projectile::setLifetime(float lifeTime)
+{
+	this->lifeTime = lifeTime;
+}
+float  Projectile::getLifetime()
+{
+	return lifeTime;
+}
