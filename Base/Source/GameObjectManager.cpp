@@ -55,11 +55,3 @@ void  GameObjectManager::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE
 
 	m_goList.push_back(go);
 }
-//std::vector<GameObject *> GameObjectManager::getGameObjectList()
-//{
-//	return m_goList;
-//}
-//void  GameObjectManager::setGameObjectList(std::vector<GameObject *> m_goList)
-//{
-//	this->m_goList = m_goList;
-//}

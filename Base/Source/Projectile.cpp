@@ -12,6 +12,11 @@ Projectile::Projectile(bool Direction, Vector3 m_Position, Vector3 m_Velocity)
 	m_Normal.Set(0, 1, 0);
 }
 
+Projectile::~Projectile()
+{
+
+}
+
 void Projectile::projectileUpdate(double dt)
 {
 	if (Direction)

@@ -7,7 +7,7 @@
 
 enum ATTACK_TYPE
 {
-    NO_TYPE,//use this for non-interactable blocks
+	NO_ATTACK_TYPE,//use this for non-interactable blocks
     MELEE,
     RANGED,
     ABILITY,
