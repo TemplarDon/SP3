@@ -34,6 +34,7 @@
     <ClInclude Include="Source\ElementalObject.h" />
     <ClInclude Include="Source\Environment.h" />
     <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\GameObject_Map.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />
     <ClInclude Include="Source\LoadTGA.h" />

@@ -46,6 +46,7 @@ void SP3::Init()
 	m_Map->LoadMap("Image//Maps//test.csv");
 
 	// ------------ Add Possible Function that reads m_Map and fills new vector with GameObjects ------------ // 
+	InitMap();
 }
 
 GameObject* SP3::FetchGameObject(OBJECT_TYPE ObjectType)
