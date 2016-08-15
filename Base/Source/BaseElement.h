@@ -19,14 +19,6 @@ enum ELEMENT
 
 	TOTAL_ELEMENTS,
 };
-enum ATTACK_TYPE
-{
-    NO_TYPE,//use this for non-interactable blocks
-    MELEE,
-    RANGED,
-    ABILITY,
-    TOTAL_TYPE,
-};
 
 class BaseElement
 {
@@ -36,8 +28,7 @@ public:
 protected:
 
 	ELEMENT m_CurrElement;
-    ATTACK_TYPE m_CurrType;
-	BaseElement(ELEMENT m_CurrElement = NO_ELEMENT, ATTACK_TYPE m_CurrType = NO_TYPE);
+	BaseElement(ELEMENT m_CurrElement = NO_ELEMENT);
 
 };
 
