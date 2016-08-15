@@ -3,6 +3,14 @@
 
 #include "GameObject.h"
 #include "BaseElement.h"
+enum ATTACK_TYPE
+{
+    NO_TYPE,//use this for non-interactable blocks
+    MELEE,
+    RANGED,
+    ABILITY,
+    TOTAL_TYPE,
+};
 
 class ElementalObject : public GameObject
 {
@@ -19,7 +27,10 @@ protected:
 	virtual ELEMENT GetElement();
     virtual ATTACK_TYPE GetAttackType();
 	virtual void SetElement(ELEMENT SetElement);
-    virtual void SetAttackType(ATTACK_TYPE SetAttackType);
+
+private:
+    virtual void SetAttackType();//a;ways corresponds to element type
+
 };
 
 
