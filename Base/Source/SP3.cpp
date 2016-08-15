@@ -33,10 +33,6 @@ void SP3::Init()
 
 	m_objectCount = 0;
 
-	// ----------------- Code needs to be fixed ----------------- // 
-	//m_ghost = new GameObject();
-	// ---------------------------------------------------------- // 
-
 	// ----------------- Example of Spawning Objects ------------ // 
 	// SpawnGameObject(OBJECT_TYPE (Eg. Environment, Projectile etc.), GAMEOBJECT_TYPE (Eg. GO_BALL, etc.), Position, Scale, Collidable, Visible)
 	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BALL, Vector3(2, 2, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
@@ -46,13 +42,34 @@ void SP3::Init()
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//test.csv");
-
+	
 	// ------------ Add Possible Function that reads m_Map and fills new vector with GameObjects ------------ // 
+	m_GoMap->Init(m_Map);
+
+	// ----------------- Player ----------------- // 
+	m_Player = new Player();
+	m_Player->Init();
+	// ------------------------------------------ // 
 }
 
 void SP3::Update(double dt)
 {
 	SceneBase::Update(dt);
+
+	// ----------------- Main Loop ----------------- //
+
+	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
+	{
+		GameObject *go = (GameObject *)*it;
+
+		if (!go->GetActive())
+			continue;
+
+
+
+	}
+
+	// --------------------------------------------- //
 }
 
 void SP3::RenderGO(GameObject *go)
@@ -98,14 +115,6 @@ void SP3::Render()
 			RenderGO(go);
 		}
 	}
-
-	// ----------------- Code needs to be fixed ----------------- // 
-	//if (m_ghost->active)
-	//{
-	//	RenderGO(m_ghost);
-	//}
-	// ---------------------------------------------------------- // 
-		
 }
 
 void SP3::Exit()

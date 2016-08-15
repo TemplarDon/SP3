@@ -12,20 +12,20 @@ struct GameObject_Map
 
 	std::vector<std::vector<GameObject*>> m_GameObjectMap;
 
-	void Init(Map* Map, std::vector<GameObject*> GoList)
+	void Init(Map* Map)
 	{
-		for (int y = Map->GetNumOfTiles_MapHeight(); y >= 0; --y)
+		for (int y = Map->GetNumOfTiles_MapHeight() - 1; y >= 0; --y)
 		{
 			for (int x = 0; x < Map->GetNumOfTiles_MapWidth(); ++x)
 			{
 				// Create GameObject
-				// Pushback object into GoList
-
 				Vector3 Position;
 
-				Position.x = x * Map->GetTileSize();
-				Position.y = (Map->GetNumOfTiles_MapHeight() - y) * Map->GetTileSize();
+				Position.x = (x * 5) + 2.5;
+				Position.y = ((Map->GetNumOfTiles_MapHeight() - y) * 5) - 2.5;
+
 				Vector3 Scale;
+				Scale.Set(5, 5, 1);
 
 				Mesh* Quad = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1));
 
@@ -33,14 +33,14 @@ struct GameObject_Map
 				{
 				case 1:
 				{
-					GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad);
+					GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//testground.tga");
+					//m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//testground.tga");
 					break;
 				}
 					
 				}
 
-				// Add GameObject to m_GameObjectMap
-				//m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = new GameObject;
+				
 			}
 		}
 	}

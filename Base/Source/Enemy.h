@@ -6,7 +6,6 @@
 class Enemy : public Entity
 {
 public:
-	Enemy();
 	~Enemy();
 
 	//Set enemy's x and y position

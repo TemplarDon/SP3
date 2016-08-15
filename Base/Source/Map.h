@@ -29,6 +29,8 @@ public:
 		m_MapHeight = MapHeight;
 		m_MapWidth = MapWidth;
 
+		m_TileSize = TileSize;
+
 		m_NumOfTiles_MapHeight = m_MapHeight / m_TileSize;
 		m_NumOfTiles_MapWidth = m_MapWidth / m_TileSize;
 

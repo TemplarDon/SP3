@@ -253,3 +253,8 @@ void Player::HeroUpdate(Map* m_cMap)
 { 
 	ConstrainHero(25, 750, 25, 575, 1.0f);
 }
+
+void Player::CollisionResponse()
+{
+
+}

@@ -86,7 +86,17 @@ void GameObject::SetMesh(Mesh* SetMesh)
 
 bool GameObject::EmpricalCheckCollisionWith(GameObject* OtherGo, double dt)
 {
-	return false;
+	float distSquare = (this->m_Position - OtherGo->m_Position).LengthSquared();
+	float combinedRadiusSquare = (this->m_Scale.x + OtherGo->m_Scale.x)*(this->m_Scale.y + OtherGo->m_Scale.y);
+	
+	if (distSquare < combinedRadiusSquare)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 float GameObject::MathematicalCheckCollisionWith(GameObject* OtherGo)

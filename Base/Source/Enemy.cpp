@@ -1,20 +1,5 @@
 #include "Enemy.h"
 
-Enemy::Enemy()
-{
-
-}
-
-Enemy::Enemy()
-{
-	//if (theStrategy != NULL)
-	//{
-	//	delete
-	//		theStrategy;
-	//	theStrategy = NULL;
-	//}
-}
-
 Enemy::Enemy(int x, int y)
 {
 	theDestination.x = x;
@@ -24,6 +9,9 @@ Enemy::Enemy(int x, int y)
 	//	theStrategy->SetDestination(theDestination.x, theDestination.y);
 	//}
 }
+
+Enemy::~Enemy()
+{}
 
 // Set the destination of this enemy 
 int Enemy::GetDestination_x()

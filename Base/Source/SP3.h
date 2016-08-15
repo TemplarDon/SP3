@@ -8,6 +8,8 @@
 #include "Map.h"
 #include "GameObject_Map.h"
 #include "GameObjectManager.h"
+#include "Player.h"
+
 
 class SP3 : public SceneBase
 {
@@ -30,12 +32,15 @@ protected:
 	float m_speed;
 	float m_worldWidth;
 	float m_worldHeight;
-	GameObject *m_ghost;
 	int m_objectCount;
 	float m_gravity;
 
+	// Player
+	Player* m_Player;
+
 	// Map
 	Map* m_Map;
+	GameObject_Map* m_GoMap;
 };
 
 #endif

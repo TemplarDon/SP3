@@ -73,6 +73,8 @@ public:
 		const int topBorder, const int bottomBorder,
 		float timeDiff);
 
+	virtual void CollisionResponse();
+
 private:
 	// Hero's information
 	Vector3 PlayerPosition;
@@ -85,6 +87,9 @@ private:
 	// For scrolling.
 	int mapOffset_x, mapOffset_y;
 	int mapFineOffset_x, mapFineOffset_y;
+
+	// For Collision
+	Vector3 m_PrevPosition;
 };
 
 
