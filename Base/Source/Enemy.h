@@ -41,7 +41,7 @@ private:
 	 Behaviour* m_Behaviour;
 	 bool moveLeft;
 	 bool moveRight;
-	 bool jump
+	 bool jump;
 };
 
 #endif

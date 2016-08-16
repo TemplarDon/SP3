@@ -35,8 +35,8 @@ public:
 	virtual void MoveLeft(const float timeDiff);
 	virtual void MoveRight(const float timeDiff);
 
-	/*virtual bool GetLeftRight();
-	virtual void SetLeftRight(bool input);*/
+	virtual bool GetLeftRight();
+	virtual void SetLeftRight(bool input);
 	
 	//Jeff's
 	virtual bool GetMoving_Left();
@@ -86,6 +86,7 @@ protected:
 	int Health;
 	int Damage;
 	int TakenDamage;
+
 
 	//Jeff's bool
 	bool Move_Left;

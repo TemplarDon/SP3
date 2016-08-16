@@ -59,7 +59,7 @@ AttackBase*  Enemy::getAttack()
 }
 void Enemy::setMoveLeft(bool moveLeft)
 {
-	this->MoveLeft = moveLeft;
+	this->moveLeft = moveLeft;
 }
 bool Enemy::getMoveLeft()
 {
