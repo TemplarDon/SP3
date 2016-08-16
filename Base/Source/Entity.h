@@ -30,12 +30,17 @@ public:
 	//Getter for entity movement speed
 	int GetEntityMovementSpeed();
 
+	bool GetLeftRight();
+	
+	void SetLeftRight(bool input);
 
 private:
 	int Health;
 	int Damage;
 	int TakenDamage;
 	int MovementSpeed;
+
+	bool DirectionLeftRight;
 };
 
 #endif

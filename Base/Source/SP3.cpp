@@ -24,6 +24,7 @@ void SP3::Init()
 {
 	SceneBase::Init();
 
+
 	//Calculating aspect ratio
 	m_worldHeight = 100.f;
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -57,6 +58,12 @@ void SP3::Init()
 void SP3::Update(double dt)
 {
 	SceneBase::Update(dt);
+
+
+	//TESTING FOR JUMP
+
+
+
 
 	if (Application::IsKeyPressed('A'))
 	{
@@ -122,6 +129,12 @@ void SP3::Render()
 	modelStack.LoadIdentity();
 
 	RenderMesh(meshList[GEO_AXES], false);
+
+	modelStack.PushMatrix();
+	modelStack.Translate(100,  50, 0);
+	modelStack.Scale(0.5, 0.5, 0);
+	RenderMesh(meshList[GEO_PLAYER], false);
+	modelStack.PopMatrix();
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{

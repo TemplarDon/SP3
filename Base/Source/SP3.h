@@ -23,6 +23,11 @@ public:
 
 	void RenderGO(GameObject *go);
 
+	//Test jump
+	int player_y;
+	Vector3 Velocity;
+	int gravity;
+
 protected:
 
 	//std::vector<GameObject *> m_goList;

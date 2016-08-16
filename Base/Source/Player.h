@@ -11,6 +11,7 @@ public:
 
 	// Initialise this class instance
 	void Init(void);
+
 	// Returns true if the player is on ground
 	bool isOnGround(void);
 	// Returns true if the player is jumping upwards
@@ -27,12 +28,17 @@ public:
 	void SetJumpspeed(int jumpspeed);
 	//Hero Jump
 	void HeroJump();
+	// Get Jumpspeed of the player
+	int GetJumpspeed(void);
+	// Update Jump Upwards
+	void UpdateJumpUpwards();
+	// Update FreeFall
+	void UpdateFreeFall();
 
+	//Player movement
 	void MoveLeft(const float timeDiff);
 	void MoveRight(const float timeDiff);
 
-	// Get Jumpspeed of the player
-	int GetJumpspeed(void);
 	// Get mapOffset_x
 	int GetMapOffset_x(void);
 	// Get mapOffset_y
@@ -41,13 +47,6 @@ public:
 	int GetMapFineOffset_x(void);
 	// Get mapFineOffset_y
 	int GetMapFineOffset_y(void);
-
-	// Update Jump Upwards
-	void UpdateJumpUpwards();
-	// Update FreeFall
-	void UpdateFreeFall();
-	// Hero Update
-	void PlayerUpdate(GameObject_Map* GoMap);
 
 	// Set Animation Invert status of the player
 	void SetAnimationInvert(bool heroAnimationInvert);
@@ -58,8 +57,13 @@ public:
 	void ConstrainPlayer(const int leftBorder, const int rightBorder,
 		const int topBorder, const int bottomBorder,
 		float timeDiff);
-
+	// Collision Repsonse
 	virtual void CollisionResponse();
+
+	// Player Update
+	void PlayerUpdate(Map* m_cMap);
+	
+
 
 private:
 	// Hero's information

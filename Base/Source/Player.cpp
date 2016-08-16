@@ -102,12 +102,14 @@ void Player::SetToStop(void)
 
 void Player::MoveLeft(const float timeDiff)
 {
-	this->m_Position.x -= (int)(5.0f * timeDiff * this->GetEntityMovementSpeed());
+	SetLeftRight(false);
+	this->m_Position.x += m_Position.x - (int)(5.0f * timeDiff * this->GetEntityMovementSpeed());
 }
 
 void Player::MoveRight(const float timeDiff)
 {
-	this->m_Position.x += (int)(5.0f * timeDiff * this->GetEntityMovementSpeed());
+	SetLeftRight(true);
+	this->m_Position += m_Position.x + (int)(5.0f * timeDiff * this->GetEntityMovementSpeed());
 }
 
 // Get Jumpspeed of the player
