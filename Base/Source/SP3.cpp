@@ -8,6 +8,8 @@
 #include <fstream>
 #include <sstream>
 
+#include "GameObjectManager.h"
+
 SP3::SP3()
 {
 }
@@ -35,8 +37,7 @@ void SP3::Init()
 
 	// ----------------- Example of Spawning Objects ------------ // 
 	// SpawnGameObject(OBJECT_TYPE (Eg. Environment, Projectile etc.), GAMEOBJECT_TYPE (Eg. GO_BALL, etc.), Position, Scale, Collidable, Visible)
-	//GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BALL, Vector3(2, 2, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
-	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(5, 8, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
+	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
 	// ---------------------------------------------------------- // 
 
 	m_Map = new Map();
@@ -44,16 +45,12 @@ void SP3::Init()
 	m_Map->LoadMap("Image//Maps//test.csv");
 	
 	// ------------ Add Possible Function that reads m_Map and fills new vector with GameObjects ------------ // 
+	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
 
 	// ----------------- Player ----------------- // 
-	m_Player = new Player();
+	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 1), Vector3(10, 10, 1), true, true, meshList[GEO_PLAYER], "Image//player.tga");
 	m_Player->Init();
-	//m_Player->SetActive(true);
-	//m_Player->SetPosition(Vector3(32, 100, 0));
-	//m_Player->SetMesh(meshList[GEO_PLAYER]);
-	//m_Player->SetScale(Vector3(1, 1, 0));
-	GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(32, 60, 0), Vector3(0.5, 0.5, 0.5), true, true, meshList[GEO_PLAYER], "Image//player.tga");
 	// ------------------------------------------ // 
 }
 
@@ -63,12 +60,12 @@ void SP3::Update(double dt)
 
 	if (Application::IsKeyPressed('A'))
 	{
-		m_Player->MoveLeft(1);
+		m_Player->MoveLeft(0.5f);
 	}
 
 	if (Application::IsKeyPressed('D'))
 	{
-		m_Player->MoveRight(1);
+		m_Player->MoveRight(0.5f);
 	}
 	
 	// ----------------- Main Loop ----------------- //
@@ -81,7 +78,7 @@ void SP3::Update(double dt)
 			continue;
 		if (go->GetType() == GO_PLAYER)
 		{
-			m_Player->PlayerUpdate(m_Map);
+			m_Player->PlayerUpdate(m_GoMap);
 		}
 
 

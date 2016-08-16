@@ -1,11 +1,8 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <iostream>
 #include "ElementalObject.h"
-#include "Map.h"
-#include "Mesh.h"
-#include "Vector3.h"
+#include "GameObject_Map.h"
 
 class Entity : public ElementalObject
 {

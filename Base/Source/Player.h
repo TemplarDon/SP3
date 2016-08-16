@@ -2,14 +2,12 @@
 #define PLAYER_H
 
 #include "Entity.h"
-#include "Application.h"
-using namespace::std;
 
-class  Player : public Entity
+class Player : public Entity
 {
 public:
 	 Player();
-	~ Player();
+	~Player();
 
 	// Initialise this class instance
 	void Init(void);
@@ -49,7 +47,7 @@ public:
 	// Update FreeFall
 	void UpdateFreeFall();
 	// Hero Update
-	void PlayerUpdate(Map* m_cMap);
+	void PlayerUpdate(GameObject_Map* GoMap);
 
 	// Set Animation Invert status of the player
 	void SetAnimationInvert(bool heroAnimationInvert);
