@@ -13,7 +13,35 @@ public:
 
 	std::vector<std::vector<GameObject*>> m_GameObjectMap;
 
-	void Init(Map* Map);
+	void Init(Map* Map, int TileSize = 5);
+
+	int GetTileSize()
+	{
+		return m_TileSize;
+	}
+
+	int GetNumOfTiles_ScreenHeight()
+	{
+		return m_NumOfTiles_ScreenHeight;
+	}
+
+	int GetNumOfTiles_ScreenWidth()
+	{
+		return m_NumOfTiles_ScreenWidth;
+	}
+
+	float GetOffset()
+	{
+		return m_Offset;
+	}
+
+private:
+	int m_TileSize;
+
+	int m_NumOfTiles_ScreenHeight;
+	int m_NumOfTiles_ScreenWidth;
+
+	float m_Offset;
 };
 
 #endif // !OBJECT_MAP

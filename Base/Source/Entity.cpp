@@ -5,6 +5,8 @@ Entity::Entity()
 	, mapOffset_y(0)
 	, mapFineOffset_x(0)
 	, mapFineOffset_y(0)
+	, EntityInAir_Down(false)
+	, EntityInAir_Up(false)
 
 {
 	//For jumping
@@ -13,6 +15,8 @@ Entity::Entity()
 	JUMPMAXSPEED = 30.0f;
 	JUMPACCEL = 30.0f;
 	Gravity = -50.f;
+	MovementSpeed = 1;
+	m_PrevPos.Set(120, 0, 0);
 }
 
 Entity::~Entity()
@@ -78,7 +82,7 @@ void Entity::MoveLeft(const float timeDiff)
 		//SetLeftRight(false);
 		DirectionLeftRight = false;
 		Move_Left = false;
-		this->m_Position.x -= (float)(5.0f * timeDiff * this->GetEntityMovementSpeed());
+		this->m_Position.x -= (float)(10.0f * timeDiff * this->MovementSpeed);
 	}
 }
 
@@ -89,7 +93,7 @@ void Entity::MoveRight(const float timeDiff)
 		//SetLeftRight(true);
 		DirectionLeftRight = true;
 		Move_Right = true;
-		this->m_Position.x += (float)(5.0f * timeDiff * this->GetEntityMovementSpeed());
+		this->m_Position.x += (float)(10.0f * timeDiff * this->GetEntityMovementSpeed());
 	}
 }
 
@@ -119,6 +123,9 @@ void Entity::UpdateJump(double dt)
 {
 	if (m_bJumping == false)
 	{
+		EntityInAir_Up = true;
+		EntityInAir_Down = false;
+
 		m_bJumping = true;
 
 		//Calculate the jump velocity
@@ -143,11 +150,10 @@ void Entity::EntityJumpUpdate(double dt)
 		//Update the camera and target position
 		this->m_Position.y += JumpVel * dt; //DIST = VEL * TIME
 
-		if (this->m_Position.y <= 25)
+		if (JumpVel < 0)
 		{
-			this->m_Position.y = 25;
-			JumpVel = 0.0f;
-			m_bJumping = false;
+			EntityInAir_Up = false;
+			EntityInAir_Down = true;
 		}
 	}
 }
@@ -235,4 +241,79 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 void Entity::CollisionResponse()
 {
 
+}
+
+void Entity::UpdateTileMapCollision(GameObject_Map* Map)
+{
+	int PlayerPos_X = (int)((mapOffset_x + m_Position.x)) / Map->GetTileSize();
+	int PlayerPos_Y = (int)(m_Position.y / Map->GetTileSize());
+
+	// On ground - Check tiles on the sides
+	if (!EntityInAir_Down && !EntityInAir_Up)
+	{
+		if (Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X + 1]->GetCollidable())
+		{
+			m_Position = m_PrevPos;
+		}
+
+		// Right
+		if (DirectionLeftRight)
+		{
+
+		}
+		// Left
+		else
+		{
+
+		}
+	}
+	// Falling - Check tiles below
+	else if (EntityInAir_Down && !EntityInAir_Up)
+	{
+		if (Map->m_GameObjectMap[PlayerPos_Y - 1][PlayerPos_X]->GetCollidable())
+		{
+			m_Position = m_PrevPos;
+			m_bJumping = false;
+			JumpVel = 0;
+		}
+
+		// Right
+		if (DirectionLeftRight)
+		{
+
+		}
+		// Left
+		else
+		{
+
+		}
+	}
+	// Jumping - Check tiles above
+	else if (!EntityInAir_Down && EntityInAir_Up)
+	{
+		if (Map->m_GameObjectMap[PlayerPos_Y + 1][PlayerPos_X]->GetCollidable())
+		{
+			m_Position = m_PrevPos;
+		}
+
+		// Right
+		if (DirectionLeftRight)
+		{
+
+		}
+		// Left
+		else
+		{
+
+		}
+	}
+
+	if (Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X]->GetCollidable())
+	{
+		m_Position = m_PrevPos;
+	}
+
+	m_Position.y = (ceil)((int)(m_Position.y));
+
+	ConstrainPlayer(20, 750, 25, 575, 1.0f);
 }

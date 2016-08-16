@@ -37,6 +37,7 @@ public:
 
 	bool GetLeftRight();
 	void SetLeftRight(bool input);
+	
 	//Jeff's
 	bool GetMoving_Left();
 	void SetMoving_Left(bool input);
@@ -76,7 +77,9 @@ public:
 
 	// Collision Repsonse
 	virtual void CollisionResponse();
-
+	
+	// CollisionWithTileMap
+	virtual void UpdateTileMapCollision(GameObject_Map* Map);
 
 
     virtual void Update(double dt)
@@ -86,8 +89,6 @@ private:
 	int Health;
 	int Damage;
 	int TakenDamage;
-	float MovementSpeed;
-	bool DirectionLeftRight;
 
 	//Jeff's bool
 	bool Move_Left;
@@ -97,6 +98,17 @@ private:
 	// For scrolling
 	int mapOffset_x, mapOffset_y;
 	int mapFineOffset_x, mapFineOffset_y;
+	int MovementSpeed;
+
+	// ----------------- Temporary Values ----------------- //
+	bool EntityInAir_Up;
+	bool EntityInAir_Down;
+
+	float EntityMapOffsetX;
+	// ----------------- Temporary Values ----------------- //
+
+	bool DirectionLeftRight;
+	Vector3 m_PrevPos;
 };
 
 #endif

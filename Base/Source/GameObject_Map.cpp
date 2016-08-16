@@ -2,13 +2,18 @@
 #include "GameObjectManager.h"
 
 GameObject_Map::GameObject_Map()
+	: m_Offset(0)
 {}
 
 GameObject_Map::~GameObject_Map()
 {}
 
-void GameObject_Map::Init(Map* Map)
+void GameObject_Map::Init(Map* Map, int TileSize)
 {
+	m_NumOfTiles_ScreenHeight = Map->GetNumOfTiles_ScreenHeight();
+	m_NumOfTiles_ScreenWidth = Map->GetNumOfTiles_ScreenWidth();
+	m_TileSize = TileSize;
+
 	for (int y = 0; y < Map->GetNumOfTiles_MapHeight(); ++y)
 	{
 		std::vector<GameObject*> tempVec;
@@ -16,7 +21,7 @@ void GameObject_Map::Init(Map* Map)
 
 		for (int x = 0; x < Map->GetNumOfTiles_MapWidth(); ++x)
 		{
-			m_GameObjectMap[y].push_back(nullptr);
+			m_GameObjectMap[y].push_back(new Environment);
 		}
 	}
 
@@ -27,10 +32,8 @@ void GameObject_Map::Init(Map* Map)
 			// Create GameObject
 			Vector3 Position;
 
-			float offset = 2.5;
-
-			Position.x = (x * 5) + offset;
-			Position.y = ((Map->GetNumOfTiles_MapHeight() - y) * 5) - offset;
+			Position.x = (x * m_TileSize) + m_Offset;
+			Position.y = ((Map->GetNumOfTiles_MapHeight() - y) * m_TileSize) - m_Offset;
 
 			Vector3 Scale;
 			Scale.Set(5, 5, 1);
@@ -41,7 +44,6 @@ void GameObject_Map::Init(Map* Map)
 			{
 			case 1:
 			{
-				//GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//testground.tga");
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//testground.tga");
 				break;
 			}

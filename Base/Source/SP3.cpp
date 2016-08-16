@@ -49,8 +49,7 @@ void SP3::Init()
 	m_GoMap->Init(m_Map);
 
 	// ----------------- Player ----------------- // 
-	//m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 1), Vector3(0.5, 0.5, 0.5), true, true, meshList[GEO_PLAYER], "Image//player.tga");
-	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(0, 0 , 1), Vector3(0.5, 0.5, 0.5), true, true, meshList[GEO_PLAYER], "Image//Tiles//testground.tga");
+	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(0, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga");
 	m_Player->Init();
 	// ------------------------------------------ // 
     currentSelectedEle = m_Player->GetElement();
@@ -86,15 +85,14 @@ void SP3::Update(double dt)
 	}
 	if (m_Player->GetMoving_Left() == true)
 	{
-		m_Player->MoveLeft(0.3f);	
+		m_Player->MoveLeft(dt);	
 	}
 	if (m_Player->GetMoving_Right() == true)
 	{
-		m_Player->MoveRight(0.3f);
+		m_Player->MoveRight(dt);
 	}
 	if (Application::IsKeyPressed('W') )
 	{
-		/*m_Player->EntityJumpUpdate(dt);*/
 		m_Player->UpdateJump(dt);
 	}
 	if (m_Player->GetJump())
@@ -120,7 +118,7 @@ void SP3::Update(double dt)
 			continue;
 		if (go->GetType() == GO_PLAYER)
 		{
-			m_Player->PlayerUpdate(m_GoMap);
+			m_Player->UpdateTileMapCollision(m_GoMap);
 			
 		}
 
