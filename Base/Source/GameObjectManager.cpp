@@ -79,7 +79,7 @@ Player* GameObjectManager::SpawnPlayerObject(OBJECT_TYPE ObjectType, GAMEOBJECT_
 	return go;
 }
 
-Projectile* GameObjectManager::SpawnProjectileObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, float LifetTime, int Damage, bool Directions, Mesh* mesh, const char* TargaName)
+Projectile* GameObjectManager::SpawnProjectileObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, float LifetTime, int Damage, bool Directions,float speedBullet, Mesh* mesh, const char* TargaName)
 {
     Projectile* go = new Projectile();
 
@@ -89,10 +89,7 @@ Projectile* GameObjectManager::SpawnProjectileObject(OBJECT_TYPE ObjectType, GAM
     go->SetScale(Scale);
     go->SetCollidable(Collidable);
     go->SetVisible(Visible);
-    go->setLifetime(LifetTime);
-    go->setDamage(Damage);
-    go->setDirection(Directions);
-
+    go->projectileInit(Directions,Position,speedBullet,Damage,LifetTime);
     // May need to add for velocityy and element
 
     go->SetMesh(mesh);

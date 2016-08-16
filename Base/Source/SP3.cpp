@@ -53,6 +53,7 @@ void SP3::Init()
 	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(0, 0 , 1), Vector3(0.5, 0.5, 0.5), true, true, meshList[GEO_PLAYER], "Image//Tiles//testground.tga");
 	m_Player->Init();
 	// ------------------------------------------ // 
+    currentSelectedEle = m_Player->GetElement();
 }
 
 void SP3::Update(double dt)
@@ -98,6 +99,15 @@ void SP3::Update(double dt)
 	{ 
 		m_Player->EntityJumpUpdate(dt);
 	}
+    if (Application::IsKeyPressed('Q'))
+    {
+        if (m_Player->GetElement() == EARTH)
+            m_Player->SetElement(WATER);
+        else if (m_Player->GetElement() == WATER)
+            m_Player->SetElement(FIRE);
+        else if (m_Player->GetElement() == FIRE)
+            m_Player->SetElement(EARTH);
+    }
 	// ----------------- Main Loop ----------------- //
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)

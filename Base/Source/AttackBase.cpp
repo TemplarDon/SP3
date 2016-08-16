@@ -86,7 +86,7 @@ void AttackBase::Attack_Ability()
 void AttackBase::Attack_Melee()
 {
     m_MeleeStrike[m_meleeCount].projectileInit(m_AttackDirection, m_EntityPos,5.0f, m_AttackDamage, 0.5f);
-    GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_MeleeStrike[m_meleeCount].GetPosition(),Vector3(1,1,1),true,true,ProjectilePH, "Image/Tiles/ProjectilePlaceHolder.tga");
+    GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_MeleeStrike[m_meleeCount].GetPosition(),Vector3(1,5,1),true,true,0.1,5,m_AttackDirection,50.0f,ProjectilePH, "Image/Tiles/ProjectilePlaceHolder.tga");
     m_MeleeStrike[m_meleeCount].SetElement(m_CurrElement);
     m_meleeCount += 1;
     if (m_meleeCount >= MAXprojectilecount)
@@ -102,7 +102,7 @@ void AttackBase::Attack_Ranged()
         tempscale = Vector3(2, 2, 2);
     else
         tempscale = Vector3(1, 1, 1);
-    GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, 2, 5, true, ProjectilePH, "Image//Tiles/projectilePH.tga");
+    GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, 2, 5,m_AttackDirection , 50.0f ,ProjectilePH, "Image//Tiles/projectilePH.tga");
     m_Projectiles[m_projectileCount].SetElement(m_CurrElement);
     m_projectileCount += 1;
 

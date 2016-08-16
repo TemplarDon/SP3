@@ -12,7 +12,7 @@ public:
 	static GameObject* FetchGameObject(OBJECT_TYPE ObjectType);
 	static GameObject* SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName = "");
 	static Player* SpawnPlayerObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName = "");
-    static Projectile* SpawnProjectileObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, float LifetTime, int Damage, bool Directions, Mesh* mesh, const char* TargaName = "");
+    static Projectile* SpawnProjectileObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, float LifetTime, int Damage, bool Directions,float speedBullet, Mesh* mesh, const char* TargaName = "");
 
 	static std::vector<GameObject*> m_goList;
 

@@ -18,7 +18,7 @@ public:
 	void projectileUpdate(double dt);
 	void setDamage(int damage);
 	int	 getDamage();
-	
+    void SetBulletSpeed();
 	void setVelocity(Vector3 Velocity);
 	Vector3 getVelocity();
 

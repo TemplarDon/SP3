@@ -35,6 +35,7 @@ protected:
 
 	// Player
 	Player* m_Player = new Player;
+    ELEMENT currentSelectedEle;
 
 	// Map
 	Map* m_Map;

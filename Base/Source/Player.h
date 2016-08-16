@@ -19,6 +19,7 @@ public:
 	void SetAnimationInvert(bool heroAnimationInvert);
 	// Get Animation Invert status of the player
 	bool GetAnimationInvert(void);
+    AttackBase *Attacks;
 
 private:
 	// Player's information

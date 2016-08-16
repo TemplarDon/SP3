@@ -7,7 +7,7 @@ Player::Player(void)
 	, heroAnimationCounter(0)
 	, heroAnimationInvert(false)
 {
-    m_CurrElement = WATER;
+    m_CurrElement = EARTH;
     Attacks = new AttackBase;
 }
 
