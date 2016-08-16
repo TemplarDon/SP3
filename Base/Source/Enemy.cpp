@@ -4,10 +4,13 @@ Enemy::Enemy(int x, int y)
 {
 	theDestination.x = x;
 	theDestination.y = y;
+	m_Behaviour = new Behaviour();
 	//if (theStrategy != NULL)
 	//{
 	//	theStrategy->SetDestination(theDestination.x, theDestination.y);
 	//}
+
+	
 }
 
 Enemy::~Enemy()
@@ -31,6 +34,8 @@ void Enemy::Update(Map* tilemap)
 	//	theStrategy->Update();
 	//	theStrategy->GetEnemyPosition((Position.x), (Position.y));
 	//}
+
+	
 }
 
 //void Enemy::ChangeStrategy(Strategy* theNewStrategy, bool bDelete)
