@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 #include "Entity.h"
-
+#include "Application.h"
 using namespace::std;
 
 class  Player : public Entity
@@ -25,26 +25,14 @@ public:
 	void SetToJumpUpwards(bool isOnJumpUpwards);
 	// Stop the player's movement
 	void SetToStop(void);
-	// Set position x of the player
-	void SetPos_x(int pos_x);
-	// Set position y of the player
-	void SetPos_y(int pos_y);
 	// Set Jumpspeed of the player
 	void SetJumpspeed(int jumpspeed);
 	//Hero Jump
 	void HeroJump();
 
-	// Update Movements
-	void MoveUpDown(const bool mode, const float timeDiff);
-	void MoveLeftRight(const bool mode, const float timeDiff);
+	void MoveLeft(const float timeDiff);
+	void MoveRight(const float timeDiff);
 
-	void MoveLeft();
-	void MoveRight();
-
-	// Get position x of the player
-	int GetPos_x(void);
-	// Get position y of the player
-	int GetPos_y(void);
 	// Get Jumpspeed of the player
 	int GetJumpspeed(void);
 	// Get mapOffset_x
@@ -61,7 +49,7 @@ public:
 	// Update FreeFall
 	void UpdateFreeFall();
 	// Hero Update
-	void HeroUpdate(Map* m_cMap);
+	void PlayerUpdate(Map* m_cMap);
 
 	// Set Animation Invert status of the player
 	void SetAnimationInvert(bool heroAnimationInvert);
@@ -69,7 +57,7 @@ public:
 	bool GetAnimationInvert(void);
 
 	// Constrain the position of the player to within the border
-	void ConstrainHero(const int leftBorder, const int rightBorder,
+	void ConstrainPlayer(const int leftBorder, const int rightBorder,
 		const int topBorder, const int bottomBorder,
 		float timeDiff);
 
@@ -77,7 +65,7 @@ public:
 
 private:
 	// Hero's information
-	Vector3 PlayerPosition;
+	
 	int jumpspeed;
 	bool hero_inMidAir_Up;
 	bool hero_inMidAir_Down;
