@@ -49,6 +49,18 @@
     <ClCompile Include="Source\AttackBase.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\Entity.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\Behaviour.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BehaviourMelee.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\BehaviourRanged.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -115,6 +127,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\AttackBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Enemy.h" />
+    <ClInclude Include="Source\Entity.h" />
+    <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\Behaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BehaviourMelee.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\BehaviourRanged.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -82,3 +82,11 @@ bool Behaviour::getDirection()
 {
 	return Direction;
 }
+void Behaviour::setBehaviour(BehaviourStates behaviour)
+{
+	this->behaviour = behaviour;
+}
+bool Behaviour::getBehaviour()
+{
+	return behaviour;
+}

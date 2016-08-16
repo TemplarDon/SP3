@@ -39,7 +39,7 @@ private:
 	Vector3 m_Normal;
 	float lifeTime;
 	bool Direction;
-	float speedBullet
+	float speedBullet;
 
 };
 

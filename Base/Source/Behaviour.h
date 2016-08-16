@@ -7,6 +7,9 @@
 
 class Behaviour
 {
+	
+
+public:
 	enum EnemyType
 	{
 		NIL,
@@ -20,9 +23,6 @@ class Behaviour
 		EVADE,
 		TOTALSTATES,
 	};
-
-public:
-	
 	virtual float calculateRelativeDistance(Vector3 playerPosition, Vector3 enemyPosition);
 	virtual void Update(double dt, Vector3 playerPosition, Vector3 enemyPosition);
 		
