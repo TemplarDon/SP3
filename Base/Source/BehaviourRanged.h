@@ -19,7 +19,7 @@ public:
 	~BehaviourRanged();
 
 	
-	 void BehaviourRangedUpdate(float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, double dt, AttackBase *attack, bool &moveLeft, bool &moveRight, bool &jump,bool Direction);
+	void BehaviourRangedUpdate(float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, double dt, AttackBase *attack, bool &moveLeft, bool &moveRight,bool &jump, bool Direction);
 	 void Update(double dt, Vector3 playerPosition, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump);
 
 	 void setBehaviour(BehaviourStates behaviour);

@@ -18,7 +18,7 @@ public:
 	};
 
 	virtual float calculateRelativeDistance(Vector3 playerPosition, Vector3 enemyPosition);
-	virtual void Update(double dt, Vector3 playerPosition, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump);
+	virtual void Update(double dt, Vector3 playerPosition, Vector3 &enemyPosition,bool &moveLeft, bool &moveRight,bool &jump,bool Direction);
 		
 
 	virtual  void setEnemyType(EnemyType enemyType);

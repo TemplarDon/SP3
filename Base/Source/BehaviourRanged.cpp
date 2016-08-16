@@ -111,6 +111,8 @@ void BehaviourRanged::BehaviourRangedUpdate(float distancePlayerToEnemy, float e
 	if (behaviour == ATTACK)
 	{
 		//attack
+
+		attack->LaunchAttack();
 		randomInit = false;
 	}
 	else if (behaviour == EVADE)

@@ -33,7 +33,7 @@ float Behaviour::calculateRelativeDistance(Vector3 playerPosition, Vector3 enemy
 	relativeDistance = (playerPosition - enemyPosition).LengthSquared();
 	return relativeDistance;
 }
-void Behaviour::Update(double dt, Vector3 playerPosition, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump)
+void Behaviour::Update(double dt, Vector3 playerPosition, Vector3 &enemyPosition,bool &moveLeft,bool &moveRight ,bool &jump)
 {
 	float relativeDistance=calculateRelativeDistance(playerPosition, enemyPosition);
 	setDirection(playerPosition, enemyPosition);

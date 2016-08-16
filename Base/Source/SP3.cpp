@@ -61,6 +61,8 @@ void SP3::Update(double dt)
 	SceneBase::Update(dt);
     m_Player->Attacks->UpdateAttack(dt,m_Player->GetElement(),m_Player->GetPosition(), m_Player->GetLeftRight());
 
+	
+
 	if (Application::IsKeyPressed('A'))
 	{
 		m_Player->SetMoving_Left(true);

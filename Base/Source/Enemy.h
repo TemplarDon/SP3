@@ -35,7 +35,7 @@ private:
 	Vector3 theDestination;
 	//Strategy* theStrategy;
 
-	Behaviour* m_Behaviour;
+	 Behaviour* m_Behaviour;
 };
 
 #endif

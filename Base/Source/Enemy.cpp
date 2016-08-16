@@ -29,13 +29,7 @@ int Enemy::GetDestination_y()
 
 void Enemy::UpdateEnemy(Map* tilemap)
 {
-	//if (theStrategy != NULL)
-	//{
-	//	theStrategy->Update();
-	//	theStrategy->GetEnemyPosition((Position.x), (Position.y));
-	//}
-
-	
+	//m_Behaviour->Update(d)
 }
 
 //void Enemy::ChangeStrategy(Strategy* theNewStrategy, bool bDelete)
