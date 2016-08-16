@@ -1,10 +1,8 @@
 #ifndef ATTACKBASE_H
 #define ATTACKBASE_H
-#include "BaseElement.h"
-#include "Vector3.h"
 #include "Projectile.h"
-#include "GameObjectManager.h"
-#include "MeshBuilder.h"
+
+
 
 
 
@@ -35,19 +33,20 @@ public:
 protected:   
 
     bool m_AttackDirection;//true is right false is left
-    int m_AttackDamage;
-    float m_Range;//bullet lifetime
+    int m_AttackDamage = 0;
+    float m_Range = 0;//bullet lifetime
     Vector3 m_EntityPos;//Position of entity using the attack   
     Vector3 m_Velocity;
-    ATTACK_TYPE m_CurrAttackType;
-    ELEMENT m_CurrElement;
-    Projectile *m_Projectiles[MAXprojectilecount];
-    Projectile *m_MeleeStrike[MAXprojectilecount];
+    ATTACK_TYPE m_CurrAttackType = NO_ATTACK_TYPE;
+    ELEMENT m_CurrElement = NO_ELEMENT;
+    
 
     int MAXprojectilecount;
     int m_projectileCount;
     int m_meleeCount;
     int m_AbilityCount;
+    Projectile *m_Projectiles = new Projectile[50];
+    Projectile *m_MeleeStrike = new Projectile[50];
 
     Mesh* ProjectilePH;
 

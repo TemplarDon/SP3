@@ -62,8 +62,13 @@ public:
 
 	// Player Update
 	void PlayerUpdate(GameObject_Map* m_cMap);
-	
 
+
+    virtual void Update(double dt)
+    {}
+	
+    //For Attacks
+    AttackBase *Attacks;
 
 private:
 	// Hero's information
@@ -80,6 +85,7 @@ private:
 
 	// For Collision
 	Vector3 m_PrevPosition;
+
 };
 
 

@@ -10,7 +10,10 @@ Player::Player(void)
 	, mapOffset_y(0)
 	, mapFineOffset_x(0)
 	, mapFineOffset_y(0)
+    
 {
+    m_CurrElement = WATER;
+    Attacks = new AttackBase;
 }
 
 Player::~Player(void)
@@ -23,6 +26,7 @@ void Player::Init(void)
 	SetEntityHealth(10);
 	SetEntityDamage(5);
 	SetEntityMovementSpeed(1);
+    Attacks->Init(GetEntityDamage(), 10.f);
 }
 
 // Returns true if the player is on ground

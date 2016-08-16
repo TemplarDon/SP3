@@ -2,10 +2,6 @@
 #define ENTITY_H
 
 #include "ElementalObject.h"
-
-#include "Map.h"
-#include "Mesh.h"
-#include "Vector3.h"
 #include "AttackBase.h"
 #include "GameObject_Map.h"
 
@@ -38,6 +34,10 @@ public:
 	bool GetLeftRight();
 	
 	void SetLeftRight(bool input);
+
+
+    virtual void Update(double dt)
+    {}
 
 private:
 	int Health;

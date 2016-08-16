@@ -11,6 +11,10 @@ public:
     virtual void SetElement(ELEMENT SetElement);
     virtual ELEMENT GetElement();
 
+    virtual void Update(double dt)
+    {}
+
+
 protected:
 
 	ElementalObject();

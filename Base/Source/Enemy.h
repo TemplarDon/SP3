@@ -12,7 +12,7 @@ public:
 	Enemy(int x, int y);
 
 	//Update enemy
-	void Update(double dt);
+	//void Update(double dt);
 
 	// Set the destination of this enemy 
 	void SetDestination(const int pos_x, const int pos_y);
@@ -22,9 +22,13 @@ public:
 	int GetDestination_y();
 
 	// ENEMY Update 
-	void Update(Map* tilemap);
+	void UpdateEnemy(Map* tilemap);
 	// Strategy
 	//void ChangeStrategy(Strategy* theNewStrategy, bool bDelete = true);
+
+
+    virtual void Update(double dt)
+    {}
 
 private:
 	Vector3 theDestination;

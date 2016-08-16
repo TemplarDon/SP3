@@ -24,7 +24,7 @@ int Enemy::GetDestination_y()
 	return theDestination.y;
 }
 
-void Enemy::Update(Map* tilemap)
+void Enemy::UpdateEnemy(Map* tilemap)
 {
 	//if (theStrategy != NULL)
 	//{

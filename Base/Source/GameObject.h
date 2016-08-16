@@ -24,6 +24,7 @@ enum GAMEOBJECT_TYPE
 	GO_BLOCK,
 	GO_TEST,
 	GO_PLAYER,
+    GO_EARTHMELEE_PROJECTILE,
 	GO_TOTAL,
 };
 
@@ -57,6 +58,9 @@ public:
 	virtual bool EmpricalCheckCollisionWith(GameObject* OtherGo, double dt);
 	virtual float MathematicalCheckCollisionWith(GameObject* OtherGo);
 	virtual void CollisionResponse(GameObject* OtherGo);
+
+    virtual void Update(double dt)
+    {}
 
 protected:
 

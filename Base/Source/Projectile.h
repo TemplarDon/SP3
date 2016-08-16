@@ -31,10 +31,12 @@ public:
 	void setLifetime(float lifeTime);
 	float getLifetime();
 
+    virtual void Update(double dt);
+
 
 private:
 	int damage;
-	Vector3 m_Velocity;
+	Vector3 m_Velocity = Vector3(2,0,0);
 	//Vector3 m_Position;
 	Vector3 m_Normal;
 	float lifeTime;

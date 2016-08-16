@@ -9,6 +9,9 @@ public:
 	Environment();
 	virtual ~Environment();
 
+    virtual void Update(double dt)
+    {}
+
 protected:
 
 	bool m_Destructible;

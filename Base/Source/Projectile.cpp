@@ -33,6 +33,26 @@ void Projectile::projectileUpdate(double dt)
 		this->m_Position.x += speedBullet*dt;
 	else if (!Direction)
 		this->m_Position -= speedBullet*dt;
+
+    lifeTime -= dt * 5;
+    if (lifeTime < 0)
+    {
+        m_Active = false;
+    }
+}
+
+void Projectile::Update(double dt)
+{
+    if (Direction)
+        this->m_Position.x += speedBullet*dt;
+    else if (!Direction)
+        this->m_Position -= speedBullet*dt;
+
+    lifeTime -= dt;
+    if (lifeTime < 0)
+    {
+        m_Active = false;
+    }
 }
 void Projectile::setDamage(int damage)
 {

@@ -23,8 +23,7 @@ std::vector<GameObject*> GameObjectManager::m_goList;
 void SP3::Init()
 {
 	SceneBase::Init();
-
-
+    m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
 	//Calculating aspect ratio
 	m_worldHeight = 100.f;
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -58,7 +57,7 @@ void SP3::Init()
 void SP3::Update(double dt)
 {
 	SceneBase::Update(dt);
-
+    m_Player->Attacks->UpdateAttack(dt,m_Player->GetElement(),m_Player->GetPosition(), m_Player->GetLeftRight());
 
 	if (Application::IsKeyPressed('A'))
 	{
@@ -69,6 +68,10 @@ void SP3::Update(double dt)
 	{
 		m_Player->MoveRight(0.5f);
 	}
+    if (Application::IsKeyPressed(VK_SPACE))
+    {
+        m_Player->Attacks->LaunchAttack();
+    }
 	
 	// ----------------- Main Loop ----------------- //
 
@@ -83,6 +86,10 @@ void SP3::Update(double dt)
 			m_Player->PlayerUpdate(m_GoMap);
 		}
 
+        if (go->GetType() == GO_EARTHMELEE_PROJECTILE)
+        {
+            go->Update(dt);
+        }
 
 
 	}

@@ -34,7 +34,7 @@ protected:
 	float m_gravity;
 
 	// Player
-	Player* m_Player;
+	Player* m_Player = new Player;
 
 	// Map
 	Map* m_Map;
