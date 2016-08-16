@@ -32,6 +32,9 @@ protected:
 	float m_worldHeight;
 	int m_objectCount;
 	float m_gravity;
+    float m_ChangeElementDebounce;
+    bool m_CanChangeElement;
+
 
 	// Player
 	Player* m_Player = new Player;

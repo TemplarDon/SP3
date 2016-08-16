@@ -33,13 +33,15 @@ public:
 protected:   
 
     bool m_AttackDirection;//true is right false is left
-    int m_AttackDamage = 0;
-    float m_Range = 0;//bullet lifetime
+    int m_AttackDamage;
+    float m_Range;//bullet lifetime
     Vector3 m_EntityPos;//Position of entity using the attack   
     Vector3 m_Velocity;
     ATTACK_TYPE m_CurrAttackType = NO_ATTACK_TYPE;
     ELEMENT m_CurrElement = NO_ELEMENT;
-    
+
+    float m_AttackDebounce;
+    bool m_CanAttack;
 
     int MAXprojectilecount;
     int m_projectileCount;

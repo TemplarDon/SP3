@@ -12,6 +12,8 @@
 
 SP3::SP3()
 {
+    m_ChangeElementDebounce = 0.f;
+    m_CanChangeElement = true;
 }
 
 SP3::~SP3()
@@ -99,12 +101,16 @@ void SP3::Update(double dt)
 	}
     if (Application::IsKeyPressed('Q'))
     {
-        if (m_Player->GetElement() == EARTH)
-            m_Player->SetElement(WATER);
-        else if (m_Player->GetElement() == WATER)
-            m_Player->SetElement(FIRE);
-        else if (m_Player->GetElement() == FIRE)
-            m_Player->SetElement(EARTH);
+        if (m_CanChangeElement)
+        {
+            if (m_Player->GetElement() == EARTH)
+                m_Player->SetElement(WATER);
+            else if (m_Player->GetElement() == WATER)
+                m_Player->SetElement(FIRE);
+            else if (m_Player->GetElement() == FIRE)
+                m_Player->SetElement(EARTH);
+            m_CanChangeElement = false;
+        }
     }
 
 	// ----------------- Main Loop ----------------- //
@@ -129,6 +135,17 @@ void SP3::Update(double dt)
 	}
 
 	// --------------------------------------------- //
+
+    //Update the debouncer
+    if (!m_CanChangeElement)
+    {
+        m_ChangeElementDebounce += 5 * float(dt);
+        if (m_ChangeElementDebounce >= 5.f)
+        {
+            m_CanChangeElement = true;
+            m_ChangeElementDebounce = 0.f;
+        }
+    }
 }
 
 void SP3::RenderGO(GameObject *go)

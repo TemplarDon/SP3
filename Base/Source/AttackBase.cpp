@@ -7,6 +7,9 @@ AttackBase::AttackBase()
     m_meleeCount = 0;
     m_AbilityCount = 0;
     m_AttackDirection = true;
+    m_AttackDebounce = 0;
+    m_Range = 0.f;
+    m_CanAttack = true;
 }
 void AttackBase::Init(int AttackDamage, float range)
 {
@@ -43,16 +46,30 @@ void AttackBase::UpdateAttack(double dt, ELEMENT EntityCurrElement, Vector3 pos,
     Update_Ranged(dt);
     Update_Melee(dt);
     Update_Ability(dt);
+
+    if (!m_CanAttack)
+    {
+        m_AttackDebounce += 12.5 * (float)dt;
+        if (m_AttackDebounce >= 5.f)
+        {
+            m_CanAttack = true;
+            m_AttackDebounce = 0.f;
+        }
+    }
 }
 void AttackBase::LaunchAttack()
 {
     SetAttackType();
-    if (m_CurrAttackType == MELEE)
-        Attack_Melee();
-    else if (m_CurrAttackType == RANGED)
-        Attack_Ranged();
-    else if (m_CurrAttackType == ABILITY)
-        Attack_Ability();
+    if (m_CanAttack)
+    {
+        if (m_CurrAttackType == MELEE)
+            Attack_Melee();
+        else if (m_CurrAttackType == RANGED)
+            Attack_Ranged();
+        else if (m_CurrAttackType == ABILITY)
+            Attack_Ability();
+        m_CanAttack = false;
+    }
 }
 void AttackBase::Attack_Ability()
 {
