@@ -49,7 +49,7 @@ void SP3::Init()
 	m_GoMap->Init(m_Map);
 
 	// ----------------- Player ----------------- // 
-	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(0, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga");
+	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(100, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga");
 	m_Player->Init();
 	// ------------------------------------------ // 
     currentSelectedEle = m_Player->GetElement();
@@ -59,8 +59,6 @@ void SP3::Update(double dt)
 {
 	SceneBase::Update(dt);
     m_Player->Attacks->UpdateAttack(dt,m_Player->GetElement(),m_Player->GetPosition(), m_Player->GetLeftRight());
-
-	
 
 	if (Application::IsKeyPressed('A'))
 	{
@@ -91,11 +89,11 @@ void SP3::Update(double dt)
 	{
 		m_Player->MoveRight(dt);
 	}
-	if (Application::IsKeyPressed('W') )
+	if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND)
 	{
 		m_Player->UpdateJump(dt);
 	}
-	if (m_Player->GetJump())
+	if (m_Player->GetMoveState() != ON_GROUND)
 	{ 
 		m_Player->EntityJumpUpdate(dt);
 	}
@@ -108,6 +106,7 @@ void SP3::Update(double dt)
         else if (m_Player->GetElement() == FIRE)
             m_Player->SetElement(EARTH);
     }
+
 	// ----------------- Main Loop ----------------- //
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
@@ -118,8 +117,7 @@ void SP3::Update(double dt)
 			continue;
 		if (go->GetType() == GO_PLAYER)
 		{
-			m_Player->UpdateTileMapCollision(m_GoMap);
-			
+			m_Player->Update(dt, m_GoMap, camera);
 		}
 
         if (go->GetType() == GO_EARTHMELEE_PROJECTILE)
@@ -153,7 +151,7 @@ void SP3::Render()
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
-	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -10, 10);
+	projection.SetToOrtho(m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + m_worldWidth, 0, m_worldHeight, -10, 10);
 	projectionStack.LoadMatrix(projection);
 
 	// Camera matrix
@@ -165,6 +163,21 @@ void SP3::Render()
 		);
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack.LoadIdentity();
+
+	//Mtx44 perspective;
+	//perspective.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
+	////perspective.SetToOrtho(-80, 80, -60, 60, -1000, 1000);
+	//projectionStack.LoadMatrix(perspective);
+
+	//// Camera matrix
+	//viewStack.LoadIdentity();
+	//viewStack.LookAt(
+	//	camera.position.x, camera.position.y, camera.position.z,
+	//	camera.target.x, camera.target.y, camera.target.z,
+	//	camera.up.x, camera.up.y, camera.up.z
+	//	);
+	//// Model matrix : an identity matrix (model will be at the origin)
+	//modelStack.LoadIdentity();
 
 	RenderMesh(meshList[GEO_AXES], false);
 

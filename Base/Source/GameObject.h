@@ -37,6 +37,9 @@ public:
 	virtual GAMEOBJECT_TYPE GetType();
 	virtual void SetType(GAMEOBJECT_TYPE SetType);
 
+	virtual OBJECT_TYPE GetObjectType();
+	virtual void SetObjectType(OBJECT_TYPE SetObjectType);
+
 	virtual Vector3 GetPosition();
 	virtual void SetPosition(Vector3 SetPos);
 
@@ -67,6 +70,7 @@ protected:
 	GameObject();
 
 	GAMEOBJECT_TYPE m_Type;
+	OBJECT_TYPE m_ObjectType;
 	Vector3 m_Position;
 	Vector3 m_Scale;
 	bool m_Active;
@@ -74,14 +78,6 @@ protected:
 	bool m_Visible;
 
 	Mesh* m_ObjectMesh;
-
-	// ----------------- These variables should be moved to Projectile Class ----------------- // 
-	//Vector3 m_Velocity;
-	//Vector3 m_Direction;
-	//Vector3 m_Normal;
-	//float m_Mass;
-	// --------------------------------------------------------------------------------------- //
-
 };
 
 #endif

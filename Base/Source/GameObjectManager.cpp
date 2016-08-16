@@ -40,6 +40,7 @@ GameObject* GameObjectManager::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJEC
 	GameObject* go = FetchGameObject(ObjectType);
 
 	go->SetActive(true);
+	go->SetObjectType(ObjectType);
 	go->SetType(GoType);
 	go->SetPosition(Position);
 	go->SetScale(Scale);
@@ -62,6 +63,7 @@ Player* GameObjectManager::SpawnPlayerObject(OBJECT_TYPE ObjectType, GAMEOBJECT_
 	Player* go = new Player();
 
 	go->SetActive(true);
+	go->SetObjectType(ObjectType);
 	go->SetType(GoType);
 	go->SetPosition(Position);
 	go->SetScale(Scale);
@@ -84,6 +86,7 @@ Projectile* GameObjectManager::SpawnProjectileObject(OBJECT_TYPE ObjectType, GAM
     Projectile* go = new Projectile();
 
     go->SetActive(true);
+	go->SetObjectType(ObjectType);
     go->SetType(GoType);
     go->SetPosition(Position);
     go->SetScale(Scale);
@@ -102,4 +105,9 @@ Projectile* GameObjectManager::SpawnProjectileObject(OBJECT_TYPE ObjectType, GAM
     m_goList.push_back(go);
 
     return go;
+}
+
+GameObject* GameObjectManager::TestSpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName)
+{
+	return nullptr;
 }

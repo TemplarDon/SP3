@@ -5,6 +5,17 @@
 #include "AttackBase.h"
 #include "GameObject_Map.h"
 
+#include "Camera.h"
+
+enum ENTITY_MOVE_STATE
+{
+	NO_STATE,
+	ON_GROUND,
+	FALLING,
+	JUMPING,
+	TOTAL_MOVE_STATE,
+};
+
 class Entity : public ElementalObject
 {
 public:
@@ -70,7 +81,11 @@ public:
 	// Constrain the position of the player to within the border
 	virtual void ConstrainPlayer(const int leftBorder, const int rightBorder,
 		const int topBorder, const int bottomBorder,
-		float timeDiff);
+		float timeDiff, Camera camera);
+
+	// Get and Set for Entitymove state
+	virtual ENTITY_MOVE_STATE GetMoveState();
+	virtual void SetMoveState(ENTITY_MOVE_STATE SetState);
 
 	// Collision Repsonse
 	virtual void CollisionResponse();
@@ -78,9 +93,7 @@ public:
 	// CollisionWithTileMap
 	virtual void UpdateTileMapCollision(GameObject_Map* Map);
 
-
-    virtual void Update(double dt)
-    {}
+	virtual void Update(double dt, GameObject_Map* Map, Camera camera);
 
 protected:
 	int Health;
@@ -92,18 +105,16 @@ protected:
 	bool Move_Left;
 	bool Move_Right;
 
-
 	// For scrolling
 	int mapOffset_x, mapOffset_y;
-	int mapFineOffset_x, mapFineOffset_y;
+	float mapFineOffset_x, mapFineOffset_y;
 	int MovementSpeed;
 
-	// ----------------- Temporary Values ----------------- //
-	bool EntityInAir_Up;
-	bool EntityInAir_Down;
+	// ----------------- For jumping and collision check ----------------- //
+	ENTITY_MOVE_STATE m_CurrEntityMoveState;
 
 	float EntityMapOffsetX;
-	// ----------------- Temporary Values ----------------- //
+	// ------------------------------------------------------------------- //
 
 	bool DirectionLeftRight;
 	Vector3 m_PrevPos;

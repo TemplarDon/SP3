@@ -17,6 +17,9 @@ public:
 	static std::vector<GameObject*> m_goList;
 
     // ----------- Try static cast pointer to make function generic (SpriteAnimation) ----------- //
+
+	static GameObject* TestSpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName = "");
+
 };
 
 

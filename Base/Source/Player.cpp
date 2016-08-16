@@ -37,5 +37,4 @@ bool Player::GetAnimationInvert(void)
 // Player Update
 void Player::PlayerUpdate(GameObject_Map* Map)
 { 
-	ConstrainPlayer(20, 750, 25, 575, 1.0f);
 }

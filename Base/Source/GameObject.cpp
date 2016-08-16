@@ -24,6 +24,16 @@ void GameObject::SetType(GAMEOBJECT_TYPE SetType)
 	m_Type = SetType;
 }
 
+OBJECT_TYPE GameObject::GetObjectType()
+{
+	return m_ObjectType;
+}
+
+void GameObject::SetObjectType(OBJECT_TYPE SetObjectType)
+{
+	m_ObjectType = SetObjectType;
+}
+
 Vector3 GameObject::GetPosition()
 {
 	return m_Position;
