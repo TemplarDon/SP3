@@ -6,6 +6,7 @@
 #include "Map.h"
 #include "Mesh.h"
 #include "Vector3.h"
+#include "AttackBase.h"
 
 class Entity : public ElementalObject
 {

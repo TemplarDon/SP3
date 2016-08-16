@@ -3,6 +3,7 @@
 #include "BaseElement.h"
 #include "Vector3.h"
 #include "Projectile.h"
+#include "GameObjectManager.h"
 
 
 enum ATTACK_TYPE
@@ -20,10 +21,12 @@ public:
     ~AttackBase();
     int GetAttackDamage();
     //generic update to be used in Entity classes
-    void UpdateAttack(double dt, ELEMENT EntityCurrElement);
+    void UpdateAttack(double dt, ELEMENT EntityCurrElement, Vector3 pos, bool leftright);
     //generic init
-    void Init(ELEMENT EntityElement, Vector3 EntityPos, int AttackDamage = 0, float range = 0);
-    Projectile *m_Projectiles[25];
+    void Init(int AttackDamage = 0, float range = 0);
+    //launch an attack
+    void LaunchAttack();
+    
     
     
 
@@ -31,22 +34,27 @@ protected:
 
     bool m_AttackDirection;//true is right false is left
     int m_AttackDamage;
-    float m_Range;
+    float m_Range;//bullet lifetime
     Vector3 m_EntityPos;//Position of entity using the attack   
     Vector3 m_Velocity;
     ATTACK_TYPE m_CurrAttackType;
     ELEMENT m_CurrElement;
+    Projectile *m_Projectiles[25];
+    Projectile *m_MeleeStrike[2];
+    int m_projectileCount;
+    int m_meleeCount;
+    int m_AbilityCount;
 
     void SetAttackType();//always corresponds to element type
     //specific updates
-    void Update_Ranged();
-    void Update_Melee();
-    void Update_Ability();
-    //specific inits
-    void Init_Ranged();
-    void Init_Melee();
-    void Init_Ability();
-    
+    void Update_Ranged(double dt);
+    void Update_Melee(double dt);
+    void Update_Ability(double dt);
+    //Attack calls
+    void Attack_Ranged();
+    void Attack_Melee();
+    void Attack_Ability();
+
     
 
 
