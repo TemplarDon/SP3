@@ -26,6 +26,19 @@ void Enemy::UpdateEnemy(double dt,Vector3 playerPosition)
 {
 	m_Behaviour->setDirection(playerPosition, enemyPosition);
 	m_Behaviour->Update(dt, playerPosition, getEnemyPosition(), moveLeft, moveRight, jump, m_Behaviour->getDirection());
+	if (moveLeft == true && moveRight==false)
+	{
+		MoveLeft(0.3f);
+	}
+	else if (moveLeft == false && moveRight == true)
+	{
+		MoveRight(0.3f);
+	}
+	if (jump == true)
+	{
+		UpdateJump(dt);
+		EntityJumpUpdate(dt);
+	}
 }
 void  Enemy::setBehaviour(Behaviour* behaviour)
 {
