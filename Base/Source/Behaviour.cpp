@@ -6,12 +6,22 @@ Behaviour::Behaviour()
 	enemyType = NIL;
 	attack = new AttackBase();
 	estimatedDistance = 0;
+	behaviourRanged = new BehaviourRanged();
 }
 Behaviour::Behaviour(EnemyType enemyType,float estimatedDistance,AttackBase *attack)
 {
 	this->enemyType = enemyType;
 	this->attack = attack;
 	this->estimatedDistance = estimatedDistance;
+	if (enemyType == RANGED)
+	{
+		behaviourRanged = new BehaviourRanged();
+	}
+	else
+	{
+
+	}
+
 }
 Behaviour::~Behaviour()
 {
@@ -23,7 +33,7 @@ float Behaviour::calculateRelativeDistance(Vector3 playerPosition, Vector3 enemy
 	relativeDistance = (playerPosition - enemyPosition).LengthSquared();
 	return relativeDistance;
 }
-void Behaviour::Update(double dt,Vector3 playerPosition,Vector3 enemyPosition)
+void Behaviour::Update(double dt, Vector3 playerPosition, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump)
 {
 	float relativeDistance=calculateRelativeDistance(playerPosition, enemyPosition);
 	setDirection(playerPosition, enemyPosition);
@@ -33,11 +43,10 @@ void Behaviour::Update(double dt,Vector3 playerPosition,Vector3 enemyPosition)
 	}
 	else if (enemyType == RANGED)
 	{
-
+		behaviourRanged->setBehaviour(BehaviourRanged::NEUTRAL);
+		behaviourRanged->BehaviourRangedUpdate(relativeDistance,estimatedDistance,enemyPosition,dt,attack,moveLeft,moveRight,jump,Direction);
 	}
 }
-
-
 
 void Behaviour::setEnemyType(EnemyType enemyType)
 {
@@ -68,25 +77,41 @@ AttackBase Behaviour::getAttack()
 void Behaviour::setDirection(Vector3 playerPosition,Vector3 enemyPosition)
 {
 	float XRelativePosition = 0;
-	XRelativePosition = (playerPosition.x - enemyPosition.x);
+	XRelativePosition = playerPosition.x-enemyPosition.x;
 	if (XRelativePosition < 0)
 	{
-		this->Direction = true;
+		this->Direction = false;
 	}
 	else 
 	{
-		this->Direction = false;
+		this->Direction =true;
 	}
 }
 bool Behaviour::getDirection()
 {
 	return Direction;
 }
-void Behaviour::setBehaviour(BehaviourStates behaviour)
+//void Behaviour::setBehaviour(BehaviourStates behaviour)
+//{
+//	this->behaviour = behaviour;
+//}
+//Behaviour::BehaviourStates Behaviour::getBehaviour()
+//{
+//	return behaviour;
+//}
+void Behaviour::setBehaviourRanged(BehaviourRanged* behaviourRanged)
 {
-	this->behaviour = behaviour;
+	this->behaviourRanged = behaviourRanged;
 }
-bool Behaviour::getBehaviour()
+BehaviourRanged* Behaviour::getBehaviourRanged()
 {
-	return behaviour;
+	return behaviourRanged;
 }
+//void Behaviour::setEnemyPosition(Vector3 enemyPosition)
+//{
+//	this->enemyPosition = enemyPosition;
+//}
+//Vector3 Behaviour::setEnemyPosition()
+//{
+//	return enemyPosition;
+//}

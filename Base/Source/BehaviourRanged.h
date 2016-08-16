@@ -2,21 +2,31 @@
 #define BEHAVIOURRANGED_H_
 
 
-#include "Behaviour.h"
-
-class BehaviourRanged :public Behaviour
+#include "Vector3.h"
+#include "AttackBase.h"
+class BehaviourRanged 
 {
-
+	
 public:
+	enum BehaviourStates
+	{
+		NEUTRAL,
+		ATTACK,
+		EVADE,
+		TOTALSTATES,
+	};
 	BehaviourRanged();
 	~BehaviourRanged();
 
+	
+	 void BehaviourRangedUpdate(float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, double dt, AttackBase *attack, bool &moveLeft, bool &moveRight, bool &jump,bool Direction);
+	 void Update(double dt, Vector3 playerPosition, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump);
 
-	void BehaviourRangedUpdate(float distancePlayerToEnemy,Vector3 playerPosition,Vector3 enemyPosition);
+	 void setBehaviour(BehaviourStates behaviour);
+	 BehaviourStates getBehaviour();
 private:
-	float distancePlayerToEnemy;
-	Behaviour::BehaviourStates behaviour;
-
+	int random;
+	BehaviourStates behaviour;
 
 };
 

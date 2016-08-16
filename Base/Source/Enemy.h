@@ -2,6 +2,7 @@
 #define ENEMY_H
 
 #include "Entity.h"
+#include "Behaviour.h"
 
 class Enemy : public Entity
 {
@@ -33,6 +34,8 @@ public:
 private:
 	Vector3 theDestination;
 	//Strategy* theStrategy;
+
+	Behaviour* m_Behaviour;
 };
 
 #endif
