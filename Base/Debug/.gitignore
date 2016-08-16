@@ -1,3 +1,4 @@
+
 /Application.obj
 /AttackBase.obj
 /Base.Build.CppClean.log
@@ -24,3 +25,5 @@
 /shader.obj
 /vc120.idb
 /vc120.pdb
+*.obj
+*.Build.CppClean.log
