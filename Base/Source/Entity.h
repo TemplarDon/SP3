@@ -12,66 +12,63 @@ public:
 	~Entity();
 	
 	//Setter for entity health
-	void SetEntityHealth(int health);
+	virtual void SetEntityHealth(int health);
 	//Getter for entity health
-	int GetEntityHealth();
+	virtual int GetEntityHealth();
 
 	//Setter for entity damage
-	void SetEntityDamage(int damage);
+	virtual void SetEntityDamage(int damage);
 	//Getter for entity damage
-	int GetEntityDamage();
+	virtual int GetEntityDamage();
 
 	//Setter for entity taken damage
-	void SetEntityTakenDamage(int takendamage);
+	virtual void SetEntityTakenDamage(int takendamage);
 	//Getter for entity taken damage
-	int GetEntityTakenDamage();
+	virtual int GetEntityTakenDamage();
 
 	//Setter for entity movement speed
-	void SetEntityMovementSpeed(float movementspeed);
+	virtual void SetEntityMovementSpeed(float movementspeed);
 	//Getter for entity movement speed
-	float GetEntityMovementSpeed();
+	virtual float GetEntityMovementSpeed();
 
 	//Movement
-	void MoveLeft(const float timeDiff);
-	void MoveRight(const float timeDiff);
+	virtual void MoveLeft(const float timeDiff);
+	virtual void MoveRight(const float timeDiff);
 
-	bool GetLeftRight();
-	void SetLeftRight(bool input);
+	/*virtual bool GetLeftRight();
+	virtual void SetLeftRight(bool input);*/
 	
 	//Jeff's
-	bool GetMoving_Left();
-	void SetMoving_Left(bool input);
-	bool GetMoving_Right();
-	void SetMove_Right(bool input);
+	virtual bool GetMoving_Left();
+	virtual void SetMoving_Left(bool input);
+	virtual bool GetMoving_Right();
+	virtual void SetMove_Right(bool input);
 
 	//Jump
-	void UpdateJump(double dt);
-	void EntityJumpUpdate(double dt);
-	bool GetJump();
-	bool m_bJumping;
-	float Gravity;
-	float JumpVel;
-	float JUMPMAXSPEED, JUMPACCEL;
+	virtual void UpdateJump(double dt);
+	virtual void EntityJumpUpdate(double dt);
+	virtual bool GetJump();
+	
 
 	// Getter for mapOffset_x
-	int GetMapOffset_x();
+	virtual int GetMapOffset_x();
 	// Setter for mapOffset_x
-	void SetMapOffset_x(int  mapOffset_x);
+	virtual void SetMapOffset_x(int  mapOffset_x);
 	// Getter for mapOffset_y
-	int GetMapOffset_y();
+	virtual int GetMapOffset_y();
 	// Setter for mapOffset_y
-	void SetMapOffset_y(int mapOffset_y);
+	virtual void SetMapOffset_y(int mapOffset_y);
 	// Getter for mapFineOffset_x
-	int GetMapFineOffset_x();
+	virtual int GetMapFineOffset_x();
 	// Setter for mapFineOffset_x
-	void SetMapFineOffset_x(int mapFineOffset_x);
+	virtual void SetMapFineOffset_x(int mapFineOffset_x);
 	// Get mapFineOffset_y
-	int GetMapFineOffset_y();
+	virtual int GetMapFineOffset_y();
 	// Setter for mapFineOffset_y
-	void SetMapFineOffset_y(int mapFineOffset_y);
+	virtual void SetMapFineOffset_y(int mapFineOffset_y);
 
 	// Constrain the position of the player to within the border
-	void ConstrainPlayer(const int leftBorder, const int rightBorder,
+	virtual void ConstrainPlayer(const int leftBorder, const int rightBorder,
 		const int topBorder, const int bottomBorder,
 		float timeDiff);
 
@@ -85,7 +82,7 @@ public:
     virtual void Update(double dt)
     {}
 
-private:
+protected:
 	int Health;
 	int Damage;
 	int TakenDamage;
@@ -109,6 +106,11 @@ private:
 
 	bool DirectionLeftRight;
 	Vector3 m_PrevPos;
+	
+	bool m_bJumping;
+	float Gravity;
+	float JumpVel;
+	float JUMPMAXSPEED, JUMPACCEL;
 };
 
 #endif

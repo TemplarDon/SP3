@@ -1,51 +1,70 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int x, int y)
+Enemy::Enemy(int x, int y,Behaviour::EnemyType enemyType,float estimatedDistance,AttackBase *attack)
 {
-	theDestination.x = x;
-	theDestination.y = y;
+	enemyPosition.Set(x, y, 0);
 	m_Behaviour = new Behaviour();
-	//if (theStrategy != NULL)
-	//{
-	//	theStrategy->SetDestination(theDestination.x, theDestination.y);
-	//}
-
-	
+	m_Behaviour->setAttack(attack);
+	m_Behaviour->setEstimatedDistance(estimatedDistance);
+	m_Behaviour->setEnemyType(enemyType);
 }
 
 Enemy::~Enemy()
-{}
-
-// Set the destination of this enemy 
-int Enemy::GetDestination_x()
 {
-	return theDestination.x;
-}
-// Set the destination of this enemy 
-int Enemy::GetDestination_y()
-{
-	return theDestination.y;
 }
 
-void Enemy::UpdateEnemy(Map* tilemap)
+void Enemy::setEnemyPosition(Vector3 enemyPosition)
 {
-	//m_Behaviour->Update(d)
+	this->enemyPosition = enemyPosition;
+}
+ 
+Vector3 Enemy::getEnemyPosition()
+{
+	return enemyPosition;
+}
+void Enemy::UpdateEnemy(double dt,Vector3 playerPosition)
+{
+	m_Behaviour->setDirection(playerPosition, enemyPosition);
+	m_Behaviour->Update(dt, playerPosition, getEnemyPosition(), moveLeft, moveRight, jump, m_Behaviour->getDirection());
+}
+void  Enemy::setBehaviour(Behaviour* behaviour)
+{
+	this->m_Behaviour = behaviour;
+}
+Behaviour*  Enemy::getBehaviour(Behaviour* behaviour)
+{
+	return m_Behaviour;
 }
 
-//void Enemy::ChangeStrategy(Strategy* theNewStrategy, bool bDelete)
-//{
-//	if (bDelete == true)
-//	{
-//		if (theStrategy != NULL)
-//		{
-//			delete theStrategy;
-//			theStrategy = NULL;
-//		}
-//	}
-//	theStrategy = theNewStrategy;
-//	if (theStrategy != NULL)
-//	{
-//		theStrategy->SetDestination(theDestination.x, theDestination.y);
-//		theStrategy->SetEnemyPosition(Position.x, Position.y);
-//	}
-//}
+void  Enemy::setAttack(AttackBase* attack)
+{
+	this->attack = attack;
+}
+AttackBase*  Enemy::getAttack()
+{
+	return attack;
+}
+void Enemy::setMoveLeft(bool moveLeft)
+{
+	this->MoveLeft = moveLeft;
+}
+bool Enemy::getMoveLeft()
+{
+	return moveLeft;
+}
+void Enemy::setMoveRight(bool moveRight)
+{
+	this->moveRight = moveRight;
+}
+bool Enemy::getMoveRight()
+{
+	return moveRight;
+}
+void Enemy::setJump(bool jump)
+{
+	this->jump = jump;
+}
+bool Enemy::getJump()
+{
+	return jump;
+}

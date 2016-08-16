@@ -65,15 +65,15 @@ float Entity::GetEntityMovementSpeed()
 }
 
 // Movement
-bool Entity::GetLeftRight()
-{
-	return DirectionLeftRight;
-}
-
-void Entity::SetLeftRight(bool input)
-{
-	this->DirectionLeftRight = input;
-}
+//bool Entity::GetLeftRight()
+//{
+//	return DirectionLeftRight;
+//}
+//
+//void Entity::SetLeftRight(bool input)
+//{
+//	this->DirectionLeftRight = input;
+//}
 
 void Entity::MoveLeft(const float timeDiff)
 {

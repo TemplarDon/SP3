@@ -10,32 +10,38 @@ public:
 	~Enemy();
 
 	//Set enemy's x and y position
-	Enemy(int x, int y);
+	Enemy(int x, int y, Behaviour::EnemyType enemyType, float estimatedDistance, AttackBase* Attack);
 
 	//Update enemy
 	//void Update(double dt);
 
-	// Set the destination of this enemy 
-	void SetDestination(const int pos_x, const int pos_y);
-	// Set the destination of this enemy 
-	int GetDestination_x();
-	// Set the destination of this enemy 
-	int GetDestination_y();
+	virtual void setEnemyPosition(Vector3 enemyPosition);
+	virtual Vector3 getEnemyPosition();
 
-	// ENEMY Update 
-	void UpdateEnemy(Map* tilemap);
-	// Strategy
-	//void ChangeStrategy(Strategy* theNewStrategy, bool bDelete = true);
+	 
+	virtual void UpdateEnemy(double dt, Vector3 playerPosition);
 
+	virtual void setBehaviour(Behaviour* behaviour);
+	virtual Behaviour* getBehaviour(Behaviour* behaviour);
 
-    virtual void Update(double dt)
-    {}
+	virtual void setAttack(AttackBase* attack);
+	virtual AttackBase* getAttack();
 
+	 void setMoveLeft(bool moveLeft);
+	 bool getMoveLeft();
+
+	 void setMoveRight(bool moveRight);
+	 bool getMoveRight();
+     void setJump(bool jump);
+	 bool getJump();
 private:
-	Vector3 theDestination;
+	Vector3  enemyPosition;
 	//Strategy* theStrategy;
-
+	AttackBase *attack;
 	 Behaviour* m_Behaviour;
+	 bool moveLeft;
+	 bool moveRight;
+	 bool jump
 };
 
 #endif
