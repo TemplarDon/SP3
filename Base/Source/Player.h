@@ -61,7 +61,7 @@ public:
 	virtual void CollisionResponse();
 
 	// Player Update
-	void PlayerUpdate(Map* m_cMap);
+	void PlayerUpdate(GameObject_Map* m_cMap);
 	
 
 

@@ -60,11 +60,6 @@ void SP3::Update(double dt)
 	SceneBase::Update(dt);
 
 
-	//TESTING FOR JUMP
-
-
-
-
 	if (Application::IsKeyPressed('A'))
 	{
 		m_Player->MoveLeft(0.5f);
@@ -129,12 +124,6 @@ void SP3::Render()
 	modelStack.LoadIdentity();
 
 	RenderMesh(meshList[GEO_AXES], false);
-
-	modelStack.PushMatrix();
-	modelStack.Translate(100,  50, 0);
-	modelStack.Scale(0.5, 0.5, 0);
-	RenderMesh(meshList[GEO_PLAYER], false);
-	modelStack.PopMatrix();
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{
