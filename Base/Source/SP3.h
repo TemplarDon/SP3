@@ -7,9 +7,7 @@
 #include <map>
 #include "Map.h"
 #include "GameObject_Map.h"
-#include "GameObjectManager.h"
 #include "Player.h"
-
 
 class SP3 : public SceneBase
 {

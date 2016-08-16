@@ -1,6 +1,7 @@
 #include "AttackBase.h"
 AttackBase::AttackBase()
 {
+    MAXprojectilecount = 50;
     m_projectileCount = 0;
     m_meleeCount = 0;
     m_AbilityCount = 0;
@@ -9,7 +10,8 @@ void AttackBase::Init(int AttackDamage, float range)
 {
     m_AttackDamage = AttackDamage;
     m_Range = range;
- 
+
+    ProjectilePH = MeshBuilder::GenerateQuad("ProjectilePlaceHolder", Color(1, 1, 1));
 }
 
 void AttackBase::SetAttackType()
@@ -36,10 +38,20 @@ void AttackBase::UpdateAttack(double dt, ELEMENT EntityCurrElement, Vector3 pos,
     m_EntityPos = pos;
     m_AttackDirection = leftright;
 
-   
-    
+    Update_Ranged(dt);
+    Update_Melee(dt);
+    Update_Ability(dt);
 }
-
+void AttackBase::LaunchAttack()
+{
+    SetAttackType();
+    if (m_CurrAttackType == MELEE)
+        Attack_Melee();
+    else if (m_CurrAttackType == RANGED)
+        Attack_Ranged();
+    else if (m_CurrAttackType == ABILITY)
+        Attack_Ability();
+}
 void AttackBase::Attack_Ability()
 {
     if (m_CurrElement == FIRE_2)
@@ -71,13 +83,26 @@ void AttackBase::Attack_Ability()
 
 void AttackBase::Attack_Melee()
 {
-    //m_MeleeStrike[m_meleeCount]->projectileInit(m_AttackDirection, m_EntityPos, );
-
-    
+    m_MeleeStrike[m_meleeCount]->projectileInit(m_AttackDirection, m_EntityPos,5.0f, m_AttackDamage, 0.5f);
+    GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_MeleeStrike[m_meleeCount]->GetPosition(),Vector3(1,1,1),true,true,ProjectilePH, "Image/Tiles/ProjectilePlaceHolder.tga");
+    m_MeleeStrike[m_meleeCount]->SetElement(m_CurrElement);
+    m_meleeCount += 1;
+    if (m_meleeCount >= MAXprojectilecount)
+    {
+        m_meleeCount = 0;
+    }
 }
 void AttackBase::Attack_Ranged()
 {
-    //do ranged stuff
+    m_Projectiles[m_projectileCount]->projectileInit(m_AttackDirection, m_EntityPos, 5.0f, m_AttackDamage, m_Range);
+    GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount]->GetPosition(), Vector3(1, 1, 1), true, true, ProjectilePH, "Image/Tiles/ProjectilePlaceHolder.tga");
+    m_Projectiles[m_projectileCount]->SetElement(m_CurrElement);
+    m_projectileCount += 1;
+
+    if (m_projectileCount >= MAXprojectilecount)
+    {
+        m_projectileCount = 0;
+    }
 }
 
 void AttackBase::Update_Ranged(double dt)

@@ -20,11 +20,9 @@ Player::~Player(void)
 // Initialise this class instance
 void Player::Init(void)
 {
-	m_Position.x = 32;
-	m_Position.y = 160;
 	SetEntityHealth(10);
 	SetEntityDamage(5);
-	SetEntityMovementSpeed(2);
+	SetEntityMovementSpeed(1);
 }
 
 // Returns true if the player is on ground
@@ -104,12 +102,14 @@ void Player::SetToStop(void)
 
 void Player::MoveLeft(const float timeDiff)
 {
-	this->m_Position.x += m_Position.x - (int)(5.0f * timeDiff);
+	SetLeftRight(false);
+	this->m_Position.x -= (int)(5.0f * timeDiff * this->GetEntityMovementSpeed());
 }
 
 void Player::MoveRight(const float timeDiff)
 {
-	this->m_Position += m_Position.x + (int)(5.0f * timeDiff);
+	SetLeftRight(true);
+	this->m_Position += (int)(5.0f * timeDiff * this->GetEntityMovementSpeed());
 }
 
 // Get Jumpspeed of the player
@@ -199,9 +199,8 @@ void Player::ConstrainPlayer(const int leftBorder, const int rightBorder,
 /********************************************************************************
 Hero Update
 ********************************************************************************/
-void Player::PlayerUpdate(Map* m_cMap)
+void Player::PlayerUpdate(GameObject_Map* Map)
 { 
-
 	ConstrainPlayer(25, 750, 25, 575, 1.0f);
 }
 

@@ -13,12 +13,16 @@
   <ItemGroup>
     <ClCompile Include="Source\Application.cpp" />
     <ClCompile Include="Source\AttackBase.cpp" />
+    <ClCompile Include="Source\Behaviour.cpp" />
+    <ClCompile Include="Source\BehaviourMelee.cpp" />
+    <ClCompile Include="Source\BehaviourRanged.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\ElementalObject.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Environment.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
+    <ClCompile Include="Source\GameObjectManager.cpp" />
     <ClCompile Include="Source\LoadOBJ.cpp" />
     <ClCompile Include="Source\LoadTGA.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -35,12 +39,16 @@
     <ClInclude Include="Source\Application.h" />
     <ClInclude Include="Source\AttackBase.h" />
     <ClInclude Include="Source\BaseElement.h" />
+    <ClInclude Include="Source\Behaviour.h" />
+    <ClInclude Include="Source\BehaviourMelee.h" />
+    <ClInclude Include="Source\BehaviourRanged.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\ElementalObject.h" />
     <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Entity.h" />
     <ClInclude Include="Source\Environment.h" />
     <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\GameObjectManager.h" />
     <ClInclude Include="Source\GameObject_Map.h" />
     <ClInclude Include="Source\Light.h" />
     <ClInclude Include="Source\LoadOBJ.h" />

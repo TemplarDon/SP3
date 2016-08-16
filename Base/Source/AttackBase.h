@@ -4,6 +4,8 @@
 #include "Vector3.h"
 #include "Projectile.h"
 #include "GameObjectManager.h"
+#include "MeshBuilder.h"
+
 
 
 enum ATTACK_TYPE
@@ -39,11 +41,15 @@ protected:
     Vector3 m_Velocity;
     ATTACK_TYPE m_CurrAttackType;
     ELEMENT m_CurrElement;
-    Projectile *m_Projectiles[25];
-    Projectile *m_MeleeStrike[2];
+    Projectile *m_Projectiles[MAXprojectilecount];
+    Projectile *m_MeleeStrike[MAXprojectilecount];
+
+    int MAXprojectilecount;
     int m_projectileCount;
     int m_meleeCount;
     int m_AbilityCount;
+
+    Mesh* ProjectilePH;
 
     void SetAttackType();//always corresponds to element type
     //specific updates

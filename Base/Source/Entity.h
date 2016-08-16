@@ -1,12 +1,13 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <iostream>
 #include "ElementalObject.h"
+
 #include "Map.h"
 #include "Mesh.h"
 #include "Vector3.h"
 #include "AttackBase.h"
+#include "GameObject_Map.h"
 
 class Entity : public ElementalObject
 {
@@ -34,12 +35,17 @@ public:
 	//Getter for entity movement speed
 	int GetEntityMovementSpeed();
 
+	bool GetLeftRight();
+	
+	void SetLeftRight(bool input);
 
 private:
 	int Health;
 	int Damage;
 	int TakenDamage;
 	int MovementSpeed;
+
+	bool DirectionLeftRight;
 };
 
 #endif

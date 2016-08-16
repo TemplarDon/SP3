@@ -33,7 +33,8 @@ GameObject* GameObjectManager::FetchGameObject(OBJECT_TYPE ObjectType)
 
 	return TempGameObject;
 }
-void GameObjectManager::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName)
+
+GameObject* GameObjectManager::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName)
 {
 	GameObject* go = FetchGameObject(ObjectType);
 
@@ -44,7 +45,35 @@ void GameObjectManager::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE 
 	go->SetCollidable(Collidable);
 	go->SetVisible(Visible);
 	go->SetMesh(mesh);
-	go->GetMesh()->textureID = LoadTGA(TargaName);
+
+	if (TargaName != "")
+	{
+		go->GetMesh()->textureID = LoadTGA(TargaName);
+	}
 
 	m_goList.push_back(go);
+
+	return go;
+}
+
+Player* GameObjectManager::SpawnPlayerObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName)
+{
+	Player* go = new Player();
+
+	go->SetActive(true);
+	go->SetType(GoType);
+	go->SetPosition(Position);
+	go->SetScale(Scale);
+	go->SetCollidable(Collidable);
+	go->SetVisible(Visible);
+	go->SetMesh(mesh);
+
+	if (TargaName != "")
+	{
+		go->GetMesh()->textureID = LoadTGA(TargaName);
+	}
+
+	m_goList.push_back(go);
+
+	return go;
 }

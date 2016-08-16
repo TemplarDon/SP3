@@ -9,12 +9,13 @@ class ElementalObject : public GameObject
 public:
 	virtual ~ElementalObject();
     virtual void SetElement(ELEMENT SetElement);
+    virtual ELEMENT GetElement();
 
 protected:
 
 	ElementalObject();
 	ELEMENT m_CurrElement;
-	virtual ELEMENT GetElement();
+
 
 
 };

@@ -48,3 +48,13 @@ int Entity::GetEntityMovementSpeed()
 {
 	return MovementSpeed;
 }
+
+bool Entity::GetLeftRight()
+{
+	return DirectionLeftRight;
+}
+
+void Entity::SetLeftRight(bool input)
+{
+	this->DirectionLeftRight = input;
+}
