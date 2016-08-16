@@ -38,7 +38,7 @@ void SP3::Init()
 
 	// ----------------- Example of Spawning Objects ------------ // 
 	// SpawnGameObject(OBJECT_TYPE (Eg. Environment, Projectile etc.), GAMEOBJECT_TYPE (Eg. GO_BALL, etc.), Position, Scale, Collidable, Visible)
-	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
+	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(0,50, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
 	// ---------------------------------------------------------- // 
 
 	m_Map = new Map();
@@ -50,7 +50,8 @@ void SP3::Init()
 	m_GoMap->Init(m_Map);
 
 	// ----------------- Player ----------------- // 
-	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 1), Vector3(10, 10, 1), true, true, meshList[GEO_PLAYER], "Image//player.tga");
+	//m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, 1), Vector3(0.5, 0.5, 0.5), true, true, meshList[GEO_PLAYER], "Image//player.tga");
+	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(0, 0 , 1), Vector3(0.5, 0.5, 0.5), true, true, meshList[GEO_PLAYER], "Image//Tiles//testground.tga");
 	m_Player->Init();
 	// ------------------------------------------ // 
 }
@@ -62,14 +63,38 @@ void SP3::Update(double dt)
 
 	if (Application::IsKeyPressed('A'))
 	{
-		m_Player->MoveLeft(0.5f);
-	}
-
-	if (Application::IsKeyPressed('D'))
-	{
-		m_Player->MoveRight(0.5f);
+		m_Player->SetMoving_Left(true);
+		m_Player->SetMove_Right(false);
 	}
 	
+	if (Application::IsKeyPressed('D'))
+	{
+		m_Player->SetMoving_Left(false);
+		m_Player->SetMove_Right(true);
+	}
+	
+	if (!Application::IsKeyPressed('D') && !Application::IsKeyPressed('A'))
+	{
+		m_Player->SetMoving_Left(false);
+		m_Player->SetMove_Right(false);
+	}
+	if (m_Player->GetMoving_Left() == true)
+	{
+		m_Player->MoveLeft(0.3f);	
+	}
+	if (m_Player->GetMoving_Right() == true)
+	{
+		m_Player->MoveRight(0.3f);
+	}
+	if (Application::IsKeyPressed('W') )
+	{
+		/*m_Player->EntityJumpUpdate(dt);*/
+		m_Player->UpdateJump(dt);
+	}
+	if (m_Player->GetJump())
+	{ 
+		m_Player->EntityJumpUpdate(dt);
+	}
 	// ----------------- Main Loop ----------------- //
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
@@ -81,6 +106,7 @@ void SP3::Update(double dt)
 		if (go->GetType() == GO_PLAYER)
 		{
 			m_Player->PlayerUpdate(m_GoMap);
+			
 		}
 
 
