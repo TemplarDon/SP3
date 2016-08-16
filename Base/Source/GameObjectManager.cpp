@@ -21,6 +21,7 @@ GameObject* GameObjectManager::FetchGameObject(OBJECT_TYPE ObjectType)
 
 	case OBJECT_TYPE::PLAYER:
 	{
+		TempGameObject = new Player();
 		break;
 	}
 

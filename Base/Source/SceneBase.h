@@ -48,6 +48,7 @@ public:
 		GEO_BALL,
 		GEO_BLUEBALL,
 		GEO_CUBE,
+		GEO_PLAYER,
 		NUM_GEOMETRY,
 	};
 public:

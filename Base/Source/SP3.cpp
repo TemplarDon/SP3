@@ -35,7 +35,7 @@ void SP3::Init()
 
 	// ----------------- Example of Spawning Objects ------------ // 
 	// SpawnGameObject(OBJECT_TYPE (Eg. Environment, Projectile etc.), GAMEOBJECT_TYPE (Eg. GO_BALL, etc.), Position, Scale, Collidable, Visible)
-	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BALL, Vector3(2, 2, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
+	//GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BALL, Vector3(2, 2, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
 	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(5, 8, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
 	// ---------------------------------------------------------- // 
 
@@ -49,6 +49,11 @@ void SP3::Init()
 	// ----------------- Player ----------------- // 
 	m_Player = new Player();
 	m_Player->Init();
+	//m_Player->SetActive(true);
+	//m_Player->SetPosition(Vector3(32, 100, 0));
+	//m_Player->SetMesh(meshList[GEO_PLAYER]);
+	//m_Player->SetScale(Vector3(1, 1, 0));
+	GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(32, 60, 0), Vector3(0.5, 0.5, 0.5), true, true, meshList[GEO_PLAYER], "Image//player.tga");
 	// ------------------------------------------ // 
 }
 
@@ -56,6 +61,16 @@ void SP3::Update(double dt)
 {
 	SceneBase::Update(dt);
 
+	if (Application::IsKeyPressed('A'))
+	{
+		m_Player->MoveLeft(1);
+	}
+
+	if (Application::IsKeyPressed('D'))
+	{
+		m_Player->MoveRight(1);
+	}
+	
 	// ----------------- Main Loop ----------------- //
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
@@ -64,6 +79,10 @@ void SP3::Update(double dt)
 
 		if (!go->GetActive())
 			continue;
+		if (go->GetType() == GO_PLAYER)
+		{
+			m_Player->PlayerUpdate(m_Map);
+		}
 
 
 
@@ -113,6 +132,11 @@ void SP3::Render()
 		if (go->GetActive() && go->GetVisible())
 		{
 			RenderGO(go);
+		}
+
+		if (m_Player->GetActive())
+		{
+			RenderGO(m_Player);
 		}
 	}
 }

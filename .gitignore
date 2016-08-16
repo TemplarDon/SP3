@@ -25,4 +25,4 @@
 # Executables
 *.out
 *.app
-*.sdf
+*.opensdf

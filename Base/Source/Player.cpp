@@ -20,8 +20,11 @@ Player::~Player(void)
 // Initialise this class instance
 void Player::Init(void)
 {
-	PlayerPosition.x = 0;
-	PlayerPosition.y = 0;
+	m_Position.x = 32;
+	m_Position.y = 160;
+	SetEntityHealth(10);
+	SetEntityDamage(5);
+	SetEntityMovementSpeed(2);
 }
 
 // Returns true if the player is on ground
@@ -85,18 +88,6 @@ void Player::HeroJump()
 	}
 }
 
-// Set position x of the player
-void Player::SetPos_x(int pos_x)
-{
-	PlayerPosition.x = pos_x;
-}
-
-// Set position y of the player
-void Player::SetPos_y(int pos_y)
-{
-	PlayerPosition.y = pos_y;
-}
-
 // Set Jumpspeed of the player
 void Player::SetJumpspeed(int jumpspeed)
 {
@@ -111,55 +102,14 @@ void Player::SetToStop(void)
 	jumpspeed = 0;
 }
 
-/********************************************************************************
-Hero Move Up Down
-********************************************************************************/
-void Player::MoveUpDown(const bool mode, const float timeDiff)
+void Player::MoveLeft(const float timeDiff)
 {
-	if (mode)
-	{
-		PlayerPosition.y = PlayerPosition.y + (int)(5.0f * timeDiff);
-	}
-	else
-	{
-		PlayerPosition.y = PlayerPosition.y - (int)(5.0f * timeDiff);
-	}
+	this->m_Position.x += m_Position.x - (int)(5.0f * timeDiff);
 }
 
-/********************************************************************************
-Hero Move Left Right
-********************************************************************************/
-void Player::MoveLeftRight(const bool mode, const float timeDiff)
+void Player::MoveRight(const float timeDiff)
 {
-	if (mode)
-	{
-		PlayerPosition.x = PlayerPosition.x - (int)(5.0f * timeDiff);
-		heroAnimationInvert = true;
-		heroAnimationCounter--;
-		if (heroAnimationCounter == 0)
-			heroAnimationCounter = 3;
-	}
-	else
-	{
-		PlayerPosition.x = PlayerPosition.x + (int)(5.0f * timeDiff);
-		heroAnimationInvert = false;
-		heroAnimationCounter++;
-		if (heroAnimationCounter>3)
-			heroAnimationCounter = 0;
-	}
-}
-
-
-// Get position x of the player
-int Player::GetPos_x(void)
-{
-	return PlayerPosition.x;
-}
-
-// Get position y of the player
-int Player::GetPos_y(void)
-{
-	return PlayerPosition.y;
+	this->m_Position += m_Position.x + (int)(5.0f * timeDiff);
 }
 
 // Get Jumpspeed of the player
@@ -193,7 +143,7 @@ int Player::GetMapFineOffset_y(void)
 // Update Jump Upwards
 void Player::UpdateJumpUpwards()
 {
-	PlayerPosition.y -= jumpspeed;
+	m_Position.y -= jumpspeed;
 	jumpspeed -= 1;
 	if (jumpspeed == 0)
 	{
@@ -205,7 +155,7 @@ void Player::UpdateJumpUpwards()
 // Update FreeFall
 void Player::UpdateFreeFall()
 {
-	PlayerPosition.y += jumpspeed;
+	m_Position.y += jumpspeed;
 	jumpspeed += 1;
 }
 
@@ -221,37 +171,38 @@ bool Player::GetAnimationInvert(void)
 }
 
 // Constrain the position of the Hero to within the border
-void Player::ConstrainHero(const int leftBorder, const int rightBorder,
+void Player::ConstrainPlayer(const int leftBorder, const int rightBorder,
 	const int topBorder, const int bottomBorder,
 	float timeDiff)
 {
-	if (PlayerPosition.x < leftBorder)
+	if (m_Position.x < leftBorder)
 	{
-		PlayerPosition.x = leftBorder;
+		m_Position.x = leftBorder;
 		mapOffset_x = mapOffset_x - (int)(5.0f * timeDiff);
 		if (mapOffset_x < 0)
 			mapOffset_x = 0;
 	}
-	else if (PlayerPosition.x > rightBorder)
+	else if (m_Position.x > rightBorder)
 	{
-		PlayerPosition.x = rightBorder;
+		m_Position.x = rightBorder;
 		mapOffset_x = mapOffset_x + (int)(5.0f * timeDiff);
 		if (mapOffset_x > 800)	// This must be changed to soft-coded
 			mapOffset_x = 800;
 	}
 
-	if (PlayerPosition.y < topBorder)
-		PlayerPosition.y = topBorder;
-	else if (PlayerPosition.y > bottomBorder)
-		PlayerPosition.y = bottomBorder;
+	if (m_Position.y < topBorder)
+		m_Position.y = topBorder;
+	else if (m_Position.y > bottomBorder)
+		m_Position.y = bottomBorder;
 }
 
 /********************************************************************************
 Hero Update
 ********************************************************************************/
-void Player::HeroUpdate(Map* m_cMap)
+void Player::PlayerUpdate(Map* m_cMap)
 { 
-	ConstrainHero(25, 750, 25, 575, 1.0f);
+
+	ConstrainPlayer(25, 750, 25, 575, 1.0f);
 }
 
 void Player::CollisionResponse()

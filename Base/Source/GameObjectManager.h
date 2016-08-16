@@ -3,6 +3,7 @@
 
 #include "Environment.h"
 #include "MeshBuilder.h"
+#include "Player.h"
 
 class GameObjectManager
 {
