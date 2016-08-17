@@ -3,6 +3,7 @@
 
 #include "Mesh.h"
 #include "Vertex.h"
+#include "SpriteAnimation.h"
 
 /******************************************************************************/
 /*!
@@ -22,6 +23,8 @@ public:
 	static Mesh* GenerateOBJ(const std::string &meshName, const std::string &file_path);
 	static Mesh* GenerateText(const std::string &meshName, unsigned row, unsigned col);
 	static Mesh* GenerateCylinder(const std::string &meshName, Color color, unsigned numStacks = 18, unsigned numSlices = 36);
+
+	static SpriteAnimation* GenerateSpriteAnimation(const std::string &meshName, unsigned numRow, unsigned numCol);
 };
 
 #endif

@@ -3,7 +3,7 @@
 
 #include "Vector3.h"
 #include <vector>
-#include "mesh.h"
+#include "SpriteAnimation.h"
 
 enum OBJECT_TYPE
 {
@@ -65,6 +65,9 @@ public:
 	virtual Mesh* GetMesh();
 	virtual void SetMesh(Mesh* SetMesh);
 
+	virtual SpriteAnimation* GetSpriteAnimation();
+	virtual void SetSpriteAnimation(SpriteAnimation* SetSpriteAnimation);
+
 	virtual bool EmpricalCheckCollisionWith(GameObject* OtherGo, double dt);
 	virtual float MathematicalCheckCollisionWith(GameObject* OtherGo);
 	virtual void CollisionResponse(GameObject* OtherGo);
@@ -83,6 +86,7 @@ protected:
 	bool m_Active;
 	bool m_Collidable;
 	bool m_Visible;
+	SpriteAnimation* m_SpriteAnimation;
 
 	Mesh* m_ObjectMesh;
 };

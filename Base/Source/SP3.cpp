@@ -42,11 +42,7 @@ void SP3::Init()
 	// --------------------------- Background --------------------------- //
 	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BACKGROUND, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, -1), Vector3(180, 100, -1), true, true, meshList[GEO_BACKGROUND], "Image//background.tga");
 
-	// ----------------- Example of Spawning Objects ------------ // 
-	// SpawnGameObject(OBJECT_TYPE (Eg. Environment, Projectile etc.), GAMEOBJECT_TYPE (Eg. GO_BALL, etc.), Position, Scale, Collidable, Visible)
-	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(0,50, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
-	// ---------------------------------------------------------- // 
-
+	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//test.csv");
@@ -66,7 +62,8 @@ void SP3::Init()
 	m_GoMap2->Init(m_ParallaxMap);
 	
 	// ----------------- Player ----------------- // 
-	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga"));
+	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 3);
+	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true));
 	m_Player->Init();
 	// ------------------------------------------ // 
 
@@ -139,6 +136,12 @@ void SP3::Update(double dt)
 
 		if (go->GetType() == GO_BLOCK)
 			continue;
+
+		// Sprite Animation Update
+		if (go->GetSpriteAnimation() != NULL)
+		{
+			go->GetSpriteAnimation()->Update(dt);
+		}
 
 		if (go->GetType() == GO_PLAYER)
 		{

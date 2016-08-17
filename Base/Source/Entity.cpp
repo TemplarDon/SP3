@@ -146,7 +146,7 @@ void Entity::UpdateJump(double dt)
 
 	JumpVel += Gravity * dt;  //VEL = ACCEL * TIME
 
-	this->m_Position.y += JumpVel * 0.1; //DIST = VEL * TIME
+	this->m_Position.y += JumpVel * 0.5; //DIST = VEL * TIME
 }
 
 void Entity::EntityJumpUpdate(double dt)

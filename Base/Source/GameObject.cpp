@@ -6,7 +6,8 @@ GameObject::GameObject()
 	m_Scale(1, 1, 1),
 	m_Active(false),
 	m_Collidable(false),
-	m_Visible(true)
+	m_Visible(true),
+	m_SpriteAnimation(NULL)
 {
 }
 
@@ -92,6 +93,16 @@ Mesh* GameObject::GetMesh()
 void GameObject::SetMesh(Mesh* SetMesh)
 {
 	m_ObjectMesh = SetMesh;
+}
+
+SpriteAnimation* GameObject::GetSpriteAnimation()
+{
+	return m_SpriteAnimation;
+}
+
+void GameObject::SetSpriteAnimation(SpriteAnimation* SetSpriteAnimation)
+{
+	m_SpriteAnimation = SetSpriteAnimation;
 }
 
 bool GameObject::EmpricalCheckCollisionWith(GameObject* OtherGo, double dt)
