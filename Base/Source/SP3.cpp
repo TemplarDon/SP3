@@ -39,7 +39,7 @@ void SP3::Init()
 
 	// ----------------- Example of Spawning Objects ------------ // 
 	// SpawnGameObject(OBJECT_TYPE (Eg. Environment, Projectile etc.), GAMEOBJECT_TYPE (Eg. GO_BALL, etc.), Position, Scale, Collidable, Visible)
-	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(0,50, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
+	// GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(0,50, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
 	// ---------------------------------------------------------- // 
 
 	m_Map = new Map();
@@ -51,10 +51,10 @@ void SP3::Init()
 	m_GoMap->Init(m_Map);
 
 	// ----------------- Player ----------------- // 
-	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(100, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga");
+	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga"));
 	m_Player->Init();
 	// ------------------------------------------ // 
-    currentSelectedEle = m_Player->GetElement();
+
 }
 
 void SP3::Update(double dt)
@@ -121,6 +121,10 @@ void SP3::Update(double dt)
 
 		if (!go->GetActive())
 			continue;
+
+		if (go->GetType() == GO_BLOCK)
+			continue;
+
 		if (go->GetType() == GO_PLAYER)
 		{
 			m_Player->Update(dt, m_GoMap, camera);
@@ -131,6 +135,26 @@ void SP3::Update(double dt)
             go->Update(dt);
         }
 
+		for (std::vector<GameObject *>::iterator it2 = GameObjectManager::m_goList.begin()/*it + 1*/; it2 != GameObjectManager::m_goList.end(); ++it2)
+		{
+			GameObject *go2 = (GameObject *)*it2;
+
+			if (!go2->GetActive())
+				continue;
+
+			if (go2->GetType() == GO_BLOCK)
+				continue;
+
+			if (go->GetObjectType() == PROJECTILE && go2->GetObjectType() == ENVIRONMENT)
+			{
+				if (go->EmpricalCheckCollisionWith(go2, dt))
+				{
+					go2->CollisionResponse(go);
+				}
+			}
+			
+			
+		}
 
 	}
 
@@ -168,7 +192,8 @@ void SP3::Render()
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
-	projection.SetToOrtho(m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + m_worldWidth, 0, m_worldHeight, -10, 10);
+	//projection.SetToOrtho(m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + m_worldWidth, 0, m_worldHeight, -20, 20);
+	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -20, 20);
 	projectionStack.LoadMatrix(projection);
 
 	// Camera matrix

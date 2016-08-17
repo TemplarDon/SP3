@@ -12,13 +12,14 @@ Projectile::Projectile()
 	speedBullet = 0;
 	m_Normal.Set(0, 1, 0);
 }
-void Projectile::projectileInit(bool Direction, Vector3 m_Position,float bulletSpeed,int damage,float time)
+void Projectile::projectileInit(bool Direction, Vector3 m_Position,float bulletSpeed,int damage,float time, ELEMENT element)
 {
 	this->Direction = Direction;
 	this->m_Position = m_Position;
 	this->speedBullet = bulletSpeed;
 	this->damage = damage;
 	this->lifeTime = time;
+	this->m_CurrElement = element;
 	m_Normal.Set(0, 1, 0);
 }
 

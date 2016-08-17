@@ -48,6 +48,21 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				break;
 			}
 
+			case 8:
+			{
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_WOOD, Position, Scale, true, true, Quad, "Image//Tiles//wood.tga"));
+				temp->SetElement(ELEMENT::EARTH);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
+
+			case 9:
+			{
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_ROCK, Position, Scale, true, true, Quad, "Image//Tiles//fire.tga"));
+				temp->SetElement(ELEMENT::FIRE);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
 			}
 
 

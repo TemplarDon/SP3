@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include "BaseElement.h"
+#include "GameObject_Map.h"
 
 class ElementalObject : public GameObject
 {

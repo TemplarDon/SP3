@@ -227,14 +227,15 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 	if (m_Position.x < leftBorder)
 	{
 		m_Position.x = leftBorder;
-		mapOffset_x = mapOffset_x - (100 * timeDiff);
+		mapOffset_x = mapOffset_x - (int)(10 * timeDiff);
+
 		if (mapOffset_x < 0)
 			mapOffset_x = 0;
 	}
 	else if (m_Position.x > rightBorder)
 	{
 		m_Position.x = rightBorder;
-		mapOffset_x = mapOffset_x + (100 * timeDiff);
+		mapOffset_x = mapOffset_x + (int)(10 * timeDiff);
 		if (mapOffset_x > 800)	// This must be changed to soft-coded
 			mapOffset_x = 800;
 	}
@@ -243,6 +244,8 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 		m_Position.y = topBorder;
 	else if (m_Position.y > bottomBorder)
 		m_Position.y = bottomBorder;
+
+	mapFineOffset_x = (float)(m_Position.x / 5 * timeDiff);
 }
 
 void Entity::CollisionResponse()
@@ -252,7 +255,7 @@ void Entity::CollisionResponse()
 
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
-	ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
+	ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, 1, camera);
 	UpdateTileMapCollision(Map);
 }
 
@@ -261,13 +264,16 @@ void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 	int PlayerPos_X = (int)((mapOffset_x + m_Position.x)) / Map->GetTileSize();
 	int PlayerPos_Y = (int)(m_Position.y / Map->GetTileSize());
 
+	GameObject* CheckGameObject_1 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X];
+
 	// On ground - Check tiles on the sides
 	if (m_CurrEntityMoveState == ON_GROUND)
 	{
 		// Right
 		if (DirectionLeftRight)
 		{
-			if (Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X]->GetCollidable() || Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X + 1]->GetCollidable())
+			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X + 1];
+			if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || (CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive())
 			{
 				m_Position = m_PrevPos;
 			}
@@ -280,7 +286,8 @@ void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 		// Left
 		else
 		{
-			if (Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X]->GetCollidable() || Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X - 1]->GetCollidable())
+			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X - 1];
+			if (CheckGameObject_1->GetCollidable() || CheckGameObject_2->GetCollidable())
 			{
 				m_Position = m_PrevPos;
 			}
@@ -297,7 +304,8 @@ void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 		// Right
 		if (DirectionLeftRight)
 		{
-			if (Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X]->GetCollidable() || Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X + 1]->GetCollidable())
+			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X + 1];
+			if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || ((CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive()))
 			{
 				m_Position = m_PrevPos;
 				m_bJumping = false;
@@ -308,7 +316,8 @@ void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 		// Left
 		else
 		{
-			if (Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X]->GetCollidable() || Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X - 1]->GetCollidable())
+			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X - 1];
+			if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || ((CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive()))
 			{
 				m_Position = m_PrevPos;
 				m_bJumping = false;
@@ -320,10 +329,12 @@ void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 	// Jumping - Check tiles above
 	else if (m_CurrEntityMoveState == JUMPING)
 	{
+		GameObject* CheckGameObject_1 = Map->m_GameObjectMap[PlayerPos_Y + 1][PlayerPos_X + 1];
 		// Right
 		if (DirectionLeftRight)
 		{
-			if (Map->m_GameObjectMap[PlayerPos_Y + 1][PlayerPos_X]->GetCollidable() || Map->m_GameObjectMap[PlayerPos_Y + 1][PlayerPos_X + 1]->GetCollidable())
+			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X + 1];
+			if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || ((CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive()))
 			{
 				m_Position = m_PrevPos;
 				m_bJumping = false;
@@ -334,7 +345,8 @@ void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 		// Left
 		else
 		{
-			if (Map->m_GameObjectMap[PlayerPos_Y + 1][PlayerPos_X]->GetCollidable() || Map->m_GameObjectMap[PlayerPos_Y + 1][PlayerPos_X - 1]->GetCollidable())
+			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X - 1];
+			if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || ((CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive()))
 			{
 				m_Position = m_PrevPos;
 				m_bJumping = false;
@@ -344,7 +356,7 @@ void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 		}
 	}
 
-	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
+	//mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 }
 
 
