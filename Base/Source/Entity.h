@@ -86,6 +86,8 @@ public:
 	// Get and Set for Entitymove state
 	virtual ENTITY_MOVE_STATE GetMoveState();
 	virtual void SetMoveState(ENTITY_MOVE_STATE SetState);
+    //virtual void SetMoveState(int SetState);
+    //virtual int GetMoveStateinInt();
 
 	// Collision Repsonse
 	virtual void CollisionResponse();
@@ -123,6 +125,12 @@ protected:
 	float Gravity;
 	float JumpVel;
 	float JUMPMAXSPEED, JUMPACCEL;
+
+    //For Special abilities
+   
+    bool isUsingMovementAbility;
+
+    
 };
 
 #endif

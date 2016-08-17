@@ -31,6 +31,7 @@ private:
 
 	// For Collision
 	Vector3 m_PrevPosition;
+  
 
 };
 

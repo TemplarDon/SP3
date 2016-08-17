@@ -42,6 +42,7 @@ protected:
 
     float m_AttackDebounce;
     bool m_CanAttack;
+    double interdt;
 
     int MAXprojectilecount;
     int m_projectileCount;

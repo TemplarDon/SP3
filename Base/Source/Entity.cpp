@@ -16,6 +16,9 @@ Entity::Entity()
 	Gravity = -9.8f;
 	MovementSpeed = 1;
 	m_PrevPos.Set(120, 0, 0);
+    //for abilities
+
+    isUsingMovementAbility = false;
 }
 
 Entity::~Entity()
@@ -343,3 +346,5 @@ void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 
 	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 }
+
+

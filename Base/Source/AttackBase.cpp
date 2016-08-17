@@ -1,5 +1,6 @@
 #include "AttackBase.h"
 #include "GameObjectManager.h"
+#include "Entity.h"
 AttackBase::AttackBase()
 {
     MAXprojectilecount = 50;
@@ -15,7 +16,6 @@ void AttackBase::Init(int AttackDamage, float range)
 {
     m_AttackDamage = AttackDamage;
     m_Range = range;
-
     ProjectilePH = MeshBuilder::GenerateQuad("ProjectilePlaceHolder", Color(1, 1, 1));
 }
 
@@ -38,6 +38,7 @@ int AttackBase::GetAttackDamage()
 
 void AttackBase::UpdateAttack(double dt, ELEMENT EntityCurrElement, Vector3 pos, bool leftright)
 {
+    interdt = dt;
     m_CurrElement = EntityCurrElement;
     SetAttackType();
     m_EntityPos = pos;
@@ -96,7 +97,7 @@ void AttackBase::Attack_Ability()
     }
     else if (m_CurrElement == STEAM)
     {
-        //do steam stuff
+        
     }
     else if (m_CurrElement == WOOD)
     {

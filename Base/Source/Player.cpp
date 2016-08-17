@@ -38,3 +38,5 @@ bool Player::GetAnimationInvert(void)
 void Player::PlayerUpdate(GameObject_Map* Map)
 { 
 }
+
+
