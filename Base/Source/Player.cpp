@@ -9,6 +9,8 @@ Player::Player(void)
 {
     m_CurrElement = EARTH;
     Attacks = new AttackBase;
+
+	SetPlayerPos(m_Position);
 }
 
 Player::~Player(void)
@@ -37,6 +39,18 @@ bool Player::GetAnimationInvert(void)
 // Player Update
 void Player::PlayerUpdate(GameObject_Map* Map)
 { 
+}
+
+// Set player position
+void Player::SetPlayerPos(Vector3 PlayerPos)
+{
+	this->m_Position = PlayerPos;
+}
+
+// Get player position
+Vector3 Player::GetPlayerPos()
+{
+	return PlayerPos;
 }
 
 

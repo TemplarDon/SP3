@@ -47,6 +47,11 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//testground.tga");
 				break;
 			}
+			//case 3:
+			//{
+			//	m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//tree.tga");
+			//	break;
+			//}
 
 			case 8:
 			{

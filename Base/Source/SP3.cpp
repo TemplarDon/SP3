@@ -11,6 +11,8 @@
 #include "GameObjectManager.h"
 
 SP3::SP3()
+	: paraWallOffset_x(0)
+	, paraWallOffset_y(0)
 {
     m_ChangeElementDebounce = 0.f;
     m_CanChangeElement = true;
@@ -37,19 +39,32 @@ void SP3::Init()
 
 	m_objectCount = 0;
 
+	// --------------------------- Background --------------------------- //
+	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BACKGROUND, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, -1), Vector3(180, 100, -1), true, true, meshList[GEO_BACKGROUND], "Image//background.tga");
+
 	// ----------------- Example of Spawning Objects ------------ // 
 	// SpawnGameObject(OBJECT_TYPE (Eg. Environment, Projectile etc.), GAMEOBJECT_TYPE (Eg. GO_BALL, etc.), Position, Scale, Collidable, Visible)
-	// GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(0,50, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
+	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(0,50, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
 	// ---------------------------------------------------------- // 
 
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//test.csv");
-	
+
 	// ------------ Add Possible Function that reads m_Map and fills new vector with GameObjects ------------ // 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
 
+
+	// ------------------Parallax scrolling---------------------- //
+	m_ParallaxMap = new Map();
+	m_ParallaxMap->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
+	m_ParallaxMap->LoadMap("Image//Maps//test2.csv");
+	RenderParallaxMap();
+
+	m_GoMap2 = new GameObject_Map();
+	m_GoMap2->Init(m_ParallaxMap);
+	
 	// ----------------- Player ----------------- // 
 	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga"));
 	m_Player->Init();
@@ -170,6 +185,7 @@ void SP3::Update(double dt)
             m_ChangeElementDebounce = 0.f;
         }
     }
+
 }
 
 void SP3::RenderGO(GameObject *go)
@@ -180,6 +196,51 @@ void SP3::RenderGO(GameObject *go)
 	modelStack.Scale(go->GetScale().x, go->GetScale().y, go->GetScale().z);
 	RenderMesh(go->GetMesh(), false);
 	modelStack.PopMatrix();
+}
+
+void SP3::RenderParallaxMap()
+{
+
+	paraWallOffset_x = (int)(m_Player->GetPosition().x / 2);
+	paraWallOffset_y = 0;
+	paraWallTileOffset_x = (int)(paraWallOffset_x / m_ParallaxMap->GetTileSize());
+	paraWallTileOffset_y = 0;
+
+	if (paraWallTileOffset_x + m_ParallaxMap->GetNumOfTiles_ScreenWidth() > m_ParallaxMap->GetNumOfTiles_MapWidth())
+		paraWallTileOffset_x = m_ParallaxMap->GetNumOfTiles_MapWidth() - m_ParallaxMap->GetNumOfTiles_ScreenWidth();
+
+	paraWallFineOffset_x = paraWallOffset_x % m_ParallaxMap->GetTileSize();
+
+	int m = 0;
+	for (int i = 0; i < m_ParallaxMap->GetNumOfTiles_ScreenHeight(); i++)
+	{
+		for (int k = 0; k < m_ParallaxMap->GetNumOfTiles_ScreenWidth() + 1; k++)
+		{
+			Mesh* Quad = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1));
+
+			m = paraWallTileOffset_x + k;
+			//If we have reached the right side of the Map, the do not display extra column of tiles
+			if ((paraWallTileOffset_x + k) >= m_ParallaxMap->GetNumOfTiles_MapWidth())
+				break;
+
+			switch (m_ParallaxMap->m_ScreenMap[i][m])
+			{
+			case 3:
+			{
+				//GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_TREE, Position, Vector3(5, 5, 0), true, true, meshList[GEO_TREE], "Image//tree.tga");
+
+				//GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_TREE, Vector3(k * m_ParallaxMap->GetTileSize() -paraWallFineOffset_x, 100 - i * m_ParallaxMap->GetTileSize(), 1), Vector3(100, 100, 0), true, true, meshList[GEO_TREE], "Image//tree.tga");
+
+				GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Vector3(k*m_ParallaxMap->GetTileSize() - paraWallFineOffset_x, 575 - i*m_ParallaxMap->GetTileSize(), 0), Vector3(5, 5, 0), true, true, Quad, "Image//Tiles//testground.tga");
+
+				break;
+			}
+			default:
+				break;
+			}
+		}
+	}
+
 }
 
 void SP3::Render()
@@ -253,5 +314,11 @@ void SP3::Exit()
 	{
 		delete m_Map;
 		m_Map = NULL;
+	}
+
+	if (m_ParallaxMap)
+	{
+		delete m_Map;
+		m_ParallaxMap = NULL;
 	}
 }

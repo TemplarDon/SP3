@@ -20,6 +20,12 @@ public:
 	// Get Animation Invert status of the player
 	bool GetAnimationInvert(void);
     AttackBase *Attacks;
+	
+	// Set player position
+	void SetPlayerPos(Vector3 PlayerPos);
+	// Get player position
+	Vector3 GetPlayerPos();
+
 
 private:
 	// Player's information
@@ -28,11 +34,11 @@ private:
 	bool hero_inMidAir_Down;
 	bool heroAnimationInvert;
 	int heroAnimationCounter;
+	Vector3 PlayerPos;
 
 	// For Collision
 	Vector3 m_PrevPosition;
-  
-
+	
 };
 
 

@@ -356,7 +356,5 @@ void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 		}
 	}
 
-	//mapFineOffset_x = mapOffset_x % Map->GetTileSize();
+	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 }
-
-
