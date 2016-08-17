@@ -49,14 +49,12 @@ protected:
     int m_AbilityCount;
     Projectile *m_Projectiles = new Projectile[50];
     Projectile *m_MeleeStrike = new Projectile[50];
+    Projectile *m_AbilityProjectiles = new Projectile[50];
 
     Mesh* ProjectilePH;
 
     void SetAttackType();//always corresponds to element type
-    //specific updates
-    void Update_Ranged(double dt);
-    void Update_Melee(double dt);
-    void Update_Ability(double dt);
+
     //Attack calls
     void Attack_Ranged();
     void Attack_Melee();

@@ -42,11 +42,7 @@ void AttackBase::UpdateAttack(double dt, ELEMENT EntityCurrElement, Vector3 pos,
     SetAttackType();
     m_EntityPos = pos;
     m_AttackDirection = leftright;
-
-    Update_Ranged(dt);
-    Update_Melee(dt);
-    Update_Ability(dt);
-
+    
     if (!m_CanAttack)
     {
         m_AttackDebounce += 12.5 * (float)dt;
@@ -75,7 +71,15 @@ void AttackBase::Attack_Ability()
 {
     if (m_CurrElement == FIRE_2)
     {
-        //do fire2 stuff
+        Projectile* temp;
+        temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+        temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.1f);
+        m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
+        m_AbilityCount += 1;
+        if (m_AbilityCount >= MAXprojectilecount)
+        {
+            m_AbilityCount = 0;
+        }
         
     }
     else if (m_CurrElement == WATER_2)
@@ -102,8 +106,9 @@ void AttackBase::Attack_Ability()
 
 void AttackBase::Attack_Melee()
 {
-    m_MeleeStrike[m_meleeCount].projectileInit(m_AttackDirection, m_EntityPos,5.0f, m_AttackDamage, 0.5f);
-    GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_MeleeStrike[m_meleeCount].GetPosition(),Vector3(1,5,1),true,true,0.1,5,m_AttackDirection,50.0f,ProjectilePH, "Image/Tiles/ProjectilePlaceHolder.tga");
+    Projectile* temp;
+    temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_MeleeStrike[m_meleeCount].GetPosition(), Vector3(1,5,2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+    temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.1f);
     m_MeleeStrike[m_meleeCount].SetElement(m_CurrElement);
     m_meleeCount += 1;
     if (m_meleeCount >= MAXprojectilecount)
@@ -114,12 +119,15 @@ void AttackBase::Attack_Melee()
 void AttackBase::Attack_Ranged()
 {
     Vector3 tempscale;
-    m_Projectiles[m_projectileCount].projectileInit(m_AttackDirection, m_EntityPos, 5.0f, m_AttackDamage, 2.0f);
     if (m_projectileCount <= 5)
         tempscale = Vector3(2, 2, 2);
     else
         tempscale = Vector3(1, 1, 1);
-    GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, 2, 5,m_AttackDirection , 50.0f ,ProjectilePH, "Image//Tiles/projectilePH.tga");
+    //GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, 2, 5,m_AttackDirection , 50.0f ,ProjectilePH, "Image//Tiles/projectilePH.tga");
+
+    Projectile* temp;
+    temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+    temp->projectileInit(m_AttackDirection,m_EntityPos,50.0f,m_AttackDamage,10.0f);
     m_Projectiles[m_projectileCount].SetElement(m_CurrElement);
     m_projectileCount += 1;
 
@@ -127,31 +135,4 @@ void AttackBase::Attack_Ranged()
     {
         m_projectileCount = 0;
     }
-}
-
-void AttackBase::Update_Ranged(double dt)
-{
-    for (int i = 0; i < m_projectileCount; i++)
-    {
-        if (m_Projectiles[i].GetActive() == true)
-        {
-            m_Projectiles[i].projectileUpdate(dt);
-            m_Projectiles[i].SetElement(m_CurrElement);
-        }
-    }
-}
-void AttackBase::Update_Melee(double dt)
-{
-    for (int i = 0; i < m_projectileCount; i++)
-    {
-        if (m_MeleeStrike[i].GetActive() == true)
-        {
-            m_MeleeStrike[i].projectileUpdate(dt);
-            m_MeleeStrike[i].SetElement(m_CurrElement);
-        }
-    }
-}
-void AttackBase::Update_Ability(double dt)
-{
-
 }
