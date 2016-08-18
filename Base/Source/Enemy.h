@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 #include "BehaviourRanged.h"
-
+#include "BehaviourMelee.h"
 class Enemy : public Entity
 {
 	

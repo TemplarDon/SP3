@@ -14,7 +14,7 @@ void Enemy::EnemyInit(Vector3 playerPosition,EnemyType enemyType, float estimate
 	}
 	else
 	{
-
+		this->m_Behaviour = new BehaviourMelee();
 	}
 	attack = new AttackBase();
 	attack->Init(Damage, 5.0f);
@@ -65,6 +65,24 @@ void Enemy::Update(double dt,Vector3 playerPosition,GameObject_Map * map,Camera 
 		}
 		//std::cout << "ENEMY POS " << m_Position << std::endl;
 		//UpdateTileMapCollision(map);
+		ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
+	}
+	else if (enemyType==MELEE)
+	{
+		this->setDistancePlayerToEnemy(playerPosition, m_Position);
+		this->setDirectionBasedOnDistance(playerPosition, m_Position);
+		//m_Behaviour = dynamic_cast<BehaviourRanged*>(m_Behaviour);
+		m_Behaviour->Update(dt, distancePlayerToEnemy, estimatedDistance, m_Position, Move_Left, Move_Right, m_bJumping, DirectionLeftRight, m_CurrElement, attack, m_CurrEntityMoveState);
+		if (Move_Left == true)
+		{
+			MoveLeft(0.1f);
+			//std::cout << "RUN 1" << std::endl;
+		}
+		else if (Move_Right == true)
+		{
+			MoveRight(0.1f);
+			//	std::cout << "RUN 2" << std::endl;
+		}
 		ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
 	}
 	//std::cout << "Direction" << DirectionLeftRight << std::endl;

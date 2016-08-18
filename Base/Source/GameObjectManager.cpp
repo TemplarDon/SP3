@@ -75,10 +75,10 @@ GameObject* GameObjectManager::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJEC
 		if (sa)
 		{
 			sa->m_anim = new Animation();
-			sa->m_currentTime = 0;
-			sa->m_row = 0;
-			sa->m_col = 0;
-			sa->m_anim->Set(0, 2, 1, 0.8f, true);
+			//sa->m_currentTime = 0;
+			//sa->m_row = 0;
+			//sa->m_col = 0;
+			sa->m_anim->Set(0, 1, 1, 0.8f, true);
 			go->SetSpriteAnimation(sa);
 		}
 	}

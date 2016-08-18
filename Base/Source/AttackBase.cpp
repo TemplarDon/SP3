@@ -113,7 +113,7 @@ void AttackBase::Attack_Melee()
 {
     Projectile* temp;
     temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_MeleeStrike[m_meleeCount].GetPosition(), Vector3(1,5,2), true, true, ProjectilePH, "Image//Projectiles/earth_projectile.tga"));
-	temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.1f, m_CurrElement);
+	temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.2f, m_CurrElement);
     m_MeleeStrike[m_meleeCount].SetElement(m_CurrElement);
     m_meleeCount += 1;
     if (m_meleeCount >= MAXprojectilecount)

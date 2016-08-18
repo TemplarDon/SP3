@@ -62,7 +62,7 @@ void SP3::Init()
 	m_GoMap2->Init(m_ParallaxMap);*/
 	
 	// ----------------- Player ----------------- // 
-	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 3);
+	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 2);
 	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true));
 	m_Player->Init();
 	// ------------------------------------------ // 
@@ -71,8 +71,9 @@ void SP3::Init()
 
     currentSelectedEle = m_Player->GetElement();
 	Enemy * temp;
-	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga"));
-	temp->EnemyInit(m_Player->GetPosition(),Enemy::RANGED, 100,FIRE,10);
+	meshList[GEO_ENEMY] = MeshBuilder::GenerateSpriteAnimation("enemy", 1, 2);
+	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//player.tga",true));
+	temp->EnemyInit(m_Player->GetPosition(),Enemy::MELEE, 20,EARTH,10);
 
 
 }
@@ -320,16 +321,17 @@ void SP3::Render()
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{
+
 		GameObject *go = (GameObject *)*it;
 		if (go->GetActive() && go->GetVisible())
 		{
 			RenderGO(go);
 		}
 
-		if (m_Player->GetActive())
+		/*if (m_Player->GetActive())
 		{
 			RenderGO(m_Player);
-		}
+		}*/
 	}
 }
 

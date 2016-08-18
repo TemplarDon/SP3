@@ -51,6 +51,7 @@ public:
 		GEO_PLAYER,
 		GEO_BACKGROUND,
 		GEO_TREE,
+		GEO_ENEMY,
 		NUM_GEOMETRY,
 	};
 public:

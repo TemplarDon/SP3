@@ -95,11 +95,3 @@ void BehaviourRanged::Update(double dt, float distancePlayerToEnemy, float estim
 */
 
 }
-void BehaviourRanged::setBehaviour(BehaviourStates behaviour)
-{
-	this->behaviour = behaviour;
-}
-BehaviourRanged::BehaviourStates BehaviourRanged::getBehaviour()
-{
-	return behaviour;
-}
