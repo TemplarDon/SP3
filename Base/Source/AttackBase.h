@@ -48,7 +48,7 @@ protected:
     int m_projectileCount;
     int m_meleeCount;
     int m_AbilityCount;
-    Projectile *m_Projectiles = new Projectile[50];
+    Projectile *m_Projectiles = new Projectile[30];
     Projectile *m_MeleeStrike = new Projectile[50];
     Projectile *m_AbilityProjectiles = new Projectile[50];
 

@@ -3,31 +3,23 @@
 
 
 #include "Vector3.h"
-#include "AttackBase.h"
-class BehaviourRanged 
+#include "Behaviour.h"
+class BehaviourRanged :public Behaviour
 {
 	
 public:
-	enum BehaviourStates
-	{
-		NEUTRAL,
-		ATTACK,
-		EVADE,
-		TOTALSTATES,
-	};
-	BehaviourRanged();
-	~BehaviourRanged();
-
 	
-	void BehaviourRangedUpdate(float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, double dt, AttackBase *attack, bool &moveLeft, bool &moveRight,bool &jump, bool Direction);
-	 void Update(double dt, Vector3 playerPosition, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump);
+	BehaviourRanged();
+	virtual ~BehaviourRanged();
 
-	 void setBehaviour(BehaviourStates behaviour);
-	 BehaviourStates getBehaviour();
+	//using Behaviour::Update;
+	virtual void Update(double dt, float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump, bool& Direction, ELEMENT m_CurrElement, AttackBase* attack,ENTITY_MOVE_STATE m_currEntityMoveState);
+
+	virtual  void setBehaviour(BehaviourStates behaviour);
+	virtual  BehaviourStates getBehaviour();
+
 private:
 	int random;
-	BehaviourStates behaviour;
-
 };
 
 

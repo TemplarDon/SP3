@@ -52,20 +52,28 @@ void SP3::Init()
 	m_GoMap->Init(m_Map);
 
 
-	// ------------------Parallax scrolling---------------------- //
-	m_ParallaxMap = new Map();
-	m_ParallaxMap->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_ParallaxMap->LoadMap("Image//Maps//test2.csv");
-	RenderParallaxMap();
+	//// ------------------Parallax scrolling---------------------- //
+	//m_ParallaxMap = new Map();
+	//m_ParallaxMap->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
+	//m_ParallaxMap->LoadMap("Image//Maps//test2.csv");
+	//RenderParallaxMap();
 
-	m_GoMap2 = new GameObject_Map();
-	m_GoMap2->Init(m_ParallaxMap);
+	/*m_GoMap2 = new GameObject_Map();
+	m_GoMap2->Init(m_ParallaxMap);*/
 	
 	// ----------------- Player ----------------- // 
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 3);
 	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true));
 	m_Player->Init();
 	// ------------------------------------------ // 
+
+
+
+    currentSelectedEle = m_Player->GetElement();
+	Enemy * temp;
+	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga"));
+	temp->EnemyInit(m_Player->GetPosition(),Enemy::RANGED, 100,FIRE,10);
+
 
 }
 
@@ -126,13 +134,14 @@ void SP3::Update(double dt)
     }
 
 	// ----------------- Main Loop ----------------- //
-
-	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
+	
+	
+	for (std::vector<GameObject*>::size_type i = 0; i < GameObjectManager::m_goList.size(); ++i)
 	{
-		GameObject *go = (GameObject *)*it;
-
+		GameObject* go = GameObjectManager::m_goList[i];
 		if (!go->GetActive())
 			continue;
+
 
 		if (go->GetType() == GO_BLOCK)
 			continue;
@@ -174,6 +183,24 @@ void SP3::Update(double dt)
 			
 		}
 
+
+			
+			if (go->GetType() == GO_PLAYER)
+			{
+				m_Player->Update(dt, m_GoMap, camera);
+			}
+
+			if (go->GetType() == GO_EARTHMELEE_PROJECTILE)
+			{
+				go->Update(dt);
+			}
+			if (go->GetType() == GO_ENEMY)
+			{
+				Enemy* temp = dynamic_cast<Enemy*>(go);
+				temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
+			}
+		
+
 	}
 
 	// --------------------------------------------- //
@@ -188,6 +215,10 @@ void SP3::Update(double dt)
             m_ChangeElementDebounce = 0.f;
         }
     }
+
+
+
+	std::cout << fps << std::endl;
 
 }
 

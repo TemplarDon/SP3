@@ -3,7 +3,7 @@
 #include "Entity.h"
 AttackBase::AttackBase()
 {
-    MAXprojectilecount = 50;
+    MAXprojectilecount = 30;
     m_projectileCount = 0;
     m_meleeCount = 0;
     m_AbilityCount = 0;
@@ -11,6 +11,10 @@ AttackBase::AttackBase()
     m_AttackDebounce = 0;
     m_Range = 0.f;
     m_CanAttack = true;
+}
+AttackBase::~AttackBase()
+{
+
 }
 void AttackBase::Init(int AttackDamage, float range)
 {
@@ -119,24 +123,16 @@ void AttackBase::Attack_Melee()
 }
 void AttackBase::Attack_Ranged()
 {
-	Vector3 tempscale;
-	if (m_projectileCount <= 5)
-		tempscale = Vector3(2, 2, 2);
-	else
-		tempscale = Vector3(1, 1, 1);
-	//GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, 2, 5,m_AttackDirection , 50.0f ,ProjectilePH, "Image//Tiles/projectilePH.tga");
+    Vector3 tempscale;
+    if (m_projectileCount <= 5)
+        tempscale = Vector3(2, 2, 2);
+    else
+        tempscale = Vector3(1, 1, 1);
+    //GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, 2, 5,m_AttackDirection , 50.0f ,ProjectilePH, "Image//Tiles/projectilePH.tga");
 
-	Projectile* temp;
-	if (m_CurrElement == FIRE)
-	{
-		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Projectiles//fire_projectile.tga"));
-	}
-	else if (m_CurrElement == WATER)
-	{
-		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Projectiles//water_projectile.tga"));
-	}
-
-	temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 10.0f, m_CurrElement);
+    Projectile* temp;
+    temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+    temp->projectileInit(m_AttackDirection,m_EntityPos,50.0f,m_AttackDamage,1,m_CurrElement);
     m_Projectiles[m_projectileCount].SetElement(m_CurrElement);
     m_projectileCount += 1;
 

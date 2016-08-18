@@ -93,7 +93,6 @@ public:
 	
 	// CollisionWithTileMap
 	virtual void UpdateTileMapCollision(GameObject_Map* Map);
-
 	virtual void Update(double dt, GameObject_Map* Map, Camera camera);
 
 protected:
@@ -109,7 +108,7 @@ protected:
 	// For scrolling
 	int mapOffset_x, mapOffset_y;
 	float mapFineOffset_x, mapFineOffset_y;
-	int MovementSpeed;
+	float MovementSpeed;
 
 	// ----------------- For jumping and collision check ----------------- //
 	ENTITY_MOVE_STATE m_CurrEntityMoveState;

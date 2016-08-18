@@ -2,46 +2,73 @@
 #define ENEMY_H
 
 #include "Entity.h"
-#include "Behaviour.h"
+#include "BehaviourRanged.h"
 
 class Enemy : public Entity
 {
+	
+
 public:
+	enum EnemyType
+	{
+		NIL,
+		MELEE,
+		RANGED,
+	};
+	Enemy();
 	~Enemy();
 
 	//Set enemy's x and y position
-	Enemy(int x, int y, Behaviour::EnemyType enemyType, float estimatedDistance, AttackBase* Attack);
+	//Enemy(float x, float y, Behaviour::EnemyType enemyType, float estimatedDistance, AttackBase* Attack);
 
 	//Update enemy
 	//void Update(double dt);
 
-	virtual void setEnemyPosition(Vector3 enemyPosition);
-	virtual Vector3 getEnemyPosition();
+	//virtual void setEnemyPosition(Vector3 enemyPosition);
+	//virtual Vector3 getEnemyPosition();
 
-	 
-	virtual void UpdateEnemy(double dt, Vector3 playerPosition);
+	
+	
+	virtual void EnemyInit(Vector3 playerPosition, EnemyType enemyType, float estimatedDistance, ELEMENT m_CurrElement, int Damage);
 
+
+	virtual void Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera);
+	virtual void UpdateTileMapCollision(GameObject_Map* Map)
+	{
+	}
 	virtual void setBehaviour(Behaviour* behaviour);
 	virtual Behaviour* getBehaviour(Behaviour* behaviour);
 
 	virtual void setAttack(AttackBase* attack);
 	virtual AttackBase* getAttack();
 
-	 void setMoveLeft(bool moveLeft);
-	 bool getMoveLeft();
+	
 
-	 void setMoveRight(bool moveRight);
-	 bool getMoveRight();
-     void setJump(bool jump);
-	 bool getJump();
+	virtual  void setEnemyType(EnemyType enemyType);
+	virtual EnemyType getEnemyType();
+
+	virtual void setDistancePlayerToEnemy(Vector3 playerPosition,Vector3 enemyPosition);
+	virtual float getDistancePlayerToEnemy();
+
+	virtual void setEstimatedDistance(float estimatedDistance);
+	virtual float getEstimatedDistance();
+
+	virtual void setDirectionBasedOnDistance(Vector3 playerPosition, Vector3 enemyPosition);
+
 private:
-	Vector3  enemyPosition;
+
 	//Strategy* theStrategy;
-	AttackBase *attack;
+	AttackBase* attack;
 	 Behaviour* m_Behaviour;
-	 bool moveLeft;
+	 EnemyType enemyType;
+	 float distancePlayerToEnemy;
+	 float estimatedDistance;
+
+	 //BehaviourRanged* behaviourRanged;
+	// BehaviourMelee* behaviourMelee;
+	/* bool moveLeft;
 	 bool moveRight;
-	 bool jump;
+	 bool jump;*/
 };
 
 #endif

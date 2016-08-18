@@ -4,36 +4,51 @@
 
 GameObject* GameObjectManager::FetchGameObject(OBJECT_TYPE ObjectType)
 {
-	GameObject* TempGameObject = NULL;
+	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
+	{
+		GameObject* TempGameObject = (GameObject *)*it;
 
-	switch (ObjectType)
-	{
-	case OBJECT_TYPE::ENVIRONMENT:
-	{
-		TempGameObject = new Environment();
-		break;
+		if (TempGameObject->GetActive())
+			continue;
+
+		switch (ObjectType)
+		{
+		case OBJECT_TYPE::ENVIRONMENT:
+		{
+			TempGameObject = new Environment();
+			break;
+		}
+
+		case OBJECT_TYPE::PROJECTILE:
+		{
+			TempGameObject = new Projectile();
+			break;
+		}
+
+		case OBJECT_TYPE::PLAYER:
+		{
+			TempGameObject = new Player();
+			break;
+		}
+
+		case OBJECT_TYPE::ENEMY:
+		{
+			TempGameObject = new Enemy();
+			break;
+		}
+		}
+
+		return TempGameObject;
 	}
 
-	case OBJECT_TYPE::PROJECTILE:
+	for (int i = 0; i < 10; ++i)
 	{
-        TempGameObject = new Projectile();
-		break;
+		Environment* temp = new Environment();
+		temp->SetActive(false);
+		m_goList.push_back(temp);
 	}
 
-	case OBJECT_TYPE::PLAYER:
-	{
-		TempGameObject = new Player();
-		break;
-	}
-
-	case OBJECT_TYPE::ENEMY:
-	{
-
-		break;
-	}
-	}
-
-	return TempGameObject;
+	return FetchGameObject(ObjectType);
 }
 
 GameObject* GameObjectManager::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName, bool IsSprite)
