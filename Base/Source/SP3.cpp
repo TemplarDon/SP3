@@ -27,6 +27,9 @@ std::vector<GameObject*> GameObjectManager::m_goList;
 void SP3::Init()
 {
 	SceneBase::Init();
+
+	meshList[GEO_HEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 1, 0), 1.f);
+
     m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
 
 	//Calculating aspect ratio
@@ -137,7 +140,7 @@ void SP3::Update(double dt)
 	{
 		m_Player->MoveRight(dt);
 	}
-	if (Application::IsKeyPressed('W'))
+	if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND)
 	{
 		m_Player->UpdateJump(dt);
 	}
@@ -157,6 +160,11 @@ void SP3::Update(double dt)
 				m_Player->SetElement(EARTH);
 			m_CanChangeElement = false;
 		}
+	}
+
+	if (Application::IsKeyPressed('K'))
+	{
+		m_Player->SetEntityHealth(m_Player->GetEntityHealth() - 2 * dt);
 	}
 
 	// ----------------- Sort Map ------------------ //
@@ -212,7 +220,7 @@ void SP3::Update(double dt)
 			if (go2->GetType() == GO_BLOCK)
 				continue;
 
-			if (go->GetObjectType() == PROJECTILE && go2->GetObjectType() == ENVIRONMENT)
+			if ( ( go->GetObjectType() == PROJECTILE || go->GetObjectType() == PLAYER ) && go2->GetObjectType() == ENVIRONMENT)
 			{
 				if (go->EmpricalCheckCollisionWith(go2, dt))
 				{
@@ -272,6 +280,15 @@ void SP3::RenderGO(GameObject *go)
 	modelStack.Scale(go->GetScale().x, go->GetScale().y, go->GetScale().z);
 	RenderMesh(go->GetMesh(), false);
 	modelStack.PopMatrix();
+
+	if (go->GetObjectType() == PLAYER || go->GetObjectType() == ENEMY)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + 5, go->GetPosition().z);
+		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth(), 3, 1);
+		RenderMesh(meshList[GEO_HEALTH_BAR], false);
+		modelStack.PopMatrix();
+	}
 }
 
 void SP3::RenderParallaxMap()

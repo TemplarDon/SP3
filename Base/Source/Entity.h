@@ -105,6 +105,9 @@ public:
     AttackBase *Attacks = new AttackBase;
     bool GetControlLock();
 
+	virtual void Death()
+	{}
+
 protected:
 	int Health;
 	int Damage;

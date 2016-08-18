@@ -98,8 +98,12 @@ void Environment::CollisionResponse(GameObject* OtherGo)
 			break;
 		}
 		}
+	}
 
-
+	if (OtherGo->GetObjectType() == PLAYER && this->GetType() == GO_CHECKPOINT)
+	{
+		dynamic_cast<Player*>(OtherGo)->SetRespawnPos(this->m_Position);
+		this->m_Active = false;
 	}
 }
 

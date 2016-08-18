@@ -262,6 +262,11 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
     AbilityMovementCheck();
     ExecuteAbility(dt);
 
+
+	if (Health <= 0)
+	{
+		Death();
+	}
 }
 
 void Entity::UpdateTileMapCollision(GameObject_Map* Map)

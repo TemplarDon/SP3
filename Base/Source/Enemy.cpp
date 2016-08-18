@@ -3,6 +3,7 @@
 Enemy::Enemy()
 {
 	m_Position.Set(0, 0, 0);
+	Health = 3;
 }
 void Enemy::EnemyInit(Vector3 playerPosition, EnemyType enemyType, float estimatedDistance, ELEMENT m_CurrElement, int Damage)
 {
@@ -155,4 +156,9 @@ void Enemy::setDirectionBasedOnDistance(Vector3 playerPosition, Vector3 enemyPos
 		this->DirectionLeftRight = true;
 	}
 
+}
+
+void Enemy::Death()
+{
+	this->m_Active = false;
 }

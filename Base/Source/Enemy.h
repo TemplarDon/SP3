@@ -55,6 +55,8 @@ public:
 
 	virtual void setDirectionBasedOnDistance(Vector3 playerPosition, Vector3 enemyPosition);
 
+	virtual void Death();
+
 private:
 
 	//Strategy* theStrategy;

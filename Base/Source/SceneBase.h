@@ -53,6 +53,7 @@ public:
 		GEO_BACKGROUND,
 		GEO_TREE,
 		GEO_ENEMY,
+		GEO_HEALTH_BAR,
 		NUM_GEOMETRY,
 	};
 public:

@@ -17,6 +17,8 @@ Player::Player(void)
 	m_ElementArray[2] = FIRE;
 	m_ElementArray[3] = EARTH;
 	m_ElementArray[4] = FIRE;
+
+
 }
 
 Player::~Player(void)
@@ -30,6 +32,7 @@ void Player::Init(void)
 	SetEntityDamage(5);
 	SetEntityMovementSpeed(1);
     Attacks->Init(GetEntityDamage(), 10.f);
+	m_RespawnPos = m_Position;
 }
 // Set Animation Invert status of the player
 void Player::SetAnimationInvert(bool heroAnimationInvert)
@@ -86,3 +89,18 @@ ELEMENT* Player::GetFirstElementArray()
 	return m_ElementArray;
 }
 
+void Player::SetRespawnPos(Vector3 RespawnPos)
+{
+	m_RespawnPos = RespawnPos;
+}
+
+Vector3 Player::GetRespawnPos()
+{
+	return m_RespawnPos;
+}
+
+void Player::Death()
+{
+	m_Position = m_RespawnPos;
+	Health = 10;
+}

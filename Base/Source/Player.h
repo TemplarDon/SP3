@@ -30,6 +30,11 @@ public:
 	void ReorderElements();
 	ELEMENT* GetFirstElementArray();
 
+	void SetRespawnPos(Vector3 RespawnPos);
+	Vector3 GetRespawnPos();
+
+	virtual void Death();
+
 private:
 	// Player's information
 	int jumpspeed;
@@ -44,6 +49,9 @@ private:
 
 	// For Storing Of Elements
 	ELEMENT m_ElementArray[5];
+
+	// Pointer to checkpoint
+	Vector3 m_RespawnPos;
 };
 
 
