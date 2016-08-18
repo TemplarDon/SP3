@@ -26,9 +26,9 @@ std::vector<GameObject*> GameObjectManager::m_goList;
 
 void SP3::Init()
 {
-
 	SceneBase::Init();
     m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
+
 	//Calculating aspect ratio
 	m_worldHeight = 100.f;
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -64,7 +64,6 @@ void SP3::Init()
 	m_GoMap2->Init(m_ParallaxMap);*/
 	
 	// ----------------- Player ----------------- // 
-
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 2);
 	SpriteAnimation* sa = static_cast<SpriteAnimation*>(meshList[GEO_PLAYER]);
 	if (sa)
@@ -79,7 +78,14 @@ void SP3::Init()
 	m_Player->Init();
 	// ------------------------------------------ // 
 
+	// ------------------- Cam ------------------ // 
+	OrignialCamPos = camera.position;
+	OrignialCamTarget = camera.target;
+	// ------------------------------------------ // 
+
 	currentSelectedEle = m_Player->GetElement();
+
+	// ------------------ Enemy ----------------- // 
 	Enemy * temp = new Enemy();
 	meshList[GEO_ENEMY] = MeshBuilder::GenerateSpriteAnimation("enemy", 1, 4);
 	SpriteAnimation* sa2 = static_cast<SpriteAnimation*>(meshList[GEO_ENEMY]);
@@ -94,7 +100,7 @@ void SP3::Init()
 	}
 	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//blue Running.tga", true, sa2));
 	temp->EnemyInit(m_Player->GetPosition(), Enemy::MELEE, 20, EARTH, 10);
-
+	// ------------------------------------------ // 
 
 }
 
@@ -156,8 +162,6 @@ void SP3::Update(double dt)
 	}
 
 	// ----------------- Main Loop ----------------- //
-
-
 	for (std::vector<GameObject*>::size_type i = 0; i < GameObjectManager::m_goList.size(); ++i)
 	{
 		GameObject* go = GameObjectManager::m_goList[i];
@@ -184,9 +188,9 @@ void SP3::Update(double dt)
 			go->Update(dt);
 		}
 
-		for (std::vector<GameObject *>::iterator it2 = GameObjectManager::m_goList.begin()/*it + 1*/; it2 != GameObjectManager::m_goList.end(); ++it2)
+		for (std::vector<GameObject*>::size_type i2 = 0; i2 < GameObjectManager::m_goList.size(); ++i2)
 		{
-			GameObject *go2 = (GameObject *)*it2;
+			GameObject *go2 = GameObjectManager::m_goList[i2];
 
 			if (!go2->GetActive())
 				continue;
@@ -234,8 +238,31 @@ void SP3::Update(double dt)
 	// ----------------- Sort Map ------------------ //
 	//m_GoMap->SortMap();
 	// --------------------------------------------- //
-    std::cout << m_Player->GetPosition().x << std::endl;
+
+	
+
+	// ----------------- Update Camera ------------------ //
+	if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
+	{
+		camera.position.x += dt * 10;
 	}
+	else if (camera.position.x >= OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
+	{
+		camera.position.x -= dt * 10;
+	}
+
+	if (camera.target.x < OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
+	{
+		camera.target.x += dt * 10;
+	}
+	else if (camera.target.x >= OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
+	{
+		camera.target.x -= dt * 10;
+	}
+	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
+	//camera.target.x = OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
+	// -------------------------------------------------- //
+}
 
 void SP3::RenderGO(GameObject *go)
 {
@@ -298,8 +325,8 @@ void SP3::Render()
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
-	projection.SetToOrtho(m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + m_worldWidth, 0, m_worldHeight, -10, 10);
-	//projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -20, 20);
+	//projection.SetToOrtho(m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + m_worldWidth, 0, m_worldHeight, -10, 10);
+	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -20, 20);
 	projectionStack.LoadMatrix(projection);
 
 	// Camera matrix
@@ -331,6 +358,8 @@ void SP3::Render()
 	RenderMesh(meshList[GEO_AXES], false);
 
 
+	// ------------------ Background ------------------- //
+
 	//modelStack.PushMatrix();
 	//modelStack.Translate(10, 60, -2);
 	//modelStack.Scale(190, 80, 1);
@@ -345,17 +374,17 @@ void SP3::Render()
 	//modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	//modelStack.Translate(((m_worldWidth * 0.2) + m_Player->GetMapFineOffset_x()), 35, -1);
 	modelStack.Translate(m_worldWidth * 0.7, 61, -2);
 	modelStack.Scale(300, 78, 1);
 	RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
 	modelStack.PopMatrix();
 
+	// ------------------------------------------------- //
+
 	for (int i = 0; i < 4; i++)
 	{
 		modelStack.PushMatrix();
-		//modelStack.Translate(((m_worldWidth * 0.5 + m_Player->GetMapOffset_x()) - 70) + (i * 40) , 35, -1);
-		modelStack.Translate((((m_worldWidth * 0.2+ m_Player->GetMapOffset_x()) * 0.8) + (i * 40)), 35, -1);
+		modelStack.Translate((((m_worldWidth * 0.2 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x()) * 0.8) + (i * 40)), 35, -1);
 		modelStack.Scale(30, 30, 1);
 		RenderMesh(meshList[GEO_TREE], false);
 		modelStack.PopMatrix();
@@ -364,17 +393,11 @@ void SP3::Render()
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{
-
 		GameObject *go = (GameObject *)*it;
 		if (go->GetActive() && go->GetVisible())
 		{
 			RenderGO(go);
 		}
-
-		/*if (m_Player->GetActive())
-		{
-			RenderGO(m_Player);
-		}*/
 	}
 
 	//std::cout << fps << std::endl;

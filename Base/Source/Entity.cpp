@@ -242,8 +242,6 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 		m_Position.y = topBorder;
 	else if (m_Position.y > bottomBorder)
 		m_Position.y = bottomBorder;
-
-	mapFineOffset_x = (float)(m_Position.x / 5 * timeDiff);
 }
 
 void Entity::CollisionResponse()
@@ -258,7 +256,8 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 	CheckCollisionBoundary();
 	//ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 10, 580, 1, camera);
 	//UpdateTileMapCollision(Map);
-	ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
+	ConstrainPlayer(25 + mapOffset_x + mapFineOffset_x, 120 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
+	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 	UpdateTileMapCollision(Map);
     AbilityMovementCheck();
     ExecuteAbility(dt);
@@ -373,7 +372,7 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 	GameObject* CheckGameObject_1 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X];
 
 	// X-Axis Boundary (Right-Side)
-	for (int i = PlayerPos_X; i < Map->GetNumOfTiles_ScreenWidth(); ++i)
+	for (int i = PlayerPos_X; i < Map->GetNumOfTiles_MapWidth(); ++i)
 	{
 		GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y + 1][i];
 		if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive() && i != PlayerPos_X)
@@ -381,7 +380,7 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 			m_MaxCollisionBox.x = (CheckGameObject_2->GetPosition().x) - (Map->GetTileSize());
 			break;
 		}
-		m_MaxCollisionBox.x = (Map->GetNumOfTiles_ScreenWidth() * Map->GetTileSize()) - (Map->GetTileSize());
+		m_MaxCollisionBox.x = (Map->GetNumOfTiles_MapWidth() * Map->GetTileSize()) - (Map->GetTileSize());
 	}
 
 	// X-Axis Boundary (Left-Side)
@@ -399,7 +398,7 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 	if (m_CurrEntityMoveState != ON_GROUND)
 	{
 		// Y-Axis Boundary (Top)
-		for (int i = PlayerPos_Y; i < Map->GetNumOfTiles_ScreenHeight(); ++i)
+		for (int i = PlayerPos_Y; i < Map->GetNumOfTiles_MapHeight(); ++i)
 		{
 			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[i][PlayerPos_X];
 			if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive() && i != PlayerPos_Y)
@@ -407,7 +406,7 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 				m_MaxCollisionBox.y = (CheckGameObject_2->GetPosition().y) - (Map->GetTileSize());
 				break;
 			}
-			m_MaxCollisionBox.y = Map->GetNumOfTiles_ScreenHeight() * Map->GetTileSize() - (Map->GetTileSize());
+			m_MaxCollisionBox.y = Map->GetNumOfTiles_MapHeight() * Map->GetTileSize() - (Map->GetTileSize());
 		}
 
 		// Y-Axis Boundary (Bottom)
@@ -466,6 +465,7 @@ void Entity::SuperJump()
 {
 
 }
+
 void Entity::AbilityMovementCheck()
 {
     if (Attacks->GetDashLeftStatus())
@@ -487,6 +487,7 @@ void Entity::AbilityMovementCheck()
 
     }
 }
+
 void Entity::ExecuteAbility(double dt)
 {
     if (m_CurrEntityMoveState == DASH_LEFT)
@@ -509,6 +510,7 @@ void Entity::ExecuteAbility(double dt)
         }
     }
 }
+
 bool Entity::GetControlLock()
 {
     return isUsingMovementAbility;

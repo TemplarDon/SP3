@@ -12,6 +12,9 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 {
 	m_NumOfTiles_ScreenHeight = Map->GetNumOfTiles_ScreenHeight();
 	m_NumOfTiles_ScreenWidth = Map->GetNumOfTiles_ScreenWidth();
+
+	m_NumOfTiles_MapHeight = Map->GetNumOfTiles_MapHeight();
+	m_NumOfTiles_MapWidth = Map->GetNumOfTiles_MapWidth();
 	m_TileSize = TileSize;
 
 	for (int y = 0; y < Map->GetNumOfTiles_MapHeight(); ++y)

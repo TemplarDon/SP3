@@ -31,6 +31,16 @@ public:
 		return m_NumOfTiles_ScreenWidth;
 	}
 
+	int GetNumOfTiles_MapHeight()
+	{
+		return m_NumOfTiles_MapHeight;
+	}
+
+	int GetNumOfTiles_MapWidth()
+	{
+		return m_NumOfTiles_MapWidth;
+	}
+
 	float GetOffset()
 	{
 		return m_Offset;
@@ -41,6 +51,10 @@ private:
 
 	int m_NumOfTiles_ScreenHeight;
 	int m_NumOfTiles_ScreenWidth;
+
+
+	int m_NumOfTiles_MapHeight;
+	int m_NumOfTiles_MapWidth;
 
 	float m_Offset;
 };

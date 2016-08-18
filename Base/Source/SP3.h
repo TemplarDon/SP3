@@ -42,6 +42,8 @@ protected:
 	// Player
 	Player* m_Player = new Player;
     ELEMENT currentSelectedEle;
+	Vector3 OrignialCamPos;
+	Vector3 OrignialCamTarget;
 
 	// Map
 	Map* m_Map;
