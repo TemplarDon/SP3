@@ -12,6 +12,7 @@ public:
 	virtual void Init(bool Destructible, bool CanFall);
 	virtual void Update(double dt, GameObject_Map* Map);
    
+	bool GetFallStatus();
 
 protected:
 

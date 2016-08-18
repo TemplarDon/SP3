@@ -23,12 +23,27 @@ void Environment::Update(double dt, GameObject_Map* Map)
 		int EnvironmentPos_X = (int)((/*mapOffset_x + */m_Position.x)) / Map->GetTileSize();
 		int EnvironmentPos_Y = (int)(m_Position.y / Map->GetTileSize());
 
-		GameObject* CheckGameObject_1 = Map->m_GameObjectMap[EnvironmentPos_Y- 1][EnvironmentPos_X];
-			if (!CheckGameObject_1->GetCollidable() || !CheckGameObject_1->GetActive())
+		float MinYPos;
+
+		// Y-Axis Boundary (Bottom)
+		for (int i = EnvironmentPos_Y; i >= 0; --i)
 		{
-			m_FallSpeed += (dt);
-			m_Position.y -= m_FallSpeed * dt;
+			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[i][EnvironmentPos_X];
+			if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive() && i != EnvironmentPos_Y && this != CheckGameObject_2)
+			{
+				MinYPos = (CheckGameObject_2->GetPosition().y) + (Map->GetTileSize());
+				break;
+			}
+			MinYPos = (0.5 * Map->GetTileSize());
 		}
+
+		m_Position.y -= 10 * dt;
+
+		if (m_Position.y < MinYPos)
+		{
+			m_Position.y = MinYPos;
+		}
+
 
 	}
 }
@@ -86,4 +101,9 @@ void Environment::CollisionResponse(GameObject* OtherGo)
 
 
 	}
+}
+
+bool Environment::GetFallStatus()
+{
+	return m_CanFall;
 }

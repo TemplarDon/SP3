@@ -38,6 +38,9 @@ private:
 
 	// For Collision
 	Vector3 m_PrevPosition;
+
+	// For Storing Of Elements
+	ELEMENT m_ElementArray[5];
 	
 };
 

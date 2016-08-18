@@ -89,12 +89,13 @@ void GameObject_Map::SortMap()
 			Environment* CheckGameObject = dynamic_cast<Environment*>(this->m_GameObjectMap[y][x]);
 			Environment* CheckGameObject_Below = dynamic_cast<Environment*>(this->m_GameObjectMap[y - 1][x]);
 
+			if (!CheckGameObject->GetActive())
+				continue;
 
-
-			if (CheckGameObject->GetCollidable() && !CheckGameObject_Below->GetCollidable())
+			if (CheckGameObject->GetFallStatus() && !CheckGameObject_Below->GetCollidable())
 			{
-				//this->m_GameObjectMap[y][x] = CheckGameObject_Below;
-				//this->m_GameObjectMap[y - 1][x] = CheckGameObject;
+				this->m_GameObjectMap[y][x] = CheckGameObject_Below;
+				this->m_GameObjectMap[y - 1][x] = CheckGameObject;
 			}
 		}
 	}

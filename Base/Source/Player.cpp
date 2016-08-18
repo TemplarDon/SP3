@@ -7,10 +7,16 @@ Player::Player(void)
 	, heroAnimationCounter(0)
 	, heroAnimationInvert(false)
 {
-    m_CurrElement = STEAM;
+    m_CurrElement = FIRE;
     Attacks = new AttackBase;
 
 	SetPlayerPos(m_Position);
+
+	m_ElementArray[0] = FIRE;
+	m_ElementArray[1] = WATER;
+	m_ElementArray[2] = FIRE;
+	m_ElementArray[3] = EARTH;
+	m_ElementArray[4] = FIRE;
 }
 
 Player::~Player(void)

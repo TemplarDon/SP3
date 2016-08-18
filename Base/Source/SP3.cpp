@@ -161,6 +161,10 @@ void SP3::Update(double dt)
 		}
 	}
 
+	// ----------------- Sort Map ------------------ //
+	m_GoMap->SortMap();
+	// --------------------------------------------- //
+
 	// ----------------- Main Loop ----------------- //
 	for (std::vector<GameObject*>::size_type i = 0; i < GameObjectManager::m_goList.size(); ++i)
 	{
@@ -188,6 +192,18 @@ void SP3::Update(double dt)
 			go->Update(dt);
 		}
 
+		if (go->GetType() == GO_ENEMY)
+		{
+			Enemy* temp = dynamic_cast<Enemy*>(go);
+			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
+		}
+
+		if (go->GetObjectType() == ENVIRONMENT)
+		{
+			Environment* temp = dynamic_cast<Environment*>(go);
+			temp->Update(dt, m_GoMap);
+		}
+
 		for (std::vector<GameObject*>::size_type i2 = 0; i2 < GameObjectManager::m_goList.size(); ++i2)
 		{
 			GameObject *go2 = GameObjectManager::m_goList[i2];
@@ -211,11 +227,7 @@ void SP3::Update(double dt)
 
 
 
-		if (go->GetType() == GO_ENEMY)
-		{
-			Enemy* temp = dynamic_cast<Enemy*>(go);
-			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
-		}
+
 
 
 	}
@@ -235,9 +247,7 @@ void SP3::Update(double dt)
         }
     }
 
-	// ----------------- Sort Map ------------------ //
-	//m_GoMap->SortMap();
-	// --------------------------------------------- //
+
 
 	
 
