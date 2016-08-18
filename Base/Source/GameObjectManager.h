@@ -10,11 +10,11 @@ class GameObjectManager
 {
 public:
 	static GameObject* FetchGameObject(OBJECT_TYPE ObjectType);
-	static GameObject* SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName = "", bool IfSprite = false);
+	static GameObject* SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName = "", bool IfSprite = false, SpriteAnimation* sa = NULL);
 
 	static std::vector<GameObject*> m_goList;
 
-    // ----------- Try static cast pointer to make function generic (SpriteAnimation) ----------- //
+	// ----------- Try static cast pointer to make function generic (SpriteAnimation) ----------- //
 
 	static GameObject* TestSpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName = "");
 

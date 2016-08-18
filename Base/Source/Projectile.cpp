@@ -12,9 +12,7 @@ Projectile::Projectile()
 	speedBullet = 0;
 	m_Normal.Set(0, 1, 0);
 }
-
-void Projectile::projectileInit(bool Direction, Vector3 m_Position,float bulletSpeed,int damage,float time, bool enemypewpew)
-
+void Projectile::projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float time, ELEMENT element)
 {
 	this->Direction = Direction;
 	this->m_Position = m_Position;
@@ -22,7 +20,6 @@ void Projectile::projectileInit(bool Direction, Vector3 m_Position,float bulletS
 	this->damage = damage;
 	this->lifeTime = time;
 	this->m_CurrElement = element;
-    this->isHostileProjectile = enemypewpew;
 	m_Normal.Set(0, 1, 0);
 }
 
@@ -38,25 +35,25 @@ void Projectile::projectileUpdate(double dt)
 	else if (!Direction)
 		this->m_Position -= speedBullet*dt;
 
-    lifeTime -= dt * 5;
-    if (lifeTime < 0)
-    {
-        m_Active = false;
-    }
+	lifeTime -= dt * 5;
+	if (lifeTime < 0)
+	{
+		m_Active = false;
+	}
 }
 
 void Projectile::Update(double dt)
 {
-    if (Direction)
-        this->m_Position.x += speedBullet*dt;
-    else if (!Direction)
-        this->m_Position -= speedBullet*dt;
+	if (Direction)
+		this->m_Position.x += speedBullet*dt;
+	else if (!Direction)
+		this->m_Position -= speedBullet*dt;
 
-    lifeTime -= dt;
-    if (lifeTime < 0)
-    {
-        m_Active = false;
-    }
+	lifeTime -= dt;
+	if (lifeTime < 0)
+	{
+		m_Active = false;
+	}
 }
 void Projectile::setDamage(int damage)
 {

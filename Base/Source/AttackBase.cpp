@@ -88,7 +88,7 @@ void AttackBase::Attack_Ability()
         Projectile* temp;
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
 
-        temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, is Enemy);
+        temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.1f, m_CurrElement);
 
 
         m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);

@@ -6,7 +6,7 @@
 #include "BehaviourMelee.h"
 class Enemy : public Entity
 {
-	
+
 
 public:
 	enum EnemyType
@@ -27,8 +27,8 @@ public:
 	//virtual void setEnemyPosition(Vector3 enemyPosition);
 	//virtual Vector3 getEnemyPosition();
 
-	
-	
+
+
 	virtual void EnemyInit(Vector3 playerPosition, EnemyType enemyType, float estimatedDistance, ELEMENT m_CurrElement, int Damage);
 
 
@@ -42,12 +42,12 @@ public:
 	virtual void setAttack(AttackBase* attack);
 	virtual AttackBase* getAttack();
 
-	
+
 
 	virtual  void setEnemyType(EnemyType enemyType);
 	virtual EnemyType getEnemyType();
 
-	virtual void setDistancePlayerToEnemy(Vector3 playerPosition,Vector3 enemyPosition);
+	virtual void setDistancePlayerToEnemy(Vector3 playerPosition, Vector3 enemyPosition);
 	virtual float getDistancePlayerToEnemy();
 
 	virtual void setEstimatedDistance(float estimatedDistance);
@@ -59,16 +59,16 @@ private:
 
 	//Strategy* theStrategy;
 	AttackBase* attack;
-	 Behaviour* m_Behaviour;
-	 EnemyType enemyType;
-	 float distancePlayerToEnemy;
-	 float estimatedDistance;
+	Behaviour* m_Behaviour;
+	EnemyType enemyType;
+	float distancePlayerToEnemy;
+	float estimatedDistance;
 
-	 //BehaviourRanged* behaviourRanged;
+	//BehaviourRanged* behaviourRanged;
 	// BehaviourMelee* behaviourMelee;
 	/* bool moveLeft;
-	 bool moveRight;
-	 bool jump;*/
+	bool moveRight;
+	bool jump;*/
 };
 
 #endif

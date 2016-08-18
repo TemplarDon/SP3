@@ -9,18 +9,16 @@
 class Projectile : public ElementalObject
 {
 
-	 
+
 public:
 	Projectile();
 	//Projectile(bool Direction,Vector3 m_Position,Vector3 m_Velocity,int damage);
 	~Projectile();
 	void projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float lifeTime, ELEMENT element);
-    void projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float lifeTime, bool isHostileProjectile);
-
 	void projectileUpdate(double dt);
 	void setDamage(int damage);
 	int	 getDamage();
-    void SetBulletSpeed();
+	void SetBulletSpeed();
 	void setVelocity(Vector3 Velocity);
 	Vector3 getVelocity();
 
@@ -33,18 +31,18 @@ public:
 	void setLifetime(float lifeTime);
 	float getLifetime();
 
-    virtual void Update(double dt);
+	virtual void Update(double dt);
 
 
 private:
 	int damage;
-	Vector3 m_Velocity = Vector3(2,0,0);
+	Vector3 m_Velocity = Vector3(2, 0, 0);
 	//Vector3 m_Position;
 	Vector3 m_Normal;
 	float lifeTime;
 	bool Direction;
 	float speedBullet;
-    bool isHostileProjectile;
+
 };
 
 

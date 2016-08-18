@@ -51,7 +51,7 @@ GameObject* GameObjectManager::FetchGameObject(OBJECT_TYPE ObjectType)
 	return FetchGameObject(ObjectType);
 }
 
-GameObject* GameObjectManager::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName, bool IsSprite)
+GameObject* GameObjectManager::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName, bool IsSprite, SpriteAnimation* sa)
 {
 	GameObject* go = FetchGameObject(ObjectType);
 
@@ -71,51 +71,13 @@ GameObject* GameObjectManager::SpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJEC
 
 	if (IsSprite)
 	{
-		SpriteAnimation* sa = static_cast<SpriteAnimation*>(mesh);
-		if (sa)
-		{
-			sa->m_anim = new Animation();
-			//sa->m_currentTime = 0;
-			//sa->m_row = 0;
-			//sa->m_col = 0;
-			sa->m_anim->Set(0, 1, 1, 0.8f, true);
-			go->SetSpriteAnimation(sa);
-		}
+		go->SetSpriteAnimation(sa);
 	}
 
 	m_goList.push_back(go);
 
 	return go;
 }
-
-
-Projectile* GameObjectManager::SpawnProjectileObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, float LifetTime, int Damage, bool Directions,float speedBullet, Mesh* mesh, const char* TargaName)
-{
-    Projectile* go = new Projectile();
-
-    go->SetActive(true);
-	go->SetObjectType(ObjectType);
-    go->SetType(GoType);
-    go->SetPosition(Position);
-    go->SetScale(Scale);
-    go->SetCollidable(Collidable);
-    go->SetVisible(Visible);
-    //go->projectileInit(Directions,Position,speedBullet,Damage,LifetTime,);
-    // May need to add for velocityy and element
-
-    go->SetMesh(mesh);
-
-    if (TargaName != "")
-    {
-        go->GetMesh()->textureID = LoadTGA(TargaName);
-    }
-
-    m_goList.push_back(go);
-
-    return go;
-}
-
-
 GameObject* GameObjectManager::TestSpawnGameObject(OBJECT_TYPE ObjectType, GAMEOBJECT_TYPE GoType, Vector3 Position, Vector3 Scale, bool Collidable, bool Visible, Mesh* mesh, const char* TargaName)
 {
 	return nullptr;

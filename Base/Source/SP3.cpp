@@ -64,43 +64,62 @@ void SP3::Init()
 	m_GoMap2->Init(m_ParallaxMap);*/
 	
 	// ----------------- Player ----------------- // 
-	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 3);
-	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(100, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga");
+
+	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 2);
+	SpriteAnimation* sa = static_cast<SpriteAnimation*>(meshList[GEO_PLAYER]);
+	if (sa)
+	{
+		sa->m_anim = new Animation();
+		//sa->m_currentTime = 0;
+		//sa->m_row = 0;
+		//sa->m_col = 0;
+		sa->m_anim->Set(0, 1, 1, 0.8f, true);
+	}
+	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true, sa));
 	m_Player->Init();
 	// ------------------------------------------ // 
 
+	currentSelectedEle = m_Player->GetElement();
+	Enemy * temp = new Enemy();
+	meshList[GEO_ENEMY] = MeshBuilder::GenerateSpriteAnimation("enemy", 1, 4);
+	SpriteAnimation* sa2 = static_cast<SpriteAnimation*>(meshList[GEO_ENEMY]);
+	if (sa2)
+	{
+		sa2->m_anim = new Animation();
+		//sa->m_currentTime = 0;
+		//sa->m_row = 0;
+		//sa->m_col = 0;
+		sa2->m_anim->Set(0, 3, 1, 0.8f, true);
 
-
-    currentSelectedEle = m_Player->GetElement();
-	Enemy * temp;
-	meshList[GEO_ENEMY] = MeshBuilder::GenerateSpriteAnimation("enemy", 1, 2);
-	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//player.tga",true));
-	temp->EnemyInit(m_Player->GetPosition(),Enemy::MELEE, 20,EARTH,10);
+	}
+	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//blue Running.tga", true, sa2));
+	temp->EnemyInit(m_Player->GetPosition(), Enemy::MELEE, 20, EARTH, 10);
 
 
 }
 
 void SP3::Update(double dt)
 {
-	SceneBase::Update(dt);
-    m_Player->Attacks->UpdateAttack(dt,m_Player->GetElement(),m_Player->GetPosition(), m_Player->GetLeftRight());
 
-	if (Application::IsKeyPressed('A') && m_Player->GetControlLock() == false)
+	SceneBase::Update(dt);
+	m_Player->Attacks->UpdateAttack(dt, m_Player->GetElement(), m_Player->GetPosition(), m_Player->GetLeftRight());
+
+	if (Application::IsKeyPressed('A'))
 	{
 		m_Player->SetMoving_Left(true);
 		m_Player->SetMove_Right(false);
 	}
-	
-    if (Application::IsKeyPressed('D') && m_Player->GetControlLock() == false)
+
+	if (Application::IsKeyPressed('D'))
 	{
 		m_Player->SetMoving_Left(false);
 		m_Player->SetMove_Right(true);
 	}
-    if (Application::IsKeyPressed(VK_SPACE))
-    {
-        m_Player->Attacks->LaunchAttack();
-    }
-	
+	if (Application::IsKeyPressed(VK_SPACE))
+	{
+		m_Player->Attacks->LaunchAttack();
+	}
+
 	if (!Application::IsKeyPressed('D') && !Application::IsKeyPressed('A'))
 	{
 		m_Player->SetMoving_Left(false);
@@ -108,40 +127,40 @@ void SP3::Update(double dt)
 	}
 	if (m_Player->GetMoving_Left() == true)
 	{
-		m_Player->MoveLeft(dt);	
+		m_Player->MoveLeft(dt);
 	}
 	if (m_Player->GetMoving_Right() == true)
 	{
 		m_Player->MoveRight(dt);
 	}
-	if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND)
+	if (Application::IsKeyPressed('W'))
 	{
 		m_Player->UpdateJump(dt);
 	}
 	if (m_Player->GetMoveState() != ON_GROUND)
-	{ 
+	{
 		m_Player->EntityJumpUpdate(dt);
 	}
-    if (Application::IsKeyPressed('Q'))
-    {
-        if (m_CanChangeElement)
-        {
-            if (m_Player->GetElement() == EARTH)
-                m_Player->SetElement(WATER);
-            else if (m_Player->GetElement() == WATER)
-                m_Player->SetElement(FIRE);
-            else if (m_Player->GetElement() == FIRE)
-                m_Player->SetElement(EARTH);
-            m_CanChangeElement = false;
-        }
-    }
+	if (Application::IsKeyPressed('Q'))
+	{
+		if (m_CanChangeElement)
+		{
+			if (m_Player->GetElement() == EARTH)
+				m_Player->SetElement(WATER);
+			else if (m_Player->GetElement() == WATER)
+				m_Player->SetElement(FIRE);
+			else if (m_Player->GetElement() == FIRE)
+				m_Player->SetElement(EARTH);
+			m_CanChangeElement = false;
+		}
+	}
 
 	// ----------------- Main Loop ----------------- //
 
-	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
-	{
-		GameObject *go = (GameObject *)*it;
 
+	for (std::vector<GameObject*>::size_type i = 0; i < GameObjectManager::m_goList.size(); ++i)
+	{
+		GameObject* go = GameObjectManager::m_goList[i];
 		if (!go->GetActive())
 			continue;
 
@@ -160,10 +179,10 @@ void SP3::Update(double dt)
 			m_Player->Update(dt, m_GoMap, camera);
 		}
 
-        if (go->GetType() == GO_EARTHMELEE_PROJECTILE)
-        {
-            go->Update(dt);
-        }
+		if (go->GetType() == GO_EARTHMELEE_PROJECTILE)
+		{
+			go->Update(dt);
+		}
 
 		for (std::vector<GameObject *>::iterator it2 = GameObjectManager::m_goList.begin()/*it + 1*/; it2 != GameObjectManager::m_goList.end(); ++it2)
 		{
@@ -182,27 +201,18 @@ void SP3::Update(double dt)
 					go2->CollisionResponse(go);
 				}
 			}
-			
-			
+
+
 		}
 
 
-			
-			if (go->GetType() == GO_PLAYER)
-			{
-				m_Player->Update(dt, m_GoMap, camera);
-			}
 
-			if (go->GetType() == GO_EARTHMELEE_PROJECTILE)
-			{
-				go->Update(dt);
-			}
-			if (go->GetType() == GO_ENEMY)
-			{
-				Enemy* temp = dynamic_cast<Enemy*>(go);
-				temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
-			}
-		
+		if (go->GetType() == GO_ENEMY)
+		{
+			Enemy* temp = dynamic_cast<Enemy*>(go);
+			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
+		}
+
 
 	}
 
