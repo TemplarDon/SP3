@@ -26,6 +26,7 @@ std::vector<GameObject*> GameObjectManager::m_goList;
 
 void SP3::Init()
 {
+
 	SceneBase::Init();
     m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
 	//Calculating aspect ratio
@@ -40,7 +41,7 @@ void SP3::Init()
 	m_objectCount = 0;
 
 	// --------------------------- Background --------------------------- //
-	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BACKGROUND, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, -1), Vector3(180, 100, -1), true, true, meshList[GEO_BACKGROUND], "Image//background.tga");
+	//GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BACKGROUND, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, -1), Vector3(180, 100, -1), true, true, meshList[GEO_BACKGROUND], "Image//background.tga");
 
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
@@ -51,7 +52,7 @@ void SP3::Init()
 	m_GoMap->Init(m_Map);
 
 
-	//// ------------------Parallax scrolling---------------------- //
+	// ------------------Parallax scrolling---------------------- //
 	//m_ParallaxMap = new Map();
 	//m_ParallaxMap->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	//m_ParallaxMap->LoadMap("Image//Maps//test2.csv");
@@ -203,6 +204,8 @@ void SP3::Update(double dt)
 
 	}
 
+	std::cout << GameObjectManager::m_goList.size() << std::endl;
+
 	// --------------------------------------------- //
 
     //Update the debouncer
@@ -233,11 +236,10 @@ void SP3::RenderGO(GameObject *go)
 
 void SP3::RenderParallaxMap()
 {
-
-	paraWallOffset_x = (int)(m_Player->GetPosition().x / 2);
+	paraWallOffset_x = (int)(m_Player->GetMapOffset_x() / 2);
 	paraWallOffset_y = 0;
-	paraWallTileOffset_x = (int)(paraWallOffset_x / m_ParallaxMap->GetTileSize());
 	paraWallTileOffset_y = 0;
+	paraWallTileOffset_x = (int)(paraWallOffset_x / m_ParallaxMap->GetTileSize());
 
 	if (paraWallTileOffset_x + m_ParallaxMap->GetNumOfTiles_ScreenWidth() > m_ParallaxMap->GetNumOfTiles_MapWidth())
 		paraWallTileOffset_x = m_ParallaxMap->GetNumOfTiles_MapWidth() - m_ParallaxMap->GetNumOfTiles_ScreenWidth();
@@ -249,10 +251,7 @@ void SP3::RenderParallaxMap()
 	{
 		for (int k = 0; k < m_ParallaxMap->GetNumOfTiles_ScreenWidth() + 1; k++)
 		{
-			Mesh* Quad = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1));
-
 			m = paraWallTileOffset_x + k;
-			//If we have reached the right side of the Map, the do not display extra column of tiles
 			if ((paraWallTileOffset_x + k) >= m_ParallaxMap->GetNumOfTiles_MapWidth())
 				break;
 
@@ -260,17 +259,17 @@ void SP3::RenderParallaxMap()
 			{
 			case 3:
 			{
-				//GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_TREE, Position, Vector3(5, 5, 0), true, true, meshList[GEO_TREE], "Image//tree.tga");
-
-				//GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_TREE, Vector3(k * m_ParallaxMap->GetTileSize() -paraWallFineOffset_x, 100 - i * m_ParallaxMap->GetTileSize(), 1), Vector3(100, 100, 0), true, true, meshList[GEO_TREE], "Image//tree.tga");
-
-				GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Vector3(k*m_ParallaxMap->GetTileSize() - paraWallFineOffset_x, 575 - i*m_ParallaxMap->GetTileSize(), 0), Vector3(5, 5, 0), true, true, Quad, "Image//Tiles//testground.tga");
-
+				//modelStack.PushMatrix();
+				//modelStack.Translate(m_worldWidth * 0.5 + m_Player->GetMapOffset_x() * 0.8, m_worldHeight * 0.5, -1);
+				//modelStack.Scale(20, 20, 1);
+				//RenderMesh(meshList[GEO_BACKGROUND], false);
+				//modelStack.PopMatrix();
 				break;
 			}
 			default:
 				break;
 			}
+
 		}
 	}
 
@@ -286,8 +285,8 @@ void SP3::Render()
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
-	//projection.SetToOrtho(m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + m_worldWidth, 0, m_worldHeight, -20, 20);
-	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -20, 20);
+	projection.SetToOrtho(m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + m_worldWidth, 0, m_worldHeight, -20, 20);
+	//projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -20, 20);
 	projectionStack.LoadMatrix(projection);
 
 	// Camera matrix
@@ -299,6 +298,7 @@ void SP3::Render()
 		);
 	// Model matrix : an identity matrix (model will be at the origin)
 	modelStack.LoadIdentity();
+
 
 	//Mtx44 perspective;
 	//perspective.SetToPerspective(45.0f, 4.0f / 3.0f, 0.1f, 10000.0f);
@@ -314,8 +314,40 @@ void SP3::Render()
 	//	);
 	//// Model matrix : an identity matrix (model will be at the origin)
 	//modelStack.LoadIdentity();
-
+	
 	RenderMesh(meshList[GEO_AXES], false);
+
+
+	//modelStack.PushMatrix();
+	//modelStack.Translate(10, 60, -2);
+	//modelStack.Scale(190, 80, 1);
+	//RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
+	//modelStack.PopMatrix();
+
+	//modelStack.PushMatrix();
+	////modelStack.Translate(((m_worldWidth * 0.2) + m_Player->GetMapFineOffset_x()), 35, -1);
+	//modelStack.Translate(m_worldWidth * 0.7, 60, -2);
+	//modelStack.Scale(300, 80, 1);
+	//RenderMesh(meshList[GEO_BACKGROUND], false);
+	//modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	//modelStack.Translate(((m_worldWidth * 0.2) + m_Player->GetMapFineOffset_x()), 35, -1);
+	modelStack.Translate(m_worldWidth * 0.7, 61, -2);
+	modelStack.Scale(300, 78, 1);
+	RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
+	modelStack.PopMatrix();
+
+	for (int i = 0; i < 4; i++)
+	{
+		modelStack.PushMatrix();
+		//modelStack.Translate(((m_worldWidth * 0.5 + m_Player->GetMapOffset_x()) - 70) + (i * 40) , 35, -1);
+		modelStack.Translate((((m_worldWidth * 0.2+ m_Player->GetMapOffset_x()) * 0.8) + (i * 40)), 35, -1);
+		modelStack.Scale(30, 30, 1);
+		RenderMesh(meshList[GEO_TREE], false);
+		modelStack.PopMatrix();
+	}
+
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{
@@ -352,9 +384,9 @@ void SP3::Exit()
 		m_Map = NULL;
 	}
 
-	if (m_ParallaxMap)
-	{
-		delete m_Map;
-		m_ParallaxMap = NULL;
-	}
+	//if (m_ParallaxMap)
+	//{
+	//	delete m_Map;
+	//	m_ParallaxMap = NULL;
+	//}
 }

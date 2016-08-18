@@ -25,6 +25,7 @@ public:
 	void RenderGO(GameObject *go);
 	void RenderParallaxMap();
 
+
 protected:
 
 	//std::vector<GameObject *> m_goList;
