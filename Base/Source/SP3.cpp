@@ -41,13 +41,15 @@ void SP3::Init()
 	m_objectCount = 0;
 
 	// --------------------------- Background --------------------------- //
-	//GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BACKGROUND, Vector3(m_worldWidth * 0.5, m_worldHeight * 0.5, -1), Vector3(180, 100, -1), true, true, meshList[GEO_BACKGROUND], "Image//background.tga");
+	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(0,50, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
+	// ---------------------------------------------------------- // 
 
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//test.csv");
-
+	
+	// ------------ Add Possible Function that reads m_Map and fills new vector with GameObjects ------------ // 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
 
@@ -63,7 +65,7 @@ void SP3::Init()
 	
 	// ----------------- Player ----------------- // 
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 3);
-	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(40, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true));
+	m_Player = GameObjectManager::SpawnPlayerObject(PLAYER, GO_PLAYER, Vector3(100, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga");
 	m_Player->Init();
 	// ------------------------------------------ // 
 
@@ -83,13 +85,13 @@ void SP3::Update(double dt)
 	SceneBase::Update(dt);
     m_Player->Attacks->UpdateAttack(dt,m_Player->GetElement(),m_Player->GetPosition(), m_Player->GetLeftRight());
 
-	if (Application::IsKeyPressed('A'))
+	if (Application::IsKeyPressed('A') && m_Player->GetControlLock() == false)
 	{
 		m_Player->SetMoving_Left(true);
 		m_Player->SetMove_Right(false);
 	}
 	
-	if (Application::IsKeyPressed('D'))
+    if (Application::IsKeyPressed('D') && m_Player->GetControlLock() == false)
 	{
 		m_Player->SetMoving_Left(false);
 		m_Player->SetMove_Right(true);
@@ -112,7 +114,7 @@ void SP3::Update(double dt)
 	{
 		m_Player->MoveRight(dt);
 	}
-	if (Application::IsKeyPressed('W'))
+	if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND)
 	{
 		m_Player->UpdateJump(dt);
 	}
@@ -135,11 +137,11 @@ void SP3::Update(double dt)
     }
 
 	// ----------------- Main Loop ----------------- //
-	
-	
-	for (std::vector<GameObject*>::size_type i = 0; i < GameObjectManager::m_goList.size(); ++i)
+
+	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{
-		GameObject* go = GameObjectManager::m_goList[i];
+		GameObject *go = (GameObject *)*it;
+
 		if (!go->GetActive())
 			continue;
 
@@ -220,9 +222,10 @@ void SP3::Update(double dt)
     }
 
 	// ----------------- Sort Map ------------------ //
-	m_GoMap->SortMap();
+	//m_GoMap->SortMap();
 	// --------------------------------------------- //
-}
+    std::cout << m_Player->GetPosition().x << std::endl;
+	}
 
 void SP3::RenderGO(GameObject *go)
 {
@@ -285,7 +288,7 @@ void SP3::Render()
 
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
-	projection.SetToOrtho(m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + m_worldWidth, 0, m_worldHeight, -20, 20);
+	projection.SetToOrtho(m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + m_worldWidth, 0, m_worldHeight, -10, 10);
 	//projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -20, 20);
 	projectionStack.LoadMatrix(projection);
 
@@ -314,7 +317,7 @@ void SP3::Render()
 	//	);
 	//// Model matrix : an identity matrix (model will be at the origin)
 	//modelStack.LoadIdentity();
-	
+
 	RenderMesh(meshList[GEO_AXES], false);
 
 

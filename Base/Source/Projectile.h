@@ -15,6 +15,8 @@ public:
 	//Projectile(bool Direction,Vector3 m_Position,Vector3 m_Velocity,int damage);
 	~Projectile();
 	void projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float lifeTime, ELEMENT element);
+    void projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float lifeTime, bool isHostileProjectile);
+
 	void projectileUpdate(double dt);
 	void setDamage(int damage);
 	int	 getDamage();
@@ -42,7 +44,7 @@ private:
 	float lifeTime;
 	bool Direction;
 	float speedBullet;
-
+    bool isHostileProjectile;
 };
 
 

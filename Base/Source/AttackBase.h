@@ -3,9 +3,6 @@
 #include "Projectile.h"
 
 
-
-
-
 enum ATTACK_TYPE
 {
 	NO_ATTACK_TYPE,//use this for non-interactable blocks
@@ -23,15 +20,19 @@ public:
     //generic update to be used in Entity classes
     void UpdateAttack(double dt, ELEMENT EntityCurrElement, Vector3 pos, bool leftright);
     //generic init
-    void Init(int AttackDamage = 0, float range = 0);
+    void Init(int AttackDamage, float range);
     //launch an attack
     void LaunchAttack();
-    
-    
+    bool GetSuperJumpStatus();
+    bool GetDashLeftStatus();
+    bool GetDashRightStatus();
+    void SetSuperJumpStatus(bool jumpstatus);
+    void SetDashStatus(bool dashleft, bool dashright);
+    void SetisEnemy(bool);
     
 
 protected:   
-
+    bool isEnemy;
     bool m_AttackDirection;//true is right false is left
     int m_AttackDamage;
     float m_Range;//bullet lifetime
@@ -42,6 +43,8 @@ protected:
 
     float m_AttackDebounce;
     bool m_CanAttack;
+    bool m_Dashleft;
+    bool m_Dashright;
     double interdt;
 
     int MAXprojectilecount;

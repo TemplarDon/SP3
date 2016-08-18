@@ -7,7 +7,7 @@ Player::Player(void)
 	, heroAnimationCounter(0)
 	, heroAnimationInvert(false)
 {
-    m_CurrElement = EARTH;
+    m_CurrElement = STEAM;
     Attacks = new AttackBase;
 
 	SetPlayerPos(m_Position);

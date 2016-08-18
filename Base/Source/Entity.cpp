@@ -253,11 +253,15 @@ void Entity::CollisionResponse()
 
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
+
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();
-
 	//ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 10, 580, 1, camera);
 	//UpdateTileMapCollision(Map);
+	ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
+	UpdateTileMapCollision(Map);
+    AbilityMovementCheck();
+    ExecuteAbility(dt);
 
 }
 
@@ -457,3 +461,56 @@ void Entity::CheckCollisionBoundary()
 
 
 }
+
+void Entity::SuperJump()
+{
+
+}
+void Entity::AbilityMovementCheck()
+{
+    if (Attacks->GetDashLeftStatus())
+    {
+        isUsingMovementAbility = true;
+        DashDestinationX = m_Position.x - 30.f;
+        m_PrevState = m_CurrEntityMoveState;
+        m_CurrEntityMoveState = DASH_LEFT;
+        Attacks->SetDashStatus(false, false);
+
+    }
+    if (Attacks->GetDashRightStatus())
+    {
+        isUsingMovementAbility = true;
+        DashDestinationX = m_Position.x + 30.f;
+        m_PrevState = m_CurrEntityMoveState;
+        m_CurrEntityMoveState = DASH_RIGHT;
+        Attacks->SetDashStatus(false, false);
+
+    }
+}
+void Entity::ExecuteAbility(double dt)
+{
+    if (m_CurrEntityMoveState == DASH_LEFT)
+    {
+        m_Position.x -= 50 * dt;
+        if (m_Position.x <= DashDestinationX)
+        {
+            isUsingMovementAbility == false;
+            m_CurrEntityMoveState = m_PrevState;
+        }
+    }
+
+    if (m_CurrEntityMoveState == DASH_RIGHT)
+    {
+        m_Position.x += 50 * dt;
+        if (m_Position.x >= DashDestinationX)
+        {
+            isUsingMovementAbility == false;
+            m_CurrEntityMoveState = m_PrevState;
+        }
+    }
+}
+bool Entity::GetControlLock()
+{
+    return isUsingMovementAbility;
+}
+

@@ -1,6 +1,16 @@
 #include "Enemy.h"
 
 
+Enemy::Enemy(int x, int y,Behaviour::EnemyType enemyType,float estimatedDistance,AttackBase *attack)
+{
+	enemyPosition.Set(x, y, 0);
+	m_Behaviour = new Behaviour();
+	m_Behaviour->setAttack(attack);
+	m_Behaviour->setEstimatedDistance(estimatedDistance);
+	m_Behaviour->setEnemyType(enemyType);
+    attack->SetisEnemy(true);
+}
+
 Enemy::Enemy()
 {
 	m_Position.Set(0, 0, 0);

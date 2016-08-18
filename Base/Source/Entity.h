@@ -10,6 +10,8 @@ enum ENTITY_MOVE_STATE
 {
 	NO_STATE,
 	ON_GROUND,
+    DASH_LEFT,
+    DASH_RIGHT,
 	FALLING,
 	JUMPING,
 	TOTAL_MOVE_STATE,
@@ -87,6 +89,7 @@ public:
 	virtual void SetMoveState(ENTITY_MOVE_STATE SetState);
     //virtual void SetMoveState(int SetState);
     //virtual int GetMoveStateinInt();
+    virtual void SuperJump();
 
 	// Collision Repsonse
 	virtual void CollisionResponse();
@@ -99,6 +102,8 @@ public:
 	virtual void CheckCollisionBoundary();
 
 	virtual void Update(double dt, GameObject_Map* Map, Camera camera);
+    AttackBase *Attacks = new AttackBase;
+    bool GetControlLock();
 
 protected:
 	int Health;
@@ -115,12 +120,24 @@ protected:
 	float mapFineOffset_x, mapFineOffset_y;
 	float MovementSpeed;
 
+
+
 	// ----------------- For jumping and collision check ----------------- //
 	ENTITY_MOVE_STATE m_CurrEntityMoveState;
 
 	Vector3 m_MaxCollisionBox;
 	Vector3 m_MinCollisionBox;
+
+	float EntityMapOffsetX;
+    
+
 	// ------------------------------------------------------------------- //
+    // ----------------- For element abilities checks -------------------- //
+    void AbilityMovementCheck();
+    void ExecuteAbility(double dt);
+    float DashDestinationX;
+    ENTITY_MOVE_STATE m_PrevState;
+    // ------------------------------------------------------------------- //
 
 	bool DirectionLeftRight;
 	Vector3 m_PrevPos;
