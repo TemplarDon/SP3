@@ -59,4 +59,30 @@ Vector3 Player::GetPlayerPos()
 	return PlayerPos;
 }
 
+void Player::AddElementCharge(ELEMENT ToBeAdded)
+{
+	for (int i = 0; i < 5; ++i)
+	{
+		if (m_ElementArray[i] == NULL)
+		{
+			m_ElementArray[i] = ToBeAdded;
+		}
+	}
+}
+
+void Player::ReorderElements()
+{
+	ELEMENT temp = m_ElementArray[0];
+
+	m_ElementArray[0] = m_ElementArray[1];
+	m_ElementArray[1] = m_ElementArray[2];
+	m_ElementArray[2] = m_ElementArray[3];
+	m_ElementArray[3] = m_ElementArray[4];
+	m_ElementArray[4] = temp;
+}
+
+ELEMENT* Player::GetFirstElementArray()
+{
+	return m_ElementArray;
+}
 

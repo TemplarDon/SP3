@@ -26,6 +26,9 @@ public:
 	// Get player position
 	Vector3 GetPlayerPos();
 
+	void AddElementCharge(ELEMENT ToBeAdded);
+	void ReorderElements();
+	ELEMENT* GetFirstElementArray();
 
 private:
 	// Player's information
@@ -41,7 +44,6 @@ private:
 
 	// For Storing Of Elements
 	ELEMENT m_ElementArray[5];
-	
 };
 
 

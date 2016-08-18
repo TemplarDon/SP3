@@ -83,8 +83,6 @@ void SP3::Init()
 	OrignialCamTarget = camera.target;
 	// ------------------------------------------ // 
 
-	currentSelectedEle = m_Player->GetElement();
-
 	// ------------------ Enemy ----------------- // 
 	Enemy * temp = new Enemy();
 	meshList[GEO_ENEMY] = MeshBuilder::GenerateSpriteAnimation("enemy", 1, 4);
@@ -221,15 +219,7 @@ void SP3::Update(double dt)
 					go2->CollisionResponse(go);
 				}
 			}
-
-
 		}
-
-
-
-
-
-
 	}
 
 	std::cout << GameObjectManager::m_goList.size() << std::endl;
