@@ -4,7 +4,7 @@
 Environment::Environment()
 	: m_Destructible(false)
 	, m_CanFall(false)
-	, m_FallSpeed(5)
+	, m_FallSpeed(1)
 {}
 
 Environment::~Environment()
@@ -18,25 +18,24 @@ void Environment::Init(bool Destructible, bool CanFall)
 
 void Environment::Update(double dt, GameObject_Map* Map)
 {
-	//if (m_CanFall)
-	//{
-	//	int EnvironmentPos_X = (int)((mapOffset_x + m_Position.x)) / Map->GetTileSize();
-	//	int EnvironmentPos_Y = (int)(m_Position.y / Map->GetTileSize());
+	if (m_CanFall)
+	{
+		int EnvironmentPos_X = (int)((/*mapOffset_x + */m_Position.x)) / Map->GetTileSize();
+		int EnvironmentPos_Y = (int)(m_Position.y / Map->GetTileSize());
 
-	//	GameObject* CheckGameObject_1 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X];
-	//	if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || ((CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive()))
-	//	{
-	//		m_Position = m_PrevPos;
-	//		m_bJumping = false;
-	//		m_CurrEntityMoveState = ON_GROUND;
-	//		JumpVel = 0;
-	//	}
-	//}
+		GameObject* CheckGameObject_1 = Map->m_GameObjectMap[EnvironmentPos_Y- 1][EnvironmentPos_X];
+			if (!CheckGameObject_1->GetCollidable() || !CheckGameObject_1->GetActive())
+		{
+			m_FallSpeed += (dt);
+			m_Position.y -= m_FallSpeed * dt;
+		}
+
+	}
 }
 
 void Environment::CollisionResponse(GameObject* OtherGo)
 {	
-	if (OtherGo->GetObjectType() == PROJECTILE)
+	if (OtherGo->GetObjectType() == PROJECTILE && this->m_Destructible)
 	{
 		Projectile* temp = dynamic_cast<Projectile*>(OtherGo);
 
@@ -47,6 +46,7 @@ void Environment::CollisionResponse(GameObject* OtherGo)
 			if (temp->GetElement() == EARTH)
 			{
 				this->m_Active = false;
+				this->m_Collidable = false;
 			}
 			else
 			{
@@ -60,6 +60,7 @@ void Environment::CollisionResponse(GameObject* OtherGo)
 			if (temp->GetElement() == FIRE)
 			{
 				this->m_Active = false;
+				this->m_Collidable = false;
 			}
 			else
 			{
@@ -73,6 +74,7 @@ void Environment::CollisionResponse(GameObject* OtherGo)
 			if (temp->GetElement() == WATER)
 			{
 				this->m_Active = false;
+				this->m_Collidable = false;
 			}
 			else
 			{

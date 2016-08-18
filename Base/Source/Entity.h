@@ -93,6 +93,11 @@ public:
 	
 	// CollisionWithTileMap
 	virtual void UpdateTileMapCollision(GameObject_Map* Map);
+
+	// Collision Box
+	virtual void GenerateCollisionBoundary(GameObject_Map* Map);
+	virtual void CheckCollisionBoundary();
+
 	virtual void Update(double dt, GameObject_Map* Map, Camera camera);
 
 protected:
@@ -113,7 +118,8 @@ protected:
 	// ----------------- For jumping and collision check ----------------- //
 	ENTITY_MOVE_STATE m_CurrEntityMoveState;
 
-	float EntityMapOffsetX;
+	Vector3 m_MaxCollisionBox;
+	Vector3 m_MinCollisionBox;
 	// ------------------------------------------------------------------- //
 
 	bool DirectionLeftRight;

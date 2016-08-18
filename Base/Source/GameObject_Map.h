@@ -14,6 +14,7 @@ public:
 	std::vector<std::vector<GameObject*>> m_GameObjectMap;
 
 	void Init(Map* Map, int TileSize = 5);
+	void SortMap();
 
 	int GetTileSize()
 	{

@@ -57,6 +57,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_WOOD, Position, Scale, true, true, Quad, "Image//Tiles//wood.tga"));
 				temp->SetElement(ELEMENT::EARTH);
+				temp->Init(true, true);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
@@ -65,12 +66,33 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_ROCK, Position, Scale, true, true, Quad, "Image//Tiles//fire.tga"));
 				temp->SetElement(ELEMENT::FIRE);
+				temp->Init(true, true);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
 			}
 
 
+		}
+	}
+}
+
+void GameObject_Map::SortMap()
+{
+	for (int y = 1; y < this->m_NumOfTiles_ScreenHeight; ++y)
+	{
+		for (int x = 0; x < this->m_NumOfTiles_ScreenWidth; ++x)
+		{
+			Environment* CheckGameObject = dynamic_cast<Environment*>(this->m_GameObjectMap[y][x]);
+			Environment* CheckGameObject_Below = dynamic_cast<Environment*>(this->m_GameObjectMap[y - 1][x]);
+
+
+
+			if (CheckGameObject->GetCollidable() && !CheckGameObject_Below->GetCollidable())
+			{
+				//this->m_GameObjectMap[y][x] = CheckGameObject_Below;
+				//this->m_GameObjectMap[y - 1][x] = CheckGameObject;
+			}
 		}
 	}
 }

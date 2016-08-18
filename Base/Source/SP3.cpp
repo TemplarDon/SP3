@@ -47,7 +47,6 @@ void SP3::Init()
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//test.csv");
 
-	// ------------ Add Possible Function that reads m_Map and fills new vector with GameObjects ------------ // 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
 
@@ -62,8 +61,8 @@ void SP3::Init()
 	m_GoMap2->Init(m_ParallaxMap);*/
 	
 	// ----------------- Player ----------------- // 
-	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 2);
-	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 0, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true));
+	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 3);
+	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(40, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true));
 	m_Player->Init();
 	// ------------------------------------------ // 
 
@@ -112,7 +111,7 @@ void SP3::Update(double dt)
 	{
 		m_Player->MoveRight(dt);
 	}
-	if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND)
+	if (Application::IsKeyPressed('W'))
 	{
 		m_Player->UpdateJump(dt);
 	}
@@ -217,10 +216,9 @@ void SP3::Update(double dt)
         }
     }
 
-
-
-	std::cout << fps << std::endl;
-
+	// ----------------- Sort Map ------------------ //
+	m_GoMap->SortMap();
+	// --------------------------------------------- //
 }
 
 void SP3::RenderGO(GameObject *go)
@@ -333,6 +331,8 @@ void SP3::Render()
 			RenderGO(m_Player);
 		}*/
 	}
+
+	//std::cout << fps << std::endl;
 }
 
 void SP3::Exit()
