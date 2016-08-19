@@ -44,6 +44,9 @@ public:
 
 	virtual void Death();
 
+	LEVEL GetCurrentLevel();
+	void SetCurrentLevel(LEVEL newLevel);
+
 private:
 	// Player's information
 	int jumpspeed;

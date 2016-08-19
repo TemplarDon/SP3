@@ -86,6 +86,12 @@ void SP3::Init()
 	m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
 	// ------------------------------------------ // 
 
+	// ------------------- Set Level ------------------ // 
+
+	m_LevelLoaded = m_Player->GetCurrentLevel();
+
+	// ------------------------------------------------ // 
+
 	// ------------------- Cam ------------------ // 
 	OrignialCamPos = camera.position;
 	OrignialCamTarget = camera.target;
@@ -233,6 +239,15 @@ void SP3::Update(double dt)
 					go2->CollisionResponse(go);
 				}
 			}
+
+			if (go->GetObjectType() == PLAYER && go2->GetType() == GO_DOOR)
+			{
+				if (go->EmpricalCheckCollisionWith(go2, dt))
+				{
+					SwitchLevel(TUTORIAL);
+					break;
+				}
+			}
 		}
 	}
 
@@ -254,7 +269,7 @@ void SP3::Update(double dt)
 	{
 		camera.position.x += dt * 8;
 	}
-	else if (camera.position.x >= OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
+	else if (camera.position.x > OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
 		camera.position.x -= dt * 8;
 	}
@@ -263,7 +278,7 @@ void SP3::Update(double dt)
 	{
 		camera.target.x += dt * 8;
 	}
-	else if (camera.target.x >= OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
+	else if (camera.target.x > OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
 		camera.target.x -= dt * 8;
 	}
@@ -427,7 +442,7 @@ void SP3::Render()
 		modelStack.PushMatrix();
 		modelStack.Translate((((m_worldWidth * 0.2 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x()) * 0.8) + (i * 40)), 35, -1);
 		modelStack.Scale(30, 30, 1);
-		//RenderMesh(meshList[GEO_TREE], false);
+		RenderMesh(meshList[GEO_TREE], false);
 		modelStack.PopMatrix();
 	}
 
@@ -462,6 +477,70 @@ void SP3::Render()
 	// --------------------------------------------- //
 
 	//std::cout << fps << std::endl;
+}
+
+void SP3::SwitchLevel(LEVEL NextLevel)
+{
+	// Delete old maps
+	delete m_Map;
+	m_Map = NULL;
+
+	delete m_GoMap;
+	m_GoMap = NULL;
+
+	// Clear m_GoList of unwanted stuff
+	for (std::vector<GameObject*>::size_type i = 0; i < GameObjectManager::m_goList.size(); ++i)
+	{
+		GameObject* go = GameObjectManager::m_goList[i];
+
+		if (go->GetObjectType() != PLAYER)
+		{
+			GameObjectManager::m_goList.erase(GameObjectManager::m_goList.begin() + i);
+		}
+		else
+		{
+			i = 0;
+		}
+	}
+
+	// Load New Maps
+	// ------------------------------ Map ------------------------------- //
+	m_Map = new Map();
+	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
+
+	switch (NextLevel)
+	{
+	case TUTORIAL: m_Map->LoadMap("Image//Maps//Tutorial.csv"); break;
+	case LEVEL_1: m_Map->LoadMap("Image//Maps//Level_1.csv"); break;
+	case LEVEL_2: m_Map->LoadMap("Image//Maps//Level_2.csv"); break;
+	case LEVEL_3: m_Map->LoadMap("Image//Maps//Level_3.csv"); break;
+	case LEVEL_4: m_Map->LoadMap("Image//Maps//Level_4.csv"); break;
+	default:
+		break;
+	}
+	
+	// ------------------------- GoMap ------------------------- // 
+	m_GoMap = new GameObject_Map();
+	m_GoMap->Init(m_Map);
+
+	// ----------------- Player ----------------- // 
+	m_Player->SetPosition(Vector3(50, 50, 1));
+	m_Player->SetMapOffset_x(0);
+	m_Player->SetMapFineOffset_x(0);
+	m_Player->SetRespawnPos(m_Player->GetPosition());
+	m_Player->SetCurrentLevel(NextLevel);
+	// ------------------------------------------ // 
+
+	// ------------------- Set Level ------------------ // 
+
+	m_LevelLoaded = m_Player->GetCurrentLevel();
+
+	// ------------------------------------------------ // 
+
+	// ------------------- Cam ------------------ // 
+	camera.position = OrignialCamPos;
+	camera.target = OrignialCamTarget;
+	// ------------------------------------------ // 
 }
 
 void SP3::Exit()

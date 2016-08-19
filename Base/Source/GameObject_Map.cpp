@@ -39,7 +39,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			Position.y = ((Map->GetNumOfTiles_MapHeight() - y) * m_TileSize) - m_Offset;
 
 			Vector3 Scale;
-			Scale.Set(5, 5, 1);
+			Scale.Set(m_TileSize, m_TileSize, 1);
 
 			Mesh* Quad = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1));
 
