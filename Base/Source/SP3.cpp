@@ -75,9 +75,6 @@ void SP3::Init()
 	if (sa)
 	{
 		sa->m_anim = new Animation();
-		//sa->m_currentTime = 0;
-		//sa->m_row = 0;
-		//sa->m_col = 0;
 		sa->m_anim->Set(0, 1, 1, 0.8f, true);
 	}
 	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true, sa));
@@ -104,14 +101,11 @@ void SP3::Init()
 	if (sa2)
 	{
 		sa2->m_anim = new Animation();
-		//sa->m_currentTime = 0;
-		//sa->m_row = 0;
-		//sa->m_col = 0;
 		sa2->m_anim->Set(0, 3, 1, 0.8f, true);
 
 	}
 	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//blue Running.tga", true, sa2));
-	temp->EnemyInit(m_Player->GetPosition(), Enemy::MELEE, 20, EARTH, 10);
+	temp->EnemyInit(m_Player->GetPosition(), 20, EARTH, 10,400);
 	// ------------------------------------------ // 
 
 }

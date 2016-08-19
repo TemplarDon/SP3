@@ -103,7 +103,7 @@ void AttackBase::Attack_Ability()
     {
         Projectile* temp;
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-        temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.5f, m_CurrElement, false);
+        temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.5f, m_CurrElement, false,0);
 
         m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
         m_AbilityCount += 1;
@@ -133,7 +133,7 @@ void AttackBase::Attack_Ability()
     {
         Projectile* temp;
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(5, 5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-        temp->projectileInit(m_AttackDirection, m_EntityPos + 2, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false);
+		temp->projectileInit(m_AttackDirection, m_EntityPos + 2, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false, 0);
 
         m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
         m_AbilityCount += 1;
@@ -164,9 +164,9 @@ void AttackBase::Attack_Ability()
             Projectile* temp;
             temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
             if (i <3)
-            temp->projectileInit(m_AttackDirection, tempVecpos, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false);
+				temp->projectileInit(m_AttackDirection, tempVecpos, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false, 0);
             else
-            temp->projectileInit(!m_AttackDirection, tempVecpos, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false);
+				temp->projectileInit(!m_AttackDirection, tempVecpos, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false, 0);
 
             m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
             m_AbilityCount += 1;
@@ -189,7 +189,7 @@ void AttackBase::Attack_Melee()
 {
     Projectile* temp;
     temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_MeleeStrike[m_meleeCount].GetPosition(), Vector3(1,5,2), true, true, ProjectilePH, "Image//Projectiles/earth_projectile.tga"));
-	temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.2f, m_CurrElement, isEnemy);
+	temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.2f, m_CurrElement, isEnemy, 0);
     //temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_MeleeStrike[m_meleeCount].GetPosition(), Vector3(1,5,2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
     //temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.1f,isEnemy);
 
@@ -213,7 +213,7 @@ void AttackBase::Attack_Ranged()
 
     Projectile* temp;
     temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-    temp->projectileInit(m_AttackDirection,m_EntityPos,50.0f,m_AttackDamage,1,m_CurrElement, isEnemy);
+	temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 1, m_CurrElement, isEnemy, 50);
     //temp->projectileInit(m_AttackDirection,m_EntityPos,50.0f,m_AttackDamage,10.0f, isEnemy);
 
     m_Projectiles[m_projectileCount].SetElement(m_CurrElement);

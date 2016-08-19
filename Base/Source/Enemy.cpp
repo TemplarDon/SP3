@@ -13,79 +13,77 @@ Enemy::Enemy()
 	m_Behaviour->setEnemyType(enemyType);*/
     attack->SetisEnemy(true);
 }
-void Enemy::EnemyInit(Vector3 playerPosition, EnemyType enemyType, float estimatedDistance, ELEMENT m_CurrElement, int Damage)
+void Enemy::EnemyInit(Vector3 playerPosition, float estimatedDistance, ELEMENT m_CurrElement, int Damage,float detectionRange)
 {
-	this->enemyType = enemyType;
-	if (enemyType == RANGED)
+	if (m_CurrElement != EARTH && m_CurrElement != EARTH_2)
 	{
 		this->m_Behaviour = new BehaviourRanged();
+		this->enemyType = RANGED;
 	}
 	else
 	{
 		this->m_Behaviour = new BehaviourMelee();
+		this->enemyType = MELEE;
 	}
+	
 	attack = new AttackBase();
 	attack->Init(Damage, 5.0f);
 	MovementSpeed = 0.1f;
 	this->estimatedDistance = estimatedDistance;
 	this->m_CurrElement = m_CurrElement;
+	this->detectionRange = detectionRange;
 }
 
 Enemy::~Enemy()
 {
 }
 
-
+void  Enemy::setDetectionRange(float detectionRange)
+{
+	this->detectionRange = detectionRange;
+}
+float  Enemy::getDetectionRange()
+{
+	return detectionRange;
+}
 
 void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera)
 {
-
-	static bool jumpInit = false;
+	std::cout << distancePlayerToEnemy << std::endl;
 	if (enemyType == RANGED)
 	{
 		//temp 
 		this->setDistancePlayerToEnemy(playerPosition, m_Position);
 		this->setDirectionBasedOnDistance(playerPosition, m_Position);
-		//m_Behaviour = dynamic_cast<BehaviourRanged*>(m_Behaviour);
-		m_Behaviour->Update(dt, distancePlayerToEnemy, estimatedDistance, m_Position, Move_Left, Move_Right, m_bJumping, DirectionLeftRight, m_CurrElement, attack, m_CurrEntityMoveState);
+		m_Behaviour->Update(dt, distancePlayerToEnemy, estimatedDistance, m_Position, Move_Left, Move_Right, m_bJumping, DirectionLeftRight, m_CurrElement, attack, m_CurrEntityMoveState,detectionRange);
 		if (Move_Left == true)
 		{
 			MoveLeft(0.1f);
-			//std::cout << "RUN 1" << std::endl;
 		}
 		else if (Move_Right == true)
 		{
 			MoveRight(0.1f);
-			//	std::cout << "RUN 2" << std::endl;
 		}
-		if (m_bJumping == true && jumpInit == false)
+		if (m_CurrEntityMoveState==JUMPING)
 		{
 			UpdateJump(dt);
-			jumpInit = true;
 		}
-		else if (m_bJumping == true && jumpInit == true)
+		else if (m_CurrEntityMoveState!= ON_GROUND)
 		{
 			EntityJumpUpdate(dt);
-
 		}
-		else if (m_bJumping == false)
-		{
-			jumpInit = false;
-		}
-		//std::cout << "ENEMY POS " << m_Position << std::endl;
-		//UpdateTileMapCollision(map);
-
+	
 		GenerateCollisionBoundary(map);
 		CheckCollisionBoundary();
 
-		//ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
+		ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
 	}
 	else if (enemyType == MELEE)
 	{
 		this->setDistancePlayerToEnemy(playerPosition, m_Position);
 		this->setDirectionBasedOnDistance(playerPosition, m_Position);
 		//m_Behaviour = dynamic_cast<BehaviourRanged*>(m_Behaviour);
-		m_Behaviour->Update(dt, distancePlayerToEnemy, estimatedDistance, m_Position, Move_Left, Move_Right, m_bJumping, DirectionLeftRight, m_CurrElement, attack, m_CurrEntityMoveState);
+		m_Behaviour->Update(dt, distancePlayerToEnemy, estimatedDistance, m_Position, Move_Left, Move_Right, m_bJumping, DirectionLeftRight, m_CurrElement, attack, m_CurrEntityMoveState,detectionRange);
 		if (Move_Left == true)
 		{
 			MoveLeft(0.1f);
@@ -96,16 +94,16 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			MoveRight(0.1f);
 			//	std::cout << "RUN 2" << std::endl;
 		}
-
-		GenerateCollisionBoundary(map);
-		CheckCollisionBoundary();
-
-		//ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
-
 		if (m_CurrEntityMoveState != ON_GROUND)
 		{
 			EntityJumpUpdate(dt);
 		}
+		GenerateCollisionBoundary(map);
+		CheckCollisionBoundary();
+
+		ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
+
+		
 
 	}
 	//std::cout << "Direction" << DirectionLeftRight << std::endl;

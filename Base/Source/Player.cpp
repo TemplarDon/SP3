@@ -119,5 +119,4 @@ LEVEL Player::GetCurrentLevel()
 void Player::SetCurrentLevel(LEVEL newLevel)
 {
 	m_CurrLevel = newLevel;
->>>>>>> origin/master
 }

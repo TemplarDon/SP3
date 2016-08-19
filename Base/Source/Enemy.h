@@ -29,7 +29,7 @@ public:
 
 
 
-	virtual void EnemyInit(Vector3 playerPosition, EnemyType enemyType, float estimatedDistance, ELEMENT m_CurrElement, int Damage);
+	virtual void EnemyInit(Vector3 playerPosition, float estimatedDistance, ELEMENT m_CurrElement, int Damage, float detectionRange);
 
 
 	virtual void Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera);
@@ -55,6 +55,9 @@ public:
 
 	virtual void setDirectionBasedOnDistance(Vector3 playerPosition, Vector3 enemyPosition);
 
+
+	virtual void setDetectionRange(float detectionRange);
+	virtual float getDetectionRange();
 	virtual void Death();
 
 private:
@@ -65,7 +68,7 @@ private:
 	EnemyType enemyType;
 	float distancePlayerToEnemy;
 	float estimatedDistance;
-
+	float detectionRange;
 	//BehaviourRanged* behaviourRanged;
 	// BehaviourMelee* behaviourMelee;
 	/* bool moveLeft;
