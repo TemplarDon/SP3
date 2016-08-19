@@ -19,7 +19,6 @@ public:
 	void SetAnimationInvert(bool heroAnimationInvert);
 	// Get Animation Invert status of the player
 	bool GetAnimationInvert(void);
-    AttackBase *Attacks;
 	
 	// Set player position
 	void SetPlayerPos(Vector3 PlayerPos);

@@ -3,6 +3,7 @@
 #include "Entity.h"
 AttackBase::AttackBase()
 {
+    m_AttackDamage = 0;
     MAXprojectilecount = 30;
     m_projectileCount = 0;
     m_meleeCount = 0;
@@ -101,7 +102,18 @@ void AttackBase::Attack_Ability()
     }
     else if (m_CurrElement == WATER_2)
     {
-        //do water 2 stuff
+        if (m_AttackDirection && !m_Dashleft)//right
+        {
+            m_Dashright = true;
+            std::cout << "set right" << std::endl;
+        }
+        else if (!m_AttackDirection && !m_Dashright)//left
+        {
+            m_Dashleft = true;
+            std::cout << "set left" << std::endl;
+
+        }
+    
     }
     else if (m_CurrElement == EARTH_2)
     {
@@ -113,14 +125,6 @@ void AttackBase::Attack_Ability()
     }
     else if (m_CurrElement == STEAM)
     {
-        if (m_AttackDirection)//right
-        {
-            m_Dashright = true;
-        }
-        else if (!m_AttackDirection)
-        {
-            m_Dashright = true;
-        }
     }
     else if (m_CurrElement == WOOD)
     {

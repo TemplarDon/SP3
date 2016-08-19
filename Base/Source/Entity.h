@@ -10,6 +10,7 @@ enum ENTITY_MOVE_STATE
 {
 	NO_STATE,
 	ON_GROUND,
+    DASH,
     DASH_LEFT,
     DASH_RIGHT,
 	FALLING,
@@ -140,6 +141,7 @@ protected:
     void AbilityMovementCheck();
     void ExecuteAbility(double dt);
     float DashDestinationX;
+    bool m_Dashingleft, m_Dashingright;
     ENTITY_MOVE_STATE m_PrevState;
     // ------------------------------------------------------------------- //
 

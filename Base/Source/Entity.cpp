@@ -16,7 +16,8 @@ Entity::Entity()
 	Gravity = -9.8f;
 	MovementSpeed = 1;
     //for abilities
-
+    m_Dashingleft = false;
+    m_Dashingright = false;
     isUsingMovementAbility = false;
 
 	m_MaxCollisionBox.Set(99999, 99999, 0);
@@ -246,7 +247,8 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 
 void Entity::CollisionResponse()
 {
-	m_Position = m_PrevPos;
+    m_Dashingleft = false;
+    m_Dashingright = false;
 }
 
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
@@ -259,9 +261,12 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 	ConstrainPlayer(25 + mapOffset_x + mapFineOffset_x, 120 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
 	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 	UpdateTileMapCollision(Map);
+
     AbilityMovementCheck();
     ExecuteAbility(dt);
 
+  //  std::cout << Attacks->GetDashLeftStatus() << "LEFT" << std::endl;
+   // std::cout << Attacks->GetDashRightStatus() << "RIGHT" << std::endl;
 
 	if (Health <= 0)
 	{
@@ -434,19 +439,20 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 		m_CurrEntityMoveState = FALLING;
 	}
 
-	std::cout << m_MaxCollisionBox.x << " " << m_MinCollisionBox.x << std::endl;
 }
 
 void Entity::CheckCollisionBoundary()
 {
 	if (m_Position.x < m_MinCollisionBox.x)
 	{
+        CollisionResponse();
 		m_Position.x = m_MinCollisionBox.x;
 		JumpVel = 0;
 	}
 
 	if (m_Position.x > m_MaxCollisionBox.x)
 	{
+        CollisionResponse();
 		m_Position.x = m_MaxCollisionBox.x;
 		JumpVel = 0;
 	}
@@ -477,98 +483,56 @@ void Entity::AbilityMovementCheck()
     if (Attacks->GetDashLeftStatus())
     {
         isUsingMovementAbility = true;
-        DashDestinationX = m_Position.x - 30.f;
+        DashDestinationX = m_Position.x - 20.f;
         m_PrevState = m_CurrEntityMoveState;
-        m_CurrEntityMoveState = DASH_LEFT;
+        m_Dashingleft = true;
         Attacks->SetDashStatus(false, false);
+
 
     }
     if (Attacks->GetDashRightStatus())
     {
         isUsingMovementAbility = true;
-        DashDestinationX = m_Position.x + 30.f;
+        DashDestinationX = m_Position.x + 20.f;
         m_PrevState = m_CurrEntityMoveState;
-        m_CurrEntityMoveState = DASH_RIGHT;
+        m_Dashingright = true;
         Attacks->SetDashStatus(false, false);
-
     }
 }
 
 void Entity::ExecuteAbility(double dt)
 {
-    if (m_CurrEntityMoveState == DASH_LEFT)
+    if (m_Dashingright == true)
     {
-        m_Position.x -= 50 * dt;
-        if (m_Position.x <= DashDestinationX)
+        if (m_Position.x < DashDestinationX)
         {
-            isUsingMovementAbility == false;
-            m_CurrEntityMoveState = m_PrevState;
+            m_Position.x += 75 * (float)dt;
+        }
+        else
+        {
+            m_Dashingright = false;
         }
     }
-
-    if (m_CurrEntityMoveState == DASH_RIGHT)
+    else if (m_Dashingleft == true)
     {
-        m_Position.x += 50 * dt;
-        if (m_Position.x >= DashDestinationX)
+        if (m_Position.x > DashDestinationX)
         {
-            isUsingMovementAbility == false;
-            m_CurrEntityMoveState = m_PrevState;
+            m_Position.x -= 75 * (float)dt;
+        }
+        else
+        {
+            m_Dashingleft = false;
         }
     }
-}
-
-bool Entity::GetControlLock()
-{
-    return isUsingMovementAbility;
-}
-
-void Entity::SuperJump()
-{
-
-}
-void Entity::AbilityMovementCheck()
-{
-    if (Attacks->GetDashLeftStatus())
+    else
     {
-        isUsingMovementAbility = true;
-        DashDestinationX = m_Position.x - 30.f;
-        m_PrevState = m_CurrEntityMoveState;
-        m_CurrEntityMoveState = DASH_LEFT;
-        Attacks->SetDashStatus(false, false);
-
-    }
-    if (Attacks->GetDashRightStatus())
-    {
-        isUsingMovementAbility = true;
-        DashDestinationX = m_Position.x + 30.f;
-        m_PrevState = m_CurrEntityMoveState;
-        m_CurrEntityMoveState = DASH_RIGHT;
-        Attacks->SetDashStatus(false, false);
-
-    }
-}
-void Entity::ExecuteAbility(double dt)
-{
-    if (m_CurrEntityMoveState == DASH_LEFT)
-    {
-        m_Position.x -= 50 * dt;
-        if (m_Position.x <= DashDestinationX)
-        {
-            isUsingMovementAbility == false;
-            m_CurrEntityMoveState = m_PrevState;
-        }
+        isUsingMovementAbility = false;
     }
 
-    if (m_CurrEntityMoveState == DASH_RIGHT)
-    {
-        m_Position.x += 50 * dt;
-        if (m_Position.x >= DashDestinationX)
-        {
-            isUsingMovementAbility == false;
-            m_CurrEntityMoveState = m_PrevState;
-        }
-    }
+ 
+      
 }
+
 bool Entity::GetControlLock()
 {
     return isUsingMovementAbility;
