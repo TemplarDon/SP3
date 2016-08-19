@@ -24,6 +24,7 @@ Entity::Entity()
     deBuff_burning = true;
     deBuff_BurningTimer = 0.f;
     deBuff_knockBack = false;
+    deBuff_BurnTicks = 0;
     deBuff_Slowed = false;
     deBuff_SlowTimer = 0.f;
     DamagMultiplier = 1;    
@@ -258,10 +259,8 @@ void Entity::CollisionResponse()
 
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
-
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();
-	//ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 10, 580, 1, camera);
 	//UpdateTileMapCollision(Map);
 	ConstrainPlayer(25 + mapOffset_x + mapFineOffset_x, 120 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
 	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
@@ -430,9 +429,14 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 		for (int i = PlayerPos_Y; i >= 0; --i)
 		{
 			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[i][PlayerPos_X];
+			GameObject* CheckGameObject_3 = Map->m_GameObjectMap[i][PlayerPos_X+1];
 			if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive())
 			{
 				m_MinCollisionBox.y = (CheckGameObject_2->GetPosition().y) + (Map->GetTileSize());
+
+				// Top-Left Hotfix
+				// if (CheckGameObject_3)
+
 				break;
 			}
 			m_MinCollisionBox.y = (0.5 * Map->GetTileSize());
@@ -562,16 +566,20 @@ void Entity::DebuffCheckAndApply(double dt)
     }
     if (deBuff_burning)
     {
-        deBuff_BurningTimer += 2 * (float)dt;
-        if ((int)deBuff_BurningTimer % 8 == 0)
+        deBuff_BurningTimer += (float)dt;
+        if (deBuff_BurningTimer >= 1)
         {
-            CurrHealth -= 0.001;
+            CurrHealth -= MaxHealth * 0.02;
+            std::cout << "burn " <<CurrHealth << std::endl;
+            deBuff_BurningTimer = 0.f;
+            deBuff_BurnTicks += 1;
         }
             
-        if (deBuff_BurningTimer >= 10.f)
+        if (deBuff_BurnTicks == 5)
         {
             deBuff_burning = false;
             deBuff_BurningTimer = 0.f;
+            deBuff_BurnTicks = 0;
         }
     }
     if (deBuff_knockBack)
@@ -588,6 +596,10 @@ void Entity::DebuffCheckAndApply(double dt)
             MovementSpeed = 1;
             deBuff_SlowTimer = 0.f;
         }
+    }
+    if (Application::IsKeyPressed('B'))
+    {
+        deBuff_Slowed = true;
     }
 }
 

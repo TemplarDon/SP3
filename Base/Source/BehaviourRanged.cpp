@@ -50,6 +50,8 @@ void BehaviourRanged::Update(double dt, float distancePlayerToEnemy, float estim
 		if (random >70 && randomInit == true)
 		{
 			behaviour= EVADE;
+			//std::cout << "after Bool: " << randomInit << std::endl;
+			//std::cout << "random int: " << random << std::endl;
 		}
 		else 
 		{

@@ -28,9 +28,12 @@ void SP3::Init()
 {
 	SceneBase::Init();
 
+	hehexd = 0;
+	treePos = 100 ;
+	orignalTreePos = 100;
+
 	meshList[GEO_HEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 1, 0), 1.f);
 
-    m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
 
 	//Calculating aspect ratio
 	m_worldHeight = 100.f;
@@ -79,6 +82,8 @@ void SP3::Init()
 	}
 	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true, sa));
 	m_Player->Init();
+
+	m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
 	// ------------------------------------------ // 
 
 	// ------------------- Cam ------------------ // 
@@ -107,7 +112,6 @@ void SP3::Init()
 
 void SP3::Update(double dt)
 {
-
 	SceneBase::Update(dt);
 	m_Player->Attacks->UpdateAttack(dt, m_Player->GetElement(), m_Player->GetPosition(), m_Player->GetLeftRight());
 
@@ -140,7 +144,7 @@ void SP3::Update(double dt)
 	{
 		m_Player->MoveRight(dt);
 	}
-	if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND)
+    if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND && m_Player->GetControlLock() == false)
 	{
 		m_Player->UpdateJump(dt);
 	}
@@ -166,6 +170,8 @@ void SP3::Update(double dt)
 	{
 		//m_Player->SetEntityHealth(m_Player->GetEntityHealth() - 2 * dt);
 	}
+
+
 
 	// ----------------- Sort Map ------------------ //
 	m_GoMap->SortMap();
@@ -220,7 +226,7 @@ void SP3::Update(double dt)
 			if (go2->GetType() == GO_BLOCK)
 				continue;
 
-			if ( ( go->GetObjectType() == PROJECTILE || go->GetObjectType() == PLAYER ) && go2->GetObjectType() == ENVIRONMENT)
+			if ((go->GetObjectType() == PROJECTILE || go->GetObjectType() == PLAYER) && go2->GetObjectType() == ENVIRONMENT)
 			{
 				if (go->EmpricalCheckCollisionWith(go2, dt))
 				{
@@ -229,8 +235,6 @@ void SP3::Update(double dt)
 			}
 		}
 	}
-
-	std::cout << GameObjectManager::m_goList.size() << std::endl;
 
 	// --------------------------------------------- //
 
@@ -244,27 +248,53 @@ void SP3::Update(double dt)
             m_ChangeElementDebounce = 0.f;
         }
     }	
+
 	// ----------------- Update Camera ------------------ //
 	if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		camera.position.x += (float)dt * 10;
+
+		camera.position.x += dt * 8;
 	}
 	else if (camera.position.x >= OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		camera.position.x -= (float)dt * 10;
+		camera.position.x -= dt * 8;
 	}
 
 	if (camera.target.x < OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		camera.target.x += (float)dt * 10;
+		camera.target.x += dt * 8;
 	}
 	else if (camera.target.x >= OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		camera.target.x -= (float)dt * 10;
+		camera.target.x -= dt * 8;
+
 	}
 	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	//camera.target.x = OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	// -------------------------------------------------- //
+
+	hehexd += dt;
+
+
+
+	////419 same time
+	//if (treePos >  (orignalTreePos - (m_Player->GetMapOffset_x() * 0.5) - (m_Player->GetMapFineOffset_x() * 0.5) )  )
+	//{
+	//	treePos -= (dt * 4);
+	//}
+
+	//Stalagmite
+	if (treePos >  (orignalTreePos - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06) )  )
+	{
+		treePos -= (dt * 0.5);
+	}
+	else if (treePos < (orignalTreePos - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
+	{
+		treePos += (dt * 0.5);
+	}
+
+
+
 }
 
 void SP3::RenderGO(GameObject *go)
@@ -276,7 +306,7 @@ void SP3::RenderGO(GameObject *go)
 	RenderMesh(go->GetMesh(), false);
 	modelStack.PopMatrix();
 
-	if (go->GetObjectType() == PLAYER || go->GetObjectType() == ENEMY)
+	if (go->GetObjectType() == ENEMY)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + 5, go->GetPosition().z);
@@ -385,6 +415,7 @@ void SP3::Render()
 	//RenderMesh(meshList[GEO_BACKGROUND], false);
 	//modelStack.PopMatrix();
 
+
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth * 0.7, 61, -2);
 	modelStack.Scale(300, 78, 1);
@@ -398,10 +429,16 @@ void SP3::Render()
 		modelStack.PushMatrix();
 		modelStack.Translate((((m_worldWidth * 0.2 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x()) * 0.8) + (i * 40)), 35, -1);
 		modelStack.Scale(30, 30, 1);
-		RenderMesh(meshList[GEO_TREE], false);
+		//RenderMesh(meshList[GEO_TREE], false);
 		modelStack.PopMatrix();
 	}
 
+	//stalagmite
+	modelStack.PushMatrix();
+	modelStack.Translate(treePos , 60, -1);
+	modelStack.Scale(120, 80, 1);
+	RenderMesh(meshList[GEO_TREE], false);
+	modelStack.PopMatrix();
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{
@@ -409,8 +446,22 @@ void SP3::Render()
 		if (go->GetActive() && go->GetVisible())
 		{
 			RenderGO(go);
-		}
+		}	
 	}
+
+	// -------------------- UI --------------------- //
+	modelStack.PushMatrix();
+	modelStack.Translate(10 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), 95, 1);
+	modelStack.Scale(m_Player->GetEntityHealth(), 3, 1);
+	RenderMesh(meshList[GEO_HEALTH_BAR], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(10 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), 90, 1);
+	modelStack.Scale(1, 3, 1);
+	RenderMesh(meshList[GEO_HEALTH_BAR], false);
+	modelStack.PopMatrix();
+	// --------------------------------------------- //
 
 	//std::cout << fps << std::endl;
 }

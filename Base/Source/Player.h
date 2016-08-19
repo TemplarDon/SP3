@@ -3,6 +3,16 @@
 
 #include "Entity.h"
 
+enum LEVEL
+{
+	TEST,
+	TUTORIAL,
+	LEVEL_1,
+	LEVEL_2,
+	LEVEL_3,
+	LEVEL_4,
+};
+
 class Player : public Entity
 {
 public:
@@ -51,6 +61,9 @@ private:
 
 	// Pointer to checkpoint
 	Vector3 m_RespawnPos;
+
+	// Current Level
+	LEVEL m_CurrLevel;
 };
 
 

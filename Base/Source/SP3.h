@@ -17,6 +17,24 @@ public:
 	SP3();
 	~SP3();
 
+	enum MENU_OPTIONS
+	{
+		START_GAME,
+		INSTRUCTIONS,
+		OPTIONS,
+		QUIT,
+	};
+
+	enum GAMESTATE
+	{
+		MENU,
+		GAME,
+		LOAD_LVL_1,
+		LOAD_LVL_2,
+		LOAD_LVL_3,
+		LOAD_LVL_4,
+	};
+
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void Render();
@@ -55,6 +73,9 @@ protected:
 	int paraWallTileOffset_x, paraWallTileOffset_y;
 	int paraWallFineOffset_x, paraWallFineOffset_y;
 	GameObject_Map* m_GoMap2;
+	double hehexd;
+	float treePos;
+	float orignalTreePos;
 };
 
 #endif

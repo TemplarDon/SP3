@@ -9,6 +9,7 @@ Player::Player(void)
 {
 
     m_CurrElement = FIRE;
+
     Attacks = new AttackBase;
 
 	SetPlayerPos(m_Position);
@@ -24,6 +25,7 @@ Player::Player(void)
 
 Player::~Player(void)
 {
+  
 }
 
 // Player Init
@@ -35,6 +37,7 @@ void Player::Init(void)
 	SetEntityMovementSpeed(1);
     Attacks->Init(GetEntityDamage(), 10.f);
 	m_RespawnPos = m_Position;
+	m_CurrLevel = TEST;
 }
 // Set Animation Invert status of the player
 void Player::SetAnimationInvert(bool heroAnimationInvert)

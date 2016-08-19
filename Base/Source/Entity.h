@@ -104,10 +104,10 @@ public:
 
 
 protected:
-	int CurrHealth;
-    int MaxHealth;
-	int Damage;
-	int TakenDamage;
+	float CurrHealth;
+    float MaxHealth;
+	float Damage;
+	float TakenDamage;
     int DamagMultiplier;
 
 
@@ -142,7 +142,8 @@ protected:
     ENTITY_MOVE_STATE m_PrevState;
     void DebuffCheckAndApply(double dt);//stunned, slowed, burning, knockback 
     bool deBuff_Stunned, deBuff_burning, deBuff_knockBack,deBuff_Slowed;
-    float deBuff_StunTimer, deBuff_BurningTimer, deBuff_KnockbackTimer, deBuff_SlowTimer;
+    float deBuff_StunTimer, deBuff_BurningTimer, deBuff_SlowTimer;
+    int deBuff_BurnTicks;
     // ------------------------------------------------------------------- //
 
 	bool DirectionLeftRight;
