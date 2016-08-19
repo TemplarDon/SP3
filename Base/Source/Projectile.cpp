@@ -36,7 +36,7 @@ void Projectile::projectileUpdate(double dt)
 	else if (!Direction)
 		this->m_Position -= speedBullet*dt;
 
-	lifeTime -= dt * 5;
+    lifeTime -= (float)dt * 5;
 	if (lifeTime < 0)
 	{
 		m_Active = false;
@@ -50,7 +50,7 @@ void Projectile::Update(double dt)
 	else if (!Direction)
 		this->m_Position -= speedBullet*dt;
 
-	lifeTime -= dt;
+	lifeTime -= (float)dt;
 	if (lifeTime < 0)
 	{
 		m_Active = false;

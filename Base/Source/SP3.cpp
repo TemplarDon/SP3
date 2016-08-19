@@ -164,7 +164,7 @@ void SP3::Update(double dt)
 
 	if (Application::IsKeyPressed('K'))
 	{
-		m_Player->SetEntityHealth(m_Player->GetEntityHealth() - 2 * dt);
+		//m_Player->SetEntityHealth(m_Player->GetEntityHealth() - 2 * dt);
 	}
 
 	// ----------------- Sort Map ------------------ //
@@ -193,7 +193,7 @@ void SP3::Update(double dt)
 			m_Player->Update(dt, m_GoMap, camera);
 		}
 
-		if (go->GetType() == GO_EARTHMELEE_PROJECTILE)
+		if (go->GetType() == GO_ATTACK)
 		{
 			go->Update(dt);
 		}
@@ -247,20 +247,20 @@ void SP3::Update(double dt)
 	// ----------------- Update Camera ------------------ //
 	if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		camera.position.x += dt * 10;
+		camera.position.x += (float)dt * 10;
 	}
 	else if (camera.position.x >= OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		camera.position.x -= dt * 10;
+		camera.position.x -= (float)dt * 10;
 	}
 
 	if (camera.target.x < OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		camera.target.x += dt * 10;
+		camera.target.x += (float)dt * 10;
 	}
 	else if (camera.target.x >= OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		camera.target.x -= dt * 10;
+		camera.target.x -= (float)dt * 10;
 	}
 	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	//camera.target.x = OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();

@@ -37,7 +37,7 @@ void Environment::Update(double dt, GameObject_Map* Map)
 			MinYPos = (0.5 * Map->GetTileSize());
 		}
 
-		m_Position.y -= 10 * dt;
+		m_Position.y -= 10 * (float)dt;
 
 		if (m_Position.y < MinYPos)
 		{

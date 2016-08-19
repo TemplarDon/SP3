@@ -8,7 +8,7 @@ Player::Player(void)
 	, heroAnimationInvert(false)
 {
 
-    m_CurrElement = STEAM;
+    m_CurrElement = FIRE;
     Attacks = new AttackBase;
 
 	SetPlayerPos(m_Position);
@@ -29,8 +29,9 @@ Player::~Player(void)
 // Player Init
 void Player::Init(void)
 {
-	SetEntityHealth(10);
-	SetEntityDamage(5);
+	SetEntityMaxHealth(10);
+    CurrHealth = MaxHealth;
+    Damage = 5;
 	SetEntityMovementSpeed(1);
     Attacks->Init(GetEntityDamage(), 10.f);
 	m_RespawnPos = m_Position;
@@ -103,5 +104,5 @@ Vector3 Player::GetRespawnPos()
 void Player::Death()
 {
 	m_Position = m_RespawnPos;
-	Health = 10;
+	CurrHealth = 10;
 }

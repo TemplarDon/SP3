@@ -9,10 +9,8 @@
 enum ENTITY_MOVE_STATE
 {
 	NO_STATE,
+    STUNNED,
 	ON_GROUND,
-    DASH,
-    DASH_LEFT,
-    DASH_RIGHT,
 	FALLING,
 	JUMPING,
 	TOTAL_MOVE_STATE,
@@ -25,15 +23,13 @@ public:
 	~Entity();
 	
 	//Setter for entity health
-	virtual void SetEntityHealth(int health);
+	virtual void SetEntityMaxHealth(int health);
 	//Getter for entity health
 	virtual int GetEntityHealth();
 
-	//Setter for entity damage
-	virtual void SetEntityDamage(int damage);
 	//Getter for entity damage
 	virtual int GetEntityDamage();
-
+    virtual void TakeDamage(int damagetaken);
 	//Setter for entity taken damage
 	virtual void SetEntityTakenDamage(int takendamage);
 	//Getter for entity taken damage
@@ -88,9 +84,7 @@ public:
 	// Get and Set for Entitymove state
 	virtual ENTITY_MOVE_STATE GetMoveState();
 	virtual void SetMoveState(ENTITY_MOVE_STATE SetState);
-    //virtual void SetMoveState(int SetState);
-    //virtual int GetMoveStateinInt();
-    virtual void SuperJump();
+
 
 	// Collision Repsonse
 	virtual void CollisionResponse();
@@ -110,9 +104,11 @@ public:
 
 
 protected:
-	int Health;
+	int CurrHealth;
+    int MaxHealth;
 	int Damage;
 	int TakenDamage;
+    int DamagMultiplier;
 
 
 	//Jeff's bool
@@ -123,6 +119,7 @@ protected:
 	int mapOffset_x, mapOffset_y;
 	float mapFineOffset_x, mapFineOffset_y;
 	float MovementSpeed;
+    float prevMS;
 
 
 
@@ -143,6 +140,9 @@ protected:
     float DashDestinationX;
     bool m_Dashingleft, m_Dashingright;
     ENTITY_MOVE_STATE m_PrevState;
+    void DebuffCheckAndApply(double dt);//stunned, slowed, burning, knockback 
+    bool deBuff_Stunned, deBuff_burning, deBuff_knockBack,deBuff_Slowed;
+    float deBuff_StunTimer, deBuff_BurningTimer, deBuff_KnockbackTimer, deBuff_SlowTimer;
     // ------------------------------------------------------------------- //
 
 	bool DirectionLeftRight;
@@ -155,7 +155,7 @@ protected:
 
     //For Special abilities
    
-    bool isUsingMovementAbility;
+    bool isLockMovement;
 
     
 };

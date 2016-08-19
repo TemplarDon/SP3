@@ -3,7 +3,8 @@
 Enemy::Enemy()
 {
 	m_Position.Set(0, 0, 0);
-	Health = 3;
+	MaxHealth = 3;
+    CurrHealth = MaxHealth;
     attack = new AttackBase;
 	/*enemyPosition.Set(x, y, 0);
 	m_Behaviour = new Behaviour();

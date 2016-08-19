@@ -23,10 +23,10 @@ public:
     void Init(int AttackDamage, float range);
     //launch an attack
     void LaunchAttack();
-    bool GetSuperJumpStatus();
+    bool GetSteamStatus();
     bool GetDashLeftStatus();
     bool GetDashRightStatus();
-    void SetSuperJumpStatus(bool jumpstatus);
+    void SetSteamStatus(bool jumpstatus);
     void SetDashStatus(bool dashleft, bool dashright);
     void SetisEnemy(bool);
     
@@ -45,6 +45,14 @@ protected:
     bool m_CanAttack;
     bool m_Dashleft;
     bool m_Dashright;
+
+    //buffs
+    bool m_SteamBoost;
+    float m_SteamDuration;
+    bool m_Healbuff;
+    float m_HealDuration;
+
+
     double interdt;
 
     int MAXprojectilecount;

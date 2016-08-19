@@ -15,6 +15,10 @@ AttackBase::AttackBase()
     isEnemy = false;
     m_Dashleft = false;
     m_Dashright = false;
+    m_SteamBoost = false;
+    m_Healbuff = false;
+    m_HealDuration = 0.f;
+    m_SteamDuration = 0.f;
 }
 AttackBase::~AttackBase()
 {
@@ -67,6 +71,17 @@ void AttackBase::UpdateAttack(double dt, ELEMENT EntityCurrElement, Vector3 pos,
             m_AttackDebounce = 0.f;
         }
     }
+
+    //Steam boost timer
+    if (m_SteamBoost)
+    {
+        m_SteamDuration += 2*(float)dt;
+        if (m_SteamDuration > 10.f)
+        {
+            m_SteamBoost = false;
+            m_SteamDuration = 0.f;
+        }
+    }
 }
 void AttackBase::LaunchAttack()
 {
@@ -79,7 +94,7 @@ void AttackBase::LaunchAttack()
             Attack_Ranged();
         else if (m_CurrAttackType == ABILITY)
             Attack_Ability();
-        m_CanAttack = false;
+     
     }
 }
 void AttackBase::Attack_Ability()
@@ -87,10 +102,8 @@ void AttackBase::Attack_Ability()
     if (m_CurrElement == FIRE_2)
     {
         Projectile* temp;
-        temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-        temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false);
-
-
+        temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+        temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.5f, m_CurrElement, false);
 
         m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
         m_AbilityCount += 1;
@@ -98,7 +111,7 @@ void AttackBase::Attack_Ability()
         {
             m_AbilityCount = 0;
         }
-        
+        m_CanAttack = false;
     }
     else if (m_CurrElement == WATER_2)
     {
@@ -106,18 +119,29 @@ void AttackBase::Attack_Ability()
         {
             m_Dashright = true;
             std::cout << "set right" << std::endl;
+            m_CanAttack = false;
         }
         else if (!m_AttackDirection && !m_Dashright)//left
         {
             m_Dashleft = true;
             std::cout << "set left" << std::endl;
-
+            m_CanAttack = false;
         }
     
     }
     else if (m_CurrElement == EARTH_2)
     {
-        //do earth 2 stuff
+        Projectile* temp;
+        temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(5, 5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+        temp->projectileInit(m_AttackDirection, m_EntityPos + 2, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false);
+
+        m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
+        m_AbilityCount += 1;
+        if (m_AbilityCount >= MAXprojectilecount)
+        {
+            m_AbilityCount = 0;
+        }
+        m_CanAttack = false;
     }
     else if (m_CurrElement == SAND)
     {
@@ -125,19 +149,48 @@ void AttackBase::Attack_Ability()
     }
     else if (m_CurrElement == STEAM)
     {
+        float a = 0.f;
+        m_SteamBoost = true;
+        for (int i = 0; i < 5 ; i++)
+        {
+            Vector3 tempVecpos = m_EntityPos;
+            tempVecpos.x = m_EntityPos.x + 2 - i;
+     
+            if (i < 3)
+                a = m_EntityPos.y + i;
+            else
+                a = m_EntityPos.y - 1;
+            tempVecpos.y = m_EntityPos.y;
+            Projectile* temp;
+            temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+            if (i <3)
+            temp->projectileInit(m_AttackDirection, tempVecpos, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false);
+            else
+            temp->projectileInit(!m_AttackDirection, tempVecpos, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false);
+
+            m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
+            m_AbilityCount += 1;
+            if (m_AbilityCount >= MAXprojectilecount)
+            {
+                m_AbilityCount = 0;
+            }
+        }
+        m_CanAttack = false;
     }
     else if (m_CurrElement == WOOD)
     {
         //do wood stuff
+        m_Healbuff = true;
+
     }
 }
 
 void AttackBase::Attack_Melee()
 {
     Projectile* temp;
-    temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_MeleeStrike[m_meleeCount].GetPosition(), Vector3(1,5,2), true, true, ProjectilePH, "Image//Projectiles/earth_projectile.tga"));
+    temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_MeleeStrike[m_meleeCount].GetPosition(), Vector3(1,5,2), true, true, ProjectilePH, "Image//Projectiles/earth_projectile.tga"));
 	temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.2f, m_CurrElement, isEnemy);
-    //temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_MeleeStrike[m_meleeCount].GetPosition(), Vector3(1,5,2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+    //temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_MeleeStrike[m_meleeCount].GetPosition(), Vector3(1,5,2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
     //temp->projectileInit(m_AttackDirection, m_EntityPos, 50.0f, m_AttackDamage, 0.1f,isEnemy);
 
     m_MeleeStrike[m_meleeCount].SetElement(m_CurrElement);
@@ -146,6 +199,8 @@ void AttackBase::Attack_Melee()
     {
         m_meleeCount = 0;
     }
+    m_CanAttack = false;
+
 }
 void AttackBase::Attack_Ranged()
 {
@@ -154,10 +209,10 @@ void AttackBase::Attack_Ranged()
         tempscale = Vector3(2, 2, 2);
     else
         tempscale = Vector3(1, 1, 1);
-    //GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, 2, 5,m_AttackDirection , 50.0f ,ProjectilePH, "Image//Tiles/projectilePH.tga");
+    //GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, 2, 5,m_AttackDirection , 50.0f ,ProjectilePH, "Image//Tiles/projectilePH.tga");
 
     Projectile* temp;
-    temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_EARTHMELEE_PROJECTILE, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+    temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
     temp->projectileInit(m_AttackDirection,m_EntityPos,50.0f,m_AttackDamage,1,m_CurrElement, isEnemy);
     //temp->projectileInit(m_AttackDirection,m_EntityPos,50.0f,m_AttackDamage,10.0f, isEnemy);
 
@@ -168,6 +223,8 @@ void AttackBase::Attack_Ranged()
     {
         m_projectileCount = 0;
     }
+    m_CanAttack = false;
+
 }
 
 bool AttackBase::GetDashLeftStatus()
@@ -182,4 +239,12 @@ void AttackBase::SetDashStatus(bool dashleft, bool dashright)
 {
     m_Dashleft = dashleft;
     m_Dashright = dashright;
+}
+bool AttackBase::GetSteamStatus()
+{
+    return m_SteamBoost;
+}
+void AttackBase::SetSteamStatus(bool steamstatus)
+{
+    m_SteamBoost = steamstatus;
 }

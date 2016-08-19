@@ -18,8 +18,17 @@ Entity::Entity()
     //for abilities
     m_Dashingleft = false;
     m_Dashingright = false;
-    isUsingMovementAbility = false;
+    isLockMovement = false;
+    deBuff_Stunned = false; 
+    deBuff_StunTimer = 0.f;
+    deBuff_burning = true;
+    deBuff_BurningTimer = 0.f;
+    deBuff_knockBack = false;
+    deBuff_Slowed = false;
+    deBuff_SlowTimer = 0.f;
+    DamagMultiplier = 1;    
 
+    //
 	m_MaxCollisionBox.Set(99999, 99999, 0);
 	m_MinCollisionBox.Set(-99999, -99999, 0);
 }
@@ -29,20 +38,16 @@ Entity::~Entity()
 
 }
 
-void Entity::SetEntityHealth(int health)
+void Entity::SetEntityMaxHealth(int health)
 {
-	this->Health = health;
+	this->MaxHealth = health;
 }
 
 int Entity::GetEntityHealth()
 {
-	return Health;
+	return CurrHealth;
 }
 
-void Entity::SetEntityDamage(int damage)
-{
-	this->Damage = damage;
-}
 
 int Entity::GetEntityDamage()
 {
@@ -153,7 +158,7 @@ void Entity::EntityJumpUpdate(double dt)
 	m_PrevPos = m_Position;
 
 	//Factor in gravity
-	JumpVel += Gravity * dt;  //VEL = ACCEL * TIME
+	JumpVel += Gravity * (float)dt;  //VEL = ACCEL * TIME
 
 	//Update the camera and target position
 	this->m_Position.y += JumpVel * 0.1; //DIST = VEL * TIME
@@ -264,11 +269,12 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 
     AbilityMovementCheck();
     ExecuteAbility(dt);
+    DebuffCheckAndApply(dt);
 
   //  std::cout << Attacks->GetDashLeftStatus() << "LEFT" << std::endl;
    // std::cout << Attacks->GetDashRightStatus() << "RIGHT" << std::endl;
 
-	if (Health <= 0)
+	if (CurrHealth <= 0)
 	{
 		Death();
 	}
@@ -377,7 +383,7 @@ void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 
 void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 {
-	int PlayerPos_X = (int)((m_Position.x)) / Map->GetTileSize();
+	int PlayerPos_X = (int)(m_Position.x / Map->GetTileSize());
 	int PlayerPos_Y = (int)(m_Position.y / Map->GetTileSize());
 
 	GameObject* CheckGameObject_1 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X];
@@ -473,16 +479,11 @@ void Entity::CheckCollisionBoundary()
 
 }
 
-void Entity::SuperJump()
-{
-
-}
-
 void Entity::AbilityMovementCheck()
 {
     if (Attacks->GetDashLeftStatus())
     {
-        isUsingMovementAbility = true;
+        isLockMovement = true;
         DashDestinationX = m_Position.x - 20.f;
         m_PrevState = m_CurrEntityMoveState;
         m_Dashingleft = true;
@@ -492,7 +493,7 @@ void Entity::AbilityMovementCheck()
     }
     if (Attacks->GetDashRightStatus())
     {
-        isUsingMovementAbility = true;
+        isLockMovement = true;
         DashDestinationX = m_Position.x + 20.f;
         m_PrevState = m_CurrEntityMoveState;
         m_Dashingright = true;
@@ -526,14 +527,71 @@ void Entity::ExecuteAbility(double dt)
     }
     else
     {
-        isUsingMovementAbility = false;
+        isLockMovement = false;
     }
 
+    if (Attacks->GetSteamStatus())
+    {
+        MovementSpeed = 3;
+    }
+    else
+    {
+        MovementSpeed = 1;
+    }
  
       
 }
 
 bool Entity::GetControlLock()
 {
-    return isUsingMovementAbility;
+    return isLockMovement;
+}
+
+void Entity::DebuffCheckAndApply(double dt)
+{
+    if (deBuff_Stunned)
+    {
+        isLockMovement = true;
+        deBuff_StunTimer += 2 * (float)dt;
+        if (deBuff_StunTimer >= 10.f)
+        {
+            deBuff_Stunned = false;
+            isLockMovement = false;
+            deBuff_StunTimer = 0.f;
+        }
+    }
+    if (deBuff_burning)
+    {
+        deBuff_BurningTimer += 2 * (float)dt;
+        if ((int)deBuff_BurningTimer % 8 == 0)
+        {
+            CurrHealth -= 0.001;
+        }
+            
+        if (deBuff_BurningTimer >= 10.f)
+        {
+            deBuff_burning = false;
+            deBuff_BurningTimer = 0.f;
+        }
+    }
+    if (deBuff_knockBack)
+    {
+
+    }
+    if (deBuff_Slowed)
+    {
+        MovementSpeed = 0.5;
+        deBuff_SlowTimer += 2 * (float)dt;
+        if (deBuff_SlowTimer >= 10.f)
+        {
+            deBuff_Slowed = false;
+            MovementSpeed = 1;
+            deBuff_SlowTimer = 0.f;
+        }
+    }
+}
+
+void Entity::TakeDamage(int input)
+{
+    CurrHealth -= input * DamagMultiplier;
 }
