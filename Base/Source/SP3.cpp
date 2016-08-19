@@ -34,7 +34,6 @@ void SP3::Init()
 
 	meshList[GEO_HEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 1, 0), 1.f);
 
-    m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
 
 	//Calculating aspect ratio
 	m_worldHeight = 100.f;
@@ -83,6 +82,8 @@ void SP3::Init()
 	}
 	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true, sa));
 	m_Player->Init();
+
+	m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
 	// ------------------------------------------ // 
 
 	// ------------------- Cam ------------------ // 
