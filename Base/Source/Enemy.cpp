@@ -73,10 +73,11 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		}
 		//std::cout << "ENEMY POS " << m_Position << std::endl;
 		//UpdateTileMapCollision(map);
+
 		GenerateCollisionBoundary(map);
 		CheckCollisionBoundary();
 
-		ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
+		//ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
 	}
 	else if (enemyType == MELEE)
 	{
@@ -97,7 +98,9 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 
 		GenerateCollisionBoundary(map);
 		CheckCollisionBoundary();
-		ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
+
+		//ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
+
 		if (m_CurrEntityMoveState != ON_GROUND)
 		{
 			EntityJumpUpdate(dt);

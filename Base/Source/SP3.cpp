@@ -52,7 +52,7 @@ void SP3::Init()
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//test.csv");
 	
-	// ------------ Add Possible Function that reads m_Map and fills new vector with GameObjects ------------ // 
+	// ------------------------- GoMap ------------------------- // 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
 
@@ -99,7 +99,7 @@ void SP3::Init()
 		sa2->m_anim->Set(0, 3, 1, 0.8f, true);
 
 	}
-	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//blue Running.tga", true, sa2));
+	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(75, m_Player->GetPosition().y - 10, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), false, true, meshList[GEO_ENEMY], "Image//blue Running.tga", true, sa2));
 	temp->EnemyInit(m_Player->GetPosition(), Enemy::MELEE, 20, EARTH, 10);
 	// ------------------------------------------ // 
 
@@ -107,7 +107,6 @@ void SP3::Init()
 
 void SP3::Update(double dt)
 {
-
 	SceneBase::Update(dt);
 	m_Player->Attacks->UpdateAttack(dt, m_Player->GetElement(), m_Player->GetPosition(), m_Player->GetLeftRight());
 
@@ -230,8 +229,6 @@ void SP3::Update(double dt)
 		}
 	}
 
-	std::cout << GameObjectManager::m_goList.size() << std::endl;
-
 	// --------------------------------------------- //
 
     //Update the debouncer
@@ -243,24 +240,25 @@ void SP3::Update(double dt)
             m_CanChangeElement = true;
             m_ChangeElementDebounce = 0.f;
         }
-    }	
+    }
+
 	// ----------------- Update Camera ------------------ //
 	if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		camera.position.x += dt * 10;
+		camera.position.x += dt * 8;
 	}
 	else if (camera.position.x >= OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		camera.position.x -= dt * 10;
+		camera.position.x -= dt * 8;
 	}
 
 	if (camera.target.x < OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		camera.target.x += dt * 10;
+		camera.target.x += dt * 8;
 	}
 	else if (camera.target.x >= OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		camera.target.x -= dt * 10;
+		camera.target.x -= dt * 8;
 	}
 	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	//camera.target.x = OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
@@ -276,7 +274,7 @@ void SP3::RenderGO(GameObject *go)
 	RenderMesh(go->GetMesh(), false);
 	modelStack.PopMatrix();
 
-	if (go->GetObjectType() == PLAYER || go->GetObjectType() == ENEMY)
+	if (go->GetObjectType() == ENEMY)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + 5, go->GetPosition().z);
@@ -398,7 +396,7 @@ void SP3::Render()
 		modelStack.PushMatrix();
 		modelStack.Translate((((m_worldWidth * 0.2 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x()) * 0.8) + (i * 40)), 35, -1);
 		modelStack.Scale(30, 30, 1);
-		RenderMesh(meshList[GEO_TREE], false);
+		//RenderMesh(meshList[GEO_TREE], false);
 		modelStack.PopMatrix();
 	}
 
@@ -409,8 +407,16 @@ void SP3::Render()
 		if (go->GetActive() && go->GetVisible())
 		{
 			RenderGO(go);
-		}
+		}	
 	}
+
+	// -------------------- UI --------------------- //
+	modelStack.PushMatrix();
+	modelStack.Translate(10 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), 95, 1);
+	modelStack.Scale(m_Player->GetEntityHealth(), 3, 1);
+	RenderMesh(meshList[GEO_HEALTH_BAR], false);
+	modelStack.PopMatrix();
+	// --------------------------------------------- //
 
 	//std::cout << fps << std::endl;
 }

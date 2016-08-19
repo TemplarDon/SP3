@@ -8,7 +8,7 @@ Player::Player(void)
 	, heroAnimationInvert(false)
 {
 
-    m_CurrElement = STEAM;
+    m_CurrElement = WATER_2;
     Attacks = new AttackBase;
 
 	SetPlayerPos(m_Position);
@@ -34,6 +34,7 @@ void Player::Init(void)
 	SetEntityMovementSpeed(1);
     Attacks->Init(GetEntityDamage(), 10.f);
 	m_RespawnPos = m_Position;
+	m_CurrLevel = TEST;
 }
 // Set Animation Invert status of the player
 void Player::SetAnimationInvert(bool heroAnimationInvert)

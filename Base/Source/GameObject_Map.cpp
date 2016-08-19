@@ -76,7 +76,15 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 
 			case 10:
 			{
-				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_CHECKPOINT, Position, Scale, false, true, Quad, "Image//Tiles//stone.tga"));
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_CHECKPOINT, Position, Scale, false, true, Quad, "Image//Tiles//checkpoint.tga"));
+				temp->Init(false, false);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
+
+			case 11:
+			{
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
 				temp->Init(false, false);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
