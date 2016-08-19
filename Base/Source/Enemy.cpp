@@ -4,6 +4,12 @@ Enemy::Enemy()
 {
 	m_Position.Set(0, 0, 0);
 	Health = 3;
+	enemyPosition.Set(x, y, 0);
+	m_Behaviour = new Behaviour();
+	m_Behaviour->setAttack(attack);
+	m_Behaviour->setEstimatedDistance(estimatedDistance);
+	m_Behaviour->setEnemyType(enemyType);
+    attack->SetisEnemy(true);
 }
 void Enemy::EnemyInit(Vector3 playerPosition, EnemyType enemyType, float estimatedDistance, ELEMENT m_CurrElement, int Damage)
 {

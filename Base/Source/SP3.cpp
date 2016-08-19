@@ -111,13 +111,13 @@ void SP3::Update(double dt)
 	SceneBase::Update(dt);
 	m_Player->Attacks->UpdateAttack(dt, m_Player->GetElement(), m_Player->GetPosition(), m_Player->GetLeftRight());
 
-	if (Application::IsKeyPressed('A'))
+	if (Application::IsKeyPressed('A') && m_Player->GetControlLock() == false)
 	{
 		m_Player->SetMoving_Left(true);
 		m_Player->SetMove_Right(false);
 	}
 
-	if (Application::IsKeyPressed('D'))
+    if (Application::IsKeyPressed('D') && m_Player->GetControlLock() == false)
 	{
 		m_Player->SetMoving_Left(false);
 		m_Player->SetMove_Right(true);
@@ -243,12 +243,7 @@ void SP3::Update(double dt)
             m_CanChangeElement = true;
             m_ChangeElementDebounce = 0.f;
         }
-    }
-
-
-
-	
-
+    }	
 	// ----------------- Update Camera ------------------ //
 	if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{

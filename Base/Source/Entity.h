@@ -104,9 +104,9 @@ public:
 	virtual void Update(double dt, GameObject_Map* Map, Camera camera);
     AttackBase *Attacks = new AttackBase;
     bool GetControlLock();
-
 	virtual void Death()
 	{}
+
 
 protected:
 	int Health;
@@ -125,6 +125,8 @@ protected:
 
 
 
+
+
 	// ----------------- For jumping and collision check ----------------- //
 	ENTITY_MOVE_STATE m_CurrEntityMoveState;
 
@@ -132,7 +134,6 @@ protected:
 	Vector3 m_MinCollisionBox;
 
 	float EntityMapOffsetX;
-    
 
 	// ------------------------------------------------------------------- //
     // ----------------- For element abilities checks -------------------- //

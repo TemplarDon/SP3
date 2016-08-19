@@ -12,7 +12,9 @@ Projectile::Projectile()
 	speedBullet = 0;
 	m_Normal.Set(0, 1, 0);
 }
-void Projectile::projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float time, ELEMENT element)
+void Projectile::projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float time, ELEMENT element, bool enemypewpew)
+
+
 {
 	this->Direction = Direction;
 	this->m_Position = m_Position;
@@ -20,6 +22,7 @@ void Projectile::projectileInit(bool Direction, Vector3 m_Position, float bullet
 	this->damage = damage;
 	this->lifeTime = time;
 	this->m_CurrElement = element;
+    this->isHostileProjectile = enemypewpew;
 	m_Normal.Set(0, 1, 0);
 }
 

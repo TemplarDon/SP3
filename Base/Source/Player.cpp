@@ -7,7 +7,8 @@ Player::Player(void)
 	, heroAnimationCounter(0)
 	, heroAnimationInvert(false)
 {
-    m_CurrElement = FIRE;
+
+    m_CurrElement = STEAM;
     Attacks = new AttackBase;
 
 	SetPlayerPos(m_Position);

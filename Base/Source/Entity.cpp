@@ -269,6 +269,7 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 	}
 }
 
+
 void Entity::UpdateTileMapCollision(GameObject_Map* Map)
 {
 	int PlayerPos_X = (int)((mapOffset_x + m_Position.x)) / Map->GetTileSize();
@@ -521,3 +522,54 @@ bool Entity::GetControlLock()
     return isUsingMovementAbility;
 }
 
+void Entity::SuperJump()
+{
+
+}
+void Entity::AbilityMovementCheck()
+{
+    if (Attacks->GetDashLeftStatus())
+    {
+        isUsingMovementAbility = true;
+        DashDestinationX = m_Position.x - 30.f;
+        m_PrevState = m_CurrEntityMoveState;
+        m_CurrEntityMoveState = DASH_LEFT;
+        Attacks->SetDashStatus(false, false);
+
+    }
+    if (Attacks->GetDashRightStatus())
+    {
+        isUsingMovementAbility = true;
+        DashDestinationX = m_Position.x + 30.f;
+        m_PrevState = m_CurrEntityMoveState;
+        m_CurrEntityMoveState = DASH_RIGHT;
+        Attacks->SetDashStatus(false, false);
+
+    }
+}
+void Entity::ExecuteAbility(double dt)
+{
+    if (m_CurrEntityMoveState == DASH_LEFT)
+    {
+        m_Position.x -= 50 * dt;
+        if (m_Position.x <= DashDestinationX)
+        {
+            isUsingMovementAbility == false;
+            m_CurrEntityMoveState = m_PrevState;
+        }
+    }
+
+    if (m_CurrEntityMoveState == DASH_RIGHT)
+    {
+        m_Position.x += 50 * dt;
+        if (m_Position.x >= DashDestinationX)
+        {
+            isUsingMovementAbility == false;
+            m_CurrEntityMoveState = m_PrevState;
+        }
+    }
+}
+bool Entity::GetControlLock()
+{
+    return isUsingMovementAbility;
+}
