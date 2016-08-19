@@ -10,6 +10,12 @@
 #include "GameObject.h"
 #include "Player.h"
 
+enum GAMESTATES
+{
+	PLAY,
+	LOADING,
+};
+
 class SP3 : public SceneBase
 {
 
@@ -42,6 +48,8 @@ public:
 
 	void RenderGO(GameObject *go);
 	void RenderParallaxMap();
+
+	void SwitchLevel(LEVEL NextLevel);
 
 
 protected:
@@ -76,6 +84,9 @@ protected:
 	double hehexd;
 	float treePos;
 	float orignalTreePos;
+	// Transition
+	LEVEL m_LevelLoaded;
+
 };
 
 #endif

@@ -108,4 +108,16 @@ void Player::Death()
 {
 	m_Position = m_RespawnPos;
 	CurrHealth = 10;
+
+}
+
+LEVEL Player::GetCurrentLevel()
+{
+	return m_CurrLevel;
+}
+
+void Player::SetCurrentLevel(LEVEL newLevel)
+{
+	m_CurrLevel = newLevel;
+>>>>>>> origin/master
 }
