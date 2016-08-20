@@ -24,9 +24,6 @@ public:
 	void setVelocity();
 	Vector3 getVelocity();
 
-	/*void setPosition(Vector3 Position);
-	Vector3 getPosition();*/
-
 	void setDirection(bool Direction);
 	bool getDirection();
 
@@ -36,6 +33,9 @@ public:
 	void setRotation(float rotation);
 	float getRotation();
 	virtual void Update(double dt);
+
+	virtual void UpdatePhysics(double dt, Vector3 Gravity = Vector3(0, -60, 0));
+	virtual void CollisionResponse(GameObject* OtherGo);
 
 
 private:

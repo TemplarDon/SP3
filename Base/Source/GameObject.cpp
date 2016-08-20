@@ -110,7 +110,7 @@ bool GameObject::EmpricalCheckCollisionWith(GameObject* OtherGo, double dt)
 	float distSquare = (this->m_Position - OtherGo->m_Position).LengthSquared();
 	float combinedRadiusSquare = (this->m_Scale.x + OtherGo->m_Scale.x)*(this->m_Scale.y + OtherGo->m_Scale.y);
 	
-	if (distSquare < combinedRadiusSquare -25)
+	if (distSquare < combinedRadiusSquare - 25)
 	{
 		return true;
 	}

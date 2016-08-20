@@ -55,20 +55,9 @@ void SP3::Init()
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//test.csv");
 	
-	// ------------ Add Possible Function that reads m_Map and fills new vector with GameObjects ------------ // 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
 
-
-	// ------------------Parallax scrolling---------------------- //
-	//m_ParallaxMap = new Map();
-	//m_ParallaxMap->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	//m_ParallaxMap->LoadMap("Image//Maps//test2.csv");
-	//RenderParallaxMap();
-
-	/*m_GoMap2 = new GameObject_Map();
-	m_GoMap2->Init(m_ParallaxMap);*/
-	
 	// ----------------- Player ----------------- // 
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 2);
 	SpriteAnimation* sa = static_cast<SpriteAnimation*>(meshList[GEO_PLAYER]);
@@ -184,7 +173,6 @@ void SP3::Update(double dt)
 		if (!go->GetActive())
 			continue;
 
-
 		if (go->GetType() == GO_BLOCK)
 			continue;
 
@@ -223,16 +211,17 @@ void SP3::Update(double dt)
 			if (!go2->GetActive())
 				continue;
 
-			if (go2->GetType() == GO_BLOCK)
-				continue;
-
 			if ((go->GetObjectType() == PROJECTILE || go->GetObjectType() == PLAYER) && go2->GetObjectType() == ENVIRONMENT)
 			{
 				if (go->EmpricalCheckCollisionWith(go2, dt))
 				{
 					go2->CollisionResponse(go);
+					go->CollisionResponse(go2);
 				}
 			}
+
+			if (go2->GetType() == GO_BLOCK)
+				continue;
 
 			if (go->GetObjectType() == PLAYER && go2->GetType() == GO_DOOR)
 			{
@@ -433,14 +422,14 @@ void SP3::Render()
 
 	// ------------------------------------------------- //
 
-	for (int i = 0; i < 4; i++)
-	{
-		modelStack.PushMatrix();
-		modelStack.Translate((((m_worldWidth * 0.2 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x()) * 0.8) + (i * 40)), 35, -1);
-		modelStack.Scale(30, 30, 1);
-		RenderMesh(meshList[GEO_TREE], false);
-		modelStack.PopMatrix();
-	}
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	modelStack.PushMatrix();
+	//	modelStack.Translate((((m_worldWidth * 0.2 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x()) * 0.8) + (i * 40)), 35, -1);
+	//	modelStack.Scale(30, 30, 1);
+	//	RenderMesh(meshList[GEO_TREE], false);
+	//	modelStack.PopMatrix();
+	//}
 
 	//stalagmite
 	modelStack.PushMatrix();
@@ -472,7 +461,7 @@ void SP3::Render()
 	modelStack.PopMatrix();
 	// --------------------------------------------- //
 
-	//std::cout << fps << std::endl;
+	std::cout << fps << std::endl;
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)

@@ -1,8 +1,8 @@
 #include "ElementalObject.h"
 
 ElementalObject::ElementalObject()
+: m_CurrElement(NO_ELEMENT)
 {
-
 }
 
 ElementalObject::~ElementalObject()

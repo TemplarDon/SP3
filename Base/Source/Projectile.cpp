@@ -52,13 +52,11 @@ void  Projectile::setVelocity()
 	if (Direction==true)
 	{
 		m_Velocity.Set(m_Position.x * cos(Math::DegreeToRadian(rotation)), m_Position.y *sin(Math::DegreeToRadian(rotation)), 1);
-		m_Velocity.Normalize();
 	}
 	else
 	{
 		rotation += 90;
 		m_Velocity.Set(m_Position.x * cos(Math::DegreeToRadian(rotation)), m_Position.y *sin(Math::DegreeToRadian(rotation)), 1);
-		m_Velocity.Normalize();
 	}
 	
 }
@@ -77,7 +75,7 @@ void Projectile::Update(double dt)
 		}
 	}
 	
-	m_Position += m_Velocity;
+	//m_Position += m_Velocity;
 	
 
 	lifeTime -= (float)dt;
@@ -85,7 +83,23 @@ void Projectile::Update(double dt)
 	{
 		m_Active = false;
 	}
+
+	UpdatePhysics(dt);
 }
+
+
+void Projectile::UpdatePhysics(double dt, Vector3 Gravity)
+{
+	if (m_CurrElement == FIRE)
+	{
+		Vector3 dv = Gravity * dt; // Eqn 1 (Vec3 = Vec3 * float)
+		this->m_Velocity += (dv);
+	}
+
+	Vector3 ds = this->m_Velocity * dt; // Eqn 2 (Vec3 = Vec3 * float)
+	this->m_Position += (ds);
+}
+
 void Projectile::setDamage(int damage)
 {
 	this->damage = damage;
@@ -121,4 +135,13 @@ void Projectile::setRotation(float rotation)
 float Projectile::getRotation()
 {
 	return rotation;
+}
+
+void Projectile::CollisionResponse(GameObject* OtherGo)
+{
+	Vector3 u1 = this->m_Velocity;
+	Vector3 N = (OtherGo->GetPosition() - this->m_Position).Normalized();
+	Vector3 u1N = u1.Dot(N) * N;
+	
+	this->m_Velocity = u1 - 2 * (u1N);
 }
