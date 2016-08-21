@@ -49,7 +49,7 @@ float  Enemy::getDetectionRange()
 
 void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera)
 {
-	std::cout << distancePlayerToEnemy << std::endl;
+	//std::cout << distancePlayerToEnemy << std::endl;
 	if (enemyType == RANGED)
 	{
 		//temp 

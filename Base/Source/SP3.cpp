@@ -461,7 +461,7 @@ void SP3::Render()
 	modelStack.PopMatrix();
 	// --------------------------------------------- //
 
-	std::cout << fps << std::endl;
+	//std::cout << fps << std::endl;
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)

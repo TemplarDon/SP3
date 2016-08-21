@@ -143,5 +143,5 @@ void Projectile::CollisionResponse(GameObject* OtherGo)
 	Vector3 N = (OtherGo->GetPosition() - this->m_Position).Normalized();
 	Vector3 u1N = u1.Dot(N) * N;
 	
-	this->m_Velocity = u1 - 2 * (u1N);
+	this->m_Velocity = (u1 - 2 * (u1N));
 }
