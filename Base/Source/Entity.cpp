@@ -262,7 +262,7 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();
 	//UpdateTileMapCollision(Map);
-	ConstrainPlayer(25 + mapOffset_x + mapFineOffset_x, 120 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
+	ConstrainPlayer(10 + mapOffset_x + mapFineOffset_x, 120 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
 	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 	//UpdateTileMapCollision(Map);
 

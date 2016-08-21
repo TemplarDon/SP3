@@ -19,6 +19,11 @@ GameObject* GameObjectManager::FetchGameObject(OBJECT_TYPE ObjectType)
 			break;
 		}
 
+		case OBJECT_TYPE::TRANSITION:
+		{
+			TempGameObject = new Transition();
+			break;
+		}
 		case OBJECT_TYPE::PROJECTILE:
 		{
 			TempGameObject = new Projectile();

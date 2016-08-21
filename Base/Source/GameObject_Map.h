@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Map.h"
 #include "MeshBuilder.h"
+#include "Level.h"
 
 class GameObject_Map
 {
@@ -46,6 +47,11 @@ public:
 		return m_Offset;
 	}
 
+	Level* GetLevel()
+	{
+		return m_Level;
+	}
+
 private:
 	int m_TileSize;
 
@@ -57,6 +63,8 @@ private:
 	int m_NumOfTiles_MapWidth;
 
 	float m_Offset;
+
+	Level* m_Level;
 };
 
 #endif // !OBJECT_MAP

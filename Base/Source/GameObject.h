@@ -5,11 +5,22 @@
 #include <vector>
 #include "SpriteAnimation.h"
 
+enum LEVEL
+{
+	TEST,
+	TUTORIAL,
+	LEVEL_1,
+	LEVEL_2,
+	LEVEL_3,
+	LEVEL_4,
+};
+
 enum OBJECT_TYPE
 {
 	NO_TYPE = 0,
     PLATFORM,
 	ENVIRONMENT,
+	TRANSITION,
 	PROJECTILE,
 	PLAYER,
 	ENEMY,

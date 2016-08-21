@@ -54,7 +54,7 @@ void SP3::Init()
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//test.csv");
-	
+
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
 
@@ -66,7 +66,7 @@ void SP3::Init()
 		sa->m_anim = new Animation();
 		sa->m_anim->Set(0, 1, 1, 0.8f, true);
 	}
-	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(50, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true, sa));
+	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(20, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true, sa));
 	m_Player->Init();
 
 	m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
@@ -227,7 +227,8 @@ void SP3::Update(double dt)
 			{
 				if (go->EmpricalCheckCollisionWith(go2, dt))
 				{
-					SwitchLevel(TUTORIAL);
+					Transition* temp = dynamic_cast<Transition*>(go2);
+					SwitchLevel(temp->GetNextTransition());
 					break;
 				}
 			}
@@ -509,7 +510,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	m_GoMap->Init(m_Map);
 
 	// ----------------- Player ----------------- // 
-	m_Player->SetPosition(Vector3(50, 50, 1));
+	m_Player->SetPosition(m_GoMap->GetLevel()->GetStartPos());
 	m_Player->SetMapOffset_x(0);
 	m_Player->SetMapFineOffset_x(0);
 	m_Player->SetRespawnPos(m_Player->GetPosition());
@@ -526,6 +527,8 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	camera.position = OrignialCamPos;
 	camera.target = OrignialCamTarget;
 	// ------------------------------------------ // 
+
+	treePos = orignalTreePos;
 }
 
 void SP3::Exit()

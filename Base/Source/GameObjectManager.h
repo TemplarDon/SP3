@@ -1,7 +1,7 @@
 #ifndef GAMEOBJECTMANAGER_H_
 #define GAMEOBJECTMANAGER_H_
 
-#include "Environment.h"
+#include "Transition.h"
 #include "Enemy.h"
 #include "Player.h"
 #include "MeshBuilder.h"

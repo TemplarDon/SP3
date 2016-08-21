@@ -3,16 +3,6 @@
 
 #include "Entity.h"
 
-enum LEVEL
-{
-	TEST,
-	TUTORIAL,
-	LEVEL_1,
-	LEVEL_2,
-	LEVEL_3,
-	LEVEL_4,
-};
-
 class Player : public Entity
 {
 public:
