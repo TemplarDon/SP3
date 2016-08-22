@@ -94,7 +94,7 @@ void SP3::Init()
 
 	}
 	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//blue Running.tga", true, sa2));
-	temp->EnemyInit(m_Player->GetPosition(), 20, EARTH, 10,400);
+	temp->EnemyInit(m_Player->GetPosition(), 20, EARTH, 10,50);
 	// ------------------------------------------ // 
 
 }
@@ -145,12 +145,14 @@ void SP3::Update(double dt)
 	{
 		if (m_CanChangeElement)
 		{
-			if (m_Player->GetElement() == EARTH)
+			if (m_Player->GetElement() == MISC)
 				m_Player->SetElement(WATER);
 			else if (m_Player->GetElement() == WATER)
 				m_Player->SetElement(FIRE);
 			else if (m_Player->GetElement() == FIRE)
 				m_Player->SetElement(EARTH);
+			else if (m_Player->GetElement() == EARTH)
+				m_Player->SetElement(MISC);
 			m_CanChangeElement = false;
 		}
 	}
@@ -211,7 +213,7 @@ void SP3::Update(double dt)
 			if (!go2->GetActive())
 				continue;
 
-			if ((go->GetObjectType() == PROJECTILE || go->GetObjectType() == PLAYER) && go2->GetObjectType() == ENVIRONMENT)
+		/*	if ((go->GetObjectType() == PROJECTILE || go->GetObjectType() == PLAYER) && go2->GetObjectType() == ENVIRONMENT)
 			{
 				if (go->EmpricalCheckCollisionWith(go2, dt))
 				{
@@ -219,7 +221,7 @@ void SP3::Update(double dt)
 					go->CollisionResponse(go2);
 				}
 			}
-
+*/
 			if (go2->GetType() == GO_BLOCK)
 				continue;
 
@@ -230,6 +232,13 @@ void SP3::Update(double dt)
 					Transition* temp = dynamic_cast<Transition*>(go2);
 					SwitchLevel(temp->GetNextTransition());
 					break;
+				}
+			}
+			if (go->GetObjectType() == PROJECTILE &&( go2->GetObjectType() == ENEMY||go2->GetObjectType()==PLAYER))
+			{
+				if (go->EmpricalCheckCollisionWith(go2, dt))
+				{
+ 					go2->CollisionResponse(go);
 				}
 			}
 		}

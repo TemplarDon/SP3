@@ -34,6 +34,9 @@ public:
 	float getRotation();
 	virtual void Update(double dt);
 
+	void setIsHostileProjectile(bool isHostileProjectile);
+	bool getIsHostileProjectile();
+
 	virtual void UpdatePhysics(double dt, Vector3 Gravity = Vector3(0, -60, 0));
 	virtual void CollisionResponse(GameObject* OtherGo);
 

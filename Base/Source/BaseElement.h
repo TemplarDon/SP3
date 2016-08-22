@@ -4,6 +4,7 @@
 enum ELEMENT
 {
 	NO_ELEMENT,//use this for non-interactable blocks
+	MISC,
     //primary elements
 	FIRE,
 	EARTH,
@@ -16,6 +17,7 @@ enum ELEMENT
     SAND,// Fire + Earth
     STEAM,//Water + Fire
     WOOD,//Water+ Earth
+	
 
 	TOTAL_ELEMENTS,
 };

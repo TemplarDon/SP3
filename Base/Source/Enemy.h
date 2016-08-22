@@ -58,6 +58,8 @@ public:
 
 	virtual void setDetectionRange(float detectionRange);
 	virtual float getDetectionRange();
+
+
 	virtual void Death();
 
 private:

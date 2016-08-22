@@ -42,8 +42,10 @@ void AttackBase::SetAttackType()
         m_CurrAttackType == NO_ATTACK_TYPE;
     else if (m_CurrElement == FIRE || m_CurrElement == WATER)
         m_CurrAttackType = RANGED;
-    else if (m_CurrElement == EARTH)
-        m_CurrAttackType = MELEE;
+	else if (m_CurrElement == EARTH)
+		m_CurrAttackType = MELEE;
+	else if (m_CurrElement == MISC)
+		m_CurrAttackType = SUCK;
     else
         m_CurrAttackType = ABILITY;
 }
@@ -92,8 +94,10 @@ void AttackBase::LaunchAttack()
             Attack_Melee();
         else if (m_CurrAttackType == RANGED)
             Attack_Ranged();
-        else if (m_CurrAttackType == ABILITY)
-            Attack_Ability();
+		else if (m_CurrAttackType == ABILITY)
+			Attack_Ability();
+		else if (m_CurrAttackType == SUCK)
+			Attack_Suck();
      
     }
 }
@@ -132,6 +136,7 @@ void AttackBase::Attack_Ability()
     else if (m_CurrElement == EARTH_2)
     {
         Projectile* temp;
+		//SpriteAnimation* sa=
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(5, 5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
 		temp->projectileInit(m_AttackDirection, m_EntityPos + 2, 50.0f, m_AttackDamage, 0.1f, m_CurrElement, false, 0);
 
@@ -221,7 +226,7 @@ void AttackBase::Attack_Ranged()
 		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Projectiles/water_projectile.tga"));
 	}
     
-	temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, m_AttackDamage, 1, m_CurrElement, isEnemy, 50);
+	temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, m_AttackDamage, 1, m_CurrElement, isEnemy, -50);
     //temp->projectileInit(m_AttackDirection,m_EntityPos,50.0f,m_AttackDamage,10.0f, isEnemy);
 
     m_Projectiles[m_projectileCount].SetElement(m_CurrElement);
@@ -234,7 +239,19 @@ void AttackBase::Attack_Ranged()
     m_CanAttack = false;
 
 }
-
+void AttackBase::Attack_Suck()
+{
+	Projectile* temp;
+	temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(2, 2, 2), true, true, ProjectilePH));
+	temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, 0, 1, m_CurrElement, isEnemy, 0);
+	m_Projectiles[m_projectileCount].SetElement(m_CurrElement);
+	m_projectileCount += 1;
+	if (m_projectileCount >= MAXprojectilecount)
+	{
+		m_projectileCount = 0;
+	}
+	m_CanAttack = false;
+}
 bool AttackBase::GetDashLeftStatus()
 {
     return m_Dashleft;

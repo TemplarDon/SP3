@@ -54,6 +54,7 @@ public:
 		GEO_TREE,
 		GEO_ENEMY,
 		GEO_HEALTH_BAR,
+		GEO_POKEBALL,
 		NUM_GEOMETRY,
 	};
 public:

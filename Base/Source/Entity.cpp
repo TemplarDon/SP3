@@ -251,12 +251,26 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 		m_Position.y = bottomBorder;
 }
 
-void Entity::CollisionResponse()
+void Entity::DisableDash()
 {
     m_Dashingleft = false;
     m_Dashingright = false;
 }
+void Entity::CollisionResponse(GameObject *go)
+{	
+	if (go->GetObjectType() == PROJECTILE)
+	{
+		Projectile* tempProj;
+		tempProj = dynamic_cast<Projectile*>(go);
 
+		if (this->m_ObjectType == ENEMY && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
+		{
+			this->deBuff_Stunned = true;
+		}
+	}
+		
+		
+}
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
 	GenerateCollisionBoundary(Map);
@@ -455,14 +469,14 @@ void Entity::CheckCollisionBoundary()
 {
 	if (m_Position.x < m_MinCollisionBox.x)
 	{
-        CollisionResponse();
+      //  CollisionResponse();
 		m_Position.x = m_MinCollisionBox.x;
 		JumpVel = 0;
 	}
 
 	if (m_Position.x > m_MaxCollisionBox.x)
 	{
-        CollisionResponse();
+       // CollisionResponse();
 		m_Position.x = m_MaxCollisionBox.x;
 		JumpVel = 0;
 	}
@@ -557,6 +571,8 @@ void Entity::DebuffCheckAndApply(double dt)
     {
         isLockMovement = true;
         deBuff_StunTimer += 2 * (float)dt;
+
+		this->SetMoveState(STUNNED);
         if (deBuff_StunTimer >= 10.f)
         {
             deBuff_Stunned = false;

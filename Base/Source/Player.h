@@ -27,6 +27,7 @@ public:
 
 	void AddElementCharge(ELEMENT ToBeAdded);
 	void ReorderElements();
+
 	ELEMENT* GetFirstElementArray();
 
 	void SetRespawnPos(Vector3 RespawnPos);

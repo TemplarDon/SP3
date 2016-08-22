@@ -9,6 +9,7 @@ enum ATTACK_TYPE
     MELEE,
     RANGED,
     ABILITY,
+	SUCK,
     TOTAL_ATTACK_TYPE,
 };
 class AttackBase
@@ -71,6 +72,7 @@ protected:
     void Attack_Ranged();
     void Attack_Melee();
     void Attack_Ability();
+	void Attack_Suck();
 
     
 

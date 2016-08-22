@@ -55,7 +55,7 @@ void  Projectile::setVelocity()
 	}
 	else
 	{
-		rotation += 90;
+		rotation =180-rotation;
 		m_Velocity.Set(m_Position.x * cos(Math::DegreeToRadian(rotation)), m_Position.y *sin(Math::DegreeToRadian(rotation)), 1);
 	}
 	
@@ -66,18 +66,6 @@ Vector3  Projectile::getVelocity()
 }
 void Projectile::Update(double dt)
 {
-	if (Direction != true&& rotation<90)
-	{
-		rotation += 180;
-		if (rotation >= 180)
-		{
-			rotation -= 90;
-		}
-	}
-	
-	//m_Position += m_Velocity;
-	
-
 	lifeTime -= (float)dt;
 	if (lifeTime < 0)
 	{
@@ -144,4 +132,12 @@ void Projectile::CollisionResponse(GameObject* OtherGo)
 	Vector3 u1N = u1.Dot(N) * N;
 	
 	this->m_Velocity = (u1 - 2 * (u1N));
+}
+void Projectile::setIsHostileProjectile(bool isHostileProjectile)
+{
+	this->isHostileProjectile = isHostileProjectile;
+}
+bool Projectile::getIsHostileProjectile()
+{
+	return isHostileProjectile;
 }
