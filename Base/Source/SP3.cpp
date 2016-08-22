@@ -544,10 +544,11 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 
 	// ----------------- Player ----------------- // 
 	m_Player->SetPosition(m_GoMap->GetLevel()->GetStartPos());
-	m_Player->SetMapOffset_x(0);
+	m_Player->SetMapOffset_x(m_Player->GetPosition().x - (0.5 * m_GoMap->GetNumOfTiles_ScreenWidth() * m_GoMap->GetTileSize()));
 	m_Player->SetMapFineOffset_x(0);
 	m_Player->SetRespawnPos(m_Player->GetPosition());
 	m_Player->SetCurrentLevel(NextLevel);
+
 	// ------------------------------------------ // 
 
 	// ------------------- Set Level ------------------ // 
@@ -557,8 +558,8 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	// ------------------------------------------------ // 
 
 	// ------------------- Cam ------------------ // 
-	camera.position = OrignialCamPos;
-	camera.target = OrignialCamTarget;
+	camera.position.x = m_Player->GetMapOffset_x();
+	camera.target.x = m_Player->GetMapOffset_x();
 	// ------------------------------------------ // 
 
 	treePos = orignalTreePos;

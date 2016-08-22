@@ -63,7 +63,7 @@ void Player::ReorderElements()
 	m_ElementArray[4] = temp;
 }
 
-ELEMENT* Player::GetFirstElementArray()
+ELEMENT* Player::GetElementArray()
 {
 	return m_ElementArray;
 }
