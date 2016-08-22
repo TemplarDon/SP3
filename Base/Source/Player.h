@@ -16,6 +16,7 @@ public:
 	void PlayerUpdate(GameObject_Map* m_cMap);
 
 	void AddElementCharge(ELEMENT ToBeAdded);
+	void RemoveElementCharge();
 	void ReorderElements();
 
 	ELEMENT* GetElementArray();

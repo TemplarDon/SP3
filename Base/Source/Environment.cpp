@@ -65,7 +65,7 @@ void Environment::CollisionResponse(GameObject* OtherGo)
 		{
 		case WATER:
 		{
-			if (temp->GetElement() == EARTH)
+			if (temp->GetElement() == EARTH_2)
 			{
 				this->m_Active = false;
 				this->m_Collidable = false;
@@ -79,7 +79,7 @@ void Environment::CollisionResponse(GameObject* OtherGo)
 
 		case EARTH:
 		{
-			if (temp->GetElement() == FIRE)
+			if (temp->GetElement() == FIRE_2)
 			{
 				this->m_Active = false;
 				this->m_Collidable = false;
@@ -93,7 +93,7 @@ void Environment::CollisionResponse(GameObject* OtherGo)
 
 		case FIRE:
 		{
-			if (temp->GetElement() == WATER)
+			if (temp->GetElement() == WATER_2)
 			{
 				this->m_Active = false;
 				this->m_Collidable = false;

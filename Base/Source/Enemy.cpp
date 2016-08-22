@@ -147,7 +147,6 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		//std::cout << "DistancePlayerToEnemy" << distancePlayerToEnemy << std::endl;
 		//std::cout << "Estimated Distance" << estimatedDistance << std::endl;
 	}
->>>>>>> Stashed changes
 }
 void Enemy::setBehaviour(Behaviour* behaviour)
 {

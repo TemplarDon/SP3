@@ -45,11 +45,17 @@ void Player::AddElementCharge(ELEMENT ToBeAdded)
 {
 	for (int i = 0; i < 5; ++i)
 	{
-		if (m_ElementArray[i] == NULL)
+		if (m_ElementArray[i] == NO_ELEMENT)
 		{
 			m_ElementArray[i] = ToBeAdded;
 		}
 	}
+}
+
+void Player::RemoveElementCharge()
+{
+	m_ElementArray[0] = NO_ELEMENT;
+	ReorderElements();
 }
 
 void Player::ReorderElements()
@@ -61,6 +67,25 @@ void Player::ReorderElements()
 	m_ElementArray[2] = m_ElementArray[3];
 	m_ElementArray[3] = m_ElementArray[4];
 	m_ElementArray[4] = temp;
+
+	for (int i = 0; i < 5; ++i)
+	{
+		if (m_ElementArray[i] == NO_ELEMENT)
+		{
+			if (i < 4)
+			{
+				for (int y = i; y < 5; ++y)
+				{
+					if (m_ElementArray[y] != NO_ELEMENT)
+					{
+						m_ElementArray[i] = m_ElementArray[y];
+						m_ElementArray[y] = NO_ELEMENT;
+						break;
+					}
+				}
+			}
+		}
+	}
 }
 
 ELEMENT* Player::GetElementArray()

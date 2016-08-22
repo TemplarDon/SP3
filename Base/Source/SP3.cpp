@@ -98,6 +98,9 @@ void SP3::Init()
 	temp->EnemyInit(m_Player->GetPosition(), 20, EARTH, 10,50);
 	// ------------------------------------------ // 
 
+
+	currentSelectedEle = m_Player->GetElement();
+
 }
 
 void SP3::Update(double dt)
@@ -119,6 +122,11 @@ void SP3::Update(double dt)
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
 		m_Player->Attacks->LaunchAttack();
+
+		if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH)
+		{
+			m_Player->SetElement(currentSelectedEle);
+		}
 	}
 
 	if (!Application::IsKeyPressed('D') && !Application::IsKeyPressed('A'))
@@ -148,14 +156,21 @@ void SP3::Update(double dt)
 	{
 		if (m_CanChangeElement)
 		{
-			if (m_Player->GetElement() == MISC)
-				m_Player->SetElement(WATER);
-			else if (m_Player->GetElement() == WATER)
-				m_Player->SetElement(FIRE);
-			else if (m_Player->GetElement() == FIRE)
+			if (m_Player->GetElement() == FIRE)
+			{
 				m_Player->SetElement(EARTH);
+				currentSelectedEle = EARTH;
+			}
 			else if (m_Player->GetElement() == EARTH)
-				m_Player->SetElement(MISC);
+			{
+				m_Player->SetElement(WATER);
+				currentSelectedEle = WATER;
+			}
+			else if (m_Player->GetElement() == WATER)
+			{
+				m_Player->SetElement(FIRE);
+				currentSelectedEle = FIRE;
+			}
 			m_CanChangeElement = false;
 		}
 	}
@@ -168,18 +183,94 @@ void SP3::Update(double dt)
 	}
 	else if (bEButtonState && !Application::IsKeyPressed('E'))
 	{
+		m_Player->ReorderElements();
 		bEButtonState = false;
 	}
 
 	// ----------------- Element Combining ------------------ //
-	static bool bQButtonState = false;
-	if (!bQButtonState && Application::IsKeyPressed('Q'))
+	static bool bRButtonState = false;
+	if (!bRButtonState && Application::IsKeyPressed('R'))
 	{
-		bQButtonState = true;
+		bRButtonState = true;
 	}
-	else if (bQButtonState && !Application::IsKeyPressed('Q'))
+	else if (bRButtonState && !Application::IsKeyPressed('R'))
 	{
-		bQButtonState = false;
+		if (m_Player->GetElement() == FIRE || m_Player->GetElement() == WATER || m_Player->GetElement() == EARTH)
+		{
+			switch (m_Player->GetElement())
+			{
+			case FIRE:
+			{
+						 switch (m_Player->GetElementArray()[0])
+						 {
+						 case FIRE:
+						 {
+									  m_Player->SetElement(FIRE_2);
+									  break;
+						 }
+						 case WATER:
+						 {
+									   m_Player->SetElement(STEAM);
+									   break;
+						 }
+						 case EARTH:
+						 {
+									   m_Player->SetElement(SAND);
+									   break;
+						 }
+						 }
+						 break;
+			}
+
+			case WATER:
+			{
+						  switch (m_Player->GetElementArray()[0])
+						  {
+						  case FIRE:
+						  {
+									   m_Player->SetElement(STEAM);
+									   break;
+						  }
+						  case WATER:
+						  {
+										m_Player->SetElement(WATER_2);
+										break;
+						  }
+						  case EARTH:
+						  {
+										m_Player->SetElement(WOOD);
+										break;
+						  }
+						  }
+						  break;
+			}
+
+			case EARTH:
+			{
+						  switch (m_Player->GetElementArray()[0])
+						  {
+						  case FIRE:
+						  {
+									   m_Player->SetElement(SAND);
+									   break;
+						  }
+						  case WATER:
+						  {
+										m_Player->SetElement(WOOD);
+										break;
+						  }
+						  case EARTH:
+						  {
+										m_Player->SetElement(EARTH_2);
+										break;
+						  }
+						  }
+						  break;
+			}
+			}
+			m_Player->RemoveElementCharge();
+		}
+		bRButtonState = false;
 	}
 
 	// ----------------- Sort Map ------------------ //
@@ -372,7 +463,7 @@ void SP3::UpdateUI(double dt)
 
 	switch (m_Player->GetElement())
 	{
-	case 1:
+	case WATER:
 	{
 		// Fire
 		if (rotateUI < 270.f)
@@ -382,7 +473,7 @@ void SP3::UpdateUI(double dt)
 
 		break;
 	}
-	case 2:
+	case FIRE:
 	{
 		// Earth
 		if (rotateUI < 40.f)
@@ -397,7 +488,7 @@ void SP3::UpdateUI(double dt)
 
 		break;
 	}
-	case 3:
+	case EARTH:
 	{
 		// Water
 		if (rotateUI < 140)
@@ -633,38 +724,38 @@ void SP3::Render()
 	modelStack.Translate(m_worldWidth * 0.5 + 20, 15, 2);
 	modelStack.Scale(15, 15, 1);
 	modelStack.Rotate(rotateUI2, 0, 0, 1);
-	RenderMesh(meshList[GEO_CHARGE_WHEEL], false);
+	//RenderMesh(meshList[GEO_CHARGE_WHEEL], false);
 	modelStack.PopMatrix();
 
 	for (int i = 0; i < 5; i++)
 	{
 		switch (m_Player->GetElementArray()[i])
 		{
-		case 2:
+		case FIRE:
 		{
 			// Fire
 			modelStack.PushMatrix();
-			modelStack.Translate(m_worldWidth * 0.5 + 40 + (i * 2), 15, 2);
+			modelStack.Translate(m_worldWidth * 0.5 + (i * 10), 15, 2);
 			modelStack.Scale(6, 6, 1);
 			RenderMesh(meshList[GEO_FIRE_ICON], false);
 			modelStack.PopMatrix();
 			break;
 		}
-		case 3:
+		case EARTH:
 		{ 
 			// Earth
 			modelStack.PushMatrix();
-			modelStack.Translate(m_worldWidth * 0.5 + 50 + (i * 5), 15, 2);
+			modelStack.Translate(m_worldWidth * 0.5 + (i * 10), 15, 2);
 			modelStack.Scale(6, 6, 1);
 			RenderMesh(meshList[GEO_EARTH_ICON], false);
 			modelStack.PopMatrix();
 			break;
 		}
-		case 4:
+		case WATER:
 		{
 			// Water
 			modelStack.PushMatrix();
-			modelStack.Translate(m_worldWidth * 0.5 + 70 + (i * 5), 15, 2);
+			modelStack.Translate(m_worldWidth * 0.5 + (i * 10), 15, 2);
 			modelStack.Scale(6, 6, 1);
 			RenderMesh(meshList[GEO_WATER_ICON], false);
 			modelStack.PopMatrix();
@@ -709,7 +800,7 @@ void SP3::Render()
 	modelStack.Translate(m_worldWidth * 0.5, 15, 2);
 	modelStack.Scale(10, 10, 1);
 	modelStack.Rotate(180, 0, 0, 1);
-	RenderMesh(meshList[GEO_ARROW], false);
+	//RenderMesh(meshList[GEO_ARROW], false);
 	modelStack.PopMatrix();
 
 	// --------------------------------------------- //
