@@ -28,6 +28,7 @@ void SP3::Init()
 {
 	SceneBase::Init();
 
+	UIKoolDown = 0;
 	rotateUI = 0;
 	rotateUI2 = 0;
 	treePos = 100 ;
@@ -339,6 +340,7 @@ void SP3::Update(double dt)
 	}
 
 	UpdateUI(dt);
+	UpdateUI2(dt);
 }
 
 void SP3::UpdateUI(double dt)
@@ -410,12 +412,28 @@ void SP3::UpdateUI(double dt)
 		break;
 	}
 
+}
 
-
+void SP3::UpdateUI2(double dt)
+{
 	// ------------------------------------- Charge ----------------------------------------- //
+
 	//std::cout << m_Player->GetFirstElementArray()[0]; 
 
-	rotateUI2 += dt;
+	//std::cout << m_Player->GetElementArray()[0];
+
+	std::cout << UIKoolDown << std::endl;
+
+	if (Application::IsKeyPressed('E'))
+	{
+		//if (rotateUI2 > -45)
+		{
+			std::cout << rotateUI2 << std::endl;
+			rotateUI2 -= dt * 50;
+		}
+	}
+
+
 }
 
 void SP3::RenderGO(GameObject *go)
@@ -575,13 +593,13 @@ void SP3::Render()
 	modelStack.Translate(m_worldWidth * 0.5 - 30, 15, 0);
 	modelStack.Rotate(rotateUI, 0, 0, 1);
 
-	// Fire
+	// Water
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 5, 1);
 	//modelStack.Translate(0, 3.5, 1);
 	modelStack.Scale(8, 8, 1);
 	modelStack.Rotate(-rotateUI, 0, 0, 1);
-	RenderMesh(meshList[GEO_FIRE_ICON], false);
+	RenderMesh(meshList[GEO_WATER_ICON], false);
 	modelStack.PopMatrix();
 
 	// Earth
@@ -590,18 +608,18 @@ void SP3::Render()
 	modelStack.Translate(0, 5, 1);
 	//modelStack.Translate(4.5, -4.5, 1);
 	modelStack.Scale(8, 8, 1);
-	modelStack.Rotate(240-rotateUI, 0, 0, 1);
-	RenderMesh(meshList[GEO_WATER_ICON], false);
+	modelStack.Rotate(240 - rotateUI, 0, 0, 1);
+	RenderMesh(meshList[GEO_EARTH_ICON], false);
 	modelStack.PopMatrix();
 
-	// Water
+	// Fire
 	modelStack.PushMatrix();
 	modelStack.Rotate(240, 0, 0, 1);
 	modelStack.Translate(0, 5, 1);
 	//modelStack.Translate(-4.5, -4.5, 1);
 	modelStack.Scale(8, 8, 1);
-	modelStack.Rotate(120 -rotateUI, 0, 0, 1);
-	RenderMesh(meshList[GEO_EARTH_ICON], false);
+	modelStack.Rotate(120 - rotateUI, 0, 0, 1);
+	RenderMesh(meshList[GEO_FIRE_ICON], false);
 	modelStack.PopMatrix();
 
 	// Ring (parent)
@@ -611,17 +629,85 @@ void SP3::Render()
 	modelStack.PopMatrix();
 
 
-	// Charge 
+	// --------------------------------- Charge --------------------------------------- // 
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 , 15, 2);
+	modelStack.Translate(m_worldWidth * 0.5 + 20, 15, 2);
 	modelStack.Scale(15, 15, 1);
 	modelStack.Rotate(rotateUI2, 0, 0, 1);
 	RenderMesh(meshList[GEO_CHARGE_WHEEL], false);
 	modelStack.PopMatrix();
 
+	for (int i = 0; i < 5; i++)
+	{
+		switch (m_Player->GetElementArray()[i])
+		{
+		case 2:
+		{
+			// Fire
+			modelStack.PushMatrix();
+			modelStack.Translate(m_worldWidth * 0.5 + 40 + (i * 2), 15, 2);
+			modelStack.Scale(6, 6, 1);
+			RenderMesh(meshList[GEO_FIRE_ICON], false);
+			modelStack.PopMatrix();
+			break;
+		}
+		case 3:
+		{ 
+			// Earth
+			modelStack.PushMatrix();
+			modelStack.Translate(m_worldWidth * 0.5 + 50 + (i * 5), 15, 2);
+			modelStack.Scale(6, 6, 1);
+			RenderMesh(meshList[GEO_EARTH_ICON], false);
+			modelStack.PopMatrix();
+			break;
+		}
+		case 4:
+		{
+			// Water
+			modelStack.PushMatrix();
+			modelStack.Translate(m_worldWidth * 0.5 + 70 + (i * 5), 15, 2);
+			modelStack.Scale(6, 6, 1);
+			RenderMesh(meshList[GEO_WATER_ICON], false);
+			modelStack.PopMatrix();
+			break;
+		}
+		default:
+			break;
+		}
+	}
+
+
+
+	 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	// Arrow
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 + 20, 15, 2);
+	modelStack.Translate(m_worldWidth * 0.5, 15, 2);
 	modelStack.Scale(10, 10, 1);
 	modelStack.Rotate(180, 0, 0, 1);
 	RenderMesh(meshList[GEO_ARROW], false);
