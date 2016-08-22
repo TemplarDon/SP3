@@ -120,7 +120,24 @@ void SceneBase::Init()
 	//meshList[GEO_PLAYER]->textureID = LoadTGA("Image//player.tga");
 
     //meshList[GEO_SHIP] = MeshBuilder::GenerateOBJ("spaceship","Image//ship.obj");
-	
+
+	// UI Stuff
+	meshList[GEO_EARTH_ICON] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
+	meshList[GEO_EARTH_ICON]->textureID = LoadTGA("Image//UI//earth_icon.tga");
+	meshList[GEO_FIRE_ICON] = MeshBuilder::GenerateQuad("FIRE", Color(1, 1, 1), 1.f);
+	meshList[GEO_FIRE_ICON]->textureID = LoadTGA("Image//UI//fire_icon.tga");
+	meshList[GEO_WATER_ICON] = MeshBuilder::GenerateQuad("WATER", Color(1, 1, 1), 1.f);
+	meshList[GEO_WATER_ICON]->textureID = LoadTGA("Image//UI//water_icon.tga");
+	meshList[GEO_RING] = MeshBuilder::GenerateQuad("WATER", Color(1, 1, 1), 1.f);
+	meshList[GEO_RING]->textureID = LoadTGA("Image//UI//ring.tga");
+	meshList[GEO_ARROW] = MeshBuilder::GenerateQuad("WATER", Color(1, 1, 1), 1.f);
+	meshList[GEO_ARROW]->textureID = LoadTGA("Image//UI//arrow.tga");
+	meshList[GEO_ELEMENTS_WHEEL] = MeshBuilder::GenerateQuad("WATER", Color(1, 1, 1), 1.f);
+	meshList[GEO_ELEMENTS_WHEEL]->textureID = LoadTGA("Image//UI//baseElement_selector.tga");
+	meshList[GEO_CHARGE_WHEEL] = MeshBuilder::GenerateQuad("WATER", Color(1, 1, 1), 1.f);
+	meshList[GEO_CHARGE_WHEEL]->textureID = LoadTGA("Image//UI//charge.tga");
+
+
 	bLightEnabled = false;
 }
 

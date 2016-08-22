@@ -615,7 +615,7 @@ void Entity::DebuffCheckAndApply(double dt)
     }
     if (Application::IsKeyPressed('B'))
     {
-        deBuff_Slowed = true;
+        deBuff_burning = true;
     }
 }
 

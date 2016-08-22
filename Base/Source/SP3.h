@@ -50,6 +50,7 @@ public:
 	void RenderParallaxMap();
 
 	void SwitchLevel(LEVEL NextLevel);
+	void UpdateUI(double dt);
 
 
 protected:
@@ -81,12 +82,14 @@ protected:
 	int paraWallTileOffset_x, paraWallTileOffset_y;
 	int paraWallFineOffset_x, paraWallFineOffset_y;
 	GameObject_Map* m_GoMap2;
-	double hehexd;
 	float treePos;
 	float orignalTreePos;
 	// Transition
 	LEVEL m_LevelLoaded;
 
+	//UI
+	float rotateUI;
+	float rotateUI2;
 };
 
 #endif

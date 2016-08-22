@@ -5,7 +5,7 @@ Player::Player(void)
 	, m_HealthCharges(0)
 {
 
-    m_CurrElement = FIRE;
+    m_CurrElement = EARTH;
 
     Attacks = new AttackBase;
 	m_ElementArray[0] = FIRE;

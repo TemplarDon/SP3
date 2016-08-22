@@ -6,9 +6,9 @@ enum ELEMENT
 	NO_ELEMENT,//use this for non-interactable blocks
 	MISC,
     //primary elements
-	FIRE,
-	EARTH,
-	WATER,
+	FIRE, //1
+	EARTH, //2
+	WATER, //3
     //secondary elements
     FIRE_2,
     WATER_2,

@@ -28,7 +28,8 @@ void SP3::Init()
 {
 	SceneBase::Init();
 
-	hehexd = 0;
+	rotateUI = 0;
+	rotateUI2 = 0;
 	treePos = 100 ;
 	orignalTreePos = 100;
 
@@ -305,8 +306,6 @@ void SP3::Update(double dt)
 	//camera.target.x = OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	// -------------------------------------------------- //
 
-	hehexd += dt;
-
 
 
 	////419 same time
@@ -325,8 +324,84 @@ void SP3::Update(double dt)
 		treePos += (dt * 0.5);
 	}
 
+	UpdateUI(dt);
+}
+
+void SP3::UpdateUI(double dt)
+{
+	// -------------------------------------- Element indicator ---------------------------------------- //
+
+	if (Application::IsKeyPressed('F'))
+	{
+		m_Player->SetElement(EARTH);
+	}
 
 
+	if (Application::IsKeyPressed('G'))
+	{
+		m_Player->SetElement(FIRE);
+	}
+
+	if (Application::IsKeyPressed('H'))
+	{
+		m_Player->SetElement(WATER);
+	}
+
+	if (rotateUI > 360.f)
+	{
+		rotateUI -= 360.f;
+	}
+
+
+	//std::cout << rotateUI << std::endl;
+
+	switch (m_Player->GetElement())
+	{
+	case 1:
+	{
+		// Fire
+		if (rotateUI < 270.f)
+		{
+			rotateUI += dt * 120;
+		}
+
+		break;
+	}
+	case 2:
+	{
+		// Earth
+		if (rotateUI < 40.f)
+		{
+			rotateUI += dt * 120;
+		}
+		else if (rotateUI >= 271.f || rotateUI >= 260.f)
+		{
+			//std::cout << "HEYYYAYYAYAYAAYAYAYAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYYYYYHUE";
+			rotateUI += dt * 120;
+		}
+
+		break;
+	}
+	case 3:
+	{
+		// Water
+		if (rotateUI < 140)
+		{
+			rotateUI += dt * 120;
+		}
+
+		break;
+	}
+	default:
+		break;
+	}
+
+
+
+	// ------------------------------------- Charge ----------------------------------------- //
+	std::cout << m_Player->GetFirstElementArray()[0]; 
+
+	rotateUI2 += dt;
 }
 
 void SP3::RenderGO(GameObject *go)
@@ -456,15 +531,6 @@ void SP3::Render()
 
 	// ------------------------------------------------- //
 
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	modelStack.PushMatrix();
-	//	modelStack.Translate((((m_worldWidth * 0.2 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x()) * 0.8) + (i * 40)), 35, -1);
-	//	modelStack.Scale(30, 30, 1);
-	//	RenderMesh(meshList[GEO_TREE], false);
-	//	modelStack.PopMatrix();
-	//}
-
 	//stalagmite
 	modelStack.PushMatrix();
 	modelStack.Translate(treePos , 60, -1);
@@ -482,17 +548,71 @@ void SP3::Render()
 	}
 
 	// -------------------- UI --------------------- //
+
+	// Health Bar
 	modelStack.PushMatrix();
 	modelStack.Translate(10 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), 95, 1);
 	modelStack.Scale(m_Player->GetEntityHealth(), 3, 1);
 	RenderMesh(meshList[GEO_HEALTH_BAR], false);
 	modelStack.PopMatrix();
 
+	// Element indicator
 	modelStack.PushMatrix();
-	modelStack.Translate(10 + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), 90, 1);
-	modelStack.Scale(1, 3, 1);
-	RenderMesh(meshList[GEO_HEALTH_BAR], false);
+	modelStack.Translate(m_worldWidth * 0.5 - 30, 15, 0);
+	modelStack.Rotate(rotateUI, 0, 0, 1);
+
+	// Fire
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 5, 1);
+	//modelStack.Translate(0, 3.5, 1);
+	modelStack.Scale(8, 8, 1);
+	modelStack.Rotate(-rotateUI, 0, 0, 1);
+	RenderMesh(meshList[GEO_FIRE_ICON], false);
 	modelStack.PopMatrix();
+
+	// Earth
+	modelStack.PushMatrix();
+	modelStack.Rotate(120, 0, 0, 1);
+	modelStack.Translate(0, 5, 1);
+	//modelStack.Translate(4.5, -4.5, 1);
+	modelStack.Scale(8, 8, 1);
+	modelStack.Rotate(240-rotateUI, 0, 0, 1);
+	RenderMesh(meshList[GEO_WATER_ICON], false);
+	modelStack.PopMatrix();
+
+	// Water
+	modelStack.PushMatrix();
+	modelStack.Rotate(240, 0, 0, 1);
+	modelStack.Translate(0, 5, 1);
+	//modelStack.Translate(-4.5, -4.5, 1);
+	modelStack.Scale(8, 8, 1);
+	modelStack.Rotate(120 -rotateUI, 0, 0, 1);
+	RenderMesh(meshList[GEO_EARTH_ICON], false);
+	modelStack.PopMatrix();
+
+	// Ring (parent)
+	modelStack.Scale(6, 6, 1);
+	modelStack.Translate(0, 0, 2);
+	RenderMesh(meshList[GEO_RING], false);
+	modelStack.PopMatrix();
+
+
+	// Charge 
+	modelStack.PushMatrix();
+	modelStack.Translate(m_worldWidth * 0.5 , 15, 2);
+	modelStack.Scale(15, 15, 1);
+	modelStack.Rotate(rotateUI2, 0, 0, 1);
+	RenderMesh(meshList[GEO_CHARGE_WHEEL], false);
+	modelStack.PopMatrix();
+
+	// Arrow
+	modelStack.PushMatrix();
+	modelStack.Translate(m_worldWidth * 0.5 + 20, 15, 2);
+	modelStack.Scale(10, 10, 1);
+	modelStack.Rotate(180, 0, 0, 1);
+	RenderMesh(meshList[GEO_ARROW], false);
+	modelStack.PopMatrix();
+
 	// --------------------------------------------- //
 
 	//std::cout << fps << std::endl;
