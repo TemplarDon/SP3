@@ -51,6 +51,7 @@ public:
 
 	void SwitchLevel(LEVEL NextLevel);
 	void UpdateUI(double dt);
+	void UpdateUI2(double dt);
 
 
 protected:
@@ -90,6 +91,7 @@ protected:
 	//UI
 	float rotateUI;
 	float rotateUI2;
+	float UIKoolDown;
 };
 
 #endif
