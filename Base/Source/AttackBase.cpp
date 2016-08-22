@@ -210,20 +210,26 @@ void AttackBase::Attack_Melee()
 void AttackBase::Attack_Ranged()
 {
     Vector3 tempscale;
-    if (m_projectileCount <= 5)
-        tempscale = Vector3(2, 2, 2);
-    else
-        tempscale = Vector3(1, 1, 1);
+    //if (m_projectileCount <= 5)
+    //    tempscale = Vector3(2, 2, 2);
+    //else
+    //    tempscale = Vector3(1, 1, 1);
+
+	tempscale = Vector3(2, 2, 2);
     //GameObjectManager::SpawnProjectileObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, 2, 5,m_AttackDirection , 50.0f ,ProjectilePH, "Image//Tiles/projectilePH.tga");
 
     Projectile* temp;
 	if (m_CurrElement == FIRE)
 	{
 		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Projectiles/fire_projectile.tga"));
+		temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, m_AttackDamage, 1, m_CurrElement, isEnemy, 60);
 	}
 	else if(m_CurrElement == WATER)
 	{
 		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Projectiles/water_projectile.tga"));
+		temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, m_AttackDamage, 1, m_CurrElement, isEnemy, 60);
+	}
+    
 	}
     
 	temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, m_AttackDamage, 1, m_CurrElement, isEnemy, -50);

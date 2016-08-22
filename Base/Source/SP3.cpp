@@ -47,7 +47,6 @@ void SP3::Init()
 	m_objectCount = 0;
 
 	// --------------------------- Background --------------------------- //
-	GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_PILLAR, Vector3(0,50, 0), Vector3(1, 1, 1), true, true, meshList[GEO_BALL]);
 	// ---------------------------------------------------------- // 
 
 	// ------------------------------ Map ------------------------------- //
@@ -141,6 +140,8 @@ void SP3::Update(double dt)
 	{
 		m_Player->EntityJumpUpdate(dt);
 	}
+
+	// ----------------- Basic Element Selection ------------------ //
 	if (Application::IsKeyPressed('Q'))
 	{
 		if (m_CanChangeElement)
@@ -157,12 +158,27 @@ void SP3::Update(double dt)
 		}
 	}
 
-	if (Application::IsKeyPressed('K'))
+	// ----------------- Charged Elements Selection ------------------ //
+	static bool bEButtonState = false;
+	if (!bEButtonState && Application::IsKeyPressed('E'))
 	{
-		//m_Player->SetEntityHealth(m_Player->GetEntityHealth() - 2 * dt);
+		bEButtonState = true;
+	}
+	else if (bEButtonState && !Application::IsKeyPressed('E'))
+	{
+		bEButtonState = false;
 	}
 
-
+	// ----------------- Element Combining ------------------ //
+	static bool bQButtonState = false;
+	if (!bQButtonState && Application::IsKeyPressed('Q'))
+	{
+		bQButtonState = true;
+	}
+	else if (bQButtonState && !Application::IsKeyPressed('Q'))
+	{
+		bQButtonState = false;
+	}
 
 	// ----------------- Sort Map ------------------ //
 	m_GoMap->SortMap();
@@ -213,7 +229,7 @@ void SP3::Update(double dt)
 			if (!go2->GetActive())
 				continue;
 
-		/*	if ((go->GetObjectType() == PROJECTILE || go->GetObjectType() == PLAYER) && go2->GetObjectType() == ENVIRONMENT)
+			if (go->GetObjectType() == PROJECTILE && go2->GetObjectType() == ENVIRONMENT)
 			{
 				if (go->EmpricalCheckCollisionWith(go2, dt))
 				{
@@ -221,11 +237,19 @@ void SP3::Update(double dt)
 					go->CollisionResponse(go2);
 				}
 			}
-*/
+
 			if (go2->GetType() == GO_BLOCK)
 				continue;
 
-			if (go->GetObjectType() == PLAYER && go2->GetType() == GO_DOOR)
+			if (go->GetObjectType() == PLAYER && go2->GetObjectType() == ENVIRONMENT)
+			{
+				if (go->EmpricalCheckCollisionWith(go2, dt))
+				{
+					go->CollisionResponse(go2);
+				}
+			}
+
+			if (go->GetObjectType() == PLAYER && go2->GetObjectType() == TRANSITION)
 			{
 				if (go->EmpricalCheckCollisionWith(go2, dt))
 				{

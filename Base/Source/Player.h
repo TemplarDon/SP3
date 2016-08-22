@@ -15,16 +15,6 @@ public:
 	// Player Update
 	void PlayerUpdate(GameObject_Map* m_cMap);
 
-	// Set Animation Invert status of the player
-	void SetAnimationInvert(bool heroAnimationInvert);
-	// Get Animation Invert status of the player
-	bool GetAnimationInvert(void);
-	
-	// Set player position
-	void SetPlayerPos(Vector3 PlayerPos);
-	// Get player position
-	Vector3 GetPlayerPos();
-
 	void AddElementCharge(ELEMENT ToBeAdded);
 	void ReorderElements();
 
@@ -38,14 +28,16 @@ public:
 	LEVEL GetCurrentLevel();
 	void SetCurrentLevel(LEVEL newLevel);
 
+	int GetHealthCharges();
+	void AddHealthCharges();
+
+	void UpdateHealthCharges();
+
+	virtual void CollisionResponse(GameObject* OtherGo);
+
 private:
 	// Player's information
 	int jumpspeed;
-	bool hero_inMidAir_Up;
-	bool hero_inMidAir_Down;
-	bool heroAnimationInvert;
-	int heroAnimationCounter;
-	Vector3 PlayerPos;
 
 	// For Collision
 	Vector3 m_PrevPosition;
@@ -53,11 +45,14 @@ private:
 	// For Storing Of Elements
 	ELEMENT m_ElementArray[5];
 
-	// Pointer to checkpoint
+	// Pos of last checkpoint
 	Vector3 m_RespawnPos;
 
 	// Current Level
 	LEVEL m_CurrLevel;
+
+	// Health Charges
+	int m_HealthCharges;
 };
 
 

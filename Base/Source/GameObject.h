@@ -43,6 +43,7 @@ enum GAMEOBJECT_TYPE
 	GO_WOOD,
 	GO_CHECKPOINT,
 	GO_DOOR,
+	GO_DROP_HEALTH,
 	GO_TOTAL,
 };
 
@@ -79,7 +80,7 @@ public:
 	virtual SpriteAnimation* GetSpriteAnimation();
 	virtual void SetSpriteAnimation(SpriteAnimation* SetSpriteAnimation);
 
-	virtual bool EmpricalCheckCollisionWith(GameObject* OtherGo, double dt);
+	virtual bool EmpricalCheckCollisionWith(GameObject* OtherGo, double dt, float offset = 25);
 	virtual float MathematicalCheckCollisionWith(GameObject* OtherGo);
 	virtual void CollisionResponse(GameObject* OtherGo);
 

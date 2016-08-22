@@ -443,7 +443,7 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 		for (int i = PlayerPos_Y; i >= 0; --i)
 		{
 			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[i][PlayerPos_X];
-			GameObject* CheckGameObject_3 = Map->m_GameObjectMap[i][PlayerPos_X+1];
+			GameObject* CheckGameObject_3 = Map->m_GameObjectMap[i][PlayerPos_X + 1];
 			if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive())
 			{
 				m_MinCollisionBox.y = (CheckGameObject_2->GetPosition().y) + (Map->GetTileSize());

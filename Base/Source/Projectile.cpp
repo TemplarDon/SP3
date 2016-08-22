@@ -127,11 +127,14 @@ float Projectile::getRotation()
 
 void Projectile::CollisionResponse(GameObject* OtherGo)
 {
-	Vector3 u1 = this->m_Velocity;
-	Vector3 N = (OtherGo->GetPosition() - this->m_Position).Normalized();
-	Vector3 u1N = u1.Dot(N) * N;
-	
-	this->m_Velocity = (u1 - 2 * (u1N));
+	if (m_CurrElement == FIRE)
+	{
+		Vector3 u1 = this->m_Velocity;
+		Vector3 N = (OtherGo->GetPosition() - this->m_Position).Normalized();
+		Vector3 u1N = u1.Dot(N) * N;
+
+		this->m_Velocity = (u1 - 2 * (u1N));
+	}
 }
 void Projectile::setIsHostileProjectile(bool isHostileProjectile)
 {
