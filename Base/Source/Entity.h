@@ -87,9 +87,7 @@ public:
 
 
 	// Collision Repsonse
-	virtual void DisableDash();
-	virtual void CollisionResponse(GameObject *go);
-	
+	virtual void DisableDash();	
 	// CollisionWithTileMap
 	virtual void UpdateTileMapCollision(GameObject_Map* Map);
 

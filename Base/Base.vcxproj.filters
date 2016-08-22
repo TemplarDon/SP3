@@ -79,6 +79,12 @@
     <ClCompile Include="Source\Platform.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Level.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Transition.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -172,6 +178,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Platform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Transition.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

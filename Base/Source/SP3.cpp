@@ -413,7 +413,7 @@ void SP3::UpdateUI(double dt)
 
 
 	// ------------------------------------- Charge ----------------------------------------- //
-	std::cout << m_Player->GetFirstElementArray()[0]; 
+	//std::cout << m_Player->GetFirstElementArray()[0]; 
 
 	rotateUI2 += dt;
 }
