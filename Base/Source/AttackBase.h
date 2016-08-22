@@ -29,6 +29,8 @@ public:
     bool GetDashRightStatus();
     void SetSteamStatus(bool jumpstatus);
     void SetDashStatus(bool dashleft, bool dashright);
+    void SetHealStatusFalse();
+    bool GetHealStatus();
     void SetisEnemy(bool);
     
 

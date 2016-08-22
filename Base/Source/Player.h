@@ -34,7 +34,6 @@ public:
 	void UpdateHealthCharges();
 
 	virtual void CollisionResponse(GameObject* OtherGo);
-
 private:
 	// Player's information
 	int jumpspeed;

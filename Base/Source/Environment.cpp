@@ -43,9 +43,16 @@ void Environment::Update(double dt, GameObject_Map* Map)
 		{
 			m_Position.y = MinYPos;
 		}
-
-
 	}
+}
+
+void Environment::Update_Sheild(Vector3 playerpos)
+{
+    Vector3 dir = playerpos - m_Position;
+    if (dir.x < 0)
+        m_Position = playerpos + Vector3(-5, 0, 0);
+    if (dir.x > 0)
+        m_Position = playerpos + Vector3(5, 0, 0);
 }
 
 void Environment::CollisionResponse(GameObject* OtherGo)

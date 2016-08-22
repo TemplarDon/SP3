@@ -110,7 +110,7 @@ protected:
 	float Damage;
 	float TakenDamage;
     int DamagMultiplier;
-
+    bool isEnemyEntity;
 
 	//Jeff's bool
 	bool Move_Left;
@@ -121,8 +121,8 @@ protected:
 	float mapFineOffset_x, mapFineOffset_y;
 	float MovementSpeed;
     float prevMS;
-
-
+    Mesh* SheildMesh;
+    
 
 
 
@@ -131,7 +131,7 @@ protected:
 
 	Vector3 m_MaxCollisionBox;
 	Vector3 m_MinCollisionBox;
-
+    virtual void CollisionResponse(GameObject* OtherGo);
 	float EntityMapOffsetX;
 
 	// ------------------------------------------------------------------- //
@@ -142,9 +142,14 @@ protected:
     bool m_Dashingleft, m_Dashingright;
     ENTITY_MOVE_STATE m_PrevState;
     void DebuffCheckAndApply(double dt);//stunned, slowed, burning, knockback 
-    bool deBuff_Stunned, deBuff_burning, deBuff_knockBack,deBuff_Slowed;
+    bool deBuff_Stunned, deBuff_burning, deBuff_Slowed, deBuff_KnockBack;
     float deBuff_StunTimer, deBuff_BurningTimer, deBuff_SlowTimer;
+    float KnockBackDestX;
+    float m_HealTimer;
+    bool KnockBackLeftRight;
+    bool SheildUp;
     int deBuff_BurnTicks;
+    double interDT;
     // ------------------------------------------------------------------- //
 
 	bool DirectionLeftRight;

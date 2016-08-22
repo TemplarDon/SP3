@@ -3,10 +3,15 @@
 Player::Player(void)
 	: jumpspeed(0)
 	, m_HealthCharges(0)
+    : hero_inMidAir_Up(false)
+    , hero_inMidAir_Down(false)
+    , jumpspeed(0)
+    , heroAnimationCounter(0)
+    , heroAnimationInvert(false)
 {
 
-    m_CurrElement = EARTH;
-
+    m_CurrElement = WATER_2;
+    isEnemyEntity = false;
     Attacks = new AttackBase;
 	m_ElementArray[0] = FIRE;
 	m_ElementArray[1] = WATER;
@@ -129,3 +134,4 @@ void Player::CollisionResponse(GameObject* OtherGo)
 		}
 	}
 }
+

@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "GameObjectManager.h"
 
 Entity::Entity()
 	: mapOffset_x(0)
@@ -23,11 +24,12 @@ Entity::Entity()
     deBuff_StunTimer = 0.f;
     deBuff_burning = true;
     deBuff_BurningTimer = 0.f;
-    deBuff_knockBack = false;
     deBuff_BurnTicks = 0;
     deBuff_Slowed = false;
+    deBuff_KnockBack = false;
     deBuff_SlowTimer = 0.f;
     DamagMultiplier = 1;    
+    m_HealTimer = 0.f;
 
     //
 	m_MaxCollisionBox.Set(99999, 99999, 0);
@@ -162,7 +164,7 @@ void Entity::EntityJumpUpdate(double dt)
 	JumpVel += Gravity * (float)dt;  //VEL = ACCEL * TIME
 
 	//Update the camera and target position
-	this->m_Position.y += JumpVel * 0.1; //DIST = VEL * TIME
+	this->m_Position.y += JumpVel * 0.1f; //DIST = VEL * TIME
 
 	if (JumpVel < 0)
 	{	
@@ -256,23 +258,201 @@ void Entity::DisableDash()
     m_Dashingleft = false;
     m_Dashingright = false;
 }
-void Entity::CollisionResponse(GameObject *go)
-{	
-	if (go->GetObjectType() == PROJECTILE)
+void Entity::CollisionResponse(GameObject* OtherGo)
+{
+    if (OtherGo->GetObjectType() == PROJECTILE && isEnemyEntity != dynamic_cast<Projectile*>(OtherGo)->GetIsEnemyProj())
+    {
+        //damage multiplier
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE)
+        {
+            if (m_CurrElement == WATER)
+                DamagMultiplier = 0.5;
+            if (m_CurrElement == FIRE)
+                DamagMultiplier = 1;
+            if (m_CurrElement == EARTH)
+                DamagMultiplier = 1.5;
+        }
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER)
+        {
+            if (m_CurrElement == WATER)
+                DamagMultiplier = 1;
+            if (m_CurrElement == FIRE)
+                DamagMultiplier = 1.5;
+            if (m_CurrElement == EARTH)
+                DamagMultiplier = 0.5;
+        }
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == EARTH)
+        {
+            if (m_CurrElement == WATER)
+                DamagMultiplier = 1.5;
+            if (m_CurrElement == FIRE)
+                DamagMultiplier = 0.5;
+            if (m_CurrElement == EARTH)
+                DamagMultiplier == 1;
+        }
+        //debuffs
+        //steam knockback
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == STEAM && !deBuff_KnockBack)
+        {
+            deBuff_KnockBack = true;
+            if (dynamic_cast<Projectile*>(OtherGo)->getVelocity().x < 0)
+            {
+                KnockBackDestX = m_Position.x - 3;
+                KnockBackLeftRight = false;
+            }
+            else if (dynamic_cast<Projectile*>(OtherGo)->getVelocity().x > 0)
+            {
+                KnockBackDestX = m_Position.x + 3;
+                KnockBackLeftRight = true;
+            }
+        }
+        //fire 2 burn
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
+        {
+            if (deBuff_burning = true)
+            {
+                deBuff_BurningTimer = 0.f;
+            }
+            else
+            {
+                deBuff_burning = true;
+            }
+        }
+        //sand and fire 2 slow
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == SAND || dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
+        {
+            if (deBuff_Slowed)
+            {
+                deBuff_SlowTimer = 0.f;
+            }
+            else
+            {
+                deBuff_Slowed = true;
+            }
+        }
+        //earth 2 stun
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == EARTH_2)
+        {
+            if (deBuff_Stunned = true)
+            {
+                deBuff_StunTimer = 0.f;
+            }
+            else
+            {
+                deBuff_Stunned = true;
+            }
+        }
+        TakeDamage(dynamic_cast<Projectile*>(OtherGo)->getDamage());
+    }
+   
+}
+
+
+void Entity::CollisionResponse(GameObject* OtherGo)
+{
+if (go->GetObjectType() == PROJECTILE)
 	{
 		Projectile* tempProj;
 		tempProj = dynamic_cast<Projectile*>(go);
-
-		if (this->m_ObjectType == ENEMY && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
+	if (this->m_ObjectType == ENEMY && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
 		{
 			this->deBuff_Stunned = true;
 		}
 	}
+    if (OtherGo->GetObjectType() == PROJECTILE && isEnemyEntity != dynamic_cast<Projectile*>(OtherGo)->GetIsEnemyProj())
+    {
+        //damage multiplier
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE)
+        {
+            if (m_CurrElement == WATER)
+                DamagMultiplier = 0.5;
+            if (m_CurrElement == FIRE)
+                DamagMultiplier = 1;
+            if (m_CurrElement == EARTH)
+                DamagMultiplier = 1.5;
+        }
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER)
+        {
+            if (m_CurrElement == WATER)
+                DamagMultiplier = 1;
+            if (m_CurrElement == FIRE)
+                DamagMultiplier = 1.5;
+            if (m_CurrElement == EARTH)
+                DamagMultiplier = 0.5;
+        }
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == EARTH)
+        {
+            if (m_CurrElement == WATER)
+                DamagMultiplier = 1.5;
+            if (m_CurrElement == FIRE)
+                DamagMultiplier = 0.5;
+            if (m_CurrElement == EARTH)
+                DamagMultiplier == 1;
+        }
+        //debuffs
+        //steam knockback
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == STEAM && !deBuff_KnockBack)
+        {
+            deBuff_KnockBack = true;
+            if (dynamic_cast<Projectile*>(OtherGo)->getVelocity().x < 0)
+            {
+                KnockBackDestX = m_Position.x - 3;
+                KnockBackLeftRight = false;
+            }
+            else if (dynamic_cast<Projectile*>(OtherGo)->getVelocity().x > 0)
+            {
+                KnockBackDestX = m_Position.x + 3;
+                KnockBackLeftRight = true;
+            }
+        }
+        //fire 2 burn
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
+        {
+            if (deBuff_burning = true)
+            {
+                deBuff_BurningTimer = 0.f;
+            }
+            else
+            {
+                deBuff_burning = true;
+            }
+        }
+        //sand and fire 2 slow
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == SAND || dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
+        {
+            if (deBuff_Slowed)
+            {
+                deBuff_SlowTimer = 0.f;
+            }
+            else
+            {
+                deBuff_Slowed = true;
+            }
+        }
+        //earth 2 stun
+        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == EARTH_2)
+        {
+            if (deBuff_Stunned = true)
+            {
+                deBuff_StunTimer = 0.f;
+            }
+            else
+            {
+                deBuff_Stunned = true;
+            }
+        }
+        TakeDamage(dynamic_cast<Projectile*>(OtherGo)->getDamage());
+    }
+   
+}
+
+	
 		
 		
 }
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
+    interDT = dt;
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();
 	//UpdateTileMapCollision(Map);
@@ -556,7 +736,32 @@ void Entity::ExecuteAbility(double dt)
     {
         MovementSpeed = 1;
     }
- 
+
+    if (Attacks->GetHealStatus())
+    {
+        if (!SheildUp)
+        {
+            Mesh* Quad = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1));
+            SheildMesh = MeshBuilder::GenerateQuad("SHEILDS",Color(1,1,1),1.0f);
+            SheildUp = true;
+            Vector3 SheildLeftPos = m_Position + Vector3(-5, 0, 0);
+            Vector3 SheildRightPos = m_Position + Vector3(5, 0, 0);
+            GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_SHEILD, SheildLeftPos, Vector3(2, 3, 1), false, true, Quad, "Image//Tiles/wood.tga");
+            GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_SHEILD, SheildRightPos, Vector3(2, 3, 1), false, true, Quad, "Image//Tiles/wood.tga");
+        }
+    }
+    else if (!Attacks->GetHealStatus())
+    {
+        SheildUp = false;
+    }
+    if (SheildUp)
+    {
+        m_HealTimer += 2 * (float)dt;
+        if (m_HealTimer >= 10.f)
+        {
+            Attacks->SetHealStatusFalse();
+        }
+    }
       
 }
 
@@ -585,8 +790,8 @@ void Entity::DebuffCheckAndApply(double dt)
         deBuff_BurningTimer += (float)dt;
         if (deBuff_BurningTimer >= 1)
         {
-            CurrHealth -= MaxHealth * 0.02;
-            //std::cout << "burn " <<CurrHealth << std::endl;
+            CurrHealth -= MaxHealth * 0.03f;
+            std::cout << "burn " <<CurrHealth << std::endl;
             deBuff_BurningTimer = 0.f;
             deBuff_BurnTicks += 1;
         }
@@ -598,10 +803,7 @@ void Entity::DebuffCheckAndApply(double dt)
             deBuff_BurnTicks = 0;
         }
     }
-    if (deBuff_knockBack)
-    {
-
-    }
+   
     if (deBuff_Slowed)
     {
         MovementSpeed = 0.5;
@@ -613,6 +815,23 @@ void Entity::DebuffCheckAndApply(double dt)
             deBuff_SlowTimer = 0.f;
         }
     }
+    if (deBuff_KnockBack)
+    {
+        if (KnockBackLeftRight)
+        {
+            m_Position.x += 75 * (float)dt;
+            if (m_Position.x >= KnockBackDestX)
+                deBuff_KnockBack = false;
+        }
+        else if (!KnockBackLeftRight)
+        {
+            m_Position.x -= 75 * (float)dt;
+            if (m_Position.x <= KnockBackDestX)
+                deBuff_KnockBack = false;
+        }
+        
+    }
+
     if (Application::IsKeyPressed('B'))
     {
         deBuff_burning = true;
@@ -621,5 +840,13 @@ void Entity::DebuffCheckAndApply(double dt)
 
 void Entity::TakeDamage(int input)
 {
-    CurrHealth -= input * DamagMultiplier;
+    if (Attacks->GetHealStatus() == false)
+    {
+        CurrHealth -= input * DamagMultiplier;
+    }
+    else
+    {
+        int healAmt = input * 0.5; //by default heals 50% of damage amount
+        CurrHealth += healAmt;
+    }
 }

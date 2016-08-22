@@ -223,6 +223,12 @@ void SP3::Update(double dt)
 			temp->Update(dt, m_GoMap);
 		}
 
+        if (go->GetType() == GO_SHEILD)
+        {
+            Environment* temp = dynamic_cast<Environment*>(go);
+            temp->Update_Sheild(m_Player->GetPosition());
+        }
+
 		for (std::vector<GameObject*>::size_type i2 = 0; i2 < GameObjectManager::m_goList.size(); ++i2)
 		{
 			GameObject *go2 = GameObjectManager::m_goList[i2];
@@ -238,6 +244,13 @@ void SP3::Update(double dt)
 					go->CollisionResponse(go2);
 				}
 			}
+            if ((go->GetObjectType() == PROJECTILE) && (go2->GetObjectType() == PLAYER || go2->GetObjectType() == ENEMY) )
+            {
+                if (go->EmpricalCheckCollisionWith(go2, dt))
+                {
+                    go2->CollisionResponse(go);
+                }
+            }
 
 			if (go2->GetType() == GO_BLOCK)
 				continue;
@@ -268,6 +281,7 @@ void SP3::Update(double dt)
 			}
 		}
 	}
+
 
 	// --------------------------------------------- //
 

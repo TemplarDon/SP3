@@ -5,6 +5,7 @@ enum ELEMENT
 {
 	NO_ELEMENT,//use this for non-interactable blocks
 	MISC,
+    EATING,//nom nom nom
     //primary elements
 	FIRE, //1
 	EARTH, //2
