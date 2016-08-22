@@ -5,7 +5,7 @@ Player::Player(void)
 	, m_HealthCharges(0)
 {
 
-    m_CurrElement = WATER_2;
+    m_CurrElement = FIRE;
     isEnemyEntity = false;
     Attacks = new AttackBase;
 	m_ElementArray[0] = FIRE;

@@ -129,7 +129,6 @@ protected:
 
 	Vector3 m_MaxCollisionBox;
 	Vector3 m_MinCollisionBox;
-    virtual void CollisionResponse(GameObject* OtherGo);
 	float EntityMapOffsetX;
 
 	// ------------------------------------------------------------------- //

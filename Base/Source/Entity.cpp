@@ -258,108 +258,20 @@ void Entity::DisableDash()
     m_Dashingleft = false;
     m_Dashingright = false;
 }
-//void Entity::CollisionResponse(GameObject* OtherGo)
-//{
-//    if (OtherGo->GetObjectType() == PROJECTILE && isEnemyEntity != dynamic_cast<Projectile*>(OtherGo)->GetIsEnemyProj())
-//    {
-//        //damage multiplier
-//        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE)
-//        {
-//            if (m_CurrElement == WATER)
-//                DamagMultiplier = 0.5;
-//            if (m_CurrElement == FIRE)
-//                DamagMultiplier = 1;
-//            if (m_CurrElement == EARTH)
-//                DamagMultiplier = 1.5;
-//        }
-//        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER)
-//        {
-//            if (m_CurrElement == WATER)
-//                DamagMultiplier = 1;
-//            if (m_CurrElement == FIRE)
-//                DamagMultiplier = 1.5;
-//            if (m_CurrElement == EARTH)
-//                DamagMultiplier = 0.5;
-//        }
-//        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == EARTH)
-//        {
-//            if (m_CurrElement == WATER)
-//                DamagMultiplier = 1.5;
-//            if (m_CurrElement == FIRE)
-//                DamagMultiplier = 0.5;
-//            if (m_CurrElement == EARTH)
-//                DamagMultiplier == 1;
-//        }
-//        //debuffs
-//        //steam knockback
-//        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == STEAM && !deBuff_KnockBack)
-//        {
-//            deBuff_KnockBack = true;
-//            if (dynamic_cast<Projectile*>(OtherGo)->getVelocity().x < 0)
-//            {
-//                KnockBackDestX = m_Position.x - 3;
-//                KnockBackLeftRight = false;
-//            }
-//            else if (dynamic_cast<Projectile*>(OtherGo)->getVelocity().x > 0)
-//            {
-//                KnockBackDestX = m_Position.x + 3;
-//                KnockBackLeftRight = true;
-//            }
-//        }
-//        //fire 2 burn
-//        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
-//        {
-//            if (deBuff_burning = true)
-//            {
-//                deBuff_BurningTimer = 0.f;
-//            }
-//            else
-//            {
-//                deBuff_burning = true;
-//            }
-//        }
-//        //sand and fire 2 slow
-//        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == SAND || dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
-//        {
-//            if (deBuff_Slowed)
-//            {
-//                deBuff_SlowTimer = 0.f;
-//            }
-//            else
-//            {
-//                deBuff_Slowed = true;
-//            }
-//        }
-//        //earth 2 stun
-//        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == EARTH_2)
-//        {
-//            if (deBuff_Stunned = true)
-//            {
-//                deBuff_StunTimer = 0.f;
-//            }
-//            else
-//            {
-//                deBuff_Stunned = true;
-//            }
-//        }
-//        TakeDamage(dynamic_cast<Projectile*>(OtherGo)->getDamage());
-//    }
-//   
-//}
-
 
 void Entity::CollisionResponse(GameObject* OtherGo)
 {
-    
-if (OtherGo->GetObjectType() == PROJECTILE)
+	if (OtherGo->GetObjectType() == PROJECTILE)
 	{
 		Projectile* tempProj;
 		tempProj = dynamic_cast<Projectile*>(OtherGo);
-	if (this->m_ObjectType == ENEMY && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
+
+		if (this->m_ObjectType == ENEMY && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
 		{
 			this->deBuff_Stunned = true;
 		}
 	}
+	
     if (OtherGo->GetObjectType() == PROJECTILE && isEnemyEntity != dynamic_cast<Projectile*>(OtherGo)->GetIsEnemyProj())
     {
         //damage multiplier
@@ -648,6 +560,7 @@ void Entity::CheckCollisionBoundary()
 	{
         DisableDash();
       //  CollisionResponse();
+		DisableDash();
 		m_Position.x = m_MinCollisionBox.x;
 		JumpVel = 0;
         
@@ -656,6 +569,7 @@ void Entity::CheckCollisionBoundary()
 	if (m_Position.x > m_MaxCollisionBox.x)
 	{
        // CollisionResponse();
+		DisableDash();
 		m_Position.x = m_MaxCollisionBox.x;
 		JumpVel = 0;
         DisableDash();

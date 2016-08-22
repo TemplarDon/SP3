@@ -300,7 +300,6 @@ void SP3::Update(double dt)
 	// ----------------- Update Camera ------------------ //
 	if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-
 		camera.position.x += dt * 8;
 	}
 	else if (camera.position.x > OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
