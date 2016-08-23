@@ -539,25 +539,57 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 		}
 
 		// Y-Axis Boundary (Bottom)
+		//for (int i = PlayerPos_Y; i >= 0; --i)
+		//{
+		//	GameObject* CheckGameObject_2 = Map->m_GameObjectMap[i][PlayerPos_X];
+		//	GameObject* CheckGameObject_3 = Map->m_GameObjectMap[i][PlayerPos_X + 1];
+		//	if (!CheckGameObject_2->GetCollidable() && !CheckGameObject_2->GetActive())
+		//	{
+		//		if (CheckGameObject_3->GetCollidable() && CheckGameObject_3->GetActive())
+		//		{
+		//			m_MinCollisionBox.y = (CheckGameObject_3->GetPosition().y) + (Map->GetTileSize());
+		//		}
+		//		else
+		//		{
+		//			m_MinCollisionBox.y = (0.5 * Map->GetTileSize());
+		//		}
+		//		break;
+		//	}
+		//	else if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive())
+		//	{
+		//		m_MinCollisionBox.y = (CheckGameObject_2->GetPosition().y) + (Map->GetTileSize());
+		//		break;
+		//	}
+		//	m_MinCollisionBox.y = (0.5 * Map->GetTileSize());
+		//}
+
 		for (int i = PlayerPos_Y; i >= 0; --i)
 		{
 			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[i][PlayerPos_X];
 			GameObject* CheckGameObject_3 = Map->m_GameObjectMap[i][PlayerPos_X + 1];
+			GameObject* CheckGameObject_4 = Map->m_GameObjectMap[i][PlayerPos_X - 1];
+
 			if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive())
 			{
 				m_MinCollisionBox.y = (CheckGameObject_2->GetPosition().y) + (Map->GetTileSize());
-
-				// Top-Left Hotfix
-				// if (CheckGameObject_3)
-
 				break;
 			}
+			else if(!CheckGameObject_2->GetCollidable() && !CheckGameObject_2->GetActive())
+			{
+				if (CheckGameObject_3->GetCollidable() && CheckGameObject_3->GetActive())
+				{
+					m_MinCollisionBox.y = (CheckGameObject_3->GetPosition().y) + (Map->GetTileSize());
+					break;
+				}
+			}
+
 			m_MinCollisionBox.y = (0.5 * Map->GetTileSize());
+
 		}
 	}
 
 	GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y - 1][PlayerPos_X];
-	if (!CheckGameObject_1->GetCollidable() && !CheckGameObject_1->GetActive())
+	if (!CheckGameObject_2->GetCollidable() && !CheckGameObject_2->GetActive())
 	{
 		m_CurrEntityMoveState = FALLING;
 	}
@@ -569,8 +601,6 @@ void Entity::CheckCollisionBoundary()
 	if (m_Position.x < m_MinCollisionBox.x)
 	{
         DisableDash();
-      //  CollisionResponse();
-		DisableDash();
 		m_Position.x = m_MinCollisionBox.x;
 		JumpVel = 0;
         
@@ -578,7 +608,6 @@ void Entity::CheckCollisionBoundary()
 
 	if (m_Position.x > m_MaxCollisionBox.x)
 	{
-       // CollisionResponse();
 		DisableDash();
 		m_Position.x = m_MaxCollisionBox.x;
 		JumpVel = 0;
@@ -595,6 +624,7 @@ void Entity::CheckCollisionBoundary()
 	if (m_Position.y > m_MaxCollisionBox.y)
 	{
 		m_Position.y = m_MaxCollisionBox.y;
+		m_CurrEntityMoveState = FALLING;
 	}
 
 

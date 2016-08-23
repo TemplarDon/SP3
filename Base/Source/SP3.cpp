@@ -833,6 +833,7 @@ void SP3::Render()
 	
 	RenderUI();
 
+	std::cout << m_Player->GetMoveState() << std::endl;
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)
