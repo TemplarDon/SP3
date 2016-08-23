@@ -49,7 +49,10 @@ float  Enemy::getDetectionRange()
 
 void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera)
 {
-
+	if (this->CurrHealth <= 0)
+	{
+		this->SetActive(false);
+	}
 	//std::cout << distancePlayerToEnemy << std::endl;
 	if (m_CurrEntityMoveState == EDIBLE)
 	{

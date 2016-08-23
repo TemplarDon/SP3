@@ -27,7 +27,7 @@ Entity::Entity()
     isLockMovement = false;
     deBuff_Stunned = false; 
     deBuff_StunTimer = 0.f;
-    deBuff_burning = true;
+    deBuff_burning = false;
     deBuff_BurningTimer = 0.f;
     deBuff_BurnTicks = 0;
     deBuff_Slowed = false;
@@ -595,7 +595,6 @@ void Entity::CheckCollisionBoundary()
 	if (m_Position.y > m_MaxCollisionBox.y)
 	{
 		m_Position.y = m_MaxCollisionBox.y;
-		m_CurrEntityMoveState = FALLING;
 	}
 
 

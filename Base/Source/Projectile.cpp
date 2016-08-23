@@ -40,21 +40,15 @@ void Projectile::projectileUpdate(double dt)
 }
 void  Projectile::setVelocity()
 {
-	float mag = 20;
 	if (Direction==true)
 	{
-		//Vector3 temp(m_Position.Dot())
-		//std::cout << "cos: " << cos(Math::DegreeToRadian(rotation)) << std::endl;
-		//std::cout << "sin: " << sin(Math::DegreeToRadian(rotation)) << std::endl;
+	
 		m_Velocity.Set(speedBullet, speedBullet * tan(Math::DegreeToRadian(rotation)), 1);
-	//	std::cout << rotation << std::endl;
 	}
 	else
 	{
-		//std::cout << rotation << std::endl;
 		rotation = 180 - rotation;
 		m_Velocity.Set(-speedBullet, -speedBullet * tan(Math::DegreeToRadian(rotation)), 1);
-		//std::cout << rotation << std::endl;
 	}
 	
 }

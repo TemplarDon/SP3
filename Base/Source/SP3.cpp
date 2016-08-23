@@ -56,7 +56,7 @@ void SP3::Init()
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Official_Test.csv");
+	m_Map->LoadMap("Image//Maps//Tutorial.csv");
 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -107,18 +107,17 @@ void SP3::Init()
 	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//blue Running.tga", true, sa2));
 	*/
 
-	Enemy* temp = new Enemy();
-	
-	//temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1),Vector3(10,10,10) /*Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1)*/, true, true, meshList[GEO_ENEMY], "Image//blue Running.tga"));
-	// ------------------------------------------ // 
-	//temp = dynamic_cast<GameObject*>(temp);
-	/*temp->setRotate(true);
-	temp->setMeshVector(meshList[GEO_ENEMY], "enemy","Image//wood_enemy3.tga", 2, 5);
-	temp->SetMesh(temp->getMeshVector()[0]);
-	temp->setSpriteVector(temp->GetMesh(), 2 , 6, 1, 0.8f, true);
-	temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-	temp->EnemyInit(m_Player->GetPosition(), 100, FIRE, 10,200);
-*/
+	//Enemy* temp = new Enemy();
+	//
+	//temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), /*Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1)*/ true, true, meshList[GEO_ENEMY], "Image//blue Running.tga"));
+	////temp = dynamic_cast<GameObject*>(temp);
+	//temp->setRotate(true);
+	//temp->setMeshVector(meshList[GEO_ENEMY], "enemy","Image//wood_enemy3.tga", 2, 5);
+	//temp->SetMesh(temp->getMeshVector()[0]);
+	//temp->setSpriteVector(temp->GetMesh(), 2 , 6, 1, 0.8f, true);
+	//temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
+	//temp->EnemyInit( 100, EARTH, 10,200);
+
 
 	
 

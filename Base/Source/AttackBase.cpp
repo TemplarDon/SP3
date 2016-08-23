@@ -308,7 +308,7 @@ void AttackBase::Attack_Suck()
 {
 	Projectile* temp;
 	temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(2, 2, 2), true, true, ProjectilePH,"Image//blue Idle.tga"));
-	temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, 0, 1, m_CurrElement, isEnemy, 0);
+	temp->projectileInit(m_AttackDirection, m_EntityPos, 50.f, 0, 1, m_CurrElement, isEnemy, 0);
 	m_Projectiles[m_projectileCount].SetElement(m_CurrElement);
 	m_projectileCount += 1;
 	if (m_projectileCount >= MAXprojectilecount)
