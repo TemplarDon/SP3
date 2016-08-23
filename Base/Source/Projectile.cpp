@@ -84,7 +84,7 @@ void Projectile::UpdatePhysics(double dt, Vector3 Gravity)
 {
 	if (m_CurrElement == FIRE)
 	{
-		Vector3 dv = Gravity *(float) dt; // Eqn 1 (Vec3 = Vec3 * float)
+		Vector3 dv = Gravity * (float) dt; // Eqn 1 (Vec3 = Vec3 * float)
 		this->m_Velocity += (dv);
 	}
 

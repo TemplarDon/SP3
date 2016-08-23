@@ -55,20 +55,23 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 			case 1:
 			{
-				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//testground.tga");
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//testground.tga"));
+				temp->SetElement(ELEMENT::NO_ELEMENT);
+				temp->Init(true, false);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
+
 			case 2:
 			{
-				// ------------------ Player Spawn Code Goes Here --------------------- //
-
-				// -------------------------------------------------------------------- //
-
-				m_Level->InitLevel(Position);
+				// Should be changed to top ground (grass)
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//testground.tga"));
+				temp->SetElement(ELEMENT::NO_ELEMENT);
+				temp->Init(true, false);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
-
-			case 8:
+			case 3:
 			{
 				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_WOOD, Position, Scale, true, true, Quad, "Image//Tiles//wood.tga"));
 				temp->SetElement(ELEMENT::EARTH);
@@ -77,7 +80,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				break;
 			}
 
-			case 9:
+			case 4:
 			{
 				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_ROCK, Position, Scale, true, true, Quad, "Image//Tiles//fire.tga"));
 				temp->SetElement(ELEMENT::FIRE);
@@ -86,15 +89,31 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				break;
 			}
 
-			case 10:
+			case 7:
 			{
 				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_CHECKPOINT, Position, Scale, false, true, Quad, "Image//Tiles//checkpoint.tga"));
 				temp->Init(false, false);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
+			case 8:
+			{
+				// ------------------ Player Spawn Code Goes Here --------------------- //
 
-			case 11:
+				// -------------------------------------------------------------------- //
+
+				m_Level->InitLevel(Position);
+				break;
+			}
+			case 9:
+			{
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
+				temp->Init(false, false);
+				temp->SetNextTransition(TEST);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
+			case 10:
 			{
 				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
 				temp->Init(false, false);
@@ -102,9 +121,60 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
+			case 11:
+			{
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
+				temp->Init(false, false);
+				temp->SetNextTransition(LEVEL_1);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
+			case 12:
+			{
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
+				temp->Init(false, false);
+				temp->SetNextTransition(LEVEL_2);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
 			}
 
+			case 13:
+			{
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
+				temp->Init(false, false);
+				temp->SetNextTransition(LEVEL_3);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
 
+			case 14:
+			{
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
+				temp->Init(false, false);
+				temp->SetNextTransition(LEVEL_4);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
+
+			case 15:
+			{
+				// Water Enemy
+				break;
+			}
+
+			case 16:
+			{
+				// Earth Enemy
+				break;
+			}
+
+			case 17:
+			{
+				// Fire Enemy
+				break;
+			}
+
+			}
 		}
 	}
 }

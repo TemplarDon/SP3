@@ -56,7 +56,7 @@ void SP3::Init()
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//test.csv");
+	m_Map->LoadMap("Image//Maps//Tutorial.csv");
 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -411,14 +411,6 @@ void SP3::Update(double dt)
 					break;
 				}
 			}
-			if (go->GetObjectType() == PROJECTILE &&( go2->GetObjectType() == ENEMY||go2->GetObjectType()==PLAYER))
-			{
-				if (go->EmpricalCheckCollisionWith(go2, dt))
-				{
- 					go2->CollisionResponse(go);
-				}
-			}
-			
 		}
 	}
 
@@ -851,17 +843,20 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	m_GoMap = NULL;
 
 	// Clear m_GoList of unwanted stuff
-	for (std::vector<GameObject*>::size_type i = 0; i < GameObjectManager::m_goList.size(); ++i)
+	while (GameObjectManager::m_goList.size() > 1)
 	{
-		GameObject* go = GameObjectManager::m_goList[i];
+		for (std::vector<GameObject*>::size_type i = 0; i < GameObjectManager::m_goList.size(); ++i)
+		{
+			GameObject* go = GameObjectManager::m_goList[i];
 
-		if (go->GetObjectType() != PLAYER)
-		{
-			GameObjectManager::m_goList.erase(GameObjectManager::m_goList.begin() + i);
-		}
-		else
-		{
-			i = 0;
+			if (go->GetObjectType() != PLAYER)
+			{
+				GameObjectManager::m_goList.erase(GameObjectManager::m_goList.begin() + i);
+			}
+			else
+			{
+				i = 0;
+			}
 		}
 	}
 
@@ -872,6 +867,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 
 	switch (NextLevel)
 	{
+	case TEST: m_Map->LoadMap("Image//Maps//Official_Test.csv"); break;
 	case TUTORIAL: m_Map->LoadMap("Image//Maps//Tutorial.csv"); break;
 	case LEVEL_1: m_Map->LoadMap("Image//Maps//Level_1.csv"); break;
 	case LEVEL_2: m_Map->LoadMap("Image//Maps//Level_2.csv"); break;
@@ -887,7 +883,12 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 
 	// ----------------- Player ----------------- // 
 	m_Player->SetPosition(m_GoMap->GetLevel()->GetStartPos());
-	m_Player->SetMapOffset_x(m_Player->GetPosition().x - (0.5 * m_GoMap->GetNumOfTiles_ScreenWidth() * m_GoMap->GetTileSize()));
+
+	if (m_Player->GetPosition().x > (0.5 * m_GoMap->GetNumOfTiles_ScreenWidth() * m_GoMap->GetTileSize()))
+		m_Player->SetMapOffset_x(m_Player->GetPosition().x - (0.5 * m_GoMap->GetNumOfTiles_ScreenWidth() * m_GoMap->GetTileSize()));
+	else
+		m_Player->SetMapOffset_x(0);
+	
 	m_Player->SetMapFineOffset_x(0);
 	m_Player->SetRespawnPos(m_Player->GetPosition());
 	m_Player->SetCurrentLevel(NextLevel);

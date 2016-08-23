@@ -11,13 +11,10 @@ Player::Player(void)
 
 
 	m_ElementArray[0] = FIRE;
-	m_ElementArray[1] = NO_ELEMENT;
-	m_ElementArray[2] = NO_ELEMENT;
-	m_ElementArray[3] = NO_ELEMENT;
-	m_ElementArray[4] = NO_ELEMENT;
-
-
-
+	m_ElementArray[1] = WATER;
+	m_ElementArray[2] = FIRE;
+	m_ElementArray[3] = WATER;
+	m_ElementArray[4] = FIRE;
 }
 
 Player::~Player(void)
