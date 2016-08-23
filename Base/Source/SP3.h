@@ -52,7 +52,7 @@ public:
 	void SwitchLevel(LEVEL NextLevel);
 	void UpdateUI(double dt);
 	void UpdateUI2(double dt);
-
+	void RenderUI();
 
 protected:
 
@@ -85,13 +85,18 @@ protected:
 	GameObject_Map* m_GoMap2;
 	float treePos;
 	float orignalTreePos;
+
 	// Transition
 	LEVEL m_LevelLoaded;
 
 	//UI
 	float rotateUI;
 	float rotateUI2;
-	float UIKoolDown;
+	float uiPos;
+	float originalUIPos;
+
+	//Health bar
+	int m_lives;
 };
 
 #endif
