@@ -281,7 +281,7 @@ void AttackBase::Attack_Ranged()
 	if (m_CurrElement == FIRE)
 	{
 		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Projectiles/fire_projectile.tga"));
-		temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, m_AttackDamage, 1, m_CurrElement, isEnemy, 45);
+		temp->projectileInit(m_AttackDirection, m_EntityPos, 30.f, m_AttackDamage, 1, m_CurrElement, isEnemy, 45);
 
 
 	}

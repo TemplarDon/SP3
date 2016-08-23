@@ -25,6 +25,8 @@ void Projectile::projectileInit(bool Direction, Vector3 m_Position, float bullet
 	m_Normal.Set(0, 1, 0);
 	this->rotation = rotation;
 	setVelocity();
+	//this->m_Velocity.Set(20, 20, 0);
+	//std::cout << m_Position << std::endl;
 }
 
 Projectile::~Projectile()
@@ -38,18 +40,21 @@ void Projectile::projectileUpdate(double dt)
 }
 void  Projectile::setVelocity()
 {
+	float mag = 20;
 	if (Direction==true)
 	{
-		m_Velocity.Set(m_Position.x * cos(Math::DegreeToRadian(rotation)), m_Position.y *sin(Math::DegreeToRadian(rotation)), 1);
-
+		//Vector3 temp(m_Position.Dot())
+		//std::cout << "cos: " << cos(Math::DegreeToRadian(rotation)) << std::endl;
+		//std::cout << "sin: " << sin(Math::DegreeToRadian(rotation)) << std::endl;
+		m_Velocity.Set(speedBullet, speedBullet * tan(Math::DegreeToRadian(rotation)), 1);
 	//	std::cout << rotation << std::endl;
 	}
 	else
 	{
-		std::cout << rotation << std::endl;
+		//std::cout << rotation << std::endl;
 		rotation = 180 - rotation;
-		m_Velocity.Set(m_Position.x * cos(Math::DegreeToRadian(rotation)), m_Position.y *sin(Math::DegreeToRadian(rotation)), 1);
-		std::cout << rotation << std::endl;
+		m_Velocity.Set(-speedBullet, -speedBullet * tan(Math::DegreeToRadian(rotation)), 1);
+		//std::cout << rotation << std::endl;
 	}
 	
 }
@@ -71,11 +76,11 @@ void Projectile::Update(double dt)
 
 void Projectile::UpdatePhysics(double dt, Vector3 Gravity)
 {
-	//if (m_CurrElement == FIRE)
-	//{
-	//	Vector3 dv = Gravity * (float) dt; // Eqn 1 (Vec3 = Vec3 * float)
-	//	this->m_Velocity += (dv);
-	//}
+	if (m_CurrElement == FIRE)
+	{
+		Vector3 dv = Gravity * (float) dt; // Eqn 1 (Vec3 = Vec3 * float)
+		this->m_Velocity += (dv);
+	}
 
 	Vector3 ds = this->m_Velocity * (float)dt; // Eqn 2 (Vec3 = Vec3 * float)
 	this->m_Position += (ds);
