@@ -24,6 +24,7 @@ public:
     void Init(int AttackDamage, float range);
     //launch an attack
     void LaunchAttack();
+	//void LaunchAttack(ELEMENT m_CurrElement);
     bool GetSteamStatus();
     bool GetDashLeftStatus();
     bool GetDashRightStatus();
@@ -32,6 +33,9 @@ public:
     void SetHealStatusFalse();
     bool GetHealStatus();
     void SetisEnemy(bool);
+
+
+	void SetAttackElement(ELEMENT m_CurrElement);
     
 
 protected:   

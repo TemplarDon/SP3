@@ -39,7 +39,6 @@ public:
 
 	virtual void UpdatePhysics(double dt, Vector3 Gravity = Vector3(0, -60, 0));
 	virtual void CollisionResponse(GameObject* OtherGo);
-    bool GetIsEnemyProj();
 
 
 private:

@@ -29,7 +29,7 @@ public:
 
 
 
-	virtual void EnemyInit(Vector3 playerPosition, float estimatedDistance, ELEMENT m_CurrElement, int Damage, float detectionRange);
+	virtual void EnemyInit( float estimatedDistance, ELEMENT m_CurrElement, int Damage, float detectionRange);
 
 
 	virtual void Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera);
@@ -59,7 +59,7 @@ public:
 	virtual void setDetectionRange(float detectionRange);
 	virtual float getDetectionRange();
 
-
+	virtual void CollisionResponse(GameObject* OtherGo);
 	virtual void Death();
 
 private:

@@ -54,7 +54,10 @@ int AttackBase::GetAttackDamage()
 {
     return m_AttackDamage;
 }
-
+void  AttackBase::SetAttackElement(ELEMENT m_CurrElement)
+{
+	this->m_CurrElement = m_CurrElement;
+}
 
 void AttackBase::UpdateAttack(double dt, ELEMENT EntityCurrElement, Vector3 pos, bool leftright)
 {
@@ -279,6 +282,8 @@ void AttackBase::Attack_Ranged()
 	{
 		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Projectiles/fire_projectile.tga"));
 		temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, m_AttackDamage, 1, m_CurrElement, isEnemy, 45);
+
+
 	}
 	else if(m_CurrElement == WATER)
 	{
@@ -302,7 +307,7 @@ void AttackBase::Attack_Ranged()
 void AttackBase::Attack_Suck()
 {
 	Projectile* temp;
-	temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(2, 2, 2), true, true, ProjectilePH));
+	temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(2, 2, 2), true, true, ProjectilePH,"Image//blue Idle.tga"));
 	temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, 0, 1, m_CurrElement, isEnemy, 0);
 	m_Projectiles[m_projectileCount].SetElement(m_CurrElement);
 	m_projectileCount += 1;

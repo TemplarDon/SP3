@@ -1,5 +1,5 @@
-#ifndef SCENE_ASSIGNMENT2_H
-#define SCENE_ASSIGNMENT2_H
+#ifndef SP3_H_
+#define SP3_H_
 
 #include "Environment.h"
 #include <vector>

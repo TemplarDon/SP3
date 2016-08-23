@@ -56,7 +56,7 @@ void SP3::Init()
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Tutorial.csv");
+	m_Map->LoadMap("Image//Maps//Official_Test.csv");
 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -109,16 +109,16 @@ void SP3::Init()
 
 	Enemy* temp = new Enemy();
 	
-	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//blue Running.tga"));
+	//temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1),Vector3(10,10,10) /*Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1)*/, true, true, meshList[GEO_ENEMY], "Image//blue Running.tga"));
 	// ------------------------------------------ // 
 	//temp = dynamic_cast<GameObject*>(temp);
-
-	temp->setMeshVector(meshList[GEO_ENEMY], "enemy","Image//blue Running.tga", 1, 4);
+	/*temp->setRotate(true);
+	temp->setMeshVector(meshList[GEO_ENEMY], "enemy","Image//wood_enemy3.tga", 2, 5);
 	temp->SetMesh(temp->getMeshVector()[0]);
-	temp->setSpriteVector(temp->GetMesh(), 0, 3, 1, 0.8f, true);
+	temp->setSpriteVector(temp->GetMesh(), 2 , 6, 1, 0.8f, true);
 	temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-	temp->EnemyInit(m_Player->GetPosition(), 20, EARTH, 10,50);
-
+	temp->EnemyInit(m_Player->GetPosition(), 100, FIRE, 10,200);
+*/
 
 	
 
@@ -132,7 +132,7 @@ void SP3::Init()
 void SP3::Update(double dt)
 {
 	SceneBase::Update(dt);
-	m_Player->Attacks->UpdateAttack(dt, m_Player->GetElement(), m_Player->GetPosition(), m_Player->GetLeftRight());
+
 
 	if (Application::IsKeyPressed('A') && m_Player->GetControlLock() == false)
 	{
@@ -149,7 +149,7 @@ void SP3::Update(double dt)
 	{
 		m_Player->Attacks->LaunchAttack();
 
-		if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH)
+		if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH && m_Player->GetElement() != MISC)
 		{
 			m_Player->SetElement(currentSelectedEle);
 		}
@@ -185,6 +185,21 @@ void SP3::Update(double dt)
 		m_Player->EntityJumpUpdate(dt);
 	}
 
+	//--------------------Vacuum------------------------------------//
+	static bool fButtonState = false;
+	if (Application::IsKeyPressed('F') && fButtonState == false)
+	{
+		ELEMENT tempElement = m_Player->GetElement();
+		m_Player->SetElement(MISC);
+		m_Player->Attacks->SetAttackElement(MISC);
+		m_Player->Attacks->LaunchAttack();
+		m_Player->SetElement(tempElement);
+		fButtonState = true;
+	}
+	if (!Application::IsKeyPressed('F'))
+	{
+		fButtonState = false;
+	}
 	// ----------------- Basic Element Selection ------------------ //
 	if (Application::IsKeyPressed('Q'))
 	{
@@ -266,7 +281,7 @@ void SP3::Update(double dt)
 									   break;
 						  }
 						  case WATER:
-						  {
+						 { 
 										m_Player->SetElement(WATER_2);
 										break;
 						  }
@@ -341,18 +356,15 @@ void SP3::Update(double dt)
 		{
 			Enemy* temp = dynamic_cast<Enemy*>(go);
 			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
-			if (temp->EmpricalCheckCollisionWith(m_Player,dt,60))
+			if (temp->EmpricalCheckCollisionWith(m_Player, dt, 60))
 			{
-				ELEMENT tempElement;
-				tempElement = temp->GetElement();
-				temp->SetActive(false);
-				m_Player->AddElementCharge(tempElement);
-			/*	std::cout << m_Player->GetFirstElementArray()[0] << std::endl;
-				std::cout << m_Player->GetFirstElementArray()[1] << std::endl;
-				std::cout << m_Player->GetFirstElementArray()[2] << std::endl;
-				std::cout << m_Player->GetFirstElementArray()[3] << std::endl;
-				std::cout << m_Player->GetFirstElementArray()[6] << std::endl;*/
-
+				if (temp->GetMoveState() == EDIBLE)
+				{
+					ELEMENT tempElement;
+					tempElement = temp->GetElement();
+					temp->SetActive(false);
+					m_Player->AddElementCharge(tempElement);
+				}
 			}
 		}
 
@@ -387,7 +399,7 @@ void SP3::Update(double dt)
             {
                 if (go->EmpricalCheckCollisionWith(go2, dt))
                 {
-                    go2->CollisionResponse(go);
+					go2->CollisionResponse(go);
                 }
             }
 
@@ -461,36 +473,19 @@ void SP3::Update(double dt)
 
 	UpdateUI(dt);
 	UpdateUI2(dt);
+	m_Player->Attacks->UpdateAttack(dt, m_Player->GetElement(), m_Player->GetPosition(), m_Player->GetLeftRight());
 }
 
 void SP3::UpdateUI(double dt)
 {
 	// -------------------------------------- Element indicator ---------------------------------------- //
 
-	if (Application::IsKeyPressed('F'))
-	{
-		m_Player->SetElement(EARTH);
-	}
-
-
-	if (Application::IsKeyPressed('G'))
-	{
-		m_Player->SetElement(FIRE);
-	}
-
-	if (Application::IsKeyPressed('H'))
-	{
-		m_Player->SetElement(WATER);
-	}
+	
 
 	if (rotateUI > 360.f)
 	{
 		rotateUI -= 360.f;
 	}
-
-
-	//std::cout << rotateUI << std::endl;
-
 	switch (m_Player->GetElement())
 	{
 	case WATER:
@@ -551,10 +546,18 @@ void SP3::UpdateUI2(double dt)
 	// UI Move with screen
 	if (uiPos < (originalUIPos + (m_Player->GetMapOffset_x() * 1) + (m_Player->GetMapFineOffset_x() * 1)))
 	{
+
 		uiPos += (dt * 8);
+
+		//if (rotateUI2 > -45)
+		{
+			//std::cout << rotateUI2 << std::endl;
+			rotateUI2 -= dt * 50;
+		}
+
 	}
 
-	std::cout << m_Player->GetEntityHealth() << std::endl;
+//	std::cout << m_Player->GetEntityHealth() << std::endl;
 
 }
 

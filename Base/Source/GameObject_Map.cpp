@@ -1,6 +1,8 @@
 #include "GameObject_Map.h"
 #include "GameObjectManager.h"
 
+
+
 GameObject_Map::GameObject_Map()
 	: m_Offset(0)
 {}
@@ -47,7 +49,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			Position.y = ((Map->GetNumOfTiles_MapHeight() - y) * m_TileSize) - m_Offset;
 
 			Vector3 Scale;
-			Scale.Set(m_TileSize, m_TileSize, 1);
+			Scale.Set(m_TileSize, m_TileSize, 1); 
 
 			Mesh* Quad = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1));
 
@@ -91,9 +93,18 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 
 			case 7:
 			{
-				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_CHECKPOINT, Position, Scale, false, true, Quad, "Image//Tiles//checkpoint.tga"));
+				Quad = MeshBuilder::GenerateSpriteAnimation("checkpoint", 1, 3);
+				
+				SpriteAnimation* sa = static_cast<SpriteAnimation*>(Quad);
+				if (sa)
+				{
+					sa->m_anim = new Animation();
+					sa->m_anim->Set(0, 2, 1, 0.8f, true);
+				}
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_CHECKPOINT, Position, Scale, false, true, Quad, "Image//Tiles//sprite_checkpoint.tga",true,sa));
 				temp->Init(false, false);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				
 				break;
 			}
 			case 8:
@@ -159,12 +170,20 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			case 15:
 			{
 				// Water Enemy
+				
 				break;
 			}
 
 			case 16:
 			{
 				// Earth Enemy
+				Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
+				temp->setMeshVector(Quad,"Earth Enemy","Image//wood_enemy3.tga",2,5);
+				temp->SetMesh(temp->getMeshVector()[0]);
+				temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
+				temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
+				temp->EnemyInit(200,WATER,5,400);
+
 				break;
 			}
 

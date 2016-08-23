@@ -3,7 +3,7 @@
 
 Behaviour::Behaviour()
 {
-	behaviour = ATTACK;
+	behaviour = NEUTRAL;
 }
 
 Behaviour::~Behaviour()

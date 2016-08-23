@@ -31,10 +31,6 @@ Projectile::~Projectile()
 {
 
 }
-bool Projectile::GetIsEnemyProj()
-{
-    return isHostileProjectile;
-}
 
 void Projectile::projectileUpdate(double dt)
 {
@@ -56,11 +52,13 @@ void  Projectile::setVelocity()
 	if (Direction==true)
 	{
 		m_Velocity.Set(m_Position.x * cos(Math::DegreeToRadian(rotation)), m_Position.y *sin(Math::DegreeToRadian(rotation)), 1);
+		std::cout << m_Velocity << std::endl;
 	}
 	else
 	{
 		rotation =180-rotation;
 		m_Velocity.Set(m_Position.x * cos(Math::DegreeToRadian(rotation)), m_Position.y *sin(Math::DegreeToRadian(rotation)), 1);
+		std::cout << m_Velocity << std::endl;
 	}
 	
 }
@@ -82,11 +80,11 @@ void Projectile::Update(double dt)
 
 void Projectile::UpdatePhysics(double dt, Vector3 Gravity)
 {
-	if (m_CurrElement == FIRE)
-	{
-		Vector3 dv = Gravity * (float) dt; // Eqn 1 (Vec3 = Vec3 * float)
-		this->m_Velocity += (dv);
-	}
+	//if (m_CurrElement == FIRE)
+	//{
+	//	Vector3 dv = Gravity * (float) dt; // Eqn 1 (Vec3 = Vec3 * float)
+	//	this->m_Velocity += (dv);
+	//}
 
 	Vector3 ds = this->m_Velocity * (float)dt; // Eqn 2 (Vec3 = Vec3 * float)
 	this->m_Position += (ds);
