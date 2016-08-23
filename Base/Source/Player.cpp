@@ -8,11 +8,19 @@ Player::Player(void)
     m_CurrElement = FIRE;
     isEnemyEntity = false;
     Attacks = new AttackBase;
-	m_ElementArray[0] = FIRE;
-	m_ElementArray[1] = WATER;
-	m_ElementArray[2] = FIRE;
-	m_ElementArray[3] = EARTH;
-	m_ElementArray[4] = FIRE;
+
+
+
+	SetPlayerPos(m_Position);
+
+	m_ElementArray[0] = NO_ELEMENT;
+	m_ElementArray[1] = NO_ELEMENT;
+	m_ElementArray[2] = NO_ELEMENT;
+	m_ElementArray[3] = NO_ELEMENT;
+	m_ElementArray[4] = NO_ELEMENT;
+
+
+
 }
 
 Player::~Player(void)
@@ -48,6 +56,7 @@ void Player::AddElementCharge(ELEMENT ToBeAdded)
 		if (m_ElementArray[i] == NO_ELEMENT)
 		{
 			m_ElementArray[i] = ToBeAdded;
+			break;
 		}
 	}
 }

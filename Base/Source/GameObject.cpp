@@ -1,13 +1,14 @@
 #include "GameObject.h"
 
 GameObject::GameObject()
-	: 
+	:
 	m_Type(GO_NONE),
 	m_Scale(1, 1, 1),
 	m_Active(false),
 	m_Collidable(false),
 	m_Visible(true),
-	m_SpriteAnimation(NULL)
+	m_SpriteAnimation(NULL),
+	rotate(false)
 {
 }
 
@@ -105,11 +106,20 @@ void GameObject::SetSpriteAnimation(SpriteAnimation* SetSpriteAnimation)
 	m_SpriteAnimation = SetSpriteAnimation;
 }
 
-bool GameObject::EmpricalCheckCollisionWith(GameObject* OtherGo, double dt, float offset)
+	
+
+bool GameObject::getRotate()
+{
+	return rotate;
+}
+void GameObject::setRotate(bool rotate)
+{
+	this->rotate = rotate;
+}
+bool GameObject::EmpricalCheckCollisionWith(GameObject* OtherGo, double dt,float offset)
 {
 	float distSquare = (this->m_Position - OtherGo->m_Position).LengthSquared();
 	float combinedRadiusSquare = (this->m_Scale.x + OtherGo->m_Scale.x)*(this->m_Scale.y + OtherGo->m_Scale.y);
-	
 	if (distSquare < combinedRadiusSquare - offset)
 	{
 		return true;

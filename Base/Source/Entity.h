@@ -96,6 +96,11 @@ public:
 	virtual void GenerateCollisionBoundary(GameObject_Map* Map);
 	virtual void CheckCollisionBoundary();
 
+	virtual void setSpriteVector(Mesh* mesh, int startFrame, int endFrame, int repeat, float time, bool active);
+	virtual std::vector<SpriteAnimation*> getSpriteVector();
+
+	virtual void setMeshVector(Mesh* mesh, std::string Name, const char* targaName, int numRow, int numCol);
+	virtual std::vector<Mesh*> getMeshVector();
 	virtual void Update(double dt, GameObject_Map* Map, Camera camera);
     AttackBase *Attacks = new AttackBase;
     bool GetControlLock();
@@ -160,7 +165,10 @@ protected:
 
     //For Special abilities
    
-    bool isLockMovement;
+	bool isLockMovement;
+
+	std::vector<Mesh*> AnimationMeshList;
+	std::vector<SpriteAnimation*> AnimationSpriteList;
 
     
 };

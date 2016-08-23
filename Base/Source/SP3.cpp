@@ -60,15 +60,23 @@ void SP3::Init()
 	m_GoMap->Init(m_Map);
 
 	// ----------------- Player ----------------- // 
-	meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 2);
-	SpriteAnimation* sa = static_cast<SpriteAnimation*>(meshList[GEO_PLAYER]);
-	if (sa)
-	{
-		sa->m_anim = new Animation();
-		sa->m_anim->Set(0, 1, 1, 0.8f, true);
-	}
-	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(20, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER], "Image//player.tga", true, sa));
+	//meshList[GEO_PLAYER] = MeshBuilder::GenerateSpriteAnimation("player", 1, 2);
+	//SpriteAnimation* sa = static_cast<SpriteAnimation*>(meshList[GEO_PLAYER]);
+	//if (sa)
+	//{
+	//	sa->m_anim = new Animation();
+	//	sa->m_anim->Set(0, 1, 1, 0.8f, true);
+	//}
+	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(20, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER]));
 	m_Player->Init();
+	m_Player->setMeshVector(meshList[GEO_PLAYER], "player ", "Image//player.tga", 1, 2); 
+	m_Player->SetMesh(m_Player->getMeshVector()[0]);
+	m_Player->setSpriteVector(m_Player->getMeshVector()[0], 0, 1, 1, 0.8f, true);
+	m_Player->SetSpriteAnimation(m_Player->getSpriteVector()[0]);
+
+	m_Player->setMeshVector(meshList[GEO_PLAYER_RUNNING], "player Running", "Image//blue Running.tga", 1, 4);
+	m_Player->setSpriteVector(m_Player->getMeshVector()[1], 0, 3, 1, 0.8f, true);
+
 
 	m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
 	// ------------------------------------------ // 
@@ -85,7 +93,7 @@ void SP3::Init()
 	// ------------------------------------------ // 
 
 	// ------------------ Enemy ----------------- // 
-	Enemy * temp = new Enemy();
+	/*Enemy * temp = new Enemy();
 	meshList[GEO_ENEMY] = MeshBuilder::GenerateSpriteAnimation("enemy", 1, 4);
 	SpriteAnimation* sa2 = static_cast<SpriteAnimation*>(meshList[GEO_ENEMY]);
 	if (sa2)
@@ -95,8 +103,24 @@ void SP3::Init()
 
 	}
 	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//blue Running.tga", true, sa2));
-	temp->EnemyInit(m_Player->GetPosition(), 20, EARTH, 10,50);
+	*/
+
+	Enemy* temp = new Enemy();
+	
+	temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Vector3(m_Player->GetPosition().x - 10, m_Player->GetPosition().y, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_ENEMY], "Image//blue Running.tga"));
 	// ------------------------------------------ // 
+	//temp = dynamic_cast<GameObject*>(temp);
+
+	temp->setMeshVector(meshList[GEO_ENEMY], "enemy","Image//blue Running.tga", 1, 4);
+	temp->SetMesh(temp->getMeshVector()[0]);
+	temp->setSpriteVector(temp->GetMesh(), 0, 3, 1, 0.8f, true);
+	temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
+	temp->EnemyInit(m_Player->GetPosition(), 20, EARTH, 10,50);
+
+
+	
+
+
 
 
 	currentSelectedEle = m_Player->GetElement();
@@ -133,14 +157,22 @@ void SP3::Update(double dt)
 	{
 		m_Player->SetMoving_Left(false);
 		m_Player->SetMove_Right(false);
+		m_Player->SetMesh(m_Player->getMeshVector()[0]);
+		m_Player->SetSpriteAnimation(m_Player->getSpriteVector()[0]);
 	}
 	if (m_Player->GetMoving_Left() == true)
 	{
+		m_Player->setRotate(true);
+		m_Player->SetMesh(m_Player->getMeshVector()[1]);
+		m_Player->SetSpriteAnimation(m_Player->getSpriteVector()[1]);
 		m_Player->MoveLeft(dt);
 	}
 	if (m_Player->GetMoving_Right() == true)
 	{
+		m_Player->setRotate(false);
 		m_Player->MoveRight(dt);
+		m_Player->SetMesh(m_Player->getMeshVector()[1]);
+		m_Player->SetSpriteAnimation(m_Player->getSpriteVector()[1]);
 	}
     if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND && m_Player->GetControlLock() == false)
 	{
@@ -307,6 +339,19 @@ void SP3::Update(double dt)
 		{
 			Enemy* temp = dynamic_cast<Enemy*>(go);
 			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
+			if (temp->EmpricalCheckCollisionWith(m_Player,dt,60))
+			{
+				ELEMENT tempElement;
+				tempElement = temp->GetElement();
+				temp->SetActive(false);
+				m_Player->AddElementCharge(tempElement);
+				std::cout << m_Player->GetFirstElementArray()[0] << std::endl;
+				std::cout << m_Player->GetFirstElementArray()[1] << std::endl;
+				std::cout << m_Player->GetFirstElementArray()[2] << std::endl;
+				std::cout << m_Player->GetFirstElementArray()[3] << std::endl;
+				std::cout << m_Player->GetFirstElementArray()[6] << std::endl;
+
+			}
 		}
 
 		if (go->GetObjectType() == ENVIRONMENT)
@@ -371,6 +416,7 @@ void SP3::Update(double dt)
  					go2->CollisionResponse(go);
 				}
 			}
+			
 		}
 	}
 
@@ -528,13 +574,26 @@ void SP3::UpdateUI2(double dt)
 
 void SP3::RenderGO(GameObject *go)
 {
-	modelStack.PushMatrix();
-	modelStack.Translate(go->GetPosition().x, go->GetPosition().y, go->GetPosition().z);
-	modelStack.Rotate(0, 0, 1, 0);
-	modelStack.Scale(go->GetScale().x, go->GetScale().y, go->GetScale().z);
-	RenderMesh(go->GetMesh(), false);
-	modelStack.PopMatrix();
-
+	if (go->getRotate() == true)
+	{
+		glDisable(GL_CULL_FACE);
+		modelStack.PushMatrix();
+		modelStack.Translate(go->GetPosition().x, go->GetPosition().y, go->GetPosition().z);
+		modelStack.Rotate(180, 0, 1, 0);
+		modelStack.Scale(go->GetScale().x, go->GetScale().y, go->GetScale().z);
+		RenderMesh(go->GetMesh(), false);
+		modelStack.PopMatrix();
+		glEnable(GL_CULL_FACE);
+	}
+	else
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(go->GetPosition().x, go->GetPosition().y, go->GetPosition().z);
+		modelStack.Rotate(0, 0, 1, 0);
+		modelStack.Scale(go->GetScale().x, go->GetScale().y, go->GetScale().z);
+		RenderMesh(go->GetMesh(), false);
+		modelStack.PopMatrix();
+	}
 	if (go->GetObjectType() == ENEMY)
 	{
 		modelStack.PushMatrix();
@@ -665,8 +724,10 @@ void SP3::Render()
 		GameObject *go = (GameObject *)*it;
 		if (go->GetActive() && go->GetVisible())
 		{
+			
 			RenderGO(go);
-		}	
+		}
+		
 	}
 
 	// -------------------- UI --------------------- //

@@ -65,6 +65,9 @@ public:
 		GEO_ELEMENTS_WHEEL,
 		GEO_CHARGE_WHEEL,
 
+
+		GEO_PLAYER_RUNNING,
+
 		NUM_GEOMETRY,
 	};
 public:

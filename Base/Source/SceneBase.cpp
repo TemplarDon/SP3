@@ -109,6 +109,7 @@ void SceneBase::Init()
 	meshList[GEO_TEXT]->textureID = LoadTGA("Image//calibri.tga");
 	meshList[GEO_TEXT]->material.kAmbient.Set(1, 0, 0);
 	meshList[GEO_PLAYER] = MeshBuilder::GenerateQuad("player", Color(1, 1, 1), 1.f);
+	meshList[GEO_PLAYER_RUNNING] = MeshBuilder::GenerateQuad("player running", Color(1, 1, 1), 1.f);
 	meshList[GEO_BACKGROUND] = MeshBuilder::GenerateQuad("background", Color(1, 1, 1), 1.f);
 	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//background.tga");
 	meshList[GEO_FIRE_BACKGROUND] = MeshBuilder::GenerateQuad("background", Color(1, 1, 1), 1.f);

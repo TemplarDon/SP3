@@ -49,6 +49,7 @@ float  Enemy::getDetectionRange()
 
 void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera)
 {
+<<<<<<< Updated upstream
 	//std::cout << distancePlayerToEnemy << std::endl;
 	if (m_CurrEntityMoveState == STUNNED)
 	{
@@ -83,6 +84,18 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		CheckCollisionBoundary();
 
 		ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, (float)dt, camera);
+=======
+
+
+	//std::cout << distancePlayerToEnemy << std::endl;
+	if (m_CurrEntityMoveState == STUNNED)
+	{
+		Vector3 Velocity(0, 0, 0);
+		Velocity = (playerPosition - m_Position); 
+		Velocity.Normalize();
+		m_Position += Velocity*dt*10;
+		//this->setDistancePlayerToEnemy(playerPosition, m_Position);
+>>>>>>> Stashed changes
 	}
 	else
 	{
@@ -137,6 +150,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			GenerateCollisionBoundary(map);
 			CheckCollisionBoundary();
 
+<<<<<<< Updated upstream
 
 
 
@@ -149,6 +163,22 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 	}
 }
 void Enemy::setBehaviour(Behaviour* behaviour)
+=======
+			ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
+
+
+
+		}
+
+		DebuffCheckAndApply(dt);
+	}
+	//std::cout << "Direction" << DirectionLeftRight << std::endl;
+	//std::cout << "DistancePlayerToEnemy" << distancePlayerToEnemy << std::endl;
+	//std::cout << "Estimated Distance" << estimatedDistance << std::endl;
+
+}
+void  Enemy::setBehaviour(Behaviour* behaviour)
+>>>>>>> Stashed changes
 {
 	this->m_Behaviour = behaviour;
 }

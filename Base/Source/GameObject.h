@@ -81,7 +81,12 @@ public:
 	virtual SpriteAnimation* GetSpriteAnimation();
 	virtual void SetSpriteAnimation(SpriteAnimation* SetSpriteAnimation);
 
+
 	virtual bool EmpricalCheckCollisionWith(GameObject* OtherGo, double dt, float offset = 25);
+
+	virtual bool getRotate();
+	virtual void setRotate(bool rotate);
+
 	virtual float MathematicalCheckCollisionWith(GameObject* OtherGo);
 	virtual void CollisionResponse(GameObject* OtherGo);
 
@@ -99,6 +104,7 @@ protected:
 	bool m_Active;
 	bool m_Collidable;
 	bool m_Visible;
+	bool rotate;
 	SpriteAnimation* m_SpriteAnimation;
 
 	Mesh* m_ObjectMesh;

@@ -1,5 +1,10 @@
 #include "Entity.h"
+
 #include "GameObjectManager.h"
+
+
+#include "GL\glew.h"
+#include "LoadTGA.h"
 
 Entity::Entity()
 	: mapOffset_x(0)
@@ -754,6 +759,7 @@ void Entity::DebuffCheckAndApply(double dt)
 
 void Entity::TakeDamage(int input)
 {
+
     if (Attacks->GetHealStatus() == false)
     {
         CurrHealth -= input * DamagMultiplier;
@@ -764,3 +770,33 @@ void Entity::TakeDamage(int input)
         CurrHealth += healAmt;
     }
 }
+
+    CurrHealth -= input * DamagMultiplier;
+}
+
+void Entity::setSpriteVector(Mesh* mesh, int startFrame, int endFrame, int repeat, float time, bool active)
+{
+	SpriteAnimation* sa = static_cast<SpriteAnimation*>(mesh);
+	if (sa)
+	{
+		sa->m_anim = new Animation();
+		sa->m_anim->Set(startFrame,endFrame,repeat, time, active);
+	}
+	AnimationSpriteList.push_back(sa);
+}
+std::vector<SpriteAnimation*> Entity::getSpriteVector()
+{
+	return AnimationSpriteList;
+}
+
+void Entity::setMeshVector(Mesh* mesh, std::string Name, const char* targaName, int numRow, int numCol)
+{
+	mesh = MeshBuilder::GenerateSpriteAnimation(Name, numRow, numCol);
+	mesh->textureID = LoadTGA(targaName);
+	AnimationMeshList.push_back(mesh);
+}
+std::vector<Mesh*>  Entity::getMeshVector()
+{
+	return AnimationMeshList;
+}
+
