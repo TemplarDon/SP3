@@ -771,8 +771,6 @@ void Entity::TakeDamage(int input)
     }
 }
 
-    CurrHealth -= input * DamagMultiplier;
-}
 
 void Entity::setSpriteVector(Mesh* mesh, int startFrame, int endFrame, int repeat, float time, bool active)
 {

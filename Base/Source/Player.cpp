@@ -10,10 +10,7 @@ Player::Player(void)
     Attacks = new AttackBase;
 
 
-
-	SetPlayerPos(m_Position);
-
-	m_ElementArray[0] = NO_ELEMENT;
+	m_ElementArray[0] = FIRE;
 	m_ElementArray[1] = NO_ELEMENT;
 	m_ElementArray[2] = NO_ELEMENT;
 	m_ElementArray[3] = NO_ELEMENT;

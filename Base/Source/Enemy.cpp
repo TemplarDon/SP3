@@ -49,43 +49,6 @@ float  Enemy::getDetectionRange()
 
 void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera)
 {
-<<<<<<< Updated upstream
-	//std::cout << distancePlayerToEnemy << std::endl;
-	if (m_CurrEntityMoveState == STUNNED)
-	{
-
-		Vector3 Velocity(0, 0, 0);
-		Velocity = (playerPosition - m_Position);
-		Velocity.Normalize();
-		m_Position += Velocity*dt * 10;
-
-		//temp 
-		this->setDistancePlayerToEnemy(playerPosition, m_Position);
-		this->setDirectionBasedOnDistance(playerPosition, m_Position);
-		m_Behaviour->Update(dt, distancePlayerToEnemy, estimatedDistance, m_Position, Move_Left, Move_Right, m_bJumping, DirectionLeftRight, m_CurrElement, attack, m_CurrEntityMoveState, detectionRange);
-		if (Move_Left == true)
-		{
-			MoveLeft(0.1f);
-		}
-		else if (Move_Right == true)
-		{
-			MoveRight(0.1f);
-		}
-		if (m_CurrEntityMoveState == JUMPING)
-		{
-			UpdateJump(dt);
-		}
-		else if (m_CurrEntityMoveState != ON_GROUND)
-		{
-			EntityJumpUpdate(dt);
-		}
-
-		GenerateCollisionBoundary(map);
-		CheckCollisionBoundary();
-
-		ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 150 + mapOffset_x + mapFineOffset_x, 25, 580, (float)dt, camera);
-=======
-
 
 	//std::cout << distancePlayerToEnemy << std::endl;
 	if (m_CurrEntityMoveState == STUNNED)
@@ -95,7 +58,6 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		Velocity.Normalize();
 		m_Position += Velocity*dt*10;
 		//this->setDistancePlayerToEnemy(playerPosition, m_Position);
->>>>>>> Stashed changes
 	}
 	else
 	{
@@ -150,35 +112,21 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			GenerateCollisionBoundary(map);
 			CheckCollisionBoundary();
 
-<<<<<<< Updated upstream
-
 
 
 			ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 25, 580, (float)dt, camera);
 			DebuffCheckAndApply(dt);
 		}
+		DebuffCheckAndApply(dt);
 		//std::cout << "Direction" << DirectionLeftRight << std::endl;
 		//std::cout << "DistancePlayerToEnemy" << distancePlayerToEnemy << std::endl;
 		//std::cout << "Estimated Distance" << estimatedDistance << std::endl;
 	}
 }
-void Enemy::setBehaviour(Behaviour* behaviour)
-=======
-			ConstrainPlayer(5 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 25, 580, dt, camera);
 
 
-
-		}
-
-		DebuffCheckAndApply(dt);
-	}
-	//std::cout << "Direction" << DirectionLeftRight << std::endl;
-	//std::cout << "DistancePlayerToEnemy" << distancePlayerToEnemy << std::endl;
-	//std::cout << "Estimated Distance" << estimatedDistance << std::endl;
-
-}
+		
 void  Enemy::setBehaviour(Behaviour* behaviour)
->>>>>>> Stashed changes
 {
 	this->m_Behaviour = behaviour;
 }

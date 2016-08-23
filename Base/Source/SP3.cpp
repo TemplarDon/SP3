@@ -345,11 +345,11 @@ void SP3::Update(double dt)
 				tempElement = temp->GetElement();
 				temp->SetActive(false);
 				m_Player->AddElementCharge(tempElement);
-				std::cout << m_Player->GetFirstElementArray()[0] << std::endl;
+			/*	std::cout << m_Player->GetFirstElementArray()[0] << std::endl;
 				std::cout << m_Player->GetFirstElementArray()[1] << std::endl;
 				std::cout << m_Player->GetFirstElementArray()[2] << std::endl;
 				std::cout << m_Player->GetFirstElementArray()[3] << std::endl;
-				std::cout << m_Player->GetFirstElementArray()[6] << std::endl;
+				std::cout << m_Player->GetFirstElementArray()[6] << std::endl;*/
 
 			}
 		}
