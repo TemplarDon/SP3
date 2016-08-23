@@ -34,31 +34,22 @@ Projectile::~Projectile()
 
 void Projectile::projectileUpdate(double dt)
 {
-	/*static Vector3 shootVec(0, 0, 1);
-	if (Direction != true)
-	{
-		this->rotation += 90;
-	}
-	shootVec.Set(m_Position.x * cos(Math::DegreeToRadian(rotation)), m_Position.y *sin(Math::DegreeToRadian(rotation)), 1);
-	m_Position += shootVec.Normalize();
-    lifeTime -= (float)dt * 5;
-	if (lifeTime < 0)
-	{
-		m_Active = false;
-	}*/
+	
 }
 void  Projectile::setVelocity()
 {
 	if (Direction==true)
 	{
 		m_Velocity.Set(m_Position.x * cos(Math::DegreeToRadian(rotation)), m_Position.y *sin(Math::DegreeToRadian(rotation)), 1);
-		std::cout << m_Velocity << std::endl;
+
+	//	std::cout << rotation << std::endl;
 	}
 	else
 	{
-		rotation =180-rotation;
+		std::cout << rotation << std::endl;
+		rotation = 180 - rotation;
 		m_Velocity.Set(m_Position.x * cos(Math::DegreeToRadian(rotation)), m_Position.y *sin(Math::DegreeToRadian(rotation)), 1);
-		std::cout << m_Velocity << std::endl;
+		std::cout << rotation << std::endl;
 	}
 	
 }
