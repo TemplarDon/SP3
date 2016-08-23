@@ -53,6 +53,8 @@ private:
 
 	// Health Charges
 	int m_HealthCharges;
+
+   
 };
 
 

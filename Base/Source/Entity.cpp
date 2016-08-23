@@ -14,6 +14,9 @@ Entity::Entity()
 	, m_CurrEntityMoveState(FALLING)
 
 {
+    //Sheild
+    SheildRegenTimer = 0.f;
+    RegenSheild = false;
 	//For jumping
 	m_bJumping = false;
 	JumpVel = 0.f;
@@ -50,6 +53,8 @@ Entity::~Entity()
 void Entity::SetEntityMaxHealth(int health)
 {
 	this->MaxHealth = health;
+    this->MaxSheild = health;
+    this->CurrSheild = MaxSheild;
 }
 
 int Entity::GetEntityHealth()
@@ -385,6 +390,29 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 
   //  std::cout << Attacks->GetDashLeftStatus() << "LEFT" << std::endl;
    // std::cout << Attacks->GetDashRightStatus() << "RIGHT" << std::endl;
+    if (!RegenSheild)
+    {
+        SheildRegenTimer += (float)dt;
+        if (SheildRegenTimer >= 4)
+        {
+            RegenSheild = true;
+            SheildRegenTimer = 0.f;
+        }
+    }
+
+    if (RegenSheild)
+    {
+        if (CurrSheild < MaxSheild)
+        {
+            CurrSheild += 20 * (float)dt;
+            if (CurrSheild >= MaxSheild)
+            {
+                RegenSheild = false;
+                CurrSheild = MaxSheild;
+            }
+        }
+    }
+
 
 	if (CurrHealth <= 0)
 	{
@@ -625,6 +653,8 @@ void Entity::AbilityMovementCheck()
 
 void Entity::ExecuteAbility(double dt)
 {
+    if (Attacks->GetSandBuff())
+        m_CurrElement = SAND;
     if (m_Dashingright == true)
     {
         if (m_Position.x < DashDestinationX)
@@ -777,9 +807,30 @@ void Entity::DebuffCheckAndApply(double dt)
 void Entity::TakeDamage(int input)
 {
 
+    SheildRegenTimer = 0.f;
+    RegenSheild = false;
+    float DamageToHealth = 0.f;
+    float DamageToSheild = 0.f;
     if (Attacks->GetHealStatus() == false)
     {
-        CurrHealth -= input * DamagMultiplier;
+        if (CurrSheild > 0)
+        {
+            DamageToSheild = input;
+            if (DamageToSheild > CurrSheild)
+            {
+                DamageToSheild = CurrSheild;
+                DamageToHealth = input - CurrSheild;
+            }
+            else
+            {
+                DamageToHealth = 0.f;
+            }    
+        }
+        else
+        {
+            DamageToSheild = 0.f;
+            DamageToHealth = input;
+        }
     }
     else
     {

@@ -110,6 +110,10 @@ public:
 
 
 protected:
+    float MaxSheild;
+    float CurrSheild;
+    float SheildRegenTimer;
+    bool RegenSheild;
 	float CurrHealth;
     float MaxHealth;
 	float Damage;

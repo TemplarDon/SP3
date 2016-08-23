@@ -32,6 +32,7 @@ public:
     void SetDashStatus(bool dashleft, bool dashright);
     void SetHealStatusFalse();
     bool GetHealStatus();
+    bool GetSandBuff();
     void SetisEnemy(bool);
 
 
@@ -45,8 +46,8 @@ protected:
     float m_Range;//bullet lifetime
     Vector3 m_EntityPos;//Position of entity using the attack   
     Vector3 m_Velocity;
-    ATTACK_TYPE m_CurrAttackType = NO_ATTACK_TYPE;
-    ELEMENT m_CurrElement = NO_ELEMENT;
+    ATTACK_TYPE m_CurrAttackType;
+    ELEMENT m_CurrElement;
 
     float m_AttackDebounce;
     bool m_CanAttack;
@@ -58,6 +59,8 @@ protected:
     float m_SteamDuration;
     bool m_Healbuff;
     float m_HealDuration;
+    bool m_SandBuff;
+    float m_SandBuffTimer;
 
 
     double interdt;

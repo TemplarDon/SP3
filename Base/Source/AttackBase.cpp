@@ -3,13 +3,15 @@
 #include "Entity.h"
 AttackBase::AttackBase()
 {
+    m_CurrAttackType = NO_ATTACK_TYPE;
+    m_CurrElement = NO_ELEMENT;
     m_AttackDamage = 1;
     MAXprojectilecount = 30;
     m_projectileCount = 0;
     m_meleeCount = 0;
     m_AbilityCount = 0;
     m_AttackDirection = true;
-    m_AttackDebounce = 0;
+    m_AttackDebounce = 0.f;
     m_Range = 0.f;
     m_CanAttack = true;
     isEnemy = false;
@@ -19,6 +21,8 @@ AttackBase::AttackBase()
     m_Healbuff = false;
     m_HealDuration = 0.f;
     m_SteamDuration = 0.f;
+    m_SandBuff = false;
+    m_SandBuffTimer = 0.f;
 }
 AttackBase::~AttackBase()
 {
@@ -85,6 +89,16 @@ void AttackBase::UpdateAttack(double dt, ELEMENT EntityCurrElement, Vector3 pos,
         {
             m_SteamBoost = false;
             m_SteamDuration = 0.f;
+        }
+    }
+    //sand boost timer 
+    if (m_SandBuff)
+    {
+        m_SandBuffTimer += 2 * (float)dt;
+        if (m_SandBuffTimer > 10.f)
+        {
+            m_SandBuff = false;
+            m_SandBuffTimer = 0.f;
         }
     }
 }
@@ -158,6 +172,7 @@ void AttackBase::Attack_Ability()
     }
     else if (m_CurrElement == EARTH_2)
     {
+      
         Projectile* temp;
 
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(5, 4, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
@@ -173,36 +188,42 @@ void AttackBase::Attack_Ability()
     }
     else if (m_CurrElement == SAND)
     {
-       
-        for (int i = 0; i < 7; i ++)
+        if (!m_SandBuff)
         {
-            float angletemp;
-            if (i == 0)
-                angletemp = -45.f;
-            else if (i == 1)
-                angletemp = -30.f;
-            else if (i == 2)
-                angletemp = -15.f;
-            else if (i == 3)
-                angletemp = 0.f;
-            else if (i == 4)
-                angletemp = 15.f;
-            else if (i == 5)
-                angletemp = 30.f;
-            else if (i == 6)
-                angletemp = 45.f;
-
-            Projectile* temp;
-            temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-            temp->projectileInit(m_AttackDirection, m_EntityPos + 2, 50.0f, m_AttackDamage, 0.5f, m_CurrElement, false, angletemp);
-
-            m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
-            m_AbilityCount += 1;
-            if (m_AbilityCount >= MAXprojectilecount)
+            m_SandBuff = true;
+        }
+        else if (m_SandBuff)
+        {
+            for (int i = 0; i < 7; i++)
             {
-                m_AbilityCount = 0;
+                float angletemp;
+                if (i == 0)
+                    angletemp = -45.f;
+                else if (i == 1)
+                    angletemp = -30.f;
+                else if (i == 2)
+                    angletemp = -15.f;
+                else if (i == 3)
+                    angletemp = 0.f;
+                else if (i == 4)
+                    angletemp = 15.f;
+                else if (i == 5)
+                    angletemp = 30.f;
+                else if (i == 6)
+                    angletemp = 45.f;
+
+                Projectile* temp;
+                temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+                temp->projectileInit(m_AttackDirection, m_EntityPos + 2, 50.0f, m_AttackDamage, 0.5f, m_CurrElement, false, angletemp);
+
+                m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
+                m_AbilityCount += 1;
+                if (m_AbilityCount >= MAXprojectilecount)
+                {
+                    m_AbilityCount = 0;
+                }
+                m_CanAttack = false;
             }
-            m_CanAttack = false;
         }
     }
     else if (m_CurrElement == STEAM)
@@ -244,6 +265,10 @@ void AttackBase::Attack_Ability()
     }
 }
 
+bool AttackBase::GetSandBuff()
+{
+    return m_SandBuff;
+}
 void AttackBase::SetHealStatusFalse()
 {
     m_Healbuff = false;
