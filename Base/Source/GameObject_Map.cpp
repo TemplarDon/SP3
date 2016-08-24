@@ -128,7 +128,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
 				temp->Init(false, false);
-				temp->SetNextTransition(TUTORIAL);
+				temp->SetNextTransition(TUTORIAL_LEVEL);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
@@ -136,7 +136,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
 				temp->Init(false, false);
-				temp->SetNextTransition(LEVEL_1);
+				temp->SetNextTransition(EARTH_LEVEL);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
@@ -144,7 +144,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
 				temp->Init(false, false);
-				temp->SetNextTransition(LEVEL_2);
+				temp->SetNextTransition(WATER_LEVEL);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
@@ -153,7 +153,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
 				temp->Init(false, false);
-				temp->SetNextTransition(LEVEL_3);
+				temp->SetNextTransition(FIRE_LEVEL);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
@@ -162,7 +162,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
 				temp->Init(false, false);
-				temp->SetNextTransition(LEVEL_4);
+				temp->SetNextTransition(HUB_LEVEL);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}

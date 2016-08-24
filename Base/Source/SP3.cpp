@@ -811,11 +811,11 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	switch (NextLevel)
 	{
 	case TEST: m_Map->LoadMap("Image//Maps//Official_Test.csv"); break;
-	case TUTORIAL: m_Map->LoadMap("Image//Maps//Tutorial.csv"); break;
-	case LEVEL_1: m_Map->LoadMap("Image//Maps//Level_1.csv"); break;
-	case LEVEL_2: m_Map->LoadMap("Image//Maps//Level_2.csv"); break;
-	case LEVEL_3: m_Map->LoadMap("Image//Maps//Level_3.csv"); break;
-	case LEVEL_4: m_Map->LoadMap("Image//Maps//Level_4.csv"); break;
+	case TUTORIAL_LEVEL: m_Map->LoadMap("Image//Maps//Tutorial.csv"); break;
+	case HUB_LEVEL: m_Map->LoadMap("Image//Maps//Hub.csv"); break;
+	case WATER_LEVEL: m_Map->LoadMap("Image//Maps//Water.csv"); break;
+	case FIRE_LEVEL: m_Map->LoadMap("Image//Maps//Fire.csv"); break;
+	case EARTH_LEVEL: m_Map->LoadMap("Image//Maps//Earth.csv"); break;
 	default:
 		break;
 	}
