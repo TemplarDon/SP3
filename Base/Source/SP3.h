@@ -53,6 +53,7 @@ public:
 	void UpdateUI(double dt);
 	void UpdateUI2(double dt);
 	void RenderUI();
+	void RenderUI2();
 
 protected:
 
@@ -92,11 +93,13 @@ protected:
 	//UI
 	float rotateUI;
 	float rotateUI2;
-	float uiPos;
-	float originalUIPos;
+	float UIPos_x;
+	float originalUIPos_x;
+	float UIPos_y;
+	float originalUIPos_y;
 
 	//Health bar
-	int m_lives;
+	float healthbarpos_x;
 };
 
 #endif

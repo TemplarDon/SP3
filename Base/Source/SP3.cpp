@@ -28,20 +28,28 @@ void SP3::Init()
 {
 	SceneBase::Init();
 
-	rotateUI = 0;
-	rotateUI2 = 0;
-	treePos = 100 ;
-	orignalTreePos = 100;
-
 	meshList[GEO_HEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 1, 0), 1.f);
-
+	meshList[GEO_FIRE_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(1, 0, 0), 1.f);
+	meshList[GEO_WATER_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 0.4, 1), 1.f);
+	meshList[GEO_EARTH_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(0.7, 0.5, 0.3), 1.f);
 
 	//Calculating aspect ratio
 	m_worldHeight = 100.f;
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
 
-	uiPos = 0;
-	originalUIPos = 0;
+	// UI stuff
+	UIPos_x = 0;			
+	originalUIPos_x = 0;
+	UIPos_y = 0;
+	originalUIPos_y = 0;
+
+	// Health Bar starting position x
+	healthbarpos_x = m_worldWidth * 0.5 - 85;
+
+	rotateUI = 0;
+	rotateUI2 = 0;
+	treePos = 100;
+	orignalTreePos = 100;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -413,6 +421,7 @@ void SP3::Update(double dt)
 	UpdateUI(dt);
 	UpdateUI2(dt);
 	m_Player->Attacks->UpdateAttack(dt, m_Player->GetElement(), m_Player->GetPosition(), m_Player->GetLeftRight());
+
 }
 
 void SP3::UpdateUI(double dt)
@@ -482,22 +491,28 @@ void SP3::UpdateUI2(double dt)
 	}
 
 
-	// UI Move with screen
-	if (uiPos < (originalUIPos + (m_Player->GetMapOffset_x() * 1) + (m_Player->GetMapFineOffset_x() * 1)))
+	// Move UI with screen
+	// X
+	if (UIPos_x < (originalUIPos_x + (m_Player->GetMapOffset_x() * 1) + (m_Player->GetMapFineOffset_x() * 1)))
 	{
 
-        uiPos += ((float)dt * 8);
-
-		//if (rotateUI2 > -45)
-		{
-			//std::cout << rotateUI2 << std::endl;
-            rotateUI2 -= (float)dt * 50;
-		}
-
+		UIPos_x += (dt * 8);
+	}
+	else if (UIPos_x >(originalUIPos_x + (m_Player->GetMapOffset_x() * 1) + (m_Player->GetMapFineOffset_x() * 1)) + 0.1)
+	{
+		UIPos_x -= (dt * 8);
+	}
+	// Y
+	if (UIPos_y < originalUIPos_y + (m_Player->GetMapOffset_y() * 1) + (m_Player->GetMapFineOffset_y() * 1))
+	{
+		UIPos_y += dt * 8;
+	}
+	else if (UIPos_y > originalUIPos_y + (m_Player->GetMapOffset_y() * 1)+ (m_Player->GetMapFineOffset_y() *1) + 0.1)
+	{
+		UIPos_y -= dt * 8;
 	}
 
-//	std::cout << m_Player->GetEntityHealth() << std::endl;
-
+	//std::cout << m_Player->GetElement() << std::endl;
 }
 
 void SP3::RenderGO(GameObject *go)
@@ -575,11 +590,85 @@ void SP3::RenderParallaxMap()
 
 void SP3::RenderUI()
 {
+	// ------------------------------ UI ------------------------------------- //
+	modelStack.PushMatrix();
+	modelStack.Translate(UIPos_x,UIPos_y, 0);
+
+	// Background
+	modelStack.PushMatrix();
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, 0);
+	modelStack.Scale(150, 77.5, 1);
+	RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
+	modelStack.PopMatrix();
+
+	// Health Bar
+	for (int i = 0; i < m_Player->GetEntityHealth(); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(healthbarpos_x + (i * 1.2), 75, 1);
+		modelStack.Scale(1, 3, 1);
+		RenderMesh(meshList[GEO_HEALTH_BAR], false);
+		modelStack.PopMatrix();
+	}
+
+	// Fire Element Exp Percentage Bar
+	for (int i = 0; i < m_Player->GetElementPercentage(FIRE); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(healthbarpos_x + (i * 1.2), 70, 1);
+		modelStack.Scale(1, 3, 1);
+		RenderMesh(meshList[GEO_FIRE_EXP_BAR], false);
+		modelStack.PopMatrix();
+	}
+
+	// Water Element Exp Percentage Bar
+	for (int i = 0; i < m_Player->GetElementPercentage(WATER); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(healthbarpos_x + (i * 1.2), 65, 1);
+		modelStack.Scale(1, 3, 1);
+		RenderMesh(meshList[GEO_WATER_EXP_BAR], false);
+		modelStack.PopMatrix();
+	}
+
+	// Earth Element Exp Percentage Bar
+	for (int i = 0; i < m_Player->GetElementPercentage(EARTH); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(healthbarpos_x + (i * 1.2), 60, 1);
+		modelStack.Scale(1, 3, 1);
+		RenderMesh(meshList[GEO_EARTH_EXP_BAR], false);
+		modelStack.PopMatrix();
+	}
+
+	// Fire Element Level
+	std::ostringstream ss;
+	ss.precision(5);
+	ss << m_Player->GetElementLevel(FIRE);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 9, 51);
+
+	// Water Element Level
+	std::ostringstream ss1;
+	ss1.precision(5);
+	ss1 << m_Player->GetElementLevel(WATER);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 3, 9, 47);
+
+	// Earth Element Level
+	std::ostringstream ss2;
+	ss2.precision(5);
+	ss2 << m_Player->GetElementLevel(EARTH);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 3, 9, 43.5);
+
+	modelStack.PopMatrix(); // Do not delete this line
+}
+
+void SP3::RenderUI2()
+{
 	// -------------------- UI --------------------- //
 
 
 	modelStack.PushMatrix();
-	modelStack.Translate(uiPos, 0, 0);
+	modelStack.Translate(UIPos_x, UIPos_y, 0);
 
 	// Health Bar
 	modelStack.PushMatrix();
@@ -747,11 +836,11 @@ void SP3::Render()
 	//modelStack.PopMatrix();
 
 
-	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.7, 61, -2);
-	modelStack.Scale(300, 78, 1);
-	RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	//modelStack.Translate(m_worldWidth * 0.7, 61, -2);
+	//modelStack.Scale(300, 78, 1);
+	//RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
+	//modelStack.PopMatrix();
 
 	// ------------------------------------------------- //
 
@@ -772,8 +861,6 @@ void SP3::Render()
 	}
 	
 	RenderUI();
-
-	std::cout << m_Player->GetMoveState() << std::endl;
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)

@@ -60,6 +60,15 @@ public:
 	virtual void EntityJumpUpdate(double dt);
 	virtual bool GetJump();
 	
+	// Getter for element percentage
+	virtual float GetElementPercentage(ELEMENT ElementType);
+	// Setter for element percentage
+	virtual void SetElementPercentage(ELEMENT ElementType, float percentage);
+
+	// Getter for element level
+	virtual int GetElementLevel(ELEMENT ElementType);
+	// Setter for element percentage
+	virtual void SetElementLevel(ELEMENT ElementType, float level);
 
 	// Getter for mapOffset_x
 	virtual int GetMapOffset_x();
@@ -132,9 +141,16 @@ protected:
 	float MovementSpeed;
     float prevMS;
     Mesh* SheildMesh;
-    
+	
+	// Element percentage
+	float FirePercentage;
+	float WaterPercentage;
+	float EarthPercentage;
 
-
+	// Element level
+	float FireLevel;
+	float WaterLevel;
+	float EarthLevel;
 
 	// ----------------- For jumping and collision check ----------------- //
 	ENTITY_MOVE_STATE m_CurrEntityMoveState;

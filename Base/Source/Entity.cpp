@@ -35,13 +35,19 @@ Entity::Entity()
 	m_MinCollisionBox.Set(-99999, -99999, 0);
 
 	// Initialise Levels
-	m_ElementsPercentageMap[FIRE] = 0.f;
-	m_ElementsPercentageMap[WATER] = 0.f;
-	m_ElementsPercentageMap[EARTH] = 0.f;
+	//m_ElementsPercentageMap[FIRE] = 10.f;
+	//m_ElementsPercentageMap[WATER] = 10.f;
+	//m_ElementsPercentageMap[EARTH] = 10.f;
+	SetElementPercentage(FIRE, 10.f);
+	SetElementPercentage(WATER, 8.f);
+	SetElementPercentage(EARTH, 6.f);
 
-	m_ElementsLevelMap[FIRE] = 0;
-	m_ElementsLevelMap[WATER] = 0;
-	m_ElementsLevelMap[EARTH] = 0;
+	//m_ElementsLevelMap[FIRE] = 1;
+	//m_ElementsLevelMap[WATER] = 1;
+	//m_ElementsLevelMap[EARTH] = 1;
+	SetElementLevel(FIRE, 1);
+	SetElementLevel(WATER, 1);
+	SetElementLevel(EARTH, 1);
 }
 
 Entity::~Entity()
@@ -94,7 +100,6 @@ float Entity::GetEntityMovementSpeed()
 {
 	return MovementSpeed;
 }
-
 
 bool Entity::GetLeftRight()
 {
@@ -678,5 +683,73 @@ void Entity::LevelUp(ELEMENT ElementToLevel)
 		// Shield 
 		break;
 	}
+	}
+}
+
+void Entity::SetElementPercentage(ELEMENT ElementType, float percentage)
+{
+	//float i = m_ElementsPercentageMap[FIRE];
+	//m_ElementsPercentageMap[ElementType] = percentage;
+	//this->Percentage = percentage;
+
+	if (ElementType == FIRE)
+	{
+		this->FirePercentage = percentage;
+	}
+	else if (ElementType == WATER)
+	{
+		this->WaterPercentage = percentage;
+	}
+	else if (ElementType == EARTH)
+	{
+		this->EarthPercentage = percentage;
+	}
+}
+
+float Entity::GetElementPercentage(ELEMENT ELementType)
+{
+	if (ELementType == FIRE)
+	{
+		return FirePercentage;
+	}
+	else if (ELementType == WATER)
+	{
+		return WaterPercentage;
+	}
+	else if (ELementType == EARTH)
+	{
+		return EarthPercentage;
+	}
+}
+
+void Entity::SetElementLevel(ELEMENT ElementType, float level)
+{
+	if (ElementType == FIRE)
+	{
+		this->FireLevel = level;
+	}
+	else if (ElementType == WATER)
+	{
+		this->WaterLevel = level;
+	}
+	else if (ElementType == EARTH)
+	{
+		this->EarthLevel = level;
+	}
+}
+
+int Entity::GetElementLevel(ELEMENT ELementType)
+{
+	if (ELementType == FIRE)
+	{
+		return FireLevel;
+	}
+	else if (ELementType == WATER)
+	{
+		return WaterLevel;
+	}
+	else if (ELementType == EARTH)
+	{
+		return EarthLevel;
 	}
 }

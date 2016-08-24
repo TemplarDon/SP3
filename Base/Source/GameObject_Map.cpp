@@ -57,7 +57,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 			case 1:
 			{
-				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//testground.tga"));
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//fire_tile2.tga"));
 				temp->SetElement(ELEMENT::NO_ELEMENT);
 				temp->Init(true, false);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
@@ -67,7 +67,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			case 2:
 			{
 				// Should be changed to top ground (grass)
-				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//testground.tga"));
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//fire_tile1.tga"));
 				temp->SetElement(ELEMENT::NO_ELEMENT);
 				temp->Init(true, false);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
