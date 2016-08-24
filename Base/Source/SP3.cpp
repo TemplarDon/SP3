@@ -422,6 +422,9 @@ void SP3::Update(double dt)
 	UpdateUI2(dt);
 	m_Player->Attacks->UpdateAttack(dt, m_Player->GetElement(), m_Player->GetPosition(), m_Player->GetLeftRight());
 
+	// ------------------- Earth Attack Estimated Landing ------------------------ //
+	float TimeToLand = sqrt((-40 * sin(Math::DegreeToRadian(50))) / (-4.9));
+	Distance_X = (40 * cos(Math::DegreeToRadian(50))) * (TimeToLand);
 }
 
 void SP3::UpdateUI(double dt)
@@ -861,6 +864,13 @@ void SP3::Render()
 	}
 	
 	RenderUI();
+
+
+	modelStack.PushMatrix();
+	modelStack.Translate(m_Player->GetPosition().x + Distance_X, 20, 2);
+	modelStack.Scale(5, 5, 1);
+	RenderMesh(meshList[GEO_BALL], false);
+	modelStack.PopMatrix();
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)

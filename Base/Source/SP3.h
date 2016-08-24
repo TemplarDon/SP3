@@ -100,6 +100,9 @@ protected:
 
 	//Health bar
 	float healthbarpos_x;
+
+	// Test Earth
+	float Distance_X;
 };
 
 #endif

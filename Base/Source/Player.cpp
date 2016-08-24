@@ -5,7 +5,7 @@ Player::Player(void)
 	, m_HealthCharges(0)
 {
 
-    m_CurrElement = FIRE_2;
+    m_CurrElement = EARTH_2;
     isEnemyEntity = false;
     Attacks = new AttackBase;
 

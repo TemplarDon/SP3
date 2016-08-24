@@ -680,7 +680,7 @@ void Entity::LevelUp(ELEMENT ElementToLevel)
 	}
 	case EARTH:
 	{
-		// Shield 
+		this->MaxSheild += 5;
 		break;
 	}
 	}

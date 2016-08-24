@@ -210,6 +210,20 @@ void AttackBase::Ability_Run()
     }
     else if (m_CurrElement == EARTH_2)
     {
+		Projectile* temp;
+		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+		temp->projectileInit(m_AttackDirection, m_EntityPos, 40.0f, m_AttackDamage, 5, m_CurrElement, false, 50);
+
+		// These Variables shouldn't change
+		// Bullet Speed = 40.f
+		// Theta = 50
+
+		m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
+		m_AbilityCount += 1;
+		if (m_AbilityCount >= MAXprojectilecount)
+		{
+			m_AbilityCount = 0;
+		}
     }
 }
 
