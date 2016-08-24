@@ -11,7 +11,6 @@
 enum ENTITY_MOVE_STATE
 {
 	NO_STATE,
-    STUNNED,
 	EDIBLE,
 	ON_GROUND,
 	FALLING,
@@ -90,7 +89,6 @@ public:
 
 
 	// Collision Repsonse
-	virtual void DisableDash();	
 	void CollisionResponse(GameObject* OtherGo);
 
 	// Collision Box
@@ -113,6 +111,10 @@ public:
 
 
 protected:
+    float CurrSheild;
+    float MaxSheild;
+    float SheildRegenTimer;
+    bool SheildRegen;
 	float CurrHealth;
     float MaxHealth;		// Affected by Water Level
 	float Damage;			// Affected by Fire Level
@@ -142,18 +144,12 @@ protected:
 	// ------------------------------------------------------------------- //
 
     // ----------------- For element abilities checks -------------------- //
-    void AbilityMovementCheck();
+    void CheckDamageMultiplier();
     void ExecuteAbility(double dt);
-    float DashDestinationX;
-    bool m_Dashingleft, m_Dashingright;
     ENTITY_MOVE_STATE m_PrevState;
     void DebuffCheckAndApply(double dt);//stunned, slowed, burning, knockback 
-    bool deBuff_Stunned, deBuff_burning, deBuff_Slowed, deBuff_KnockBack,debuff_Edible;
-    float deBuff_StunTimer, deBuff_BurningTimer, deBuff_SlowTimer;
-    float KnockBackDestX;
-    float m_HealTimer;
-    bool KnockBackLeftRight;
-    bool SheildUp;
+    bool deBuff_burning, deBuff_Slowed,debuff_Edible;
+    float deBuff_BurningTimer, deBuff_SlowTimer;
     int deBuff_BurnTicks;
     double interDT;
     // ------------------------------------------------------------------- //

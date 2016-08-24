@@ -53,6 +53,10 @@ private:
 
 	// Health Charges
 	int m_HealthCharges;
+
+    float CurrSheild;
+    float MaxSheild;
+    float SheildRegenTimer;
 };
 
 

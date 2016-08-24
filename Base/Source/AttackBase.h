@@ -6,7 +6,6 @@
 enum ATTACK_TYPE
 {
 	NO_ATTACK_TYPE,//use this for non-interactable blocks
-    MELEE,
     RANGED,
     ABILITY,
 	SUCK,
@@ -25,13 +24,6 @@ public:
     //launch an attack
     void LaunchAttack();
 	//void LaunchAttack(ELEMENT m_CurrElement);
-    bool GetSteamStatus();
-    bool GetDashLeftStatus();
-    bool GetDashRightStatus();
-    void SetSteamStatus(bool jumpstatus);
-    void SetDashStatus(bool dashleft, bool dashright);
-    void SetHealStatusFalse();
-    bool GetHealStatus();
     void SetisEnemy(bool);
 
 
@@ -50,15 +42,6 @@ protected:
 
     float m_AttackDebounce;
     bool m_CanAttack;
-    bool m_Dashleft;
-    bool m_Dashright;
-
-    //buffs
-    bool m_SteamBoost;
-    float m_SteamDuration;
-    bool m_Healbuff;
-    float m_HealDuration;
-
 
     double interdt;
 
@@ -67,7 +50,6 @@ protected:
     int m_meleeCount;
     int m_AbilityCount;
     Projectile *m_Projectiles = new Projectile[30];
-    Projectile *m_MeleeStrike = new Projectile[50];
     Projectile *m_AbilityProjectiles = new Projectile[50];
 
     Mesh* ProjectilePH;
@@ -76,7 +58,7 @@ protected:
 
     //Attack calls
     void Attack_Ranged();
-    void Attack_Melee();
+
     void Attack_Ability();
 	void Attack_Suck();
 

@@ -13,13 +13,7 @@ enum ELEMENT
     //secondary elements
     FIRE_2,
     WATER_2,
-    EARTH_2,
-    //combined elements
-    SAND,// Fire + Earth
-    STEAM,//Water + Fire
-    WOOD,//Water+ Earth
-	
-
+    EARTH_2,	
 	TOTAL_ELEMENTS,
 };
 
