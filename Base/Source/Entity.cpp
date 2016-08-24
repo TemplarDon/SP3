@@ -412,7 +412,7 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 		GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y + 1][i];
 		if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive() && i != PlayerPos_X)
 		{
-			m_MaxCollisionBox.x = (CheckGameObject_2->GetPosition().x) - (Map->GetTileSize());
+			m_MaxCollisionBox.x = (CheckGameObject_2->GetPosition().x) - (Map->GetTileSize()) - 0.5;
 			break;
 		}
 		m_MaxCollisionBox.x = (Map->GetNumOfTiles_MapWidth() * Map->GetTileSize()) - (Map->GetTileSize());
@@ -438,7 +438,7 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[i][PlayerPos_X];
 			if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive() && i != PlayerPos_Y)
 			{
-				m_MaxCollisionBox.y = (CheckGameObject_2->GetPosition().y) - (Map->GetTileSize());
+				m_MaxCollisionBox.y = (CheckGameObject_2->GetPosition().y) - (Map->GetTileSize()) - 0.1;
 				break;
 			}
 			m_MaxCollisionBox.y = Map->GetNumOfTiles_MapHeight() * Map->GetTileSize() - (Map->GetTileSize());
@@ -477,14 +477,14 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 
 			if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive())
 			{
-				m_MinCollisionBox.y = (CheckGameObject_2->GetPosition().y) + (Map->GetTileSize());
+				m_MinCollisionBox.y = (CheckGameObject_2->GetPosition().y) + (Map->GetTileSize()) + 0.1;
 				break;
 			}
 			else if(!CheckGameObject_2->GetCollidable() && !CheckGameObject_2->GetActive())
 			{
 				if (CheckGameObject_3->GetCollidable() && CheckGameObject_3->GetActive())
 				{
-					m_MinCollisionBox.y = (CheckGameObject_3->GetPosition().y) + (Map->GetTileSize());
+					m_MinCollisionBox.y = (CheckGameObject_3->GetPosition().y) + (Map->GetTileSize()) + 0.1;
 					break;
 				}
 			}
