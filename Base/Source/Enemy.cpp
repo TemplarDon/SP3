@@ -124,7 +124,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			{
 				this->Attacks->SetisEnemy(true);
 				this->Attacks->UpdateAttack(dt, m_CurrElement, this->m_Position, DirectionLeftRight);
-				this->Attacks->LaunchAttack();
+				this->Attacks->LaunchAttack(0);
 			}
 		}
 		else if (enemyType == MELEE)

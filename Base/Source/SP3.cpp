@@ -146,7 +146,7 @@ void SP3::Update(double dt)
 	}
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
-		m_Player->Attacks->LaunchAttack();
+		m_Player->Attacks->LaunchAttack(0);
 
 		if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH && m_Player->GetElement() != MISC)
 		{
@@ -166,12 +166,12 @@ void SP3::Update(double dt)
 		m_Player->setRotate(true);
 		m_Player->SetMesh(m_Player->getMeshVector()[1]);
 		m_Player->SetSpriteAnimation(m_Player->getSpriteVector()[1]);
-		m_Player->MoveLeft(dt);
+        m_Player->MoveLeft((float)dt);
 	}
 	if (m_Player->GetMoving_Right() == true)
 	{
 		m_Player->setRotate(false);
-		m_Player->MoveRight(dt);
+        m_Player->MoveRight((float)dt);
 		m_Player->SetMesh(m_Player->getMeshVector()[1]);
 		m_Player->SetSpriteAnimation(m_Player->getSpriteVector()[1]);
 	}
@@ -191,7 +191,7 @@ void SP3::Update(double dt)
 		ELEMENT tempElement = m_Player->GetElement();
 		m_Player->SetElement(MISC);
 		m_Player->Attacks->SetAttackElement(MISC);
-		m_Player->Attacks->LaunchAttack();
+		m_Player->Attacks->LaunchAttack(0);
 		m_Player->SetElement(tempElement);
 		fButtonState = true;
 	}
@@ -365,38 +365,38 @@ void SP3::Update(double dt)
 	// ----------------- Update Camera ------------------ //
 	if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		camera.position.x += dt * 8;
+		camera.position.x += (float)dt * 8;
 	}
 	else if (camera.position.x > OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		camera.position.x -= dt * 8;
+        camera.position.x -= (float)dt * 8;
 	}
 
 	if (camera.target.x < OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		camera.target.x += dt * 8;
+        camera.target.x += (float)dt * 8;
 	}
 	else if (camera.target.x > OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		camera.target.x -= dt * 8;
+		camera.target.x -= (float)dt * 8;
 	}
 
 	if (camera.position.y < OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
-		camera.position.y += dt * 8;
+        camera.position.y += (float)dt * 8;
 	}
 	else if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-		camera.position.y -= dt * 8;
+        camera.position.y -= (float)dt * 8;
 	}
 
 	if (camera.target.y < OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
-		camera.target.y += dt * 8;
+        camera.target.y += (float)dt * 8;
 	}
 	else if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-		camera.target.y -= dt * 8;
+        camera.target.y -= (float)dt * 8;
 	}
 	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	//camera.target.x = OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
@@ -432,7 +432,7 @@ void SP3::UpdateUI(double dt)
 		// Fire
 		if (rotateUI < 270.f)
 		{
-			rotateUI += dt * 200;
+            rotateUI += (float)dt * 200;
 		}
 
 		break;
@@ -442,12 +442,12 @@ void SP3::UpdateUI(double dt)
 		// Earth
 		if (rotateUI < 40.f)
 		{
-			rotateUI += dt * 200;
+            rotateUI += (float)dt * 200;
 		}
 		else if (rotateUI >= 271.f || rotateUI >= 260.f)
 		{
 			//std::cout << "HEYYYAYYAYAYAAYAYAYAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYYYYYHUE";
-			rotateUI += dt * 200;
+            rotateUI += (float)dt * 200;
 		}
 
 		break;
@@ -474,11 +474,11 @@ void SP3::UpdateUI2(double dt)
 	// Stalagmite
 	if (treePos >  (orignalTreePos - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
 	{
-		treePos -= (dt * 0.5);
+        treePos -= ((float)dt * 0.5);
 	}
 	else if (treePos < (orignalTreePos - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
 	{
-		treePos += (dt * 0.5);
+        treePos += ((float)dt * 0.5);
 	}
 
 
@@ -486,12 +486,12 @@ void SP3::UpdateUI2(double dt)
 	if (uiPos < (originalUIPos + (m_Player->GetMapOffset_x() * 1) + (m_Player->GetMapFineOffset_x() * 1)))
 	{
 
-		uiPos += (dt * 8);
+        uiPos += ((float)dt * 8);
 
 		//if (rotateUI2 > -45)
 		{
 			//std::cout << rotateUI2 << std::endl;
-			rotateUI2 -= dt * 50;
+            rotateUI2 -= (float)dt * 50;
 		}
 
 	}

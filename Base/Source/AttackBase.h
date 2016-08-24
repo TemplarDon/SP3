@@ -22,7 +22,7 @@ public:
     //generic init
     void Init(int AttackDamage, float range);
     //launch an attack
-    void LaunchAttack();
+    void LaunchAttack(int level);
 	//void LaunchAttack(ELEMENT m_CurrElement);
     void SetisEnemy(bool);
 
@@ -34,6 +34,7 @@ protected:
     bool isEnemy;
     bool m_AttackDirection;//true is right false is left
     int m_AttackDamage;
+    int m_ElementLevel;
     float m_Range;//bullet lifetime
     Vector3 m_EntityPos;//Position of entity using the attack   
     Vector3 m_Velocity;
@@ -42,6 +43,7 @@ protected:
 
     float m_AttackDebounce;
     bool m_CanAttack;
+    bool m_RootedForAttack;
 
     double interdt;
 
@@ -60,10 +62,31 @@ protected:
     void Attack_Ranged();
 
     void Attack_Ability();
+    void Ability_Run();
 	void Attack_Suck();
+    void Debouncers(double dt);
 
-    
+    //Ability stuff
+    bool ab_HailStorm;
+    bool ab_HailStorm_isCD;
+    bool ab_Obliterate;
+    bool ab_Obliterate_isCD;
+    bool ab_Cataclysm;
+    bool ab_Cataclysm_isCD;
 
+    bool ab_HailStorm_debounce;
+    bool ab_Obliterate_debounce;
+    bool ab_Cataclysm_debounce;
+
+    int ab_Obliterate_Counter;
+    int ab_HailStorm_Counter;
+
+    float ab_FIRE2_timer;
+    float ab_FIRE2_CDtimer;
+    float ab_EARTH2_timer;
+    float ab_EARTH2_CDtimer;
+    float ab_WATER2_timer;
+    float ab_WATER2_CDtimer;
 
 };
 

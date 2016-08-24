@@ -5,7 +5,7 @@ Player::Player(void)
 	, m_HealthCharges(0)
 {
 
-    m_CurrElement = FIRE;
+    m_CurrElement = FIRE_2;
     isEnemyEntity = false;
     Attacks = new AttackBase;
 
@@ -166,29 +166,29 @@ void Player::CollisionResponse(GameObject* OtherGo)
 		if (tempProj->GetElement() == FIRE)
 		{
 			if (m_CurrElement == WATER)
-				DamagMultiplier = 0.5;
+				DamagMultiplier = 0.5f;
 			if (m_CurrElement == FIRE)
-				DamagMultiplier = 1;
+				DamagMultiplier = 1.f;
 			if (m_CurrElement == EARTH)
-				DamagMultiplier = 1.5;
+				DamagMultiplier = 1.5f;
 		}
 		if (tempProj->GetElement() == WATER)
 		{
 			if (m_CurrElement == WATER)
-				DamagMultiplier = 1;
+				DamagMultiplier = 1.f;
 			if (m_CurrElement == FIRE)
-				DamagMultiplier = 1.5;
+				DamagMultiplier = 1.5f;
 			if (m_CurrElement == EARTH)
-				DamagMultiplier = 0.5;
+				DamagMultiplier = 0.5f;
 		}
 		if (tempProj->GetElement() == EARTH)
 		{
 			if (m_CurrElement == WATER)
-				DamagMultiplier = 1.5;
+				DamagMultiplier = 1.5f;
 			if (m_CurrElement == FIRE)
-				DamagMultiplier = 0.5;
+				DamagMultiplier = 0.5f;
 			if (m_CurrElement == EARTH)
-				DamagMultiplier == 1;
+				DamagMultiplier = 1.f;
 		}
 		//debuffs
 		

@@ -58,7 +58,7 @@ void BehaviourMelee::Update(double dt, float distancePlayerToEnemy, float estima
 		if (behaviour == ATTACK)
 		{
 			attack->SetisEnemy(true);
-			attack->LaunchAttack();
+			attack->LaunchAttack(0);
 		}
 	}
 	else

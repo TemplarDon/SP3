@@ -251,7 +251,7 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 {
 	if (m_Position.x < leftBorder)
 	{
-		m_Position.x = leftBorder;
+		m_Position.x = (float)leftBorder;
 		mapOffset_x = mapOffset_x - (int)(10 * timeDiff);
 
 		if (mapOffset_x < 0)
@@ -259,7 +259,7 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 	}
 	else if (m_Position.x > rightBorder)
 	{
-		m_Position.x = rightBorder;
+        m_Position.x = (float)rightBorder;
 		mapOffset_x = mapOffset_x + (int)(10 * timeDiff);
 		if (mapOffset_x > 800)	// This must be changed to soft-coded
 			mapOffset_x = 800;
@@ -267,12 +267,12 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 
 	if (m_Position.y > topBorder)
 	{
-		m_Position.y = topBorder;
+        m_Position.y = (float)topBorder;
 		mapOffset_y = mapOffset_y + (int)(2 * timeDiff);
 	}
 	else if (m_Position.y < bottomBorder)
 	{
-		m_Position.y = bottomBorder;
+        m_Position.y = (float)bottomBorder;
 		mapOffset_y = mapOffset_y - (int)(2 * timeDiff);
 	}
 

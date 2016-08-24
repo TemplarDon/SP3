@@ -16,6 +16,7 @@
     <ClCompile Include="Source\Behaviour.cpp" />
     <ClCompile Include="Source\BehaviourMelee.cpp" />
     <ClCompile Include="Source\BehaviourRanged.cpp" />
+    <ClCompile Include="Source\BehaviourRanged_2.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\ElementalObject.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="Source\Behaviour.h" />
     <ClInclude Include="Source\BehaviourMelee.h" />
     <ClInclude Include="Source\BehaviourRanged.h" />
+    <ClInclude Include="Source\BehaviourRanged_2.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\ElementalObject.h" />
     <ClInclude Include="Source\Enemy.h" />

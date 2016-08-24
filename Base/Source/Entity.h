@@ -119,7 +119,7 @@ protected:
     float MaxHealth;		// Affected by Water Level
 	float Damage;			// Affected by Fire Level
 	float TakenDamage;
-    int DamagMultiplier;
+    float DamagMultiplier;
     bool isEnemyEntity;
 
 	//Jeff's bool
