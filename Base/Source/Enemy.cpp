@@ -123,7 +123,6 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 	
 }
 
-
 void Enemy::CollisionResponse(GameObject* OtherGo)
 {
 

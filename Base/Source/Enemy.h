@@ -28,21 +28,15 @@ public:
 	//virtual Vector3 getEnemyPosition();
 
 
-
 	virtual void EnemyInit( float estimatedDistance, ELEMENT m_CurrElement, int Damage, float detectionRange);
 
-
 	virtual void Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera);
-	virtual void UpdateTileMapCollision(GameObject_Map* Map)
-	{
-	}
+
 	virtual void setBehaviour(Behaviour* behaviour);
 	virtual Behaviour* getBehaviour(Behaviour* behaviour);
 
 	virtual void setAttack(AttackBase* attack);
 	virtual AttackBase* getAttack();
-
-
 
 	virtual  void setEnemyType(EnemyType enemyType);
 	virtual EnemyType getEnemyType();
@@ -54,7 +48,6 @@ public:
 	virtual float getEstimatedDistance();
 
 	virtual void setDirectionBasedOnDistance(Vector3 playerPosition, Vector3 enemyPosition);
-
 
 	virtual void setDetectionRange(float detectionRange);
 	virtual float getDetectionRange();

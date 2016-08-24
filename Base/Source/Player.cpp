@@ -160,7 +160,7 @@ void Player::CollisionResponse(GameObject* OtherGo)
 		}
 	}
 
-	if (OtherGo->GetObjectType() == PROJECTILE&& tempProj->getIsHostileProjectile() == true)
+	if (OtherGo->GetObjectType() == PROJECTILE && tempProj->getIsHostileProjectile() == true)
 	{
 
 		if (tempProj->GetElement() == FIRE)

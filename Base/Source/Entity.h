@@ -6,6 +6,8 @@
 
 #include "Camera.h"
 
+#include <map>
+
 enum ENTITY_MOVE_STATE
 {
 	NO_STATE,
@@ -90,8 +92,6 @@ public:
 	// Collision Repsonse
 	virtual void DisableDash();	
 	void CollisionResponse(GameObject* OtherGo);
-	// CollisionWithTileMap
-	virtual void UpdateTileMapCollision(GameObject_Map* Map);
 
 	// Collision Box
 	virtual void GenerateCollisionBoundary(GameObject_Map* Map);
@@ -108,11 +108,14 @@ public:
 	virtual void Death()
 	{}
 
+	virtual void GainExp(ELEMENT ElementToGain, float Amount);
+	virtual void LevelUp(ELEMENT ElementToLevel);
+
 
 protected:
 	float CurrHealth;
-    float MaxHealth;
-	float Damage;
+    float MaxHealth;		// Affected by Water Level
+	float Damage;			// Affected by Fire Level
 	float TakenDamage;
     int DamagMultiplier;
     bool isEnemyEntity;
@@ -136,9 +139,8 @@ protected:
 
 	Vector3 m_MaxCollisionBox;
 	Vector3 m_MinCollisionBox;
-	float EntityMapOffsetX;
-
 	// ------------------------------------------------------------------- //
+
     // ----------------- For element abilities checks -------------------- //
     void AbilityMovementCheck();
     void ExecuteAbility(double dt);
@@ -171,7 +173,10 @@ protected:
 	std::vector<Mesh*> AnimationMeshList;
 	std::vector<SpriteAnimation*> AnimationSpriteList;
 
-    
+	// ----------------------- Elements & Levels -------------------------- //
+	std::map <ELEMENT, float> m_ElementsPercentageMap;
+	std::map <ELEMENT, int> m_ElementsLevelMap;
+	// ------------------------------------------------------------------- //
 };
 
 #endif

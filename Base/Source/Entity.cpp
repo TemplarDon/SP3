@@ -37,9 +37,17 @@ Entity::Entity()
     DamagMultiplier = 1;    
     m_HealTimer = 0.f;
 
-    //
 	m_MaxCollisionBox.Set(99999, 99999, 0);
 	m_MinCollisionBox.Set(-99999, -99999, 0);
+
+	// Initialise Levels
+	m_ElementsPercentageMap[FIRE] = 0.f;
+	m_ElementsPercentageMap[WATER] = 0.f;
+	m_ElementsPercentageMap[EARTH] = 0.f;
+
+	m_ElementsLevelMap[FIRE] = 0;
+	m_ElementsLevelMap[WATER] = 0;
+	m_ElementsLevelMap[EARTH] = 0;
 }
 
 Entity::~Entity()
@@ -274,7 +282,6 @@ void Entity::DisableDash()
 
 void Entity::CollisionResponse(GameObject* OtherGo)
 {
-
 	Projectile* tempProj;
 	tempProj = dynamic_cast<Projectile*>(OtherGo);
 
@@ -392,107 +399,6 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 	{
 		Death();
 	}
-}
-
-
-void Entity::UpdateTileMapCollision(GameObject_Map* Map)
-{
-	int PlayerPos_X = (int)((mapOffset_x + m_Position.x)) / Map->GetTileSize();
-	int PlayerPos_Y = (int)(m_Position.y / Map->GetTileSize());
-
-	GameObject* CheckGameObject_1 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X];
-
-	// On ground - Check tiles on the sides
-	if (m_CurrEntityMoveState == ON_GROUND)
-	{
-		// Right
-		if (DirectionLeftRight)
-		{
-			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X + 1];
-			if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || (CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive())
-			{
-				m_Position = m_PrevPos;
-			}
-
-			// here is where it's causing him to fall through the tile when falling down?
-			if (!Map->m_GameObjectMap[PlayerPos_Y - 1][PlayerPos_X + 1]->GetCollidable())
-			{
-				m_CurrEntityMoveState = FALLING;
-			}
-		}
-		// Left
-		else
-		{
-			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X - 1];
-			if (CheckGameObject_1->GetCollidable() || CheckGameObject_2->GetCollidable())
-			{
-				m_Position = m_PrevPos;
-			}
-
-			if (!Map->m_GameObjectMap[PlayerPos_Y - 1][PlayerPos_X - 1]->GetCollidable())
-			{
-				m_CurrEntityMoveState = FALLING;
-			}
-		}
-	}
-	// Falling - Check tiles below
-	else if (m_CurrEntityMoveState == FALLING)
-	{
-		// Right
-		if (DirectionLeftRight)
-		{
-			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X];
-			if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || ((CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive()))
-			{
-				m_Position = m_PrevPos;
-				m_bJumping = false;
-				m_CurrEntityMoveState = ON_GROUND;
-				JumpVel = 0;
-			}
-		}
-		// Left
-		else
-		{
-			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X];
-			if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || ((CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive()))
-			{
-				m_Position = m_PrevPos;
-				m_bJumping = false;
-				m_CurrEntityMoveState = ON_GROUND;
-				JumpVel = 0;
-			}
-		}
-	}
-	// Jumping - Check tiles above
-	else if (m_CurrEntityMoveState == JUMPING)
-	{
-		GameObject* CheckGameObject_1 = Map->m_GameObjectMap[PlayerPos_Y + 1][PlayerPos_X];
-		// Right
-		if (DirectionLeftRight)
-		{
-			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X];
-			if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || ((CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive()))
-			{
-				m_Position = m_PrevPos;
-				m_bJumping = false;
-				m_CurrEntityMoveState = FALLING;
-				JumpVel = 0;
-			}
-		}
-		// Left
-		else
-		{
-			GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y][PlayerPos_X];
-			if ((CheckGameObject_1->GetCollidable() && CheckGameObject_1->GetActive()) || ((CheckGameObject_2->GetCollidable()) && CheckGameObject_2->GetActive()))
-			{
-				m_Position = m_PrevPos;
-				m_bJumping = false;
-				m_CurrEntityMoveState = FALLING;
-				JumpVel = 0;
-			}
-		}
-	}
-	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 }
 
 void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
@@ -846,3 +752,36 @@ std::vector<Mesh*>  Entity::getMeshVector()
 	return AnimationMeshList;
 }
 
+void Entity::GainExp(ELEMENT ElementToGain, float Amount)
+{
+	m_ElementsPercentageMap[ElementToGain] += Amount;
+
+	if (m_ElementsPercentageMap[ElementToGain] >= 100)
+	{
+		LevelUp(ElementToGain);
+	}
+}
+
+void Entity::LevelUp(ELEMENT ElementToLevel)
+{
+	m_ElementsLevelMap[ElementToLevel] += 1;
+
+	switch (ElementToLevel)
+	{
+	case FIRE:
+	{
+		this->Damage += 2;
+		break;
+	}
+	case WATER:
+	{
+		this->MaxHealth += 5;
+		break;
+	}
+	case EARTH:
+	{
+		// Shield 
+		break;
+	}
+	}
+}
