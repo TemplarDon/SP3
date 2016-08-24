@@ -182,7 +182,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				temp->SetMesh(temp->getMeshVector()[0]);
 				temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
 				temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-				temp->EnemyInit(200,WATER,5,400);
+				temp->EnemyInit(200, WATER, 5, 400);
 
 				break;
 			}

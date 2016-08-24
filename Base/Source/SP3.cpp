@@ -271,16 +271,16 @@ void SP3::Update(double dt)
 		{
 			Enemy* temp = dynamic_cast<Enemy*>(go);
 			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
-			if (temp->EmpricalCheckCollisionWith(m_Player, dt, 60))
-			{
-				if (temp->GetMoveState() == EDIBLE)
-				{
-					ELEMENT tempElement;
-					tempElement = temp->GetElement();
-					temp->SetActive(false);
-					m_Player->AddElementCharge(tempElement);
-				}
-			}
+			//if (temp->EmpricalCheckCollisionWith(m_Player, dt, 60))
+			//{
+			//	if (temp->GetMoveState() == EDIBLE)
+			//	{
+			//		ELEMENT tempElement;
+			//		tempElement = temp->GetElement();
+			//		temp->SetActive(false);
+			//		m_Player->AddElementCharge(tempElement);
+			//	}
+			//}
 		}
 
 		if (go->GetObjectType() == ENVIRONMENT)
@@ -308,9 +308,7 @@ void SP3::Update(double dt)
 				if (dynamic_cast<ElementalObject*>(go)->GetElement() != FIRE && dynamic_cast<ElementalObject*>(go)->GetElement() != WATER)
 					offset = 50;
 				else
-					offset = 30;
-
-
+					offset = 50;
 
 				if (go->EmpricalCheckCollisionWith(go2, dt, offset))
 				{

@@ -110,7 +110,7 @@ void Entity::MoveLeft(const float timeDiff)
 {
 	m_PrevPos = m_Position;
 
-	if (Move_Left)
+	//if (Move_Left)
 	{
 		//SetLeftRight(false);
 		DirectionLeftRight = false;

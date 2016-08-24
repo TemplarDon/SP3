@@ -152,7 +152,7 @@ void AttackBase::Attack_Ranged()
 	else if(m_CurrElement == WATER)
 	{
 		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Projectiles/water_projectile.tga"));
-		temp->projectileInit(m_AttackDirection, m_EntityPos, 5.f, m_AttackDamage, 1, m_CurrElement, isEnemy, 0);
+		temp->projectileInit(m_AttackDirection, m_EntityPos, 10.f, m_AttackDamage, 5, m_CurrElement, isEnemy, 0);
 	}
     else if (m_CurrElement == FIRE)
     {

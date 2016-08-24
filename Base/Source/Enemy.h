@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "BehaviourRanged.h"
 #include "BehaviourMelee.h"
+#include "BehaviourRanged_2.h"
 class Enemy : public Entity
 {
 
@@ -42,6 +43,7 @@ public:
 	virtual EnemyType getEnemyType();
 
 	virtual void setDistancePlayerToEnemy(Vector3 playerPosition, Vector3 enemyPosition);
+
 	virtual float getDistancePlayerToEnemy();
 
 	virtual void setEstimatedDistance(float estimatedDistance);
@@ -58,7 +60,6 @@ public:
 private:
 
 	//Strategy* theStrategy;
-	AttackBase* attack;
 	Behaviour* m_Behaviour;
 	EnemyType enemyType;
 	float distancePlayerToEnemy;
@@ -69,6 +70,9 @@ private:
 	/* bool moveLeft;
 	bool moveRight;
 	bool jump;*/
+
+
+	Vector3 m_Destination;
 };
 
 #endif

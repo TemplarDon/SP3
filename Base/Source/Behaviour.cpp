@@ -15,6 +15,12 @@ void Behaviour::Update(double dt, float distancePlayerToEnemy, float estimatedDi
 {
 
 }
+
+void Behaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack)
+{
+
+}
+
 void Behaviour::setBehaviourStates(BehaviourStates behaviour)
 {
 	this->behaviour = behaviour;
@@ -24,3 +30,7 @@ Behaviour::BehaviourStates Behaviour::getBehaviourStates()
 	return behaviour;
 }
 
+Vector3 Behaviour::GetDestination()
+{
+	return Vector3(0, 0, 0);
+}

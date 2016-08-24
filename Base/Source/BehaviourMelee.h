@@ -4,12 +4,6 @@
 
 class BehaviourMelee : public Behaviour
 {
-
-
-
-
-
-
 public:
 
 	BehaviourMelee();
