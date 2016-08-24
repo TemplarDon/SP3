@@ -54,7 +54,7 @@ void BehaviourRanged::Update(double dt, float distancePlayerToEnemy, float estim
 				//std::cout << "YES";
 				randomInit = true;
 			}
-			if (random > 99 && randomInit == true)
+			else if (random > 99 && randomInit == true)
 			{
 				behaviour = EVADE;
 			}

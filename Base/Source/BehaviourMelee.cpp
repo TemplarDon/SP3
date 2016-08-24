@@ -1,12 +1,5 @@
 #include "BehaviourMelee.h"
 
-
-
-
-
-
-
-
 BehaviourMelee::BehaviourMelee()
 {
 	behaviour = NEUTRAL;

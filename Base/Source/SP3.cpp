@@ -388,7 +388,15 @@ void SP3::Update(double dt)
 
 			if (go->GetObjectType() == PROJECTILE && go2->GetObjectType() == ENVIRONMENT)
 			{
-				if (go->EmpricalCheckCollisionWith(go2, dt))
+				float offset = 0;
+				if (dynamic_cast<ElementalObject*>(go)->GetElement() != FIRE && dynamic_cast<ElementalObject*>(go)->GetElement() != WATER)
+					offset = 50;
+				else
+					offset = 30;
+
+
+
+				if (go->EmpricalCheckCollisionWith(go2, dt, offset))
 				{
 					go2->CollisionResponse(go);
 					go->CollisionResponse(go2);
@@ -398,7 +406,8 @@ void SP3::Update(double dt)
             {
                 if (go->EmpricalCheckCollisionWith(go2, dt))
                 {
-					go2->CollisionResponse(go);
+					Entity* temp = dynamic_cast<Entity*>(go2);
+					temp->CollisionResponse(go);
                 }
             }
 
@@ -456,7 +465,24 @@ void SP3::Update(double dt)
 	else if (camera.target.x > OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
 		camera.target.x -= dt * 8;
+	}
 
+	if (camera.position.y < OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
+	{
+		camera.position.y += dt * 8;
+	}
+	else if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
+	{
+		camera.position.y -= dt * 8;
+	}
+
+	if (camera.target.y < OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
+	{
+		camera.target.y += dt * 8;
+	}
+	else if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
+	{
+		camera.target.y -= dt * 8;
 	}
 	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	//camera.target.x = OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
@@ -492,7 +518,7 @@ void SP3::UpdateUI(double dt)
 		// Fire
 		if (rotateUI < 270.f)
 		{
-			rotateUI += dt * 120;
+			rotateUI += dt * 200;
 		}
 
 		break;
@@ -502,12 +528,12 @@ void SP3::UpdateUI(double dt)
 		// Earth
 		if (rotateUI < 40.f)
 		{
-			rotateUI += dt * 120;
+			rotateUI += dt * 200;
 		}
 		else if (rotateUI >= 271.f || rotateUI >= 260.f)
 		{
 			//std::cout << "HEYYYAYYAYAYAAYAYAYAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYYYYYHUE";
-			rotateUI += dt * 120;
+			rotateUI += dt * 200;
 		}
 
 		break;
@@ -517,7 +543,7 @@ void SP3::UpdateUI(double dt)
 		// Water
 		if (rotateUI < 140)
 		{
-			rotateUI += dt * 120;
+			rotateUI += dt * 200;
 		}
 
 		break;
@@ -759,7 +785,7 @@ void SP3::Render()
 	// Projection matrix : Orthographic Projection
 	Mtx44 projection;
 	//projection.SetToOrtho(m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x(), m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + m_worldWidth, 0, m_worldHeight, -10, 10);
-	projection.SetToOrtho(0, m_worldWidth, 0, m_worldHeight, -20, 20);
+	projection.SetToOrtho(0, m_worldWidth * 0.8, 0, m_worldHeight * 0.8, -10, 10);
 	projectionStack.LoadMatrix(projection);
 
 	// Camera matrix

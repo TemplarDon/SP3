@@ -82,7 +82,7 @@ public:
 	virtual void SetSpriteAnimation(SpriteAnimation* SetSpriteAnimation);
 
 
-	virtual bool EmpricalCheckCollisionWith(GameObject* OtherGo, double dt, float offset = 25);
+	virtual bool EmpricalCheckCollisionWith(GameObject* OtherGo, double dt, float offset = 30);
 
 	virtual bool getRotate();
 	virtual void setRotate(bool rotate);

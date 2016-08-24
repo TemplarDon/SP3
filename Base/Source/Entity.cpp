@@ -234,7 +234,7 @@ void Entity::SetMapFineOffset_y(int mapFineOffset_y)
 
 // Constrain the position of the Entity to within the border
 void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
-	const int topBorder, const int bottomBorder,
+	const int bottomBorder, const int topBorder,
 	float timeDiff, Camera camera)	
 {
 	if (m_Position.x < leftBorder)
@@ -253,10 +253,17 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 			mapOffset_x = 800;
 	}
 
-	if (m_Position.y < topBorder)
+	if (m_Position.y > topBorder)
+	{
 		m_Position.y = topBorder;
-	else if (m_Position.y > bottomBorder)
+		mapOffset_y = mapOffset_y + (int)(2 * timeDiff);
+	}
+	else if (m_Position.y < bottomBorder)
+	{
 		m_Position.y = bottomBorder;
+		mapOffset_y = mapOffset_y - (int)(2 * timeDiff);
+	}
+
 }
 
 void Entity::DisableDash()
@@ -374,17 +381,12 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
     interDT = dt;
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();
-	//UpdateTileMapCollision(Map);
-	ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 120 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
+	ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 120 + mapOffset_x + mapFineOffset_x, 25 + mapOffset_y + mapFineOffset_y, 60 + mapOffset_y + mapFineOffset_y, 1.5, camera);
 	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
-	//UpdateTileMapCollision(Map);
 
     AbilityMovementCheck();
     ExecuteAbility(dt);
     DebuffCheckAndApply(dt);
-
-  //  std::cout << Attacks->GetDashLeftStatus() << "LEFT" << std::endl;
-   // std::cout << Attacks->GetDashRightStatus() << "RIGHT" << std::endl;
 
 	if (CurrHealth <= 0)
 	{

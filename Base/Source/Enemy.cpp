@@ -127,8 +127,10 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 void Enemy::CollisionResponse(GameObject* OtherGo)
 {
 
+
 	Projectile* tempProj;
 	tempProj = dynamic_cast<Projectile*>(OtherGo);
+
 	if (OtherGo->GetObjectType() == PROJECTILE)
 	{
 		if (this->m_ObjectType == ENEMY && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
@@ -136,8 +138,8 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
 			this->debuff_Edible = true;
 		}
 	}
-
-		if (OtherGo->GetObjectType() == PROJECTILE&& tempProj->getIsHostileProjectile() == false)
+		
+		if (OtherGo->GetObjectType() == PROJECTILE&& tempProj->getIsHostileProjectile() == true)
 		{
 
 			if (tempProj->GetElement() == FIRE)
