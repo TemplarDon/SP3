@@ -399,6 +399,11 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 	}
 }
 
+float Entity::GetCurrShield()
+{
+	return CurrSheild;
+}
+
 void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 {
 	int PlayerPos_X = (int)(m_Position.x / Map->GetTileSize());

@@ -118,6 +118,9 @@ public:
 	virtual void GainExp(ELEMENT ElementToGain, float Amount);
 	virtual void LevelUp(ELEMENT ElementToLevel);
 
+	// Shield
+	virtual float GetCurrShield();
+
 
 protected:
     float CurrSheild;

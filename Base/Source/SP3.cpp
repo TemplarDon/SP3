@@ -29,6 +29,7 @@ void SP3::Init()
 	SceneBase::Init();
 
 	meshList[GEO_HEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 1, 0), 1.f);
+	meshList[GEO_SHIELD_BAR] = MeshBuilder::GenerateQuad("player", Color(1, 0.4, 0.3), 1.f);
 	meshList[GEO_FIRE_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(1, 0, 0), 1.f);
 	meshList[GEO_WATER_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 0.4, 1), 1.f);
 	meshList[GEO_EARTH_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(0.7, 0.5, 0.3), 1.f);
@@ -66,7 +67,8 @@ void SP3::Init()
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Tutorial.csv");
+	//m_Map->LoadMap("Image//Maps//Tutorial.csv");
+	m_Map->LoadMap("Image//Maps//Hub.csv");
 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -616,11 +618,21 @@ void SP3::RenderUI()
 	RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
 	modelStack.PopMatrix();
 
+	// Shield Bar
+	for (int i = 0; i < m_Player->GetCurrShield(); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate((healthbarpos_x + 5) + (i * 1.2), 75, 1);
+		modelStack.Scale(1, 3, 1);
+		RenderMesh(meshList[GEO_SHIELD_BAR], false);
+		modelStack.PopMatrix();
+	}
+
 	// Health Bar
 	for (int i = 0; i < m_Player->GetEntityHealth(); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(healthbarpos_x + (i * 1.2), 75, 1);
+		modelStack.Translate((healthbarpos_x + 5) + (i * 1.2), 70, 1);
 		modelStack.Scale(1, 3, 1);
 		RenderMesh(meshList[GEO_HEALTH_BAR], false);
 		modelStack.PopMatrix();
@@ -630,7 +642,7 @@ void SP3::RenderUI()
 	for (int i = 0; i < m_Player->GetElementPercentage(FIRE); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x + 5) + (i * 1.2), 70, 1);
+		modelStack.Translate((healthbarpos_x + 5) + (i * 1.2), 65, 1);
 		modelStack.Scale(1, 3, 1);
 		RenderMesh(meshList[GEO_FIRE_EXP_BAR], false);
 		modelStack.PopMatrix();
@@ -640,7 +652,7 @@ void SP3::RenderUI()
 	for (int i = 0; i < m_Player->GetElementPercentage(WATER); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x + 5)+(i * 1.2), 65, 1);
+		modelStack.Translate((healthbarpos_x + 5)+(i * 1.2), 60, 1);
 		modelStack.Scale(1, 3, 1);
 		RenderMesh(meshList[GEO_WATER_EXP_BAR], false);
 		modelStack.PopMatrix();
@@ -650,50 +662,66 @@ void SP3::RenderUI()
 	for (int i = 0; i < m_Player->GetElementPercentage(EARTH); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x + 5)+(i * 1.2), 60, 1);
+		modelStack.Translate((healthbarpos_x + 5)+(i * 1.2), 55, 1);
 		modelStack.Scale(1, 3, 1);
 		RenderMesh(meshList[GEO_EARTH_EXP_BAR], false);
 		modelStack.PopMatrix();
 	}
 
+	// Shield icon
+	modelStack.PushMatrix();
+	modelStack.Translate((healthbarpos_x + 1), 75, 1);
+	modelStack.Scale(4, 4, 1);
+	RenderMesh(meshList[GEO_SHIELD_ICON], false);
+	modelStack.PopMatrix();
+
+	// Heart icon
+	modelStack.PushMatrix();
+	modelStack.Translate((healthbarpos_x + 1), 69.9, 1);
+	modelStack.Scale(4.5, 4.5, 1);
+	RenderMesh(meshList[GEO_HEART_ICON], false);
+	modelStack.PopMatrix();
+
 	// Fire icon
 	modelStack.PushMatrix();
-	modelStack.Translate((healthbarpos_x + 1), 70, 1);
+	modelStack.Translate((healthbarpos_x + 1), 65, 1);
 	modelStack.Scale(5, 5, 1);
 	RenderMesh(meshList[GEO_FIRE_ICON], false);
 	modelStack.PopMatrix();
 
 	// Water icon
 	modelStack.PushMatrix();
-	modelStack.Translate((healthbarpos_x + 1), 65, 1);
+	modelStack.Translate((healthbarpos_x + 1), 60, 1);
 	modelStack.Scale(5, 5, 1);
 	RenderMesh(meshList[GEO_WATER_ICON], false);
 	modelStack.PopMatrix();
 
 	// Earth icon
 	modelStack.PushMatrix();
-	modelStack.Translate((healthbarpos_x + 1), 60, 1);
+	modelStack.Translate((healthbarpos_x + 1), 55, 1);
 	modelStack.Scale(5, 5, 1);
 	RenderMesh(meshList[GEO_EARTH_ICON], false);
 	modelStack.PopMatrix();
+
+
 
 	// Fire Element Level
 	std::ostringstream ss;
 	ss.precision(5);
 	ss << m_Player->GetElementLevel(FIRE);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 12, 51);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 12, 47.5);
 
 	// Water Element Level
 	std::ostringstream ss1;
 	ss1.precision(5);
 	ss1 << m_Player->GetElementLevel(WATER);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 3, 12, 47.4);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 3, 12, 43.4);
 
 	// Earth Element Level
 	std::ostringstream ss2;
 	ss2.precision(5);
 	ss2 << m_Player->GetElementLevel(EARTH);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 3, 12, 43.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 3, 12, 39.5);
 
 	modelStack.PopMatrix(); // Do not delete this line
 }
@@ -938,24 +966,36 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 
 	switch (NextLevel)
 	{
-	case TEST: 
-		m_Map->LoadMap("Image//Maps//Official_Test.csv"); 
+	case TEST:
+	{
+		m_Map->LoadMap("Image//Maps//Official_Test.csv");
 		break;
-	case TUTORIAL_LEVEL: 
-		m_Map->LoadMap("Image//Maps//Tutorial.csv"); 
+	}
+	case TUTORIAL_LEVEL:
+	{
+		m_Map->LoadMap("Image//Maps//Tutorial.csv");
 		break;
+	}
 	case HUB_LEVEL:
-		m_Map->LoadMap("Image//Maps//Hub.csv"); 
+	{
+		m_Map->LoadMap("Image//Maps//Hub.csv");
 		break;
+	}
 	case WATER_LEVEL:
+	{
 		m_Map->LoadMap("Image//Maps//Water.csv");
 		break;
+	}
 	case FIRE_LEVEL:
+	{
 		m_Map->LoadMap("Image//Maps//Fire.csv");
 		break;
+	}
 	case EARTH_LEVEL:
+	{
 		m_Map->LoadMap("Image//Maps//Earth.csv"); 
 		break;
+	}
 	default:
 		break;
 	}
