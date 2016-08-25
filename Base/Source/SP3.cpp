@@ -158,7 +158,7 @@ void SP3::Update(double dt)
 	}
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
-		m_Player->Attacks->LaunchAttack(0);
+		m_Player->Attacks->Attack_Ranged(m_Player->GetElement(),m_Player->GetElementLevel(m_Player->GetElement()));
 
 		if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH && m_Player->GetElement() != MISC)
 		{
@@ -202,8 +202,8 @@ void SP3::Update(double dt)
 	{
 		ELEMENT tempElement = m_Player->GetElement();
 		m_Player->SetElement(MISC);
-		m_Player->Attacks->SetAttackElement(MISC);
-		m_Player->Attacks->LaunchAttack(0);
+		/*m_Player->Attacks->SetAttackElement(MISC);
+		m_Player->Attacks->LaunchAttack(0);*/
 		m_Player->SetElement(tempElement);
 		fButtonState = true;
 	}
@@ -424,7 +424,7 @@ void SP3::Update(double dt)
 
 	UpdateUI(dt);
 	UpdateUI2(dt);
-	m_Player->Attacks->UpdateAttack(dt, m_Player->GetElement(), m_Player->GetPosition(), m_Player->GetLeftRight());
+	m_Player->Attacks->UpdateAttack(dt,  m_Player->GetPosition(), m_Player->GetLeftRight());
 
 	// ------------------- Earth Attack Estimated Landing ------------------------ //
 	float TimeToLand = sqrt((-40 * sin(Math::DegreeToRadian(50))) / (-4.9));
