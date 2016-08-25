@@ -1,5 +1,5 @@
-#ifndef _EARTH_BOSS_BEAHVIOUR_H
-#define _EARTH_BOSS_BEAHVIOUR_H
+#ifndef _EARTH_BOSS_BEHAVIOUR_H
+#define _EARTH_BOSS_BEHAVIOUR_H
 
 #include "Behaviour.h"
 

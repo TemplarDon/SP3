@@ -16,6 +16,7 @@ public:
 
 	void Init(Map* Map, int TileSize = 5);
 	void SortMap();
+	void AddIntoMap(GameObject* ObjectToBeAdded);
 
 	int GetTileSize()
 	{

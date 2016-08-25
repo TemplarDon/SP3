@@ -23,8 +23,8 @@ public:
     void Init(int AttackDamage, float range);
 	//void LaunchAttack(ELEMENT m_CurrElement);
     void SetisEnemy(bool);
-
-    void Attack_Ranged(ELEMENT CurrElement, int elementLevel);
+    bool GetControlLock();
+    void Attack_Basic(ELEMENT CurrElement, int elementLevel);
     void Attack_Ability(ELEMENT CurrElement, int elementLevel);
 	void Attack_Suck(ELEMENT  CurrElement, bool Direction);
 

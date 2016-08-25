@@ -134,7 +134,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			}
 			case 11:
 			{
-				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Portal//earth_door.tga"));
 				temp->Init(false, false);
 				temp->SetNextTransition(EARTH_LEVEL);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
@@ -142,7 +142,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			}
 			case 12:
 			{
-				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Portal//water_door.tga"));
 				temp->Init(false, false);
 				temp->SetNextTransition(WATER_LEVEL);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
@@ -151,7 +151,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 
 			case 13:
 			{
-				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Portal//fire_door.tga"));
 				temp->Init(false, false);
 				temp->SetNextTransition(FIRE_LEVEL);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
@@ -160,7 +160,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 
 			case 14:
 			{
-				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Tiles//door.tga"));
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Portal//hub_door.tga"));
 				temp->Init(false, false);
 				temp->SetNextTransition(HUB_LEVEL);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
@@ -182,7 +182,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				temp->SetMesh(temp->getMeshVector()[0]);
 				temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
 				temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-				temp->EnemyInit(200, EARTH_2, 5, 400);
+				temp->EnemyInit(200, EARTH, 5, 400);
 
 				break;
 			}
@@ -217,4 +217,12 @@ void GameObject_Map::SortMap()
 			}
 		}
 	}
+}
+
+void GameObject_Map::AddIntoMap(GameObject* GameObjectToBeAdded)
+{
+	int ObjectPos_X = (int)(GameObjectToBeAdded->GetPosition().x / this->m_TileSize);
+	int ObjectPos_Y = (int)(GameObjectToBeAdded->GetPosition().y / this->m_TileSize);
+
+	this->m_GameObjectMap[ObjectPos_Y][ObjectPos_X] = GameObjectToBeAdded;
 }

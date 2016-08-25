@@ -47,7 +47,7 @@ Entity::Entity()
 	//m_ElementsLevelMap[EARTH] = 1;
 	SetElementLevel(FIRE, 1);
 	SetElementLevel(WATER, 1);
-	SetElementLevel(EARTH, 1);
+	SetElementLevel(EARTH, 4);
 }
 
 Entity::~Entity()
@@ -542,10 +542,7 @@ void Entity::ExecuteAbility(double dt)
       
 }
 
-bool Entity::GetControlLock()
-{
-    return isLockMovement;
-}
+
 
 void Entity::DebuffCheckAndApply(double dt)
 {

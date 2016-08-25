@@ -67,8 +67,7 @@ void SP3::Init()
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	//m_Map->LoadMap("Image//Maps//Tutorial.csv");
-	m_Map->LoadMap("Image//Maps//Hub.csv");
+	m_Map->LoadMap("Image//Maps//Tutorial.csv");
 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -131,11 +130,6 @@ void SP3::Init()
 	//temp->EnemyInit( 100, EARTH, 10,200);
 
 
-	
-
-
-
-
 	currentSelectedEle = m_Player->GetElement();
 
 }
@@ -145,26 +139,35 @@ void SP3::Update(double dt)
 	SceneBase::Update(dt);
 
 
-	if (Application::IsKeyPressed('A') && m_Player->GetControlLock() == false)
+	if (Application::IsKeyPressed('A') && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->SetMoving_Left(true);
 		m_Player->SetMove_Right(false);
 	}
 
-    if (Application::IsKeyPressed('D') && m_Player->GetControlLock() == false)
+    if (Application::IsKeyPressed('D') && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->SetMoving_Left(false);
 		m_Player->SetMove_Right(true);
 	}
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
-		m_Player->Attacks->Attack_Ranged(m_Player->GetElement(),m_Player->GetElementLevel(m_Player->GetElement()));
+		m_Player->Attacks->Attack_Basic(m_Player->GetElement(),m_Player->GetElementLevel(m_Player->GetElement()));
 
 		if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH && m_Player->GetElement() != MISC)
 		{
 			m_Player->SetElement(currentSelectedEle);
 		}
 	}
+    if (Application::IsKeyPressed('R'))
+    {
+        m_Player->Attacks->Attack_Ability(m_Player->GetElement(), m_Player->GetElementLevel(m_Player->GetElement()));
+
+        if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH && m_Player->GetElement() != MISC)
+        {
+            m_Player->SetElement(currentSelectedEle);
+        }
+    }
 
 	if (!Application::IsKeyPressed('D') && !Application::IsKeyPressed('A'))
 	{
@@ -187,7 +190,7 @@ void SP3::Update(double dt)
 		m_Player->SetMesh(m_Player->getMeshVector()[1]);
 		m_Player->SetSpriteAnimation(m_Player->getSpriteVector()[1]);
 	}
-    if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND && m_Player->GetControlLock() == false)
+    if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->UpdateJump(dt);
 	}
@@ -251,6 +254,7 @@ void SP3::Update(double dt)
 	}
 	else if (bEButtonState && !Application::IsKeyPressed('E'))
 	{
+		m_Player->Attacks->Attack_Ability(m_Player->GetElement(), m_Player->GetElementLevel(m_Player->GetElement()));
 		bEButtonState = false;
 	}
 
@@ -334,15 +338,9 @@ void SP3::Update(double dt)
 
 			if (go->GetObjectType() == PROJECTILE && go2->GetObjectType() == ENVIRONMENT)
 			{
-				float offset = 0;
-				//if (dynamic_cast<ElementalObject*>(go)->GetElement() != FIRE && dynamic_cast<ElementalObject*>(go)->GetElement() != WATER)
-				//	offset = 50;
-				//else
-				//	offset = 10;
-
-				if (go->EmpricalCheckCollisionWith(go2, dt))
+				if (go->EmpricalCheckCollisionWith(go2, dt, 0))
 				{
-					go2->CollisionResponse(go);
+					dynamic_cast<Environment*>(go2)->CollisionResponse(go, m_GoMap);
 					go->CollisionResponse(go2);
 				}
 			}
@@ -517,21 +515,12 @@ void SP3::UpdateUI2(double dt)
 	// X
 	if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
 	{
-		treePos_x -= ((float)dt * 0.5);
+		treePos_x -= (dt * 0.5);
 	}
 	else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
 	{
-		treePos_x += ((float)dt * 0.5);
+		treePos_x += (dt * 0.5);
 	}
-	// Y
-	//if (treePos_y < orignalTreePos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
-	//{
-	//	treePos_y += (float)dt * 8;
-	//}
-	//else if (treePos_y > orignalTreePos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
-	//{
-	//	treePos_y -= (float)dt * 8;
-	//}
 
 
 	// Move UI with screen
@@ -635,13 +624,13 @@ void SP3::RenderUI()
 {
 	// ------------------------------ UI ------------------------------------- //
 	modelStack.PushMatrix();
-	modelStack.Translate(UIPos_x,UIPos_y, 0);
+	modelStack.Translate(UIPos_x,UIPos_y, 6);
 
 	// Background
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, -3);
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, -9);
 	modelStack.Scale(150, 77.5, 1);
-	RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
+	RenderMesh(meshList[GEO_BACKGROUND], false);
 	modelStack.PopMatrix();
 
 	// Shield Bar
@@ -730,6 +719,31 @@ void SP3::RenderUI()
 	modelStack.PopMatrix();
 
 
+	//// Fire Element Level
+	//std::ostringstream ss;
+	//ss.precision(5);
+	//ss << m_Player->GetElementLevel(FIRE);
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 12, 47.5);
+
+	//// Water Element Level
+	//std::ostringstream ss1;
+	//ss1.precision(5);
+	//ss1 << m_Player->GetElementLevel(WATER);
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 3, 12, 43.4);
+
+	//// Earth Element Level
+	//std::ostringstream ss2;
+	//ss2.precision(5);
+	//ss2 << m_Player->GetElementLevel(EARTH);
+	//RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 3, 12, 39.5);
+
+	modelStack.PopMatrix(); // Do not delete this line
+}
+
+void SP3::RenderUIText()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(UIPos_x, UIPos_y, 6);
 
 	// Fire Element Level
 	std::ostringstream ss;
@@ -913,34 +927,15 @@ void SP3::Render()
 
 	// ------------------ Background ------------------- //
 
-	//modelStack.PushMatrix();
-	//modelStack.Translate(10, 60, -2);
-	//modelStack.Scale(190, 80, 1);
-	//RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
-	//modelStack.PopMatrix();
-
-	//modelStack.PushMatrix();
-	////modelStack.Translate(((m_worldWidth * 0.2) + m_Player->GetMapFineOffset_x()), 35, -1);
-	//modelStack.Translate(m_worldWidth * 0.7, 60, -2);
-	//modelStack.Scale(300, 80, 1);
-	//RenderMesh(meshList[GEO_BACKGROUND], false);
-	//modelStack.PopMatrix();
-
-
-	//modelStack.PushMatrix();
-	//modelStack.Translate(m_worldWidth * 0.7, 61, -2);
-	//modelStack.Scale(300, 78, 1);
-	//RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
-	//modelStack.PopMatrix();
 
 	// ------------------------------------------------- //
 
 	//stalagmite
-	modelStack.PushMatrix();
-	modelStack.Translate(treePos_x , treePos_y, -1);
-	modelStack.Scale(120, 80, 1);
-	RenderMesh(meshList[GEO_TREE], false);
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	//modelStack.Translate(treePos_x , 60 ,-1);
+	//modelStack.Scale(120, 80, 1);
+	//RenderMesh(meshList[GEO_TREE], false);
+	//modelStack.PopMatrix();
 
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{
@@ -950,6 +945,7 @@ void SP3::Render()
 			RenderGO(go);
 		}	
 	}
+
 
 
 	if (m_Player->GetElement() == EARTH || m_Player->GetElement() == EARTH_2)
@@ -971,6 +967,15 @@ void SP3::Render()
 			modelStack.PopMatrix();
 		}
 	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(m_Player->GetPosition().x + Distance_X, 20, 2);
+	modelStack.Scale(5, 5, 1);
+	RenderMesh(meshList[GEO_BALL], false);
+	modelStack.PopMatrix();
+
+
+	RenderUIText();
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)
@@ -1015,26 +1020,31 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	case TUTORIAL_LEVEL:
 	{
 		m_Map->LoadMap("Image//Maps//Tutorial.csv");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//tutorial_background.tga");
 		break;
 	}
 	case HUB_LEVEL:
 	{
 		m_Map->LoadMap("Image//Maps//Hub.csv");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//hub_background.tga");
 		break;
 	}
 	case WATER_LEVEL:
 	{
 		m_Map->LoadMap("Image//Maps//Water.csv");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_background.tga");
 		break;
 	}
 	case FIRE_LEVEL:
 	{
 		m_Map->LoadMap("Image//Maps//Fire.csv");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//fire_background.tga");
 		break;
 	}
 	case EARTH_LEVEL:
 	{
 		m_Map->LoadMap("Image//Maps//Earth.csv"); 
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_background.tga");
 		break;
 	}
 	default:

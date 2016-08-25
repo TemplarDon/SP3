@@ -58,7 +58,7 @@ void BehaviourMelee::Update(double dt, float distancePlayerToEnemy, float estima
 		if (behaviour == ATTACK)
 		{
 			attack->SetisEnemy(true);
-			attack->Attack_Ranged(m_CurrElement, ElementLevel);
+			attack->Attack_Basic(m_CurrElement, ElementLevel);
 		}
 	}
 	else
