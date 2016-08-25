@@ -28,7 +28,7 @@ void Player::Init(void)
 	SetEntityMovementSpeed(1);
     Attacks->Init(GetEntityDamage(), 10.f);
 	m_RespawnPos = m_Position;
-	m_CurrLevel = TEST; 
+	m_CurrLevel = TUTORIAL_LEVEL;
 }
 
 // Player Update
