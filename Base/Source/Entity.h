@@ -11,6 +11,7 @@
 enum ENTITY_MOVE_STATE
 {
 	NO_STATE,
+	WEAKENED,
 	EDIBLE,
 	ON_GROUND,
 	FALLING,
@@ -148,9 +149,9 @@ protected:
     Mesh* SheildMesh;
 	
 	// Element percentage
-	float FirePercentage;
+	/*float FirePercentage;
 	float WaterPercentage;
-	float EarthPercentage;
+	float EarthPercentage;*/
 
 	// Element level
 	float FireLevel;

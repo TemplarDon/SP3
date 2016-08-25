@@ -11,6 +11,7 @@ ElementalObject::~ElementalObject()
 
 ELEMENT ElementalObject::GetElement()
 {
+	
 	return m_CurrElement;
 }
 

@@ -68,6 +68,8 @@ private:
 	float distancePlayerToEnemy;
 	float estimatedDistance;
 	float detectionRange;
+
+	bool moveTowardsPlayer;
 	//BehaviourRanged* behaviourRanged;
 	// BehaviourMelee* behaviourMelee;
 	/* bool moveLeft;

@@ -67,7 +67,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		Velocity = (playerPosition - m_Position); 
 		Velocity.Normalize();
 		m_Position += Velocity*dt*10;
-		//this->setDistancePlayerToEnemy(playerPosition, m_Position);
+		m_CurrEntityMoveState = FALLING	;
 	}
 	else
 	{
@@ -249,7 +249,8 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
     {
         if (this->m_ObjectType == ENEMY && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
         {
-            this->debuff_Edible = true;
+          //  this->debuff_Edible = true;
+			this->m_CurrEntityMoveState = EDIBLE;
         }
     }
 

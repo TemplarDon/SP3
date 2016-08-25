@@ -198,12 +198,19 @@ void SP3::Update(double dt)
 
 	//--------------------Vacuum------------------------------------//
 	static bool fButtonState = false;
-	if (Application::IsKeyPressed('F') && fButtonState == false)
+	if (Application::IsKeyPressed('F') )
 	{
+		
 		ELEMENT tempElement = m_Player->GetElement();
 		m_Player->SetElement(MISC);
-		/*m_Player->Attacks->SetAttackElement(MISC);
-		m_Player->Attacks->LaunchAttack(0);*/
+		if (m_Player->GetLeftRight() == true )
+		{
+			m_Player->Attacks->Attack_Suck(m_Player->GetElement(),true);
+		}
+		else 
+		{
+			m_Player->Attacks->Attack_Suck(m_Player->GetElement(), false);
+		}
 		m_Player->SetElement(tempElement);
 		fButtonState = true;
 	}
@@ -211,6 +218,7 @@ void SP3::Update(double dt)
 	{
 		fButtonState = false;
 	}
+	std::cout << fButtonState << std::endl;
 	// ----------------- Basic Element Selection ------------------ //
 	if (Application::IsKeyPressed('Q'))
 	{
@@ -281,17 +289,29 @@ void SP3::Update(double dt)
 		if (go->GetType() == GO_ENEMY)
 		{
 			Enemy* temp = dynamic_cast<Enemy*>(go);
+			if (temp->GetMoveState() == EDIBLE)
+			{
+				if (temp->EmpricalCheckCollisionWith(m_Player, dt, 75))
+				{
+					ELEMENT tempElement;
+					if (temp->GetElement() == FIRE_2 || temp->GetElement() == FIRE)
+					{
+						tempElement = FIRE;
+					}
+					else if (temp->GetElement() == WATER || temp->GetElement() == WATER_2)
+					{
+						tempElement = WATER;
+					}
+					else if (temp->GetElement() == EARTH || temp->GetElement() == EARTH_2)
+					{
+						tempElement = EARTH;
+					}
+					m_Player->GainExp(tempElement, temp->GetElementPercentage(tempElement));
+					temp->SetActive(false);
+				}
+			}
 			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
-			//if (temp->EmpricalCheckCollisionWith(m_Player, dt, 60))
-			//{
-			//	if (temp->GetMoveState() == EDIBLE)
-			//	{
-			//		ELEMENT tempElement;
-			//		tempElement = temp->GetElement();
-			//		temp->SetActive(false);
-			//		m_Player->AddElementCharge(tempElement);
-			//	}
-			//}
+			
 		}
 
 		if (go->GetObjectType() == ENVIRONMENT)
@@ -299,7 +319,6 @@ void SP3::Update(double dt)
 			Environment* temp = dynamic_cast<Environment*>(go);
 			temp->Update(dt, m_GoMap);
 		}
-
         if (go->GetType() == GO_SHEILD)
         {
             Environment* temp = dynamic_cast<Environment*>(go);
@@ -329,11 +348,16 @@ void SP3::Update(double dt)
 			}
             if ((go->GetObjectType() == PROJECTILE) && (go2->GetObjectType() == PLAYER || go2->GetObjectType() == ENEMY) )
             {
+				Entity* temp = dynamic_cast<Entity*>(go2);
                 if (go->EmpricalCheckCollisionWith(go2, dt))
                 {
-					Entity* temp = dynamic_cast<Entity*>(go2);
 					temp->CollisionResponse(go);
                 }
+			/*	else if (!go->EmpricalCheckCollisionWith(go2, dt) && go2->GetObjectType() == ENEMY)
+				{
+					Entity* temp = dynamic_cast<Entity*>(go2);
+					temp->SetMoveState(NO_STATE);
+				}*/
             }
 
 			if (go2->GetType() == GO_BLOCK)
@@ -641,7 +665,7 @@ void SP3::RenderUI()
 	}
 
 	// Fire Element Exp Percentage Bar
-	for (int i = 0; i < m_Player->GetElementPercentage(FIRE); i++)
+	for (int i = 0; i < (m_Player->GetElementPercentage(FIRE)/10); i++)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate((healthbarpos_x + 5) + (i * 1.2), 65, 1);
@@ -651,7 +675,7 @@ void SP3::RenderUI()
 	}
 
 	// Water Element Exp Percentage Bar
-	for (int i = 0; i < m_Player->GetElementPercentage(WATER); i++)
+	for (int i = 0; i < (m_Player->GetElementPercentage(WATER) / 10); i++)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate((healthbarpos_x + 5)+(i * 1.2), 60, 1);
@@ -661,7 +685,7 @@ void SP3::RenderUI()
 	}
 
 	// Earth Element Exp Percentage Bar
-	for (int i = 0; i < m_Player->GetElementPercentage(EARTH); i++)
+	for (int i = 0; i <( m_Player->GetElementPercentage(EARTH) / 10); i++)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate((healthbarpos_x + 5)+(i * 1.2), 55, 1);

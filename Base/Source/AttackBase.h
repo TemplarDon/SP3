@@ -26,7 +26,7 @@ public:
 
     void Attack_Ranged(ELEMENT CurrElement, int elementLevel);
     void Attack_Ability(ELEMENT CurrElement, int elementLevel);
-    
+	void Attack_Suck(ELEMENT  CurrElement, bool Direction);
 
 protected:   
     bool isEnemy;
@@ -59,7 +59,7 @@ protected:
     //Attack calls
    
     void Ability_Run();
-	void Attack_Suck();
+
     void Debouncers(double dt);
 
     //Ability stuff

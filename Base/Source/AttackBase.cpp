@@ -340,12 +340,21 @@ void AttackBase::Attack_Ranged(ELEMENT elementInput, int Level)
         }
     }
 }
-void AttackBase::Attack_Suck()
+void AttackBase::Attack_Suck(ELEMENT currElement,bool Direction)
 {
 	Projectile* temp;
-	temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(2, 2, 2), true, true, ProjectilePH,"Image//blue Idle.tga"));
-	temp->projectileInit(m_AttackDirection, m_EntityPos, 50.f, 0, 1, m_CurrElement, isEnemy, 0);
-	m_Projectiles[m_projectileCount].SetElement(m_CurrElement);
+	if (Direction == true)
+	{
+		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(20, 1, 0), true, true, ProjectilePH, "Image//blue Idle.tga"));
+		temp->projectileInit(m_AttackDirection, Vector3(m_EntityPos.x + 10, m_EntityPos.y+5, m_EntityPos.z), 1, 0, 0.5f, currElement, isEnemy, 0);
+	}
+	else
+	{
+		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(20, 1, 0), true, true, ProjectilePH, "Image//blue Idle.tga"));
+		temp->projectileInit(m_AttackDirection, Vector3(m_EntityPos.x -10, m_EntityPos.y+5, m_EntityPos.z), 1, 0, 0.5f, currElement, isEnemy, 0);
+	}
+	//temp->projectileInit(m_AttackDirection, m_EntityPos, 1, 0, 0.5f, currElement, isEnemy, 0);
+	m_Projectiles[m_projectileCount].SetElement(currElement);
 	m_projectileCount += 1;
 	if (m_projectileCount >= MAXprojectilecount)
 	{

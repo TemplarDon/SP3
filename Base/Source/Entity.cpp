@@ -41,7 +41,7 @@ Entity::Entity()
 	SetElementPercentage(FIRE, 10.f);
 	SetElementPercentage(WATER, 8.f);
 	SetElementPercentage(EARTH, 6.f);
-
+	
 	//m_ElementsLevelMap[FIRE] = 1;
 	//m_ElementsLevelMap[WATER] = 1;
 	//m_ElementsLevelMap[EARTH] = 1;
@@ -656,6 +656,13 @@ std::vector<Mesh*>  Entity::getMeshVector()
 
 void Entity::GainExp(ELEMENT ElementToGain, float Amount)
 {
+	/*for (std::map<ELEMENT, float>::iterator it = m_ElementsPercentageMap.begin(); it != m_ElementsPercentageMap.end(); ++it)
+	{
+		if (it->first == ElementToGain)
+		{
+			it->second = (it->second + Amount);
+		}
+	}*/
 	m_ElementsPercentageMap[ElementToGain] += Amount;
 
 	if (m_ElementsPercentageMap[ElementToGain] >= 100)
@@ -694,33 +701,46 @@ void Entity::SetElementPercentage(ELEMENT ElementType, float percentage)
 	//m_ElementsPercentageMap[ElementType] = percentage;
 	//this->Percentage = percentage;
 
+	//if (ElementType == FIRE)
+	//{
+	//	this->FirePercentage = percentage;
+	//}
+	//else if (ElementType == WATER)
+	//{
+	//	this->WaterPercentage = percentage;
+	//}
+	//else if (ElementType == EARTH)
+	//{
+	//	this->EarthPercentage = percentage;
+	//}
+
 	if (ElementType == FIRE)
 	{
-		this->FirePercentage = percentage;
+		this->m_ElementsPercentageMap.insert(std::pair<ELEMENT, float>(FIRE, percentage));
 	}
 	else if (ElementType == WATER)
 	{
-		this->WaterPercentage = percentage;
+		this->m_ElementsPercentageMap.insert(std::pair<ELEMENT, float>(WATER, percentage));
 	}
 	else if (ElementType == EARTH)
 	{
-		this->EarthPercentage = percentage;
+		this->m_ElementsPercentageMap.insert(std::pair<ELEMENT, float>(EARTH, percentage));
 	}
 }
 
 float Entity::GetElementPercentage(ELEMENT ELementType)
 {
-	if (ELementType == FIRE)
+	if (ELementType == FIRE || ELementType==FIRE_2)
 	{
-		return FirePercentage;
+		return  m_ElementsPercentageMap[FIRE];
 	}
-	else if (ELementType == WATER)
+	else if (ELementType == WATER || ELementType == WATER_2)
 	{
-		return WaterPercentage;
+		return  m_ElementsPercentageMap[WATER];
 	}
-	else if (ELementType == EARTH)
+	else if (ELementType == EARTH || ELementType == EARTH_2)
 	{
-		return EarthPercentage;
+		return  m_ElementsPercentageMap[EARTH];
 	}
 }
 
