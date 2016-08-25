@@ -69,7 +69,7 @@ void BehaviourRanged::Update(double dt, float distancePlayerToEnemy, float estim
 		{
 			//attack
 			attack->SetisEnemy(true);
-			attack->Attack_Ranged(m_CurrElement, ElementLevel);
+			attack->Attack_Basic(m_CurrElement, ElementLevel);
 			randomInit = false;
 		}
 		else if (behaviour == EVADE)

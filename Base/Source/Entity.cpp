@@ -542,10 +542,7 @@ void Entity::ExecuteAbility(double dt)
       
 }
 
-bool Entity::GetControlLock()
-{
-    return isLockMovement;
-}
+
 
 void Entity::DebuffCheckAndApply(double dt)
 {

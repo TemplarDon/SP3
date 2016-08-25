@@ -131,7 +131,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			{
 				this->Attacks->SetisEnemy(true);
 				this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-				this->Attacks->Attack_Ranged(m_CurrElement, GetElementLevel(m_CurrElement));
+				this->Attacks->Attack_Basic(m_CurrElement, GetElementLevel(m_CurrElement));
 			}
 		}
 		else if (enemyType == MELEE)
@@ -194,13 +194,14 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				{
 					this->Attacks->SetisEnemy(true);
 					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-					this->Attacks->Attack_Ranged(m_CurrElement, GetElementLevel(m_CurrElement));
+					this->Attacks->Attack_Basic(m_CurrElement, GetElementLevel(m_CurrElement));
 				}
 				else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
 				{
 					this->Attacks->SetisEnemy(true);
 					this->Attacks->UpdateAttack(dt,  this->m_Position, DirectionLeftRight);
-					this->Attacks->Attack_Ability(m_CurrElement, GetElementLevel(m_CurrElement));
+
+
 				}
 
 			}

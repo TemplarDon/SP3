@@ -133,9 +133,6 @@ void SP3::Init()
 
 	
 
-
-
-
 	currentSelectedEle = m_Player->GetElement();
 
 }
@@ -145,26 +142,35 @@ void SP3::Update(double dt)
 	SceneBase::Update(dt);
 
 
-	if (Application::IsKeyPressed('A') && m_Player->GetControlLock() == false)
+	if (Application::IsKeyPressed('A') && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->SetMoving_Left(true);
 		m_Player->SetMove_Right(false);
 	}
 
-    if (Application::IsKeyPressed('D') && m_Player->GetControlLock() == false)
+    if (Application::IsKeyPressed('D') && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->SetMoving_Left(false);
 		m_Player->SetMove_Right(true);
 	}
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
-		m_Player->Attacks->Attack_Ranged(m_Player->GetElement(),m_Player->GetElementLevel(m_Player->GetElement()));
+		m_Player->Attacks->Attack_Basic(m_Player->GetElement(),m_Player->GetElementLevel(m_Player->GetElement()));
 
 		if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH && m_Player->GetElement() != MISC)
 		{
 			m_Player->SetElement(currentSelectedEle);
 		}
 	}
+    if (Application::IsKeyPressed('R'))
+    {
+        m_Player->Attacks->Attack_Ability(m_Player->GetElement(), m_Player->GetElementLevel(m_Player->GetElement()));
+
+        if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH && m_Player->GetElement() != MISC)
+        {
+            m_Player->SetElement(currentSelectedEle);
+        }
+    }
 
 	if (!Application::IsKeyPressed('D') && !Application::IsKeyPressed('A'))
 	{
@@ -187,7 +193,7 @@ void SP3::Update(double dt)
 		m_Player->SetMesh(m_Player->getMeshVector()[1]);
 		m_Player->SetSpriteAnimation(m_Player->getSpriteVector()[1]);
 	}
-    if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND && m_Player->GetControlLock() == false)
+    if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->UpdateJump(dt);
 	}

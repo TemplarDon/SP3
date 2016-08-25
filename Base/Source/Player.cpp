@@ -5,7 +5,7 @@ Player::Player(void)
 	, m_HealthCharges(0)
 {
 
-    m_CurrElement = WATER_2;
+    m_CurrElement = EARTH;
     isEnemyEntity = false;
     Attacks = new AttackBase;
 }
@@ -29,7 +29,7 @@ void Player::Init(void)
     Attacks->Init(GetEntityDamage(), 10.f);
 	m_RespawnPos = m_Position;
 	m_CurrLevel = TEST;
-	m_CurrElement = EARTH;
+
 }
 
 // Player Update

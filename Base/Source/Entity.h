@@ -113,7 +113,6 @@ public:
 	virtual std::vector<Mesh*> getMeshVector();
 	virtual void Update(double dt, GameObject_Map* Map, Camera camera);
     AttackBase *Attacks = new AttackBase;
-    bool GetControlLock();
 	virtual void Death()
 	{}
 

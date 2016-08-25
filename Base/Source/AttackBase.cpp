@@ -72,7 +72,7 @@ void AttackBase::Debouncers(double dt)
     if (!m_CanAttack)
     {
         m_AttackDebounce += 12.5f * (float)dt;
-        if (m_AttackDebounce >= 5.f)
+        if (m_AttackDebounce >= 10.f)
         {
             m_CanAttack = true;
             m_AttackDebounce = 0.f;
@@ -259,11 +259,16 @@ void AttackBase::Ability_Run()
             m_AbilityCount = 0;
         }
         ab_Cataclysm_isCD = true;
+
 		ab_Cataclysm = false;
+
     }
 }
-
-void AttackBase::Attack_Ranged(ELEMENT elementInput, int Level)
+bool AttackBase::GetControlLock()
+{
+    return m_RootedForAttack;
+}
+void AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
 {
     m_CurrElement = elementInput;
     m_ElementLevel = Level;
@@ -294,28 +299,26 @@ void AttackBase::Attack_Ranged(ELEMENT elementInput, int Level)
         else if (m_CurrElement == WATER)
         {
             temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, ProjectilePH, "Image//Projectiles/water_projectile.tga"));
-            temp->projectileInit(m_AttackDirection, m_EntityPos, 10.f, m_AttackDamage, 5, m_CurrElement, isEnemy, 0);
+            temp->projectileInit(m_AttackDirection, m_EntityPos, 25.f, m_AttackDamage, 5.f, m_CurrElement, isEnemy, 0);
+            m_CanAttack = false;
         }
         else if (m_CurrElement == FIRE)
         {
             float templifetime = m_ElementLevel *0.25f + 0.3f;
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 5; i++)
             {
                 float angletemp;
                 if (i == 0)
-                    angletemp = -35.f;
+                    angletemp = -20.f;
                 else if (i == 1)
-                    angletemp = -25.f;
+                    angletemp = -10.f;
                 else if (i == 2)
-                    angletemp = -15.f;
+                    angletemp = -0.f;
                 else if (i == 3)
-                    angletemp = 0.f;
+                    angletemp = 10.f;
                 else if (i == 4)
-                    angletemp = 15.f;
-                else if (i == 5)
-                    angletemp = 25.f;
-                else if (i == 6)
-                    angletemp = 35.f;
+                    angletemp = 20.f;
+               
 
                 Projectile* temp;
                 temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
