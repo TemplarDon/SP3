@@ -1,7 +1,10 @@
 #include "EarthBossBehaviour.h"
 
 EarthBehaviour::EarthBehaviour()
-{}
+	: m_DirectionSet(true)
+	, m_RunOnce(false)
+{
+}
 
 EarthBehaviour::~EarthBehaviour()
 {}
@@ -47,17 +50,99 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 		AttackStatus = false;
 	}
 
+	// Check if tile is blocking enemy
+	int EntityPos_X = (int)(CurrPos.x / Map->GetTileSize());
+	int EntityPos_Y = (int)(CurrPos.y / Map->GetTileSize());
+
+	bool BlockedLeft = false;
+	bool BlockedRight = false;
+
+	GameObject* CheckGameObject_Right = Map->m_GameObjectMap[EntityPos_Y + 1][EntityPos_X + 2];
+	GameObject* CheckGameObject_Left = Map->m_GameObjectMap[EntityPos_Y + 1][EntityPos_X - 2];
+
+
+	if ((CheckGameObject_Right->GetCollidable() && CheckGameObject_Right->GetActive()) && (CheckGameObject_Left->GetCollidable() && CheckGameObject_Left->GetActive()))
+	{
+		BlockedRight = true;
+		BlockedLeft = true;
+	}
+	else if ((!CheckGameObject_Right->GetCollidable() && !CheckGameObject_Right->GetActive()) && (CheckGameObject_Left->GetCollidable() && CheckGameObject_Left->GetActive()))
+	{
+		BlockedLeft = true;
+		BlockedRight = false;
+	}
+	else if ((CheckGameObject_Right->GetCollidable() && CheckGameObject_Right->GetActive()) && (!CheckGameObject_Left->GetCollidable() && !CheckGameObject_Left->GetActive()))
+	{
+		BlockedLeft = false;
+		BlockedRight = true;
+	}
+	else if ((!CheckGameObject_Right->GetCollidable() && !CheckGameObject_Right->GetActive()) && (!CheckGameObject_Left->GetCollidable() && !CheckGameObject_Left->GetActive()))
+	{
+		BlockedLeft = false;
+		BlockedRight = false;
+	}
+	
+
 	// Generate Destination and set attack bool
 	switch (this->behaviour)
 	{
 	case NEUTRAL:
 	{
-		//int rand = Math::RandIntMinMax(0, 1);
+		// Random initial direction to walk in
+		if (!m_RunOnce)
+		{
+			int rand = Math::RandIntMinMax(0, 1);
+			if (rand == 1)
+			{
+				m_DestinationToReturn = CurrPos + Vector3(100, 0, 0);
+				m_DirectionSet = true;
+			}
+			else if (rand == 0)
+			{
+				m_DestinationToReturn = CurrPos - Vector3(100, 0, 0);
+				m_DirectionSet = true;
+			}
+			m_RunOnce = true;
+		}
 
-		//if (rand == 1)
-		//	m_DestinationToReturn = CurrPos + Vector3(5, 0, 0);
-		//else
-		//	m_DestinationToReturn = CurrPos - Vector3(5, 0, 0);
+		if (m_DirectionSet)
+		{
+			if (BlockedLeft)
+			{
+				m_DestinationToReturn = CurrPos + Vector3(5, 0, 0);
+			}
+			else if (BlockedRight)
+			{
+				m_DestinationToReturn = CurrPos - Vector3(5, 0, 0);
+			}
+			else if ((BlockedLeft) && (BlockedRight))
+			{
+				m_DestinationToReturn = CurrPos;
+			}
+			else
+			{
+				m_DestinationToReturn = CurrPos + Vector3(100, 0, 0);
+			}
+
+		}
+
+		if (CurrPos.x < m_DestinationToReturn.x)
+		{
+			if (BlockedRight)
+			{
+				m_DirectionSet = true;
+				m_DestinationToReturn = CurrPos - Vector3(100, 0, 0);
+			}
+		}
+		else
+		{
+			if (BlockedLeft)
+			{
+				m_DirectionSet = true;
+				m_DestinationToReturn = CurrPos + Vector3(100, 0, 0);
+			}
+		}
+
 		break;
 	}
 

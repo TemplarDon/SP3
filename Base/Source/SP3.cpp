@@ -241,7 +241,6 @@ void SP3::Update(double dt)
 	}
 	else if (bEButtonState && !Application::IsKeyPressed('E'))
 	{
-		m_Player->ReorderElements();
 		bEButtonState = false;
 	}
 
@@ -425,8 +424,11 @@ void SP3::Update(double dt)
 	m_Player->Attacks->UpdateAttack(dt, m_Player->GetElement(), m_Player->GetPosition(), m_Player->GetLeftRight());
 
 	// ------------------- Earth Attack Estimated Landing ------------------------ //
-	float TimeToLand = sqrt((-40 * sin(Math::DegreeToRadian(50))) / (-4.9));
-	Distance_X = (40 * cos(Math::DegreeToRadian(50))) * (TimeToLand);
+	if (m_Player->GetElement() == EARTH || m_Player->GetElement() == EARTH_2)
+	{
+		float TimeToLand = sqrt((-40 * sin(Math::DegreeToRadian(50))) / (-4.9));
+		Distance_X = (40 * cos(Math::DegreeToRadian(50))) * (TimeToLand);
+	}
 }
 
 void SP3::UpdateUI(double dt)
@@ -764,51 +766,51 @@ void SP3::RenderUI2()
 	modelStack.PopMatrix();
 
 	// --------------------------------- Charge --------------------------------------- // 
-	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 + 20, 15, 2);
-	modelStack.Scale(15, 15, 1);
-	modelStack.Rotate(rotateUI2, 0, 0, 1);
-	//RenderMesh(meshList[GEO_CHARGE_WHEEL], false);
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	//modelStack.Translate(m_worldWidth * 0.5 + 20, 15, 2);
+	//modelStack.Scale(15, 15, 1);
+	//modelStack.Rotate(rotateUI2, 0, 0, 1);
+	////RenderMesh(meshList[GEO_CHARGE_WHEEL], false);
+	//modelStack.PopMatrix();
 
-	for (int i = 0; i < 5; i++)
-	{
-		switch (m_Player->GetElementArray()[i])
-		{
-		case FIRE:
-		{
-			// Fire
-			modelStack.PushMatrix();
-			modelStack.Translate(m_worldWidth * 0.5 + (i * 10), 15, 2);
-			modelStack.Scale(6, 6, 1);
-			RenderMesh(meshList[GEO_FIRE_ICON], false);
-			modelStack.PopMatrix();
-			break;
-		}
-		case EARTH:
-		{
-			// Earth
-			modelStack.PushMatrix();
-			modelStack.Translate(m_worldWidth * 0.5 + (i * 10), 15, 2);
-			modelStack.Scale(6, 6, 1);
-			RenderMesh(meshList[GEO_EARTH_ICON], false);
-			modelStack.PopMatrix();
-			break;
-		}
-		case WATER:
-		{
-			// Water
-			modelStack.PushMatrix();
-			modelStack.Translate(m_worldWidth * 0.5 + (i * 10), 15, 2);
-			modelStack.Scale(6, 6, 1);
-			RenderMesh(meshList[GEO_WATER_ICON], false);
-			modelStack.PopMatrix();
-			break;
-		}
-		default:
-			break;
-		}
-	}
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	switch (m_Player->GetElementArray()[i])
+	//	{
+	//	case FIRE:
+	//	{
+	//		// Fire
+	//		modelStack.PushMatrix();
+	//		modelStack.Translate(m_worldWidth * 0.5 + (i * 10), 15, 2);
+	//		modelStack.Scale(6, 6, 1);
+	//		RenderMesh(meshList[GEO_FIRE_ICON], false);
+	//		modelStack.PopMatrix();
+	//		break;
+	//	}
+	//	case EARTH:
+	//	{
+	//		// Earth
+	//		modelStack.PushMatrix();
+	//		modelStack.Translate(m_worldWidth * 0.5 + (i * 10), 15, 2);
+	//		modelStack.Scale(6, 6, 1);
+	//		RenderMesh(meshList[GEO_EARTH_ICON], false);
+	//		modelStack.PopMatrix();
+	//		break;
+	//	}
+	//	case WATER:
+	//	{
+	//		// Water
+	//		modelStack.PushMatrix();
+	//		modelStack.Translate(m_worldWidth * 0.5 + (i * 10), 15, 2);
+	//		modelStack.Scale(6, 6, 1);
+	//		RenderMesh(meshList[GEO_WATER_ICON], false);
+	//		modelStack.PopMatrix();
+	//		break;
+	//	}
+	//	default:
+	//		break;
+	//	}
+	//}
 
 	modelStack.PopMatrix();
 }
@@ -897,11 +899,26 @@ void SP3::Render()
 		}	
 	}
 
-	modelStack.PushMatrix();
-	modelStack.Translate(m_Player->GetPosition().x + Distance_X, 20, 2);
-	modelStack.Scale(5, 5, 1);
-	RenderMesh(meshList[GEO_BALL], false);
-	modelStack.PopMatrix();
+
+	if (m_Player->GetElement() == EARTH || m_Player->GetElement() == EARTH_2)
+	{
+		if (m_Player->GetLeftRight())
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(m_Player->GetPosition().x + Distance_X, 20, 2);
+			modelStack.Scale(5, 5, 1);
+			RenderMesh(meshList[GEO_BALL], false);
+			modelStack.PopMatrix();
+		}
+		else
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(m_Player->GetPosition().x - Distance_X, 20, 2);
+			modelStack.Scale(5, 5, 1);
+			RenderMesh(meshList[GEO_BALL], false);
+			modelStack.PopMatrix();
+		}
+	}
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)

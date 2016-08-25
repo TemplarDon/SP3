@@ -370,7 +370,6 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 
     ExecuteAbility(dt);
     DebuffCheckAndApply(dt);
-
     //Sheilds
     if (!isEnemyEntity)
     {
@@ -435,11 +434,19 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 	for (int i = PlayerPos_Y; i < Map->GetNumOfTiles_MapHeight(); ++i)
 	{
 		GameObject* CheckGameObject_2 = Map->m_GameObjectMap[i][PlayerPos_X];
-		GameObject* CheckGameObject_3 = Map->m_GameObjectMap[i][PlayerPos_X - 1];
+		GameObject* CheckGameObject_3 = Map->m_GameObjectMap[i][PlayerPos_X + 1];
 		if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive() && i != PlayerPos_Y)
 		{
 			m_MaxCollisionBox.y = (CheckGameObject_2->GetPosition().y) - (Map->GetTileSize()) - 0.5;
 			break;
+		}
+		else if (!CheckGameObject_2->GetCollidable() && !CheckGameObject_2->GetActive())
+		{
+			if (CheckGameObject_3->GetCollidable() && CheckGameObject_3->GetActive())
+			{
+				m_MaxCollisionBox.y = (CheckGameObject_3->GetPosition().y) - (Map->GetTileSize()) - 0.5;
+				break;
+			}
 		}
 		m_MaxCollisionBox.y = Map->GetNumOfTiles_MapHeight() * Map->GetTileSize() - (Map->GetTileSize());
 	}
@@ -491,15 +498,19 @@ void Entity::CheckCollisionBoundary()
 {
 	if (m_Position.x < m_MinCollisionBox.x)
 	{
-		m_Position.x = m_MinCollisionBox.x;
-		JumpVel = 0;
-        
+		m_Position.x = m_MinCollisionBox.x;      
 	}
 
 	if (m_Position.x > m_MaxCollisionBox.x)
 	{
 		m_Position.x = m_MaxCollisionBox.x;
+	}
+
+	if (m_Position.y > m_MaxCollisionBox.y)
+	{
+		m_Position.y = m_MaxCollisionBox.y;
 		JumpVel = 0;
+		m_CurrEntityMoveState = FALLING;
 	}
 
 	if (m_Position.y < m_MinCollisionBox.y)
@@ -508,14 +519,6 @@ void Entity::CheckCollisionBoundary()
 		JumpVel = 0;
 		m_CurrEntityMoveState = ON_GROUND;
 	}
-
-	if (m_Position.y > m_MaxCollisionBox.y)
-	{
-		m_Position.y = m_MaxCollisionBox.y;
-		m_CurrEntityMoveState = FALLING;
-	}
-
-
 }
 
 

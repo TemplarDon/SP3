@@ -5,16 +5,8 @@ Player::Player(void)
 	, m_HealthCharges(0)
 {
 
-    m_CurrElement = FIRE_2;
     isEnemyEntity = false;
     Attacks = new AttackBase;
-
-
-	m_ElementArray[0] = FIRE;
-	m_ElementArray[1] = WATER;
-	m_ElementArray[2] = FIRE;
-	m_ElementArray[3] = WATER;
-	m_ElementArray[4] = FIRE;
 }
 
 Player::~Player(void)
@@ -36,65 +28,13 @@ void Player::Init(void)
     Attacks->Init(GetEntityDamage(), 10.f);
 	m_RespawnPos = m_Position;
 	m_CurrLevel = TEST;
+	m_CurrElement = FIRE_2;
 }
 
 // Player Update
 void Player::PlayerUpdate(GameObject_Map* Map)
 { 
 
-}
-
-void Player::AddElementCharge(ELEMENT ToBeAdded)
-{
-	for (int i = 0; i < 5; ++i)
-	{
-		if (m_ElementArray[i] == NO_ELEMENT)
-		{
-			m_ElementArray[i] = ToBeAdded;
-			break;
-		}
-	}
-}
-
-void Player::RemoveElementCharge()
-{
-	m_ElementArray[0] = NO_ELEMENT;
-	ReorderElements();
-}
-
-void Player::ReorderElements()
-{
-	ELEMENT temp = m_ElementArray[0];
-
-	m_ElementArray[0] = m_ElementArray[1];
-	m_ElementArray[1] = m_ElementArray[2];
-	m_ElementArray[2] = m_ElementArray[3];
-	m_ElementArray[3] = m_ElementArray[4];
-	m_ElementArray[4] = temp;
-
-	for (int i = 0; i < 5; ++i)
-	{
-		if (m_ElementArray[i] == NO_ELEMENT)
-		{
-			if (i < 4)
-			{
-				for (int y = i; y < 5; ++y)
-				{
-					if (m_ElementArray[y] != NO_ELEMENT)
-					{
-						m_ElementArray[i] = m_ElementArray[y];
-						m_ElementArray[y] = NO_ELEMENT;
-						break;
-					}
-				}
-			}
-		}
-	}
-}
-
-ELEMENT* Player::GetElementArray()
-{
-	return m_ElementArray;
 }
 
 void Player::SetRespawnPos(Vector3 RespawnPos)

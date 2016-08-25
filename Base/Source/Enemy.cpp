@@ -183,7 +183,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				EntityJumpUpdate(dt);
 			}
 
-			ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 90 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
+			ConstrainPlayer(0, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 0, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
 			GenerateCollisionBoundary(map);
 			CheckCollisionBoundary();
 			DebuffCheckAndApply(dt);
@@ -207,9 +207,9 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 
 				if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::NORMAL_ATTACK_PHASE)
 				{
-					this->Attacks->SetisEnemy(true);
-					this->Attacks->UpdateAttack(dt, tempElement, this->m_Position, DirectionLeftRight);
-					this->Attacks->LaunchAttack(0);
+					//this->Attacks->SetisEnemy(true);
+					//this->Attacks->UpdateAttack(dt, tempElement, this->m_Position, DirectionLeftRight);
+					//this->Attacks->LaunchAttack(0);
 				}
 				else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
 				{
@@ -222,9 +222,9 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 					}
 					}
 
-					this->Attacks->SetisEnemy(true);
-					this->Attacks->UpdateAttack(dt, tempElement, this->m_Position, DirectionLeftRight);
-					this->Attacks->LaunchAttack(0);
+					//this->Attacks->SetisEnemy(true);
+					//this->Attacks->UpdateAttack(dt, tempElement, this->m_Position, DirectionLeftRight);
+					//this->Attacks->LaunchAttack(0);
 				}
 
 			}
@@ -253,7 +253,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
         }
     }
 
-    if (OtherGo->GetObjectType() == PROJECTILE&& tempProj->getIsHostileProjectile() == false)
+    if (OtherGo->GetObjectType() == PROJECTILE&& tempProj->getIsHostileProjectile() == true)
     {
 
         if (tempProj->GetElement() == FIRE)

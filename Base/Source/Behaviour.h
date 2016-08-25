@@ -31,6 +31,8 @@ public:
 protected:
 	
 	BehaviourStates behaviour;
+
+	bool m_TurnDirection;
 	
 };
 

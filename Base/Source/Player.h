@@ -15,12 +15,6 @@ public:
 	// Player Update
 	void PlayerUpdate(GameObject_Map* m_cMap);
 
-	void AddElementCharge(ELEMENT ToBeAdded);
-	void RemoveElementCharge();
-	void ReorderElements();
-
-	ELEMENT* GetElementArray();
-
 	void SetRespawnPos(Vector3 RespawnPos);
 	Vector3 GetRespawnPos();
 
@@ -41,9 +35,6 @@ private:
 
 	// For Collision
 	Vector3 m_PrevPosition;
-
-	// For Storing Of Elements
-	ELEMENT m_ElementArray[5];
 
 	// Pos of last checkpoint
 	Vector3 m_RespawnPos;
