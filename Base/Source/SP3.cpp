@@ -630,7 +630,7 @@ void SP3::RenderUI()
 	for (int i = 0; i < m_Player->GetElementPercentage(FIRE); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(healthbarpos_x + (i * 1.2), 70, 1);
+		modelStack.Translate((healthbarpos_x + 5) + (i * 1.2), 70, 1);
 		modelStack.Scale(1, 3, 1);
 		RenderMesh(meshList[GEO_FIRE_EXP_BAR], false);
 		modelStack.PopMatrix();
@@ -640,7 +640,7 @@ void SP3::RenderUI()
 	for (int i = 0; i < m_Player->GetElementPercentage(WATER); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(healthbarpos_x + (i * 1.2), 65, 1);
+		modelStack.Translate((healthbarpos_x + 5)+(i * 1.2), 65, 1);
 		modelStack.Scale(1, 3, 1);
 		RenderMesh(meshList[GEO_WATER_EXP_BAR], false);
 		modelStack.PopMatrix();
@@ -650,29 +650,50 @@ void SP3::RenderUI()
 	for (int i = 0; i < m_Player->GetElementPercentage(EARTH); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(healthbarpos_x + (i * 1.2), 60, 1);
+		modelStack.Translate((healthbarpos_x + 5)+(i * 1.2), 60, 1);
 		modelStack.Scale(1, 3, 1);
 		RenderMesh(meshList[GEO_EARTH_EXP_BAR], false);
 		modelStack.PopMatrix();
 	}
 
+	// Fire icon
+	modelStack.PushMatrix();
+	modelStack.Translate((healthbarpos_x + 1), 70, 1);
+	modelStack.Scale(5, 5, 1);
+	RenderMesh(meshList[GEO_FIRE_ICON], false);
+	modelStack.PopMatrix();
+
+	// Water icon
+	modelStack.PushMatrix();
+	modelStack.Translate((healthbarpos_x + 1), 65, 1);
+	modelStack.Scale(5, 5, 1);
+	RenderMesh(meshList[GEO_WATER_ICON], false);
+	modelStack.PopMatrix();
+
+	// Earth icon
+	modelStack.PushMatrix();
+	modelStack.Translate((healthbarpos_x + 1), 60, 1);
+	modelStack.Scale(5, 5, 1);
+	RenderMesh(meshList[GEO_EARTH_ICON], false);
+	modelStack.PopMatrix();
+
 	// Fire Element Level
 	std::ostringstream ss;
 	ss.precision(5);
 	ss << m_Player->GetElementLevel(FIRE);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 9, 51);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 12, 51);
 
 	// Water Element Level
 	std::ostringstream ss1;
 	ss1.precision(5);
 	ss1 << m_Player->GetElementLevel(WATER);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 3, 9, 47);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 3, 12, 47.4);
 
 	// Earth Element Level
 	std::ostringstream ss2;
 	ss2.precision(5);
 	ss2 << m_Player->GetElementLevel(EARTH);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 3, 9, 43.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 3, 12, 43.5);
 
 	modelStack.PopMatrix(); // Do not delete this line
 }
