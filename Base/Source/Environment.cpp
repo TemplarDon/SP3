@@ -129,8 +129,8 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 				for (int offset = 0; offset < 15; offset += 5)
 				{
-					Vector3 SpawnLocation_Left = Vector3(temp->GetPosition().x + radius, temp->GetPosition().y + offset, temp->GetPosition().z);
-					Vector3 SpawnLocation_Right = Vector3(temp->GetPosition().x - radius, temp->GetPosition().y + offset, temp->GetPosition().z);
+					Vector3 SpawnLocation_Right = Vector3((int)temp->GetPosition().x + radius, (int)temp->GetPosition().y + offset, (int)temp->GetPosition().z);
+					Vector3 SpawnLocation_Left = Vector3((int)temp->GetPosition().x - radius, (int)temp->GetPosition().y + offset, (int)temp->GetPosition().z);
 
 					int LeftSpawnTile_X = (int)(SpawnLocation_Left.x / Map->GetTileSize());
 					int LeftSpawnTile_Y = (int)(SpawnLocation_Left.y / Map->GetTileSize());
