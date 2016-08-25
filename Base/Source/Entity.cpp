@@ -283,7 +283,16 @@ void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 
 }
 
-
+ELEMENT Entity::GetBasicElement()
+{
+    if (m_CurrElement = FIRE_2)
+        return FIRE;
+    else if (m_CurrElement = WATER_2)
+        return WATER;
+    else if (m_CurrElement = EARTH_2)
+        return EARTH;
+    else return m_CurrElement;
+}
 
 void Entity::CollisionResponse(GameObject* OtherGo)
 {
@@ -396,6 +405,11 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 	{
 		Death();
 	}
+}
+
+float Entity::GetCurrShield()
+{
+	return CurrSheild;
 }
 
 void Entity::GenerateCollisionBoundary(GameObject_Map* Map)

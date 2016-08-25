@@ -18,16 +18,14 @@ public:
     ~AttackBase();
     int GetAttackDamage();
     //generic update to be used in Entity classes
-    void UpdateAttack(double dt, ELEMENT EntityCurrElement, Vector3 pos, bool leftright);
+    void UpdateAttack(double dt, Vector3 pos, bool leftright);
     //generic init
     void Init(int AttackDamage, float range);
-    //launch an attack
-    void LaunchAttack(int level);
 	//void LaunchAttack(ELEMENT m_CurrElement);
     void SetisEnemy(bool);
 
-
-	void SetAttackElement(ELEMENT m_CurrElement);
+    void Attack_Ranged(ELEMENT CurrElement, int elementLevel);
+    void Attack_Ability(ELEMENT CurrElement, int elementLevel);
     
 
 protected:   
@@ -38,8 +36,8 @@ protected:
     float m_Range;//bullet lifetime
     Vector3 m_EntityPos;//Position of entity using the attack   
     Vector3 m_Velocity;
-    ATTACK_TYPE m_CurrAttackType = NO_ATTACK_TYPE;
-    ELEMENT m_CurrElement = NO_ELEMENT;
+    ATTACK_TYPE m_CurrAttackType;
+    ELEMENT m_CurrElement;
 
     float m_AttackDebounce;
     bool m_CanAttack;
@@ -56,12 +54,10 @@ protected:
 
     Mesh* ProjectilePH;
 
-    void SetAttackType();//always corresponds to element type
+    //void SetAttackType();//always corresponds to element type
 
     //Attack calls
-    void Attack_Ranged();
-
-    void Attack_Ability();
+   
     void Ability_Run();
 	void Attack_Suck();
     void Debouncers(double dt);
@@ -76,18 +72,15 @@ protected:
 
     bool ab_HailStorm_debounce;
     bool ab_Obliterate_debounce;
-    bool ab_Cataclysm_debounce;
 
     int ab_Obliterate_Counter;
     int ab_HailStorm_Counter;
-
+    //Vector3 *BulletPos = new Vector3[];
     float ab_FIRE2_timer;
     float ab_FIRE2_CDtimer;
-    float ab_EARTH2_timer;
     float ab_EARTH2_CDtimer;
     float ab_WATER2_timer;
     float ab_WATER2_CDtimer;
-
 };
 
 #endif

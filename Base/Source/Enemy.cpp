@@ -29,7 +29,7 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	}
 	
 	Attacks->Init(Damage, 5.0f);
-	Attacks->SetAttackElement(m_CurrElement);
+	//Attacks->SetAttackElement(m_CurrElement);
 	MovementSpeed = 0.1f;
 	this->estimatedDistance = estimatedDistance;
 	this->m_CurrElement = m_CurrElement;
@@ -130,8 +130,8 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			if (Attack)
 			{
 				this->Attacks->SetisEnemy(true);
-				this->Attacks->UpdateAttack(dt, m_CurrElement, this->m_Position, DirectionLeftRight);
-				this->Attacks->LaunchAttack(0);
+				this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+				this->Attacks->Attack_Ranged(m_CurrElement, GetElementLevel(m_CurrElement));
 			}
 		}
 		else if (enemyType == MELEE)
@@ -207,9 +207,9 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 
 				if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::NORMAL_ATTACK_PHASE)
 				{
-					//this->Attacks->SetisEnemy(true);
-					//this->Attacks->UpdateAttack(dt, tempElement, this->m_Position, DirectionLeftRight);
-					//this->Attacks->LaunchAttack(0);
+					this->Attacks->SetisEnemy(true);
+					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+					this->Attacks->Attack_Ranged(m_CurrElement, GetElementLevel(m_CurrElement));
 				}
 				else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
 				{
@@ -222,9 +222,9 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 					}
 					}
 
-					//this->Attacks->SetisEnemy(true);
-					//this->Attacks->UpdateAttack(dt, tempElement, this->m_Position, DirectionLeftRight);
-					//this->Attacks->LaunchAttack(0);
+					this->Attacks->SetisEnemy(true);
+					this->Attacks->UpdateAttack(dt,  this->m_Position, DirectionLeftRight);
+					this->Attacks->Attack_Ranged(m_CurrElement, GetElementLevel(m_CurrElement));
 				}
 
 			}

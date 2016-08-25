@@ -114,6 +114,10 @@ void SceneBase::Init()
 	meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//background.tga");
 	meshList[GEO_FIRE_BACKGROUND] = MeshBuilder::GenerateQuad("background", Color(1, 1, 1), 1.f);
 	meshList[GEO_FIRE_BACKGROUND]->textureID = LoadTGA("Image//Background//fire_background.tga");
+	meshList[GEO_WATER_BACKGROUND] = MeshBuilder::GenerateQuad("background", Color(1, 1, 1), 1.f);
+	meshList[GEO_WATER_BACKGROUND]->textureID = LoadTGA("Image//Background//water_background.tga");
+	meshList[GEO_EARTH_BACKGROUND] = MeshBuilder::GenerateQuad("background", Color(1, 1, 1), 1.f);
+	meshList[GEO_EARTH_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_background.tga");
 	//meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//background.tga");
 	meshList[GEO_TREE] = MeshBuilder::GenerateQuad("tree", Color(1, 1, 1), 1.f);
 	meshList[GEO_TREE]->textureID = LoadTGA("Image//tree.tga");
@@ -137,6 +141,10 @@ void SceneBase::Init()
 	meshList[GEO_ELEMENTS_WHEEL]->textureID = LoadTGA("Image//UI//baseElement_selector.tga");
 	meshList[GEO_CHARGE_WHEEL] = MeshBuilder::GenerateQuad("WATER", Color(1, 1, 1), 1.f);
 	meshList[GEO_CHARGE_WHEEL]->textureID = LoadTGA("Image//UI//charge.tga");
+	meshList[GEO_HEART_ICON] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
+	meshList[GEO_HEART_ICON]->textureID = LoadTGA("Image//UI//heart_icon.tga");
+	meshList[GEO_SHIELD_ICON] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
+	meshList[GEO_SHIELD_ICON]->textureID = LoadTGA("Image//UI//shield_icon.tga");
 
 
 	bLightEnabled = false;

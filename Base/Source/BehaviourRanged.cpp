@@ -8,7 +8,7 @@ BehaviourRanged::~BehaviourRanged()
 {
 
 }
-void BehaviourRanged::Update(double dt, float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump, bool& Direction, ELEMENT m_CurrElement, AttackBase* attack, ENTITY_MOVE_STATE &m_currEntityMoveState, float detectionRange)
+void BehaviourRanged::Update(double dt, float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump, bool& Direction, ELEMENT m_CurrElement,int ElementLevel ,AttackBase* attack, ENTITY_MOVE_STATE &m_currEntityMoveState, float detectionRange)
 {	
 	static bool randomInit = false;
 	//std::cout << "random INit: " << randomInit << std::endl;
@@ -64,12 +64,12 @@ void BehaviourRanged::Update(double dt, float distancePlayerToEnemy, float estim
 			}
 
 		}
-		attack->UpdateAttack(dt, m_CurrElement, enemyPosition, Direction);
+		attack->UpdateAttack(dt, enemyPosition, Direction);
 		if (behaviour == ATTACK)
 		{
 			//attack
 			attack->SetisEnemy(true);
-			attack->LaunchAttack(0);
+			attack->Attack_Ranged(m_CurrElement, ElementLevel);
 			randomInit = false;
 		}
 		else if (behaviour == EVADE)

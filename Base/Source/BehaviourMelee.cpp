@@ -9,7 +9,7 @@ BehaviourMelee::~BehaviourMelee()
 {
 	
 }
-void BehaviourMelee::Update(double dt, float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump, bool& Direction, ELEMENT m_CurrElement, AttackBase* attack, ENTITY_MOVE_STATE &m_currEntityMoveState, float detectionRange)
+void BehaviourMelee::Update(double dt, float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump, bool& Direction, ELEMENT m_CurrElement,int ElementLevel, AttackBase* attack, ENTITY_MOVE_STATE &m_currEntityMoveState, float detectionRange)
 {
 //	std::cout << "random INit: " << randomInit << std::endl;
 	//std::cout << "move state: " << m_currEntityMoveState << std::endl;
@@ -54,11 +54,11 @@ void BehaviourMelee::Update(double dt, float distancePlayerToEnemy, float estima
 			behaviour = NEUTRAL;
 			
 		}
-		attack->UpdateAttack(dt, m_CurrElement, enemyPosition, Direction);
+		attack->UpdateAttack(dt, enemyPosition, Direction);
 		if (behaviour == ATTACK)
 		{
 			attack->SetisEnemy(true);
-			attack->LaunchAttack(0);
+			attack->Attack_Ranged(m_CurrElement, ElementLevel);
 		}
 	}
 	else

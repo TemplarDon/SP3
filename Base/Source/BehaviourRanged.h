@@ -13,7 +13,7 @@ public:
 	virtual ~BehaviourRanged();
 
 	//using Behaviour::Update;
-	virtual void Update(double dt, float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump, bool& Direction, ELEMENT m_CurrElement, AttackBase* attack, ENTITY_MOVE_STATE &m_currEntityMoveState, float detectionRange);
+	virtual void Update(double dt, float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump, bool& Direction, ELEMENT m_CurrElement,int elementlevel, AttackBase* attack, ENTITY_MOVE_STATE &m_currEntityMoveState, float detectionRange);
 
 
 private:
