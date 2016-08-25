@@ -189,9 +189,9 @@ void AttackBase::Ability_Run()
 
                 Projectile* temp;
                 temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-                temp->projectileInit(m_AttackDirection, m_EntityPos + 2, 100.0f, m_AttackDamage, templifetime, m_CurrElement, false, angletemp);
+                temp->projectileInit(m_AttackDirection, m_EntityPos + 2, 100.0f, m_AttackDamage, templifetime, FIRE_2, false, angletemp);
 
-                m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
+                m_AbilityProjectiles[m_AbilityCount].SetElement(FIRE_2);
                 m_AbilityCount += 1;
                 if (m_AbilityCount >= MAXprojectilecount)
                 {
@@ -229,9 +229,9 @@ void AttackBase::Ability_Run()
                 BulletPos = Vector3(Math::RandFloatMinMax(m_EntityPos.x - RainCloudSizeOffset, m_EntityPos.x + RainCloudSizeOffset), Math::RandFloatMinMax(m_EntityPos.y + 15, m_EntityPos.y + 25), 0);
                 Projectile* temp;
                 temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1.5, 1.5, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-                temp->projectileInit(m_AttackDirection, BulletPos, 15.0f, m_AttackDamage, 2.f, m_CurrElement, false, -80.f);
+                temp->projectileInit(m_AttackDirection, BulletPos, 15.0f, m_AttackDamage, 2.f, WATER_2, false, -80.f);
 
-                m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
+                m_AbilityProjectiles[m_AbilityCount].SetElement(WATER_2);
                 m_AbilityCount += 1;
                 if (m_AbilityCount >= MAXprojectilecount)
                 {
@@ -246,13 +246,13 @@ void AttackBase::Ability_Run()
     {
         Projectile* temp;
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-        temp->projectileInit(m_AttackDirection, m_EntityPos, 40.0f, m_AttackDamage, 5, m_CurrElement, false, 50, m_ElementLevel);
+        temp->projectileInit(m_AttackDirection, m_EntityPos, 40.0f, m_AttackDamage, 5, EARTH_2, false, 50, m_ElementLevel);
 
         // These Variables shouldn't change
         // Bullet Speed = 40.f
         // Theta = 50
 
-        m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
+        m_AbilityProjectiles[m_AbilityCount].SetElement(EARTH_2);
         m_AbilityCount += 1;
         if (m_AbilityCount >= MAXprojectilecount)
         {

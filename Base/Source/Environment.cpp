@@ -120,7 +120,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 			if (temp->GetElement() != FIRE)
 				OtherGo->SetActive(false);
 
-			if (temp->GetElement() == EARTH)
+			if (temp->GetElement() == EARTH_2)
 			{
 				float TempLifeTime = temp->GetElementLevel() * 2 + 5;
 				float radius = 10;
