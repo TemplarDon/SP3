@@ -496,14 +496,15 @@ void SP3::UpdateUI2(double dt)
 		treePos_x += ((float)dt * 0.5);
 	}
 	// Y
-	if (treePos_y >(orignalTreePos_y - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
-	{
-		treePos_y -= ((float)dt * 0.5);
-	}
-	else if (treePos_y < (orignalTreePos_y - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
-	{
-		treePos_y += ((float)dt * 0.5);
-	}
+	//if (treePos_y < orignalTreePos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
+	//{
+	//	treePos_y += (float)dt * 8;
+	//}
+	//else if (treePos_y > orignalTreePos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
+	//{
+	//	treePos_y -= (float)dt * 8;
+	//}
+
 
 	// Move UI with screen
 	// X
@@ -875,9 +876,6 @@ void SP3::Render()
 		}	
 	}
 
-
-
-
 	modelStack.PushMatrix();
 	modelStack.Translate(m_Player->GetPosition().x + Distance_X, 20, 2);
 	modelStack.Scale(5, 5, 1);
@@ -919,12 +917,24 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 
 	switch (NextLevel)
 	{
-	case TEST: m_Map->LoadMap("Image//Maps//Official_Test.csv"); break;
-	case TUTORIAL_LEVEL: m_Map->LoadMap("Image//Maps//Tutorial.csv"); break;
-	case HUB_LEVEL: m_Map->LoadMap("Image//Maps//Hub.csv"); break;
-	case WATER_LEVEL: m_Map->LoadMap("Image//Maps//Water.csv"); break;
-	case FIRE_LEVEL: m_Map->LoadMap("Image//Maps//Fire.csv"); break;
-	case EARTH_LEVEL: m_Map->LoadMap("Image//Maps//Earth.csv"); break;
+	case TEST: 
+		m_Map->LoadMap("Image//Maps//Official_Test.csv"); 
+		break;
+	case TUTORIAL_LEVEL: 
+		m_Map->LoadMap("Image//Maps//Tutorial.csv"); 
+		break;
+	case HUB_LEVEL:
+		m_Map->LoadMap("Image//Maps//Hub.csv"); 
+		break;
+	case WATER_LEVEL:
+		m_Map->LoadMap("Image//Maps//Water.csv");
+		break;
+	case FIRE_LEVEL:
+		m_Map->LoadMap("Image//Maps//Fire.csv");
+		break;
+	case EARTH_LEVEL:
+		m_Map->LoadMap("Image//Maps//Earth.csv"); 
+		break;
 	default:
 		break;
 	}
