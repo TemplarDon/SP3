@@ -67,8 +67,8 @@ void SP3::Init()
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	//m_Map->LoadMap("Image//Maps//Tutorial.csv");
-	m_Map->LoadMap("Image//Maps//Hub.csv");
+	m_Map->LoadMap("Image//Maps//Tutorial.csv");
+	//m_Map->LoadMap("Image//Maps//Hub.csv");
 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -243,6 +243,7 @@ void SP3::Update(double dt)
 	}
 	else if (bEButtonState && !Application::IsKeyPressed('E'))
 	{
+		m_Player->Attacks->Attack_Ability(m_Player->GetElement(), m_Player->GetElementLevel(m_Player->GetElement()));
 		bEButtonState = false;
 	}
 
@@ -315,15 +316,9 @@ void SP3::Update(double dt)
 
 			if (go->GetObjectType() == PROJECTILE && go2->GetObjectType() == ENVIRONMENT)
 			{
-				float offset = 0;
-				//if (dynamic_cast<ElementalObject*>(go)->GetElement() != FIRE && dynamic_cast<ElementalObject*>(go)->GetElement() != WATER)
-				//	offset = 50;
-				//else
-				//	offset = 10;
-
-				if (go->EmpricalCheckCollisionWith(go2, dt))
+				if (go->EmpricalCheckCollisionWith(go2, dt, 0))
 				{
-					go2->CollisionResponse(go);
+					dynamic_cast<Environment*>(go2)->CollisionResponse(go, m_GoMap);
 					go->CollisionResponse(go2);
 				}
 			}

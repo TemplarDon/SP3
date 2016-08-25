@@ -246,7 +246,7 @@ void AttackBase::Ability_Run()
     {
         Projectile* temp;
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-        temp->projectileInit(m_AttackDirection, m_EntityPos, 40.0f, m_AttackDamage, 5, m_CurrElement, false, 50);
+        temp->projectileInit(m_AttackDirection, m_EntityPos, 40.0f, m_AttackDamage, 5, m_CurrElement, false, 50, m_ElementLevel);
 
         // These Variables shouldn't change
         // Bullet Speed = 40.f
@@ -259,6 +259,7 @@ void AttackBase::Ability_Run()
             m_AbilityCount = 0;
         }
         ab_Cataclysm_isCD = true;
+		ab_Cataclysm = false;
     }
 }
 

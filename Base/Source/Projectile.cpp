@@ -13,7 +13,7 @@ Projectile::Projectile()
 	m_Normal.Set(0, 1, 0);
 	rotation = 0;
 }
-void Projectile::projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float time, ELEMENT element, bool enemypewpew,float rotation)
+void Projectile::projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float time, ELEMENT element, bool enemypewpew,float rotation, int level)
 {
 	this->Direction = Direction;
 	this->m_Position = m_Position;
@@ -27,6 +27,8 @@ void Projectile::projectileInit(bool Direction, Vector3 m_Position, float bullet
 	setVelocity();
 	//this->m_Velocity.Set(20, 20, 0);
 	//std::cout << m_Position << std::endl;
+
+	m_ElementLevel = level;
 }
 
 Projectile::~Projectile()
@@ -70,7 +72,7 @@ void Projectile::Update(double dt)
 
 void Projectile::UpdatePhysics(double dt, Vector3 Gravity)
 {
-	if (m_CurrElement == EARTH_2)
+	if (m_CurrElement == EARTH_2 || m_CurrElement == EARTH)
 	{
 		Vector3 dv = Gravity * (float) dt; // Eqn 1 (Vec3 = Vec3 * float)
 		this->m_Velocity += (dv);
@@ -135,4 +137,9 @@ void Projectile::setIsHostileProjectile(bool isHostileProjectile)
 bool Projectile::getIsHostileProjectile()
 {
 	return isHostileProjectile;
+}
+
+int Projectile::GetElementLevel()
+{
+	return m_ElementLevel;
 }

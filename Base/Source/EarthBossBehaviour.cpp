@@ -1,7 +1,7 @@
 #include "EarthBossBehaviour.h"
 
 EarthBehaviour::EarthBehaviour()
-	: m_DirectionSet(true)
+	: m_DirectionSet(false)
 	, m_RunOnce(false)
 {
 }
@@ -57,8 +57,10 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	bool BlockedLeft = false;
 	bool BlockedRight = false;
 
-	GameObject* CheckGameObject_Right = Map->m_GameObjectMap[EntityPos_Y + 1][EntityPos_X + 2];
-	GameObject* CheckGameObject_Left = Map->m_GameObjectMap[EntityPos_Y + 1][EntityPos_X - 2];
+	EntityPos_X = Math::Max(0, EntityPos_X - 2);
+
+	GameObject* CheckGameObject_Right = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X + 4];
+	GameObject* CheckGameObject_Left = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X];
 
 
 	if ((CheckGameObject_Right->GetCollidable() && CheckGameObject_Right->GetActive()) && (CheckGameObject_Left->GetCollidable() && CheckGameObject_Left->GetActive()))
@@ -105,44 +107,49 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 			m_RunOnce = true;
 		}
 
-		if (m_DirectionSet)
+		if (!m_DirectionSet)
 		{
 			if (BlockedLeft)
 			{
 				m_DestinationToReturn = CurrPos + Vector3(5, 0, 0);
+				m_DirectionSet = true;
 			}
 			else if (BlockedRight)
 			{
 				m_DestinationToReturn = CurrPos - Vector3(5, 0, 0);
+				m_DirectionSet = true;
 			}
 			else if ((BlockedLeft) && (BlockedRight))
 			{
 				m_DestinationToReturn = CurrPos;
+				m_DirectionSet = true;
 			}
 			else
 			{
 				m_DestinationToReturn = CurrPos + Vector3(100, 0, 0);
+				m_DirectionSet = true;
 			}
 
 		}
 
-		if (CurrPos.x < m_DestinationToReturn.x)
+		if ((int)CurrPos.x < (int)m_DestinationToReturn.x)
 		{
 			if (BlockedRight)
 			{
-				m_DirectionSet = true;
-				m_DestinationToReturn = CurrPos - Vector3(100, 0, 0);
+				m_DirectionSet = false;
+			}
+		}
+		else if ((int)CurrPos.x > (int)m_DestinationToReturn.x)
+		{
+			if (BlockedLeft)
+			{
+				m_DirectionSet = false;
 			}
 		}
 		else
 		{
-			if (BlockedLeft)
-			{
-				m_DirectionSet = true;
-				m_DestinationToReturn = CurrPos + Vector3(100, 0, 0);
-			}
+			m_RunOnce = false;
 		}
-
 		break;
 	}
 
@@ -150,11 +157,11 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	{
 		if (PlayerRight)
 		{
-			m_DestinationToReturn = PlayerPos - Vector3(25, 0, 0);
+			m_DestinationToReturn = PlayerPos - Vector3(30, 0, 0);
 		}
 		else if (PlayerLeft)
 		{
-			m_DestinationToReturn = PlayerPos + Vector3(25, 0, 0);
+			m_DestinationToReturn = PlayerPos + Vector3(30, 0, 0);
 		}
 		break;
 	}

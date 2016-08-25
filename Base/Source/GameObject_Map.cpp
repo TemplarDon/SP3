@@ -182,7 +182,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				temp->SetMesh(temp->getMeshVector()[0]);
 				temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
 				temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-				temp->EnemyInit(200, EARTH_2, 5, 400);
+				temp->EnemyInit(200, EARTH, 5, 400);
 
 				break;
 			}
@@ -217,4 +217,12 @@ void GameObject_Map::SortMap()
 			}
 		}
 	}
+}
+
+void GameObject_Map::AddIntoMap(GameObject* GameObjectToBeAdded)
+{
+	int ObjectPos_X = (int)(GameObjectToBeAdded->GetPosition().x / this->m_TileSize);
+	int ObjectPos_Y = (int)(GameObjectToBeAdded->GetPosition().y / this->m_TileSize);
+
+	this->m_GameObjectMap[ObjectPos_Y][ObjectPos_X] = GameObjectToBeAdded;
 }

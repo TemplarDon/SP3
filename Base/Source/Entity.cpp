@@ -47,7 +47,7 @@ Entity::Entity()
 	//m_ElementsLevelMap[EARTH] = 1;
 	SetElementLevel(FIRE, 1);
 	SetElementLevel(WATER, 1);
-	SetElementLevel(EARTH, 1);
+	SetElementLevel(EARTH, 4);
 }
 
 Entity::~Entity()

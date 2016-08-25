@@ -14,7 +14,7 @@ public:
 	Projectile();
 	//Projectile(bool Direction,Vector3 m_Position,Vector3 m_Velocity,int damage);
 	~Projectile();
-    void projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float lifeTime, ELEMENT element,bool isHostileProjectile,float rotation);
+    void projectileInit(bool Direction, Vector3 m_Position, float bulletSpeed, int damage, float lifeTime, ELEMENT element,bool isHostileProjectile,float rotation, int level = 0);
 
 	void projectileUpdate(double dt);
 	void setDamage(int damage);
@@ -37,9 +37,10 @@ public:
 	void setIsHostileProjectile(bool isHostileProjectile);
 	bool getIsHostileProjectile();
 
+	int GetElementLevel();
+
 	virtual void UpdatePhysics(double dt, Vector3 Gravity = Vector3(0, -60, 0));
 	virtual void CollisionResponse(GameObject* OtherGo);
-
 
 private:
 	int damage;
@@ -51,6 +52,7 @@ private:
 	float speedBullet;
     bool isHostileProjectile;
 	float rotation;
+	int m_ElementLevel;
 };
 
 

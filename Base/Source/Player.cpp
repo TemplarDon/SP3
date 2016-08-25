@@ -29,7 +29,7 @@ void Player::Init(void)
     Attacks->Init(GetEntityDamage(), 10.f);
 	m_RespawnPos = m_Position;
 	m_CurrLevel = TEST;
-	m_CurrElement = FIRE_2;
+	m_CurrElement = EARTH;
 }
 
 // Player Update
