@@ -599,7 +599,7 @@ void SP3::RenderUI()
 
 	// Background
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, 0);
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, -3);
 	modelStack.Scale(150, 77.5, 1);
 	RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
 	modelStack.PopMatrix();
@@ -822,6 +822,7 @@ void SP3::Render()
 
 	RenderMesh(meshList[GEO_AXES], false);
 
+	RenderUI();
 
 	// ------------------ Background ------------------- //
 
@@ -862,8 +863,8 @@ void SP3::Render()
 			RenderGO(go);
 		}	
 	}
-	
-	RenderUI();
+
+
 
 
 	modelStack.PushMatrix();
