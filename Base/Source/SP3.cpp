@@ -199,14 +199,13 @@ void SP3::Update(double dt)
 		m_Player->EntityJumpUpdate(dt);
 	}
 
-	//--------------------Vacuum------------------------------------//
+	// ------------------------ Vacuum --------------------------- //
 	static bool fButtonState = false;
 	if (Application::IsKeyPressed('F') )
 	{
-		
 		ELEMENT tempElement = m_Player->GetElement();
 		m_Player->SetElement(MISC);
-		if (m_Player->GetLeftRight() == true )
+		if (m_Player->GetLeftRight() == true)
 		{
 			m_Player->Attacks->Attack_Suck(m_Player->GetElement(),true);
 		}
@@ -338,7 +337,7 @@ void SP3::Update(double dt)
 
 			if (go->GetObjectType() == PROJECTILE && go2->GetObjectType() == ENVIRONMENT)
 			{
-				if (go->EmpricalCheckCollisionWith(go2, dt, 0))
+				if (go->EmpricalCheckCollisionWith(go2, dt, 25))
 				{
 					dynamic_cast<Environment*>(go2)->CollisionResponse(go, m_GoMap);
 					go->CollisionResponse(go2);
@@ -450,8 +449,8 @@ void SP3::Update(double dt)
 	// ------------------- Earth Attack Estimated Landing ------------------------ //
 	if (m_Player->GetElement() == EARTH || m_Player->GetElement() == EARTH_2)
 	{
-		float TimeToLand = sqrt((-40 * sin(Math::DegreeToRadian(50))) / (-4.9));
-		Distance_X = (40 * cos(Math::DegreeToRadian(50))) * (TimeToLand);
+		float TimeToLand = sqrt((-20 * sin(Math::DegreeToRadian(50))) / (-4.9));
+		Distance_X = (20 * cos(Math::DegreeToRadian(50))) * (TimeToLand);
 	}
 }
 

@@ -32,7 +32,10 @@ protected:
 	
 	BehaviourStates behaviour;
 
-	bool m_TurnDirection;
+	Vector3 m_DestinationToReturn;
+
+	bool m_DirectionSet;
+	bool m_RunOnce;
 	
 };
 

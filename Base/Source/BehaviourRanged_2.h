@@ -15,5 +15,8 @@ public:
 private:
 
 	Vector3 m_DestinationToReturn;
+
+	bool m_DirectionSet;
+	bool m_RunOnce;
 };
 #endif // !2_BEHAVIOUR_RANGED_H

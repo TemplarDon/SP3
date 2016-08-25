@@ -47,7 +47,7 @@ Entity::Entity()
 	//m_ElementsLevelMap[EARTH] = 1;
 	SetElementLevel(FIRE, 1);
 	SetElementLevel(WATER, 1);
-	SetElementLevel(EARTH, 4);
+	SetElementLevel(EARTH, 1);
 }
 
 Entity::~Entity()
@@ -470,7 +470,6 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 	{
 		GameObject* CheckGameObject_2 = Map->m_GameObjectMap[i][PlayerPos_X];
 		GameObject* CheckGameObject_3 = Map->m_GameObjectMap[i][PlayerPos_X + 1];
-		GameObject* CheckGameObject_4 = Map->m_GameObjectMap[i][PlayerPos_X - 1];
 
 		if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive())
 		{

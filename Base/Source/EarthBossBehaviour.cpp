@@ -28,13 +28,13 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	}
 
 	// Change BehaviourState and BossPhase, if needed
-	if (DistanceToPlayer <= 30)
+	if (DistanceToPlayer <= 50)
 	{
 		behaviour = ATTACK;
 		m_CurrPhase = NORMAL_ATTACK_PHASE;
 		AttackStatus = true;
 
-		if (DistanceToPlayer <= 20)
+		if (DistanceToPlayer <= 40)
 		{
 			m_CurrPhase = ABILITY_ATTACK_PHASE;
 			if (DistanceToPlayer <= 10)
@@ -170,11 +170,11 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	{
 		if (PlayerRight)
 		{
-			m_DestinationToReturn = CurrPos - Vector3(10, 0, 0);
+			m_DestinationToReturn = CurrPos - Vector3(5, 0, 0);
 		}
 		else if (PlayerLeft)
 		{
-			m_DestinationToReturn = CurrPos + Vector3(10, 0, 0);
+			m_DestinationToReturn = CurrPos + Vector3(5, 0, 0);
 		}
 		break;
 	}

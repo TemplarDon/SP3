@@ -14,7 +14,7 @@ Enemy::Enemy()
 }
 void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage,float detectionRange)
 {
-	if (m_CurrElement != EARTH && m_CurrElement != EARTH_2)
+	if (m_CurrElement == EARTH || m_CurrElement == FIRE || m_CurrElement == WATER)
 	{
 		//this->m_Behaviour = new BehaviourRanged();
 		this->m_Behaviour = new BehaviourRanged_2();
@@ -24,8 +24,11 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	{
 		//this->m_Behaviour = new BehaviourMelee();
 		//this->enemyType = MELEE;
-		this->m_Behaviour = new EarthBehaviour();
-		this->enemyType = BOSS;
+		if (m_CurrElement == EARTH_2)
+		{
+			this->m_Behaviour = new EarthBehaviour();
+			this->enemyType = BOSS;
+		}
 	}
 	
 	Attacks->Init(Damage, 5.0f);
@@ -99,22 +102,18 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 
 			bool Attack = false;
 			this->setDirectionBasedOnDistance(playerPosition, m_Position);
-			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack);
+			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
 			this->m_Destination = this->m_Behaviour->GetDestination();
 
-			if (m_Destination.x > m_Position.x)
+			if ((int)m_Destination.x > (int)m_Position.x)
 			{
 				MoveRight(0.1f);
 				rotate = true;
 			}
-			else if (m_Destination.x < m_Position.x)
+			else if ((int)m_Destination.x < (int)m_Position.x)
 			{
 				MoveLeft(0.1f);
 				rotate = false;
-			}
-			else
-			{
-				rotate = true;
 			}
 
 			if (m_CurrEntityMoveState == FALLING)
@@ -163,19 +162,15 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
 			this->m_Destination = this->m_Behaviour->GetDestination();
 
-			if (m_Destination.x > m_Position.x)
+			if ((int)m_Destination.x > (int)m_Position.x)
 			{
 				MoveRight(0.1f);
 				rotate = true;
 			}
-			else if (m_Destination.x < m_Position.x)
+			else if ((int)m_Destination.x < (int)m_Position.x)
 			{
 				MoveLeft(0.1f);
 				rotate = false;
-			}
-			else
-			{
-				rotate = true;
 			}
 
 			if (m_CurrEntityMoveState == FALLING)
@@ -190,18 +185,30 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 
 			if (Attack)
 			{
+				ELEMENT temp;
+				if (m_CurrElement == FIRE_2)
+				{
+					temp = FIRE;
+				}
+				if (m_CurrElement == EARTH_2)
+				{
+					temp = EARTH;
+				}
+				if (m_CurrElement == WATER_2)
+				{
+					temp = WATER;
+				}
 				if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::NORMAL_ATTACK_PHASE)
 				{
 					this->Attacks->SetisEnemy(true);
 					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-					this->Attacks->Attack_Basic(m_CurrElement, GetElementLevel(m_CurrElement));
+					this->Attacks->Attack_Basic(temp, GetElementLevel(temp));
 				}
 				else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
 				{
 					this->Attacks->SetisEnemy(true);
 					this->Attacks->UpdateAttack(dt,  this->m_Position, DirectionLeftRight);
-
-
+					this->Attacks->Attack_Ability(temp, GetElementLevel(temp));
 				}
 
 			}
@@ -231,7 +238,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
         }
     }
 
-    if (OtherGo->GetObjectType() == PROJECTILE&& tempProj->getIsHostileProjectile() == true)
+    if (OtherGo->GetObjectType() == PROJECTILE&& tempProj->getIsHostileProjectile() == false)
     {
 
         if (tempProj->GetElement() == FIRE)
