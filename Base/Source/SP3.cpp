@@ -914,21 +914,21 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	m_GoMap = NULL;
 
 	// Clear m_GoList of unwanted stuff
+	int i = 0;
 	while (GameObjectManager::m_goList.size() > 1)
 	{
-		for (std::vector<GameObject*>::size_type i = 0; i < GameObjectManager::m_goList.size(); ++i)
+		if (i > GameObjectManager::m_goList.size() - 1)
 		{
-			GameObject* go = GameObjectManager::m_goList[i];
-
-			if (go->GetObjectType() != PLAYER)
-			{
-				GameObjectManager::m_goList.erase(GameObjectManager::m_goList.begin() + i);
-			}
-			else
-			{
-				i = 0;
-			}
+			i = 0;
 		}
+
+		GameObject* go = GameObjectManager::m_goList[i];
+
+		if (go->GetObjectType() != PLAYER)
+		{
+			GameObjectManager::m_goList.erase(GameObjectManager::m_goList.begin() + i);
+		}
+		++i;
 	}
 
 	// Load New Maps
@@ -972,6 +972,11 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	else
 		m_Player->SetMapOffset_x(0);
 	
+	if (m_Player->GetPosition().y > (0.5 * m_GoMap->GetNumOfTiles_ScreenHeight() * m_GoMap->GetTileSize()))
+		m_Player->SetMapOffset_x(m_Player->GetPosition().y - (0.5 * m_GoMap->GetNumOfTiles_ScreenHeight() * m_GoMap->GetTileSize()));
+	else
+		m_Player->SetMapOffset_y(0);
+
 	m_Player->SetMapFineOffset_x(0);
 	m_Player->SetRespawnPos(m_Player->GetPosition());
 	m_Player->SetCurrentLevel(NextLevel);
@@ -987,10 +992,16 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	// ------------------- Cam ------------------ // 
 	camera.position.x = m_Player->GetMapOffset_x();
 	camera.target.x = m_Player->GetMapOffset_x();
+
+	camera.position.y = m_Player->GetMapOffset_y();
+	camera.target.y = m_Player->GetMapOffset_y();
 	// ------------------------------------------ // 
 
 	treePos_x = orignalTreePos_x;
 	treePos_y = orignalTreePos_y;
+
+	UIPos_x = m_Player->GetMapOffset_x();
+	UIPos_y = m_Player->GetMapOffset_y();
 }
 
 void SP3::Exit()
