@@ -107,7 +107,7 @@ void Environment::CollisionResponse(GameObject* OtherGo)
 
 		case NO_ELEMENT:
 		{
-			if (temp->GetElement() != FIRE)
+			if (temp->GetElement() != FIRE_2)
 				OtherGo->SetActive(false);
 			break;
 		}

@@ -9,7 +9,7 @@ public:
 	BehaviourRanged_2();
 	~BehaviourRanged_2();
 
-	virtual void BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack);
+	virtual void BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack, GameObject_Map* Map = NULL);
 	virtual Vector3 GetDestination();
 
 private:

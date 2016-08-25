@@ -119,7 +119,7 @@ float Projectile::getRotation()
 
 void Projectile::CollisionResponse(GameObject* OtherGo)
 {
-	if (m_CurrElement == FIRE)
+	if (m_CurrElement == FIRE_2)
 	{
 		Vector3 u1 = this->m_Velocity;
 		Vector3 N = (OtherGo->GetPosition() - this->m_Position).Normalized();

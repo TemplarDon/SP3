@@ -21,7 +21,7 @@ public:
 	};
 
 	virtual void Update(double dt, float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump, bool& Direction, ELEMENT m_CurrElement, AttackBase* attack, ENTITY_MOVE_STATE &m_currEntityMoveState, float detectionRange);
-	virtual void BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack);
+	virtual void BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack, GameObject_Map* Map = NULL);
 
 	virtual void setBehaviourStates(BehaviourStates behaviour);
 	virtual BehaviourStates getBehaviourStates();

@@ -313,12 +313,12 @@ void SP3::Update(double dt)
 			if (go->GetObjectType() == PROJECTILE && go2->GetObjectType() == ENVIRONMENT)
 			{
 				float offset = 0;
-				if (dynamic_cast<ElementalObject*>(go)->GetElement() != FIRE && dynamic_cast<ElementalObject*>(go)->GetElement() != WATER)
-					offset = 50;
-				else
-					offset = 50;
+				//if (dynamic_cast<ElementalObject*>(go)->GetElement() != FIRE && dynamic_cast<ElementalObject*>(go)->GetElement() != WATER)
+				//	offset = 50;
+				//else
+				//	offset = 10;
 
-				if (go->EmpricalCheckCollisionWith(go2, dt, offset))
+				if (go->EmpricalCheckCollisionWith(go2, dt))
 				{
 					go2->CollisionResponse(go);
 					go->CollisionResponse(go2);

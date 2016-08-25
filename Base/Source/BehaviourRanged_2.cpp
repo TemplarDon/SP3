@@ -6,7 +6,7 @@ BehaviourRanged_2::BehaviourRanged_2()
 BehaviourRanged_2::~BehaviourRanged_2()
 {}
 
-void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack)
+void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack, GameObject_Map* Map)
 {
 	// Calculate DistanceToPlayer
 	float DistanceToPlayer = 0;
@@ -32,6 +32,7 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 		if (DistanceToPlayer <= 10)
 		{
 			behaviour = EVADE;
+			Attack = false;
 		}
 	}
 	else if(DistanceToPlayer > 25)

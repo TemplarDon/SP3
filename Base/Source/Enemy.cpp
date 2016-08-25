@@ -22,8 +22,10 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	}
 	else
 	{
-		this->m_Behaviour = new BehaviourMelee();
-		this->enemyType = MELEE;
+		//this->m_Behaviour = new BehaviourMelee();
+		//this->enemyType = MELEE;
+		this->m_Behaviour = new EarthBehaviour();
+		this->enemyType = BOSS;
 	}
 	
 	Attacks->Init(Damage, 5.0f);
@@ -36,6 +38,11 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 
 Enemy::~Enemy()
 {
+	if (m_Behaviour)
+	{
+		delete m_Behaviour;
+		m_Behaviour = NULL;
+	}
 }
 
 void  Enemy::setDetectionRange(float detectionRange)
@@ -148,6 +155,79 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			}
 			//GenerateCollisionBoundary(map);
 			//CheckCollisionBoundary();
+		}
+		else if (enemyType == BOSS)
+		{
+			bool Attack = false;
+			this->setDirectionBasedOnDistance(playerPosition, m_Position);
+			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
+			this->m_Destination = this->m_Behaviour->GetDestination();
+
+			if (m_Destination.x > m_Position.x)
+			{
+				MoveRight(0.1f);
+				rotate = true;
+			}
+			else if (m_Destination.x < m_Position.x)
+			{
+				MoveLeft(0.1f);
+				rotate = false;
+			}
+			else
+			{
+				rotate = true;
+			}
+
+			if (m_CurrEntityMoveState == FALLING)
+			{
+				EntityJumpUpdate(dt);
+			}
+
+			ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 90 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
+			GenerateCollisionBoundary(map);
+			CheckCollisionBoundary();
+			DebuffCheckAndApply(dt);
+
+			if (Attack)
+			{
+				ELEMENT tempElement;
+				switch (m_CurrElement)
+				{
+				case EARTH:
+				{
+					tempElement = EARTH;
+					break;
+				}
+				case EARTH_2:
+				{
+					tempElement = EARTH;
+					break;
+				}
+				}
+
+				if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::NORMAL_ATTACK_PHASE)
+				{
+					this->Attacks->SetisEnemy(true);
+					this->Attacks->UpdateAttack(dt, tempElement, this->m_Position, DirectionLeftRight);
+					this->Attacks->LaunchAttack(0);
+				}
+				else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
+				{
+					switch (tempElement)
+					{
+					case EARTH:
+					{
+						tempElement = EARTH_2;
+						break;
+					}
+					}
+
+					this->Attacks->SetisEnemy(true);
+					this->Attacks->UpdateAttack(dt, tempElement, this->m_Position, DirectionLeftRight);
+					this->Attacks->LaunchAttack(0);
+				}
+
+			}
 		}
 
 	

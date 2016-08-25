@@ -16,7 +16,7 @@ void Behaviour::Update(double dt, float distancePlayerToEnemy, float estimatedDi
 
 }
 
-void Behaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack)
+void Behaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack, GameObject_Map* Map)
 {
 
 }

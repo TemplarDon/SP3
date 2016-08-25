@@ -5,6 +5,8 @@
 #include "BehaviourRanged.h"
 #include "BehaviourMelee.h"
 #include "BehaviourRanged_2.h"
+#include "EarthBossBehaviour.h"
+
 class Enemy : public Entity
 {
 
@@ -15,6 +17,7 @@ public:
 		NIL,
 		MELEE,
 		RANGED,
+		BOSS,
 	};
 	Enemy();
 	~Enemy();
