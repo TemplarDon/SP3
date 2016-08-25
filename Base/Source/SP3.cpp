@@ -48,8 +48,10 @@ void SP3::Init()
 
 	rotateUI = 0;
 	rotateUI2 = 0;
-	treePos = 100;
-	orignalTreePos = 100;
+	treePos_x = 100;
+	orignalTreePos_x = 100;
+	treePos_y = 60;
+	orignalTreePos_y = 60;
 
 	//Physics code here
 	m_speed = 1.f;
@@ -484,35 +486,44 @@ void SP3::UpdateUI2(double dt)
 {
 
 	// Stalagmite
-	if (treePos >  (orignalTreePos - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
+	// X
+	if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
 	{
-        treePos -= ((float)dt * 0.5);
+		treePos_x -= ((float)dt * 0.5);
 	}
-	else if (treePos < (orignalTreePos - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
+	else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
 	{
-        treePos += ((float)dt * 0.5);
+		treePos_x += ((float)dt * 0.5);
 	}
-
+	// Y
+	if (treePos_y >(orignalTreePos_y - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
+	{
+		treePos_y -= ((float)dt * 0.5);
+	}
+	else if (treePos_y < (orignalTreePos_y - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
+	{
+		treePos_y += ((float)dt * 0.5);
+	}
 
 	// Move UI with screen
 	// X
-	if (UIPos_x < (originalUIPos_x + (m_Player->GetMapOffset_x() * 1) + (m_Player->GetMapFineOffset_x() * 1)))
+	if (UIPos_x  < originalUIPos_x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
+		UIPos_x += (float)dt * 8;
+	}
+	else if (UIPos_x  > originalUIPos_x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
+	{
+		UIPos_x -= (float)dt * 8;
+	}
 
-		UIPos_x += (dt * 8);
-	}
-	else if (UIPos_x >(originalUIPos_x + (m_Player->GetMapOffset_x() * 1) + (m_Player->GetMapFineOffset_x() * 1)) + 0.1)
-	{
-		UIPos_x -= (dt * 8);
-	}
 	// Y
-	if (UIPos_y < originalUIPos_y + (m_Player->GetMapOffset_y() * 1) + (m_Player->GetMapFineOffset_y() * 1))
+	if (UIPos_y < originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
-		UIPos_y += dt * 8;
+		UIPos_y += (float)dt * 8;
 	}
-	else if (UIPos_y > originalUIPos_y + (m_Player->GetMapOffset_y() * 1)+ (m_Player->GetMapFineOffset_y() *1) + 0.1)
+	else if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-		UIPos_y -= dt * 8;
+		UIPos_y -= (float)dt * 8;
 	}
 
 	//std::cout << m_Player->GetElement() << std::endl;
@@ -850,7 +861,7 @@ void SP3::Render()
 
 	//stalagmite
 	modelStack.PushMatrix();
-	modelStack.Translate(treePos , 60, -1);
+	modelStack.Translate(treePos_x , treePos_y, -1);
 	modelStack.Scale(120, 80, 1);
 	RenderMesh(meshList[GEO_TREE], false);
 	modelStack.PopMatrix();
@@ -947,7 +958,8 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	camera.target.x = m_Player->GetMapOffset_x();
 	// ------------------------------------------ // 
 
-	treePos = orignalTreePos;
+	treePos_x = orignalTreePos_x;
+	treePos_y = orignalTreePos_y;
 }
 
 void SP3::Exit()

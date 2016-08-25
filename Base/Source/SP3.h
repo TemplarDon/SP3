@@ -84,8 +84,10 @@ protected:
 	int paraWallTileOffset_x, paraWallTileOffset_y;
 	int paraWallFineOffset_x, paraWallFineOffset_y;
 	GameObject_Map* m_GoMap2;
-	float treePos;
-	float orignalTreePos;
+	float treePos_x;
+	float orignalTreePos_x;
+	float treePos_y;
+	float orignalTreePos_y;
 
 	// Transition
 	LEVEL m_LevelLoaded;
