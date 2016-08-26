@@ -67,11 +67,12 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 {
 	static float timer = 0;
 	static bool timerBool = false;
+	std::cout << "Curr health: " << CurrHealth << std::endl;
 	if (this->CurrHealth <= 0)
 	{
 		Death();
 	}
-	if (CurrHealth <= MaxHealth/2 && m_CurrEntityMoveState !=EDIBLE)
+	if (CurrHealth <= (MaxHealth/2) && m_CurrEntityMoveState !=EDIBLE)
 	{
 		m_CurrEntityMoveState = WEAKENED;
 	}
@@ -79,7 +80,6 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 	{
 		timer += dt;
 	}
-
 	if (m_CurrEntityMoveState == EDIBLE)
 	{
 		Vector3 Velocity(0, 0, 0);

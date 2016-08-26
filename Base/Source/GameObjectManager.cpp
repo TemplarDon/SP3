@@ -47,6 +47,11 @@ GameObject* GameObjectManager::FetchGameObject(OBJECT_TYPE ObjectType)
 			TempGameObject = new Collectibles();
 			break;
 		}
+		case OBJECT_TYPE::ENEMYSPAWNER:
+		{
+			TempGameObject = new EnemySpawner();
+			break;
+		}
 		}
 
 		return TempGameObject;

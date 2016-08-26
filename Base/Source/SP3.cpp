@@ -10,6 +10,7 @@
 
 #include "GameObjectManager.h"
 
+
 SP3::SP3()
 	: paraWallOffset_x(0)
 	, paraWallOffset_y(0)
@@ -224,7 +225,6 @@ void SP3::Update(double dt)
 	{
 		fButtonState = false;
 	}
-	//std::cout << fButtonState << std::endl;
 	// ----------------- Basic Element Selection ------------------ //
 	if (Application::IsKeyPressed('Q'))
 	{
@@ -339,7 +339,11 @@ void SP3::Update(double dt)
 				go->CollisionResponse(m_Player);
 			}
 		}
-
+		if (go->GetObjectType() == ENEMYSPAWNER)
+		{
+			EnemySpawner* temp = dynamic_cast<EnemySpawner*>(go);
+			temp->Update(dt);
+		}
 		for (std::vector<GameObject*>::size_type i2 = 0; i2 < GameObjectManager::m_goList.size(); ++i2)
 		{
 			GameObject *go2 = GameObjectManager::m_goList[i2];

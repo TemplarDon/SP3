@@ -9,7 +9,7 @@
 #include "GameObject_Map.h"
 #include "GameObject.h"
 #include "Player.h"
-
+#include "EnemySpawner.h"
 enum GAMESTATES
 {
 	PLAY,
