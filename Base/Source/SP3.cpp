@@ -29,6 +29,7 @@ void SP3::Init()
 	SceneBase::Init();
 
 	meshList[GEO_HEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 1, 0), 1.f);
+	meshList[GEO_HEALTH_BAR_WEAKENED] = MeshBuilder::GenerateQuad("Weakened State", Color(1, 0, 0), 1.f);
 	meshList[GEO_SHIELD_BAR] = MeshBuilder::GenerateQuad("player", Color(1, 0.4, 0.3), 1.f);
 	meshList[GEO_FIRE_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(1, 0, 0), 1.f);
 	meshList[GEO_WATER_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 0.4, 1), 1.f);
@@ -600,11 +601,16 @@ void SP3::RenderGO(GameObject *go)
 	}
 	if (go->GetObjectType() == ENEMY)
 	{
+		
 		modelStack.PushMatrix();
 		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + 5, go->GetPosition().z);
-
 		modelStack.PushMatrix();
-		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() * 0.8, 0, 0);
+
+
+		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() , 0, 0);
+
+
+		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() , 0, 0);
 		modelStack.Scale(5, 5, 5);
 		switch (dynamic_cast<ElementalObject*>(go)->GetElement())
 		{
@@ -614,9 +620,15 @@ void SP3::RenderGO(GameObject *go)
 		}
 
 		modelStack.PopMatrix();
-
-		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth(), 3, 1);
-		RenderMesh(meshList[GEO_HEALTH_BAR], false);
+		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth()*2, 3, 1);
+		if (dynamic_cast<Entity*>(go)->GetMoveState() == WEAKENED || dynamic_cast<Entity*>(go)->GetMoveState() == EDIBLE)
+		{
+			RenderMesh(meshList[GEO_HEALTH_BAR_WEAKENED], false);
+		}
+		else
+		{
+			RenderMesh(meshList[GEO_HEALTH_BAR], false);
+		}
 		modelStack.PopMatrix();
 	}
 }

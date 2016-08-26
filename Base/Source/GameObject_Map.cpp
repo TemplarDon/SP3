@@ -201,7 +201,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				temp->SetMesh(temp->getMeshVector()[0]);
 				temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
 				temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-				temp->SetEntityMaxHealth(10);
+				temp->SetEntityMaxHealth(100);
 				temp->EnemyInit(200, FIRE, 5, 400);
 				break;
 			}
@@ -227,7 +227,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 					   temp->SetMesh(temp->getMeshVector()[0]);
 					   temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
 					   temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-					   temp->SetEntityMaxHealth(30);
+					   temp->SetEntityMaxHealth(100);
 					   temp->EnemyInit(200, EARTH_2, 5, 400);
 					   break;
 			}

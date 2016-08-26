@@ -4,6 +4,8 @@
 Enemy::Enemy()
 {
 	m_Position.Set(0, 0, 0);
+	MaxHealth = 100;
+    CurrHealth = MaxHealth;
 	/*enemyPosition.Set(x, y, 0);
 	m_Behaviour = new Behaviour();
 	m_Behaviour->setAttack(attack);
@@ -61,9 +63,19 @@ float  Enemy::getDetectionRange()
 
 void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera)
 {
+	static float timer = 0;
+	static bool timerBool = false;
 	if (this->CurrHealth <= 0)
 	{
 		Death();
+	}
+	if (CurrHealth <= MaxHealth/2 && m_CurrEntityMoveState !=EDIBLE)
+	{
+		m_CurrEntityMoveState = WEAKENED;
+	}
+	if (timerBool == true)
+	{
+		timer += dt;
 	}
 
 	if (m_CurrEntityMoveState == EDIBLE)
@@ -71,37 +83,50 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		Vector3 Velocity(0, 0, 0);
 		Velocity = (playerPosition - m_Position); 
 		Velocity.Normalize();
-		m_Position += Velocity*dt*10;
-		m_CurrEntityMoveState = FALLING	;
+ 		m_Position += Velocity*dt * 10;
+		ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 90 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
+		GenerateCollisionBoundary(map);
+		CheckCollisionBoundary();
+		DebuffCheckAndApply(dt);
+		if (m_CurrEntityMoveState == FALLING)
+		{
+			EntityJumpUpdate(dt);
+		}
+		m_CurrEntityMoveState = WEAKENED;
 	}
-	else
+	
+	if (m_CurrEntityMoveState == WEAKENED)
+	{
+		if (timerBool == false)
+		{
+			timerBool = true;
+		}
+		
+		ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 90 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
+		GenerateCollisionBoundary(map);
+		CheckCollisionBoundary();
+		DebuffCheckAndApply(dt);
+		if (m_CurrEntityMoveState == FALLING)
+		{
+			EntityJumpUpdate(dt); 
+		}
+		if (m_CurrEntityMoveState != NO_STATE)
+		{
+			m_CurrEntityMoveState = WEAKENED;
+		}
+		if (timer >= 5.f)
+		{
+			CurrHealth = MaxHealth;
+			timerBool = false;
+			timer = 0;
+			m_CurrEntityMoveState = NO_STATE;
+		} 
+	}
+
+	if (m_CurrEntityMoveState != WEAKENED && m_CurrEntityMoveState != EDIBLE)
 	{
 		if (enemyType == RANGED)
 		{
-			////temp 
-			//this->setDistancePlayerToEnemy(playerPosition, m_Position);
-			//this->setDirectionBasedOnDistance(playerPosition, m_Position);
-			//m_Behaviour->Update(dt, distancePlayerToEnemy, estimatedDistance, m_Position, Move_Left, Move_Right, m_bJumping, DirectionLeftRight, m_CurrElement, attack, m_CurrEntityMoveState, detectionRange);
-			//if (Move_Left == true)
-			//{
-			//	MoveLeft(0.1f);
-			//}
-			//else if (Move_Right == true)
-			//{
-			//	MoveRight(0.1f);
-			//}
-			//if (m_CurrEntityMoveState == JUMPING)
-			//{
-			//	UpdateJump(dt);
-			//}
-			//else if (m_CurrEntityMoveState != ON_GROUND)
-			//{
-			//	EntityJumpUpdate(dt);
-			//}
-
-			//GenerateCollisionBoundary(map);
-			//CheckCollisionBoundary();
-
 			bool Attack = false;
 			this->setDirectionBasedOnDistance(playerPosition, m_Position);
 			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
@@ -135,28 +160,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				this->Attacks->Attack_Basic(m_CurrElement, GetElementLevel(m_CurrElement));
 			}
 		}
-		else if (enemyType == MELEE)
-		{
-			this->setDistancePlayerToEnemy(playerPosition, m_Position);
-			this->setDirectionBasedOnDistance(playerPosition, m_Position);
-			m_Behaviour->Update(dt, distancePlayerToEnemy, estimatedDistance, m_Position, Move_Left, Move_Right, m_bJumping, DirectionLeftRight, m_CurrElement, Attacks, m_CurrEntityMoveState, detectionRange);
-			if (Move_Left == true)
-			{
-				MoveLeft(0.1f);
-				//std::cout << "RUN 1" << std::endl;
-			}
-			else if (Move_Right == true)
-			{
-				MoveRight(0.1f);
-				//	std::cout << "RUN 2" << std::endl;
-			}
-			if (m_CurrEntityMoveState != ON_GROUND)
-			{
-				EntityJumpUpdate(dt);
-			}
-			//GenerateCollisionBoundary(map);
-			//CheckCollisionBoundary();
-		}
+
 		else if (enemyType == BOSS)
 		{
 			bool Attack = false;
@@ -209,20 +213,41 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
 				{
 					this->Attacks->SetisEnemy(true);
-					this->Attacks->UpdateAttack(dt,  this->m_Position, DirectionLeftRight);
+					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
 					this->Attacks->Attack_Ability(temp, GetElementLevel(temp));
 				}
 
 			}
 		}
-
-	
 	}
+	//else if (enemyType == MELEE)
+	//{
+	//	this->setDistancePlayerToEnemy(playerPosition, m_Position);
+	//	this->setDirectionBasedOnDistance(playerPosition, m_Position);
+	//	m_Behaviour->Update(dt, distancePlayerToEnemy, estimatedDistance, m_Position, Move_Left, Move_Right, m_bJumping, DirectionLeftRight, m_CurrElement, Attacks, m_CurrEntityMoveState, detectionRange);
+	//	if (Move_Left == true)
+	//	{
+	//		MoveLeft(0.1f);
+	//		//std::cout << "RUN 1" << std::endl;
+	//	}
+	//	else if (Move_Right == true)
+	//	{
+	//		MoveRight(0.1f);
+	//		//	std::cout << "RUN 2" << std::endl;
+	//	}
+	//	if (m_CurrEntityMoveState != ON_GROUND)
+	//	{
+	//		EntityJumpUpdate(dt);
+	//	}
+	//}
+
+
+}
 
 
 
 	
-}
+
 
 void Enemy::CollisionResponse(GameObject* OtherGo)
 {
@@ -233,17 +258,18 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
 
     if (OtherGo->GetObjectType() == PROJECTILE)
     {
-        if (this->m_ObjectType == ENEMY && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
+        if (this->m_ObjectType == ENEMY && this->m_CurrEntityMoveState==WEAKENED && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
         {
           //  this->debuff_Edible = true;
 			this->m_CurrEntityMoveState = EDIBLE;
+			std::cout << "HIT " << std::endl;
         }
     }
 
     if (OtherGo->GetObjectType() == PROJECTILE&& tempProj->getIsHostileProjectile() == false)
     {
 
-        if (tempProj->GetElement() == FIRE)
+        if (tempProj->GetElement() == FIRE || tempProj->GetElement() == FIRE_2)
         {
             if (m_CurrElement == WATER)
                 DamagMultiplier = 0.5;
@@ -252,9 +278,9 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
             if (m_CurrElement == EARTH)
                 DamagMultiplier = 1.5;
 
-            DamagMultiplier = DamagMultiplier * 0.6;
+            DamagMultiplier = DamagMultiplier * 0.4;
         }
-        if (tempProj->GetElement() == WATER)
+		if (tempProj->GetElement() == WATER || tempProj->GetElement() == WATER_2)
         {
             if (m_CurrElement == WATER)
                 DamagMultiplier = 1;
@@ -263,7 +289,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
             if (m_CurrElement == EARTH)
                 DamagMultiplier = 0.5;
         }
-        if (tempProj->GetElement() == EARTH)
+		if (tempProj->GetElement() == EARTH || tempProj->GetElement() == EARTH_2)
         {
             if (m_CurrElement == WATER)
                 DamagMultiplier = 1.5;

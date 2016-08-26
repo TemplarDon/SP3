@@ -24,7 +24,7 @@ void Player::Init(void)
 {
 	SetEntityMaxHealth(50);
     CurrHealth = MaxHealth;
-    Damage = 5;
+    Damage = 3;
 	SetEntityMovementSpeed(1);
     Attacks->Init(GetEntityDamage(), 10.f);
 	m_RespawnPos = m_Position;

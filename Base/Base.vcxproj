@@ -18,6 +18,7 @@
     <ClCompile Include="Source\BehaviourRanged.cpp" />
     <ClCompile Include="Source\BehaviourRanged_2.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Collectible.cpp" />
     <ClCompile Include="Source\EarthBossBehaviour.cpp" />
     <ClCompile Include="Source\ElementalObject.cpp" />
     <ClCompile Include="Source\Enemy.cpp" />
@@ -51,6 +52,7 @@
     <ClInclude Include="Source\BehaviourRanged.h" />
     <ClInclude Include="Source\BehaviourRanged_2.h" />
     <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="Source\Collectibles.h" />
     <ClInclude Include="Source\EarthBossBehaviour.h" />
     <ClInclude Include="Source\ElementalObject.h" />
     <ClInclude Include="Source\Enemy.h" />

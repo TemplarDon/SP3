@@ -533,6 +533,10 @@ void Entity::CheckCollisionBoundary()
 		JumpVel = 0;
 		m_CurrEntityMoveState = ON_GROUND;
 	}
+	else
+	{ 
+		m_CurrEntityMoveState = FALLING;
+	}
 }
 
 
@@ -585,7 +589,7 @@ void Entity::DebuffCheckAndApply(double dt)
 		if (deBuff_StunTimer >= 10.f)
 		{
 			deBuff_Stunned = false;
-			isLockMovement = false;
+			  = false;
 			deBuff_StunTimer = 0.f;
 		}*/
 	}
