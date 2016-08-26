@@ -53,7 +53,6 @@ public:
 	void UpdateUI(double dt);
 	void UpdateUI2(double dt);
 	void RenderUI();
-	void RenderUI2();
 	void RenderUIText();
 
 protected:

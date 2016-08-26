@@ -374,7 +374,7 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
     interDT = dt;
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();
-	ConstrainPlayer(25 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 25 + mapOffset_y + mapFineOffset_y, 60 + mapOffset_y + mapFineOffset_y, 1.5, camera);
+	ConstrainPlayer(25 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 60 + mapOffset_y + mapFineOffset_y, 1.5, camera);
 	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 
     ExecuteAbility(dt);
