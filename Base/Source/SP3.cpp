@@ -604,13 +604,9 @@ void SP3::RenderGO(GameObject *go)
 		
 		modelStack.PushMatrix();
 		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + 5, go->GetPosition().z);
+
 		modelStack.PushMatrix();
-
-
-		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() , 0, 0);
-
-
-		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() , 0, 0);
+		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() * 1.25 , 0, 0);
 		modelStack.Scale(5, 5, 5);
 		switch (dynamic_cast<ElementalObject*>(go)->GetElement())
 		{
@@ -620,7 +616,8 @@ void SP3::RenderGO(GameObject *go)
 		}
 
 		modelStack.PopMatrix();
-		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth()*2, 3, 1);
+
+		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth() * 2, 3, 1);
 		if (dynamic_cast<Entity*>(go)->GetMoveState() == WEAKENED || dynamic_cast<Entity*>(go)->GetMoveState() == EDIBLE)
 		{
 			RenderMesh(meshList[GEO_HEALTH_BAR_WEAKENED], false);
