@@ -32,7 +32,8 @@ AttackBase::AttackBase()
     ab_FIRE2_CDtimer = 0.f;
     ab_WATER2_timer = 0.f;
     ab_WATER2_CDtimer = 0.f;
-	ab_EARTH2_CDtimer = 0.f;
+    ab_EARTH2_CDtimer = 0.f;
+
 
 }
 AttackBase::~AttackBase()
@@ -124,7 +125,7 @@ void AttackBase::Debouncers(double dt)
     if (ab_Cataclysm_isCD)
     {
         ab_EARTH2_CDtimer += (float)dt;
-        if (ab_EARTH2_CDtimer >= 4)
+        if (ab_EARTH2_CDtimer >= 2.5)
         {
             ab_Cataclysm_isCD = false;
             ab_EARTH2_CDtimer = 0.f;

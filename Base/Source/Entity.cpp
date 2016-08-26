@@ -597,6 +597,7 @@ void Entity::DebuffCheckAndApply(double dt)
 void Entity::TakeDamage(int input)
 {
     input = input * DamagMultiplier;
+    
     float DmgToHealth;
     float DmgToSheild;
     SheildRegen = false;

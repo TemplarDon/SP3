@@ -250,6 +250,8 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
                 DamagMultiplier = 1;
             if (m_CurrElement == EARTH)
                 DamagMultiplier = 1.5;
+
+            DamagMultiplier = DamagMultiplier * 0.6;
         }
         if (tempProj->GetElement() == WATER)
         {
