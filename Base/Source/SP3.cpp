@@ -824,19 +824,29 @@ void SP3::RenderUIText()
 	std::ostringstream ss;
 	ss.precision(5);
 	ss << m_Player->GetElementLevel(FIRE);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 12, 47.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 2.5, 15, 47.8);
 
 	// Water Element Level
 	std::ostringstream ss1;
 	ss1.precision(5);
 	ss1 << m_Player->GetElementLevel(WATER);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 3, 12, 43.4);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 2.5, 15, 43.7);
 
 	// Earth Element Level
 	std::ostringstream ss2;
 	ss2.precision(5);
 	ss2 << m_Player->GetElementLevel(EARTH);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 3, 12, 39.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 2.5, 15, 39.8);
+
+	// Health Charges
+	for (int i = 0; i < m_Player->GetHealthCharges(); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(10 + (i * 5), 20, 1);
+		modelStack.Scale(4.5, 4.5, 1);
+		RenderMesh(meshList[GEO_HEART_ICON], false);
+		modelStack.PopMatrix();
+	}
 
 	modelStack.PopMatrix(); // Do not delete this line
 }
