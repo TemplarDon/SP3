@@ -2,7 +2,6 @@
 
 #include "GameObjectManager.h"
 
-
 #include "GL\glew.h"
 #include "LoadTGA.h"
 
@@ -36,19 +35,19 @@ Entity::Entity()
 	m_MinCollisionBox.Set(-99999, -99999, 0);
 
 	// Initialise Levels
-	//m_ElementsPercentageMap[FIRE] = 10.f;
-	//m_ElementsPercentageMap[WATER] = 10.f;
-	//m_ElementsPercentageMap[EARTH] = 10.f;
-	SetElementPercentage(FIRE, 10.f);
-	SetElementPercentage(WATER, 8.f);
-	SetElementPercentage(EARTH, 6.f);
+	m_ElementsPercentageMap[FIRE] = 0;
+	m_ElementsPercentageMap[WATER] = 0;
+	m_ElementsPercentageMap[EARTH] = 0;
+	//SetElementPercentage(FIRE, 0.f);
+	//SetElementPercentage(WATER, 0.f);
+	//SetElementPercentage(EARTH, 0.f);
 	
-	//m_ElementsLevelMap[FIRE] = 1;
-	//m_ElementsLevelMap[WATER] = 1;
-	//m_ElementsLevelMap[EARTH] = 1;
-	SetElementLevel(FIRE, 1);
-	SetElementLevel(WATER, 1);
-	SetElementLevel(EARTH, 1);
+	m_ElementsLevelMap[FIRE] = 1;
+	m_ElementsLevelMap[WATER] = 1;
+	m_ElementsLevelMap[EARTH] = 1;
+	//SetElementLevel(FIRE, 1);
+	//SetElementLevel(WATER, 1);
+	//SetElementLevel(EARTH, 1);
 }
 
 Entity::~Entity()
@@ -660,7 +659,7 @@ void Entity::GainExp(ELEMENT ElementToGain, float Amount)
 {
 	m_ElementsPercentageMap[ElementToGain] += Amount;
 
-	if (m_ElementsPercentageMap[ElementToGain] >= 100)
+	if (m_ElementsPercentageMap[ElementToGain] >= 10)
 	{
 		LevelUp(ElementToGain);
 	}
@@ -688,6 +687,8 @@ void Entity::LevelUp(ELEMENT ElementToLevel)
 		break;
 	}
 	}
+
+	m_ElementsPercentageMap[ElementToLevel] = 0;
 }
 
 void Entity::SetElementPercentage(ELEMENT ElementType, float percentage)
@@ -709,33 +710,35 @@ void Entity::SetElementPercentage(ELEMENT ElementType, float percentage)
 	//	this->EarthPercentage = percentage;
 	//}
 
-	if (ElementType == FIRE)
-	{
-		this->m_ElementsPercentageMap.insert(std::pair<ELEMENT, float>(FIRE, percentage));
-	}
-	else if (ElementType == WATER)
-	{
-		this->m_ElementsPercentageMap.insert(std::pair<ELEMENT, float>(WATER, percentage));
-	}
-	else if (ElementType == EARTH)
-	{
-		this->m_ElementsPercentageMap.insert(std::pair<ELEMENT, float>(EARTH, percentage));
-	}
+	//if (ElementType == FIRE)
+	//{
+	//	this->m_ElementsPercentageMap.insert(std::pair<ELEMENT, float>(FIRE, percentage));
+	//}
+	//else if (ElementType == WATER)
+	//{
+	//	this->m_ElementsPercentageMap.insert(std::pair<ELEMENT, float>(WATER, percentage));
+	//}
+	//else if (ElementType == EARTH)
+	//{
+	//	this->m_ElementsPercentageMap.insert(std::pair<ELEMENT, float>(EARTH, percentage));
+	//}
+
+	m_ElementsPercentageMap[ElementType] = percentage;
 }
 
 float Entity::GetElementPercentage(ELEMENT ELementType)
 {
 	if (ELementType == FIRE || ELementType==FIRE_2)
 	{
-		return  m_ElementsPercentageMap[FIRE];
+		return m_ElementsPercentageMap[FIRE];
 	}
 	else if (ELementType == WATER || ELementType == WATER_2)
 	{
-		return  m_ElementsPercentageMap[WATER];
+		return m_ElementsPercentageMap[WATER];
 	}
 	else if (ELementType == EARTH || ELementType == EARTH_2)
 	{
-		return  m_ElementsPercentageMap[EARTH];
+		return m_ElementsPercentageMap[EARTH];
 	}
 }
 
@@ -757,16 +760,18 @@ void Entity::SetElementLevel(ELEMENT ElementType, float level)
 
 int Entity::GetElementLevel(ELEMENT ELementType)
 {
-	if (ELementType == FIRE)
-	{
-		return FireLevel;
-	}
-	else if (ELementType == WATER)
-	{
-		return WaterLevel;
-	}
-	else if (ELementType == EARTH)
-	{
-		return EarthLevel;
-	}
+	//if (ELementType == FIRE)
+	//{
+	//	return FireLevel;
+	//}
+	//else if (ELementType == WATER)
+	//{
+	//	return WaterLevel;
+	//}
+	//else if (ELementType == EARTH)
+	//{
+	//	return EarthLevel;
+	//}
+
+	return m_ElementsLevelMap[ELementType];
 }

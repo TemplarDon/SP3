@@ -705,7 +705,7 @@ void SP3::RenderUI()
 	}
 
 	// Fire Element Exp Percentage Bar
-	for (int i = 0; i < (m_Player->GetElementPercentage(FIRE)/10); i++)
+	for (int i = 0; i < (m_Player->GetElementPercentage(FIRE)); i++)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate((healthbarpos_x + 5) + (i * 1.2), 65, 1);
@@ -715,7 +715,7 @@ void SP3::RenderUI()
 	}
 
 	// Water Element Exp Percentage Bar
-	for (int i = 0; i < (m_Player->GetElementPercentage(WATER) / 10); i++)
+	for (int i = 0; i < (m_Player->GetElementPercentage(WATER)); i++)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate((healthbarpos_x + 5)+(i * 1.2), 60, 1);
@@ -725,7 +725,7 @@ void SP3::RenderUI()
 	}
 
 	// Earth Element Exp Percentage Bar
-	for (int i = 0; i <( m_Player->GetElementPercentage(EARTH) / 10); i++)
+	for (int i = 0; i <( m_Player->GetElementPercentage(EARTH)); i++)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate((healthbarpos_x + 5)+(i * 1.2), 55, 1);

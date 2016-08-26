@@ -41,6 +41,8 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	this->estimatedDistance = estimatedDistance;
 	this->m_CurrElement = m_CurrElement;
 	this->detectionRange = detectionRange;
+
+	m_ElementsPercentageMap[m_CurrElement] = 5.f;
 }
 
 Enemy::~Enemy()
@@ -142,18 +144,39 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				MoveLeft(0.1f);
 				rotate = false;
 			}
+			else
+			{
+				if (playerPosition.x > m_Position.x)
+				{
+					rotate = true;
+				}
+				else
+				{
+					rotate = false;
+				}
+			}
+
+			bool AttackDir = false;
+			if (playerPosition.x > m_Position.x)
+			{
+				AttackDir = true;
+			}
+			else
+			{
+				AttackDir = false;
+			}
 
 			if (m_CurrEntityMoveState == FALLING)
 			{
 				EntityJumpUpdate(dt);
 			}
 
-			ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 90 + mapOffset_x + mapFineOffset_x, 25, 580, 1.5, camera);
+			ConstrainPlayer(0, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 0, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
 			GenerateCollisionBoundary(map);
 			CheckCollisionBoundary();
 			DebuffCheckAndApply(dt);
 
-			if (Attack)
+			if (Attack && DirectionLeftRight == AttackDir)
 			{
 				this->Attacks->SetisEnemy(true);
 				this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
@@ -178,6 +201,27 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				MoveLeft(0.1f);
 				rotate = false;
 			}
+			else
+			{
+				if (playerPosition.x > m_Position.x)
+				{
+					rotate = true;
+				}
+				else
+				{
+					rotate = false;
+				}
+			}
+
+			bool AttackDir = false;
+			if (playerPosition.x > m_Position.x)
+			{
+				AttackDir = true;
+			}
+			else
+			{
+				AttackDir = false;
+			}
 
 			if (m_CurrEntityMoveState == FALLING)
 			{
@@ -189,7 +233,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			CheckCollisionBoundary();
 			DebuffCheckAndApply(dt);
 
-			if (Attack)
+			if (Attack && DirectionLeftRight == AttackDir)
 			{
 				ELEMENT temp;
 				if (m_CurrElement == FIRE_2)

@@ -87,12 +87,12 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 				int rand = Math::RandIntMinMax(0, 1);
 				if (rand == 1)
 				{
-					m_DestinationToReturn = CurrPos + Vector3(100, 0, 0);
+					m_DestinationToReturn = CurrPos + Vector3(50, 0, 0);
 					m_DirectionSet = true;
 				}
 				else if (rand == 0)
 				{
-					m_DestinationToReturn = CurrPos - Vector3(100, 0, 0);
+					m_DestinationToReturn = CurrPos - Vector3(50, 0, 0);
 					m_DirectionSet = true;
 				}
 				m_RunOnce = true;

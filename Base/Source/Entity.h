@@ -192,8 +192,8 @@ protected:
 	std::vector<SpriteAnimation*> AnimationSpriteList;
 
 	// ----------------------- Elements & Levels -------------------------- //
-	std::map <ELEMENT, float> m_ElementsPercentageMap;
-	std::map <ELEMENT, int> m_ElementsLevelMap;
+	std::map<ELEMENT, float> m_ElementsPercentageMap;
+	std::map<ELEMENT, int> m_ElementsLevelMap;
 	// ------------------------------------------------------------------- //
 };
 
