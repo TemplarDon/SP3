@@ -839,11 +839,20 @@ void SP3::RenderUIText()
 	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 2.5, 15, 39.8);
 
 	// Health Charges
+	for (int i = 0; i < 5; i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(10 + (i * 4.3), 18, 1);
+		modelStack.Scale(4.5, 4.5, 1);
+		RenderMesh(meshList[GEO_HEART2_ICON], false);
+		modelStack.PopMatrix();
+	}
+
 	for (int i = 0; i < m_Player->GetHealthCharges(); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(10 + (i * 5), 20, 1);
-		modelStack.Scale(4.5, 4.5, 1);
+		modelStack.Translate(10 + (i * 4.3), 18, 2);
+		modelStack.Scale(3.5, 3.5, 1);
 		RenderMesh(meshList[GEO_HEART_ICON], false);
 		modelStack.PopMatrix();
 	}

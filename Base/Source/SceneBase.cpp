@@ -143,6 +143,8 @@ void SceneBase::Init()
 	meshList[GEO_CHARGE_WHEEL]->textureID = LoadTGA("Image//UI//charge.tga");
 	meshList[GEO_HEART_ICON] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
 	meshList[GEO_HEART_ICON]->textureID = LoadTGA("Image//UI//heart_icon.tga");
+	meshList[GEO_HEART2_ICON] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
+	meshList[GEO_HEART2_ICON]->textureID = LoadTGA("Image//UI//heart2_icon.tga");
 	meshList[GEO_SHIELD_ICON] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
 	meshList[GEO_SHIELD_ICON]->textureID = LoadTGA("Image//UI//shield_icon.tga");
 
