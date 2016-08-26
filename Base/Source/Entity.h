@@ -144,6 +144,7 @@ protected:
 	int mapOffset_x, mapOffset_y;
 	float mapFineOffset_x, mapFineOffset_y;
 	float MovementSpeed;
+	float SlowedSpeed;
     float prevMS;
     Mesh* SheildMesh;
 	

@@ -35,6 +35,7 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	Attacks->Init(Damage, 5.0f);
 	//Attacks->SetAttackElement(m_CurrElement);
 	MovementSpeed = 0.1f;
+	SlowedSpeed = MovementSpeed * 0.5;
 	this->estimatedDistance = estimatedDistance;
 	this->m_CurrElement = m_CurrElement;
 	this->detectionRange = detectionRange;
@@ -62,7 +63,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 {
 	if (this->CurrHealth <= 0)
 	{
-		this->SetActive(false);
+		Death();
 	}
 
 	if (m_CurrEntityMoveState == EDIBLE)

@@ -27,7 +27,7 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 	}
 
 	// Change BehaviourState, if needed
-	if (DistanceToPlayer <= 25)
+	if (DistanceToPlayer <= 45)
 	{
 		behaviour = ATTACK;
 		Attack = true;
@@ -37,7 +37,7 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 			Attack = false;
 		}
 	}
-	else if(DistanceToPlayer > 25)
+	else if(DistanceToPlayer > 45)
 	{
 		behaviour = NEUTRAL;
 	}
@@ -148,11 +148,11 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 		{
 			if (PlayerRight)
 			{
-				m_DestinationToReturn = PlayerPos - Vector3(15, 0, 0);
+				m_DestinationToReturn = PlayerPos - Vector3(35, 0, 0);
 			}
 			else if (PlayerLeft)
 			{
-				m_DestinationToReturn = PlayerPos + Vector3(15, 0, 0);
+				m_DestinationToReturn = PlayerPos + Vector3(35, 0, 0);
 			}
 			break;
 		}

@@ -122,7 +122,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 			if (temp->GetElement() == EARTH_2)
 			{
-				float TempLifeTime = temp->GetElementLevel() * 2 + 90;
+				float TempLifeTime = temp->GetElementLevel() * 2 + 5;
 				float radius = 15;
 
 				Mesh* Quad = MeshBuilder::GenerateQuad("Quad", Color(1, 1, 1));
@@ -144,6 +144,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 						temp1->SetLifeTimeBool(true);
 						temp1->SetLifeTime(TempLifeTime);
 						Map->AddIntoMap(temp1);
+						delete temp1;
 					}
 
 					if (Map->m_GameObjectMap[LeftSpawnTile_Y + 1][LeftSpawnTile_X]->GetType() == GO_NONE)
@@ -152,6 +153,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 						temp2->SetLifeTimeBool(true);
 						temp2->SetLifeTime(TempLifeTime);
 						Map->AddIntoMap(temp2);
+						delete temp2;
 					}
 				}
 			}

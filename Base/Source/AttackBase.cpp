@@ -249,7 +249,7 @@ void AttackBase::Ability_Run()
     else if (ab_Cataclysm)
     {
         Projectile* temp;
-        temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+        temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(3, 3, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
         temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, EARTH_2, false, 60.f, m_ElementLevel);
 		temp->setIsHostileProjectile(this->isEnemy);
 
@@ -285,7 +285,7 @@ void AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
         if (m_CurrElement == EARTH)
         {
             Projectile* temp;
-            temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
+            temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(3, 3, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
             temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, m_CurrElement, false, 60.f);
 			temp->setIsHostileProjectile(this->isEnemy);
 

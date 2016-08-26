@@ -21,6 +21,7 @@ Entity::Entity()
 	JUMPACCEL = 10;
 	Gravity = -9.8f;
 	MovementSpeed = 1;
+	SlowedSpeed = MovementSpeed * 0.5;
     //for abilities
     isLockMovement = false;
     deBuff_burning = false;
@@ -566,12 +567,12 @@ void Entity::DebuffCheckAndApply(double dt)
    
     if (deBuff_Slowed)
     {
-        MovementSpeed = 0.5;
+        MovementSpeed = SlowedSpeed;
         deBuff_SlowTimer += 2 * (float)dt;
         if (deBuff_SlowTimer >= 10.f)
         {
             deBuff_Slowed = false;
-            MovementSpeed = 1;
+			MovementSpeed = SlowedSpeed * 2;
             deBuff_SlowTimer = 0.f;
         }
     }

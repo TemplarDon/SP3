@@ -331,6 +331,14 @@ void SP3::Update(double dt)
             temp->Update_Sheild(m_Player->GetPosition());
         }
 
+		if (go->GetObjectType() == COLLECTIBLE)
+		{
+			if (go->EmpricalCheckCollisionWith(m_Player, dt))
+			{
+				go->CollisionResponse(m_Player);
+			}
+		}
+
 		for (std::vector<GameObject*>::size_type i2 = 0; i2 < GameObjectManager::m_goList.size(); ++i2)
 		{
 			GameObject *go2 = GameObjectManager::m_goList[i2];
@@ -340,7 +348,11 @@ void SP3::Update(double dt)
 
 			if (go->GetObjectType() == PROJECTILE && go2->GetObjectType() == ENVIRONMENT)
 			{
-				if (go->EmpricalCheckCollisionWith(go2, dt, 25))
+				float offset = 25;
+				if (dynamic_cast<ElementalObject*>(go)->GetElement() == EARTH || dynamic_cast<ElementalObject*>(go)->GetElement() == EARTH_2)
+					offset = 35;
+
+				if (go->EmpricalCheckCollisionWith(go2, dt, offset))
 				{
 					dynamic_cast<Environment*>(go2)->CollisionResponse(go, m_GoMap);
 					go->CollisionResponse(go2);
@@ -356,7 +368,7 @@ void SP3::Update(double dt)
                 if (go->EmpricalCheckCollisionWith(go2, dt))
                 {
 					temp->CollisionResponse(go);
-                }
+                }				
 			/*	else if (!go->EmpricalCheckCollisionWith(go2, dt) && go2->GetObjectType() == ENEMY)
 				{
 					Entity* temp = dynamic_cast<Entity*>(go2);
@@ -592,7 +604,7 @@ void SP3::RenderGO(GameObject *go)
 		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + 5, go->GetPosition().z);
 
 		modelStack.PushMatrix();
-		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() * 0.5, 0, 0);
+		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() * 0.8, 0, 0);
 		modelStack.Scale(5, 5, 5);
 		switch (dynamic_cast<ElementalObject*>(go)->GetElement())
 		{
@@ -1134,6 +1146,12 @@ void SP3::Exit()
 	{
 		delete m_Map;
 		m_Map = NULL;
+	}
+
+	if (m_GoMap)
+	{
+		delete m_GoMap;
+		m_GoMap = NULL;
 	}
 
 	//if (m_ParallaxMap)
