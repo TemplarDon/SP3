@@ -245,6 +245,36 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 					   break;
 			}
 
+			case 28:
+			{
+				// Fire Boss portal
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Portal//fire_boss_door.tga"));
+				temp->Init(false, false);
+				temp->SetNextTransition(FIRE_BOSS_LEVEL);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
+
+			case 29:
+			{
+				// Water Boss portal
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Portal//water_boss_door.tga"));
+				temp->Init(false, false);
+				temp->SetNextTransition(WATER_BOSS_LEVEL);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			} 
+
+			case 30:
+			{
+				// Earth Boss portal
+				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Portal//earth_boss_door.tga"));
+				temp->Init(false, false);
+				temp->SetNextTransition(EARTH_BOSS_LEVEL);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
+
 			}
 		}
 	}

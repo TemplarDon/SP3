@@ -49,6 +49,8 @@ Entity::Entity()
 	SetElementLevel(FIRE, 1);
 	SetElementLevel(WATER, 1);
 	SetElementLevel(EARTH, 1);
+
+	SheildRegenTimer = 0.f;
 }
 
 Entity::~Entity()
@@ -394,7 +396,7 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
         }
         if (SheildRegen)
         {
-            CurrSheild += 50 * (float)dt;
+            CurrSheild += 5 * (float)dt;
             if (CurrSheild > MaxSheild)
             {
                 CurrSheild = MaxSheild;
