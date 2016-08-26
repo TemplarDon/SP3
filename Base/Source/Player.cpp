@@ -51,6 +51,7 @@ void Player::Death()
 {
 	m_Position = m_RespawnPos;
 	CurrHealth = 10;
+	CurrSheild = 10;
 }
 
 LEVEL Player::GetCurrentLevel()

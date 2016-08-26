@@ -224,7 +224,7 @@ void SP3::Update(double dt)
 	{
 		fButtonState = false;
 	}
-	std::cout << fButtonState << std::endl;
+	//std::cout << fButtonState << std::endl;
 	// ----------------- Basic Element Selection ------------------ //
 	if (Application::IsKeyPressed('Q'))
 	{
@@ -483,6 +483,8 @@ void SP3::Update(double dt)
 		else
 			Distance_X = bulletspeed * cos(Math::DegreeToRadian(theta)) * TimeToLand_2;
 	}
+
+	std::cout << "Curr shield " << m_Player->GetCurrShield() << std::endl;
 }
 
 void SP3::UpdateUI(double dt)
@@ -734,6 +736,47 @@ void SP3::RenderUI()
 		modelStack.PopMatrix();
 	}
 
+	switch (m_Player->GetElement())
+	{
+	case 3:
+	{
+		// Arrow
+		modelStack.PushMatrix();
+		modelStack.Translate((healthbarpos_x - 2.3), 65, 1);
+		modelStack.Scale(2.5, 2.5, 1);
+		modelStack.Rotate(180, 0, 0, 1);
+		RenderMesh(meshList[GEO_ARROW], false);
+		modelStack.PopMatrix();
+
+		break;
+	}
+	case 4:
+	{
+		// Arrow
+		modelStack.PushMatrix();
+		modelStack.Translate((healthbarpos_x - 2.3), 55, 1);
+		modelStack.Scale(2.5, 2.5, 1);
+		modelStack.Rotate(180, 0, 0, 1);
+		RenderMesh(meshList[GEO_ARROW], false);
+		modelStack.PopMatrix();
+		break; 
+	}
+	case 5:
+	{
+		// Arrow
+		modelStack.PushMatrix();
+		modelStack.Translate((healthbarpos_x - 2.3), 60, 1);
+		modelStack.Scale(2.5, 2.5, 1);
+		modelStack.Rotate(180, 0, 0, 1);
+		RenderMesh(meshList[GEO_ARROW], false);
+		modelStack.PopMatrix();
+		break;
+	}
+	default:
+		break;
+	}
+
+
 	// Shield icon
 	modelStack.PushMatrix();
 	modelStack.Translate((healthbarpos_x + 1), 75, 1);
@@ -769,25 +812,6 @@ void SP3::RenderUI()
 	RenderMesh(meshList[GEO_EARTH_ICON], false);
 	modelStack.PopMatrix();
 
-
-	//// Fire Element Level
-	//std::ostringstream ss;
-	//ss.precision(5);
-	//ss << m_Player->GetElementLevel(FIRE);
-	//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 12, 47.5);
-
-	//// Water Element Level
-	//std::ostringstream ss1;
-	//ss1.precision(5);
-	//ss1 << m_Player->GetElementLevel(WATER);
-	//RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 3, 12, 43.4);
-
-	//// Earth Element Level
-	//std::ostringstream ss2;
-	//ss2.precision(5);
-	//ss2 << m_Player->GetElementLevel(EARTH);
-	//RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 3, 12, 39.5);
-
 	modelStack.PopMatrix(); // Do not delete this line
 }
 
@@ -800,19 +824,38 @@ void SP3::RenderUIText()
 	std::ostringstream ss;
 	ss.precision(5);
 	ss << m_Player->GetElementLevel(FIRE);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 3, 12, 47.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 1, 0), 2.5, 15, 47.8);
 
 	// Water Element Level
 	std::ostringstream ss1;
 	ss1.precision(5);
 	ss1 << m_Player->GetElementLevel(WATER);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 3, 12, 43.4);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss1.str(), Color(0, 1, 0), 2.5, 15, 43.7);
 
 	// Earth Element Level
 	std::ostringstream ss2;
 	ss2.precision(5);
 	ss2 << m_Player->GetElementLevel(EARTH);
-	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 3, 12, 39.5);
+	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 2.5, 15, 39.8);
+
+	// Health Charges
+	for (int i = 0; i < 5; i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(10 + (i * 4.3), 18, 1);
+		modelStack.Scale(4.5, 4.5, 1);
+		RenderMesh(meshList[GEO_HEART2_ICON], false);
+		modelStack.PopMatrix();
+	}
+
+	for (int i = 0; i < m_Player->GetHealthCharges(); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(10 + (i * 4.3), 18, 2);
+		modelStack.Scale(3.5, 3.5, 1);
+		RenderMesh(meshList[GEO_HEART_ICON], false);
+		modelStack.PopMatrix();
+	}
 
 	modelStack.PopMatrix(); // Do not delete this line
 }
@@ -1090,6 +1133,24 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	{
 		m_Map->LoadMap("Image//Maps//Earth.csv"); 
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_background.tga");
+		break;
+	}
+	case WATER_BOSS_LEVEL:
+	{
+		m_Map->LoadMap("Image//Maps//Water_Boss.csv");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
+		break;
+	}
+	case EARTH_BOSS_LEVEL:
+	{
+		m_Map->LoadMap("Image//Maps//Earth_Boss.csv");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_boss_background.tga");
+		break;
+	}
+	case FIRE_BOSS_LEVEL:
+	{
+		m_Map->LoadMap("Image//Maps//Fire_Boss.csv");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//fire_boss_background.tga");
 		break;
 	}
 	default:

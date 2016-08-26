@@ -393,7 +393,7 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
         }
         if (SheildRegen)
         {
-            CurrSheild += 50 * (float)dt;
+            CurrSheild += 5 * (float)dt;
             if (CurrSheild > MaxSheild)
             {
                 CurrSheild = MaxSheild;
