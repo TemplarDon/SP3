@@ -34,6 +34,9 @@ void SP3::Init()
 	meshList[GEO_WATER_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 0.4, 1), 1.f);
 	meshList[GEO_EARTH_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(0.7, 0.5, 0.3), 1.f);
 
+	meshList[GEO_TARGET] = MeshBuilder::GenerateQuad("earth target", Color(0.7, 0.5, 0.3), 1.f);
+	meshList[GEO_TARGET]->textureID = LoadTGA("Image//UI//target.tga");
+
 	//Calculating aspect ratio
 	m_worldHeight = 100.f;
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -343,6 +346,10 @@ void SP3::Update(double dt)
 					go->CollisionResponse(go2);
 				}
 			}
+
+			if (go2->GetType() == GO_BLOCK)
+				continue;
+
             if ((go->GetObjectType() == PROJECTILE) && (go2->GetObjectType() == PLAYER || go2->GetObjectType() == ENEMY) )
             {
 				Entity* temp = dynamic_cast<Entity*>(go2);
@@ -356,9 +363,6 @@ void SP3::Update(double dt)
 					temp->SetMoveState(NO_STATE);
 				}*/
             }
-
-			if (go2->GetType() == GO_BLOCK)
-				continue;
 
 			if (go->GetObjectType() == PLAYER && go2->GetObjectType() == ENVIRONMENT)
 			{
@@ -449,8 +453,22 @@ void SP3::Update(double dt)
 	// ------------------- Earth Attack Estimated Landing ------------------------ //
 	if (m_Player->GetElement() == EARTH || m_Player->GetElement() == EARTH_2)
 	{
-		float TimeToLand = sqrt((-20 * sin(Math::DegreeToRadian(50))) / (-4.9));
-		Distance_X = (20 * cos(Math::DegreeToRadian(50))) * (TimeToLand);
+		// Eqn: -4.9t^2 + bulletspeed * sin(theta) * t 
+
+		float bulletspeed = 20;
+		float theta = 60;
+
+		float a = -4.9f;
+		float b = bulletspeed * sin(Math::DegreeToRadian(theta));
+		float c = 0;
+
+		float TimeToLand_1 = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
+		float TimeToLand_2 = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
+
+		if (TimeToLand_1 > TimeToLand_2)
+			Distance_X = bulletspeed * cos(Math::DegreeToRadian(theta)) * TimeToLand_1;
+		else
+			Distance_X = bulletspeed * cos(Math::DegreeToRadian(theta)) * TimeToLand_2;
 	}
 }
 
@@ -572,6 +590,19 @@ void SP3::RenderGO(GameObject *go)
 	{
 		modelStack.PushMatrix();
 		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + 5, go->GetPosition().z);
+
+		modelStack.PushMatrix();
+		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() * 0.5, 0, 0);
+		modelStack.Scale(5, 5, 5);
+		switch (dynamic_cast<ElementalObject*>(go)->GetElement())
+		{
+		case FIRE: RenderMesh(meshList[GEO_FIRE_ICON], false); break;
+		case WATER: RenderMesh(meshList[GEO_WATER_ICON], false); break;
+		case EARTH: RenderMesh(meshList[GEO_EARTH_ICON], false); break;
+		}
+
+		modelStack.PopMatrix();
+
 		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth(), 3, 1);
 		RenderMesh(meshList[GEO_HEALTH_BAR], false);
 		modelStack.PopMatrix();
@@ -920,7 +951,7 @@ void SP3::Render()
 	//// Model matrix : an identity matrix (model will be at the origin)
 	//modelStack.LoadIdentity();
 
-	RenderMesh(meshList[GEO_AXES], false);
+	//RenderMesh(meshList[GEO_AXES], false);
 
 	RenderUI();
 
@@ -952,26 +983,20 @@ void SP3::Render()
 		if (m_Player->GetLeftRight())
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(m_Player->GetPosition().x + Distance_X, 20, 2);
+			modelStack.Translate(m_Player->GetPosition().x + Distance_X, m_Player->GetPosition().y, 2);
 			modelStack.Scale(5, 5, 1);
-			RenderMesh(meshList[GEO_BALL], false);
+			RenderMesh(meshList[GEO_TARGET], false);
 			modelStack.PopMatrix();
 		}
 		else
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(m_Player->GetPosition().x - Distance_X, 20, 2);
+			modelStack.Translate(m_Player->GetPosition().x - Distance_X, m_Player->GetPosition().y, 2);
 			modelStack.Scale(5, 5, 1);
-			RenderMesh(meshList[GEO_BALL], false);
+			RenderMesh(meshList[GEO_TARGET], false);
 			modelStack.PopMatrix();
 		}
 	}
-
-	modelStack.PushMatrix();
-	modelStack.Translate(m_Player->GetPosition().x + Distance_X, 20, 2);
-	modelStack.Scale(5, 5, 1);
-	RenderMesh(meshList[GEO_BALL], false);
-	modelStack.PopMatrix();
 
 
 	RenderUIText();

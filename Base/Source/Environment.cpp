@@ -140,7 +140,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 					if (Map->m_GameObjectMap[RightSpawnTile_Y + 1][RightSpawnTile_X]->GetType() == GO_NONE)
 					{
-						Environment* temp1 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, SpawnLocation_Right, Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
+						Environment* temp1 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(RightSpawnTile_X * Map->GetTileSize(), RightSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
 						temp1->SetLifeTimeBool(true);
 						temp1->SetLifeTime(TempLifeTime);
 						Map->AddIntoMap(temp1);
@@ -148,7 +148,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 					if (Map->m_GameObjectMap[LeftSpawnTile_Y + 1][LeftSpawnTile_X]->GetType() == GO_NONE)
 					{
-						Environment* temp2 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, SpawnLocation_Left, Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
+						Environment* temp2 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(LeftSpawnTile_X * Map->GetTileSize(), LeftSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
 						temp2->SetLifeTimeBool(true);
 						temp2->SetLifeTime(TempLifeTime);
 						Map->AddIntoMap(temp2);

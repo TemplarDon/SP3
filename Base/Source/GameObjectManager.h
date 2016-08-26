@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "MeshBuilder.h"
+#include "Collectibles.h"
 
 class GameObjectManager
 {

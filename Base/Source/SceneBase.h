@@ -75,6 +75,8 @@ public:
 
 		GEO_PLAYER_RUNNING,
 
+		GEO_TARGET,
+
 		NUM_GEOMETRY,
 	};
 public:

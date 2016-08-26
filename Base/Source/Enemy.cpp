@@ -1,10 +1,9 @@
 #include "Enemy.h"
+#include "GameObjectManager.h"
 
 Enemy::Enemy()
 {
 	m_Position.Set(0, 0, 0);
-	MaxHealth = 3;
-    CurrHealth = MaxHealth;
 	/*enemyPosition.Set(x, y, 0);
 	m_Behaviour = new Behaviour();
 	m_Behaviour->setAttack(attack);
@@ -14,6 +13,8 @@ Enemy::Enemy()
 }
 void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage,float detectionRange)
 {
+	CurrHealth = MaxHealth;
+
 	if (m_CurrElement == EARTH || m_CurrElement == FIRE || m_CurrElement == WATER)
 	{
 		//this->m_Behaviour = new BehaviourRanged();
@@ -367,4 +368,7 @@ void Enemy::setDirectionBasedOnDistance(Vector3 playerPosition, Vector3 enemyPos
 void Enemy::Death()
 {
 	this->m_Active = false;
+
+	Collectibles* temp = dynamic_cast<Collectibles*>(GameObjectManager::SpawnGameObject(COLLECTIBLE, GO_DROP_HEALTH, m_Position, Vector3(3, 3, 3), false, true, MeshBuilder::GenerateQuad("healthdrop", Color(1, 1, 1)), "Image//UI//heart_icon.tga"));
+	temp->InitCollectible(5);
 }

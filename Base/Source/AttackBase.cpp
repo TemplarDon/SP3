@@ -249,12 +249,12 @@ void AttackBase::Ability_Run()
     {
         Projectile* temp;
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-        temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, EARTH_2, false, 50, m_ElementLevel);
+        temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, EARTH_2, false, 60.f, m_ElementLevel);
 		temp->setIsHostileProjectile(this->isEnemy);
 
         // These Variables shouldn't change
-        // Bullet Speed = 20.f
-        // Theta = 50
+        // Bullet Speed = 20.0f
+        // Theta = 60.f
 
         m_AbilityProjectiles[m_AbilityCount].SetElement(EARTH_2);
         m_AbilityCount += 1;
@@ -285,12 +285,12 @@ void AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
         {
             Projectile* temp;
             temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, ProjectilePH, "Image//Tiles/projectilePH.tga"));
-            temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, m_CurrElement, false, 50);
+            temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, m_CurrElement, false, 60.f);
 			temp->setIsHostileProjectile(this->isEnemy);
 
             // These Variables shouldn't change
-            // Bullet Speed = 20.f
-            // Theta = 50
+            // Bullet Speed = 20.0f
+            // Theta = 60.f
 
             m_AbilityProjectiles[m_AbilityCount].SetElement(m_CurrElement);
             m_AbilityCount += 1;

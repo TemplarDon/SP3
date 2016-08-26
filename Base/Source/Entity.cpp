@@ -652,13 +652,6 @@ std::vector<Mesh*>  Entity::getMeshVector()
 
 void Entity::GainExp(ELEMENT ElementToGain, float Amount)
 {
-	/*for (std::map<ELEMENT, float>::iterator it = m_ElementsPercentageMap.begin(); it != m_ElementsPercentageMap.end(); ++it)
-	{
-		if (it->first == ElementToGain)
-		{
-			it->second = (it->second + Amount);
-		}
-	}*/
 	m_ElementsPercentageMap[ElementToGain] += Amount;
 
 	if (m_ElementsPercentageMap[ElementToGain] >= 100)

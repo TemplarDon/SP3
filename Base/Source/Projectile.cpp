@@ -44,13 +44,12 @@ void  Projectile::setVelocity()
 {
 	if (Direction==true)
 	{
-	
-		m_Velocity.Set(speedBullet, speedBullet * tan(Math::DegreeToRadian(rotation)), 1);
+		m_Velocity.Set(speedBullet * cos(Math::DegreeToRadian(rotation)), speedBullet * sin(Math::DegreeToRadian(rotation)), 1);
 	}
 	else
 	{
-		rotation = 180 - rotation;
-		m_Velocity.Set(-speedBullet, -speedBullet * tan(Math::DegreeToRadian(rotation)), 1);
+		//rotation = 180 - rotation;
+		m_Velocity.Set(-speedBullet * cos(Math::DegreeToRadian(rotation)), speedBullet * sin(Math::DegreeToRadian(rotation)), 1);
 	}
 	
 }
@@ -66,7 +65,7 @@ void Projectile::Update(double dt)
 		m_Active = false;
 	}
 
-	UpdatePhysics(dt);
+	UpdatePhysics(dt, Vector3(0,- 9.8f, 0));
 }
 
 
@@ -74,7 +73,7 @@ void Projectile::UpdatePhysics(double dt, Vector3 Gravity)
 {
 	if (m_CurrElement == EARTH_2 || m_CurrElement == EARTH)
 	{
-		Vector3 dv = Gravity * (float) dt; // Eqn 1 (Vec3 = Vec3 * float)
+ 		Vector3 dv = Gravity * (float) dt; // Eqn 1 (Vec3 = Vec3 * float)
 		this->m_Velocity += (dv);
 	}
 

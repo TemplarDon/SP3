@@ -41,6 +41,12 @@ GameObject* GameObjectManager::FetchGameObject(OBJECT_TYPE ObjectType)
 			TempGameObject = new Enemy();
 			break;
 		}
+
+		case OBJECT_TYPE::COLLECTIBLE:
+		{
+			TempGameObject = new Collectibles();
+			break;
+		}
 		}
 
 		return TempGameObject;
