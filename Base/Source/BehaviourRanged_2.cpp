@@ -49,9 +49,9 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 	bool BlockedLeft = false;
 	bool BlockedRight = false;
 
-	EntityPos_X = Math::Max(0, EntityPos_X - 2);
+	EntityPos_X = Math::Max(0, EntityPos_X - 1);
 
-	GameObject* CheckGameObject_Right = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X + 4];
+	GameObject* CheckGameObject_Right = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X + 2];
 	GameObject* CheckGameObject_Left = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X];
 
 

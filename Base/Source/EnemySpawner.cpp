@@ -59,7 +59,7 @@ void EnemySpawner::setEnemySpawnerVector(ELEMENT m_CurrElement, int howMany)
 			break;
 			}
 		}
-		Vector3 randPos(m_Position.x + Math::RandFloatMinMax(-250, 250), m_Position.y, m_Position.z);
+		Vector3 randPos(m_Position.x + Math::RandFloatMinMax(-100, 100), m_Position.y, m_Position.z);
 		Enemy* tempEnemy = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, randPos, Vector3(5, 5, 5), true, true, MeshBuilder::GenerateQuad("enemy", Color(1, 1, 1)), temp));
 		tempEnemy->SetEntityMovementSpeed(Math::RandFloatMinMax(0.05f, 0.1f));
 		tempEnemy->setMeshVector(MeshBuilder::GenerateQuad("enemy", Color(1, 1, 1)), "Earth Enemy", "Image//wood_enemy3.tga", 2, 5);

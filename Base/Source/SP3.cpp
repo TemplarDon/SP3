@@ -798,21 +798,21 @@ void SP3::RenderUI()
 	// Fire icon
 	modelStack.PushMatrix();
 	modelStack.Translate((healthbarpos_x + 1), 65, 1);
-	modelStack.Scale(5, 5, 1);
+	modelStack.Scale(4, 4, 1);
 	RenderMesh(meshList[GEO_FIRE_ICON], false);
 	modelStack.PopMatrix();
 
 	// Water icon
 	modelStack.PushMatrix();
 	modelStack.Translate((healthbarpos_x + 1), 60, 1);
-	modelStack.Scale(5, 5, 1);
+	modelStack.Scale(4, 4, 1);
 	RenderMesh(meshList[GEO_WATER_ICON], false);
 	modelStack.PopMatrix();
 
 	// Earth icon
 	modelStack.PushMatrix();
 	modelStack.Translate((healthbarpos_x + 1), 55, 1);
-	modelStack.Scale(5, 5, 1);
+	modelStack.Scale(4, 4, 1);
 	RenderMesh(meshList[GEO_EARTH_ICON], false);
 	modelStack.PopMatrix();
 

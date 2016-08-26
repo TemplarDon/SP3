@@ -287,12 +287,9 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				EnemySpawner* temp = dynamic_cast<EnemySpawner*>(GameObjectManager::SpawnGameObject(ENEMYSPAWNER, GO_ENEMYSPAWNER, Position, Scale, true, false, Quad));
 				temp->setEnemySpawnerVector(EARTH, 3);
 				break;
-			//	temp = dynamic_cast<EnemySpawner*>(GameObjectManager::SpawnGameObject(ENEMYSPAWNER, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
-				//setEnemySpawnerVector
 			}
 			case 37:
-			{
-			
+			{	
 				EnemySpawner* temp = dynamic_cast<EnemySpawner*>(GameObjectManager::SpawnGameObject(ENEMYSPAWNER, GO_ENEMYSPAWNER, Position, Scale, true, false, Quad));
 				temp->setEnemySpawnerVector(FIRE, 3);
 				break;
