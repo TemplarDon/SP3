@@ -864,7 +864,7 @@ void SP3::RenderUIText()
 	modelStack.PopMatrix(); // Do not delete this line
 }
 
-void SP3::Render()
+void SP3::Render() 
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
