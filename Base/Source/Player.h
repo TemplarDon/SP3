@@ -13,8 +13,7 @@ public:
 	void Init(void);
 
 	// Player Update
-	void PlayerUpdate(GameObject_Map* m_cMap);
-
+	void PlayerUpdate(double dt);
 	void SetRespawnPos(Vector3 RespawnPos);
 	Vector3 GetRespawnPos();
 
@@ -28,7 +27,11 @@ public:
 
 	void UpdateHealthCharges();
 
+	void SetInvulnerability(bool status);
+	bool GetInvulnerability();
+
 	virtual void CollisionResponse(GameObject* OtherGo);
+
 private:
 	// Player's information
 	int jumpspeed;
@@ -45,6 +48,9 @@ private:
 	// Health Charges
 	int m_HealthCharges;
 
+	// Invulnerability
+	bool m_Invulnerability;
+	float m_InvulTimer;
 };
 
 

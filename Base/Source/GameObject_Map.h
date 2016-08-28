@@ -66,6 +66,8 @@ private:
 	float m_Offset;
 
 	Level* m_Level;
+
+	GameObject* m_Temp;
 };
 
 #endif // !OBJECT_MAP

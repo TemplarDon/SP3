@@ -17,6 +17,8 @@ public:
 		NEUTRAL,
 		ATTACK,
 		EVADE,
+		COLLIDE,
+		LAST_STAND,
 		TOTALSTATES,
 	};
 
@@ -28,6 +30,12 @@ public:
 
 	virtual Vector3 GetDestination();
 
+	virtual void SetLastStand(bool status);
+	virtual bool GetLastStand();
+
+	virtual void SetLastStandTimer(float NewTime);
+	virtual float GetLastStandTimer();
+
 protected:
 	
 	BehaviourStates behaviour;
@@ -36,7 +44,12 @@ protected:
 
 	bool m_DirectionSet;
 	bool m_RunOnce;
-	
+
+	float m_AttackDistance;
+	float m_EvadeDistance;
+
+	float m_LastStandTimer;
+	bool m_LastStandStatus;
 };
 
 

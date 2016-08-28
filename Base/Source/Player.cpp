@@ -3,6 +3,8 @@
 Player::Player(void)
 	: jumpspeed(0)
 	, m_HealthCharges(0)
+	, m_Invulnerability(false)
+	, m_InvulTimer(1)
 {
 
     m_CurrElement = FIRE;
@@ -29,12 +31,21 @@ void Player::Init(void)
     Attacks->Init(GetEntityDamage(), 10.f);
 	m_RespawnPos = m_Position;
 	m_CurrLevel = TUTORIAL_LEVEL;
+	m_InvulTimer = 1;
 }
 
 // Player Update
-void Player::PlayerUpdate(GameObject_Map* Map)
+void Player::PlayerUpdate(double dt)
 { 
-
+	if (m_Invulnerability)
+	{
+		m_InvulTimer -= dt;
+		if (m_InvulTimer <= 0)
+		{
+			m_Invulnerability = false;
+			m_InvulTimer = 1;
+		}
+	}
 }
 
 void Player::SetRespawnPos(Vector3 RespawnPos)
@@ -163,5 +174,13 @@ void Player::CollisionResponse(GameObject* OtherGo)
 
 }
 
+void Player::SetInvulnerability(bool status)
+{
+	m_Invulnerability = status;
+}
 
+bool Player::GetInvulnerability()
+{
+	return m_Invulnerability;
+}
 

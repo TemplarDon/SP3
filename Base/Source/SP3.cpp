@@ -72,7 +72,7 @@ void SP3::Init()
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Tutorial.csv");
+	m_Map->LoadMap("Image//Maps//Earth.csv");
 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -286,6 +286,7 @@ void SP3::Update(double dt)
 		if (go->GetType() == GO_PLAYER)
 		{
 			m_Player->Update(dt, m_GoMap, camera);
+			m_Player->PlayerUpdate(dt);
 		}
 
 		if (go->GetType() == GO_ATTACK)
@@ -315,6 +316,17 @@ void SP3::Update(double dt)
 					}
 					m_Player->GainExp(tempElement, temp->GetElementPercentage(tempElement));
 					temp->SetActive(false);
+				}
+			}
+			else
+			{
+				if (temp->EmpricalCheckCollisionWith(m_Player, dt, 75))
+				{
+					if (!m_Player->GetInvulnerability())
+					{
+						m_Player->TakeDamage(1);
+						m_Player->SetInvulnerability(true);
+					}
 				}
 			}
 			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
@@ -372,14 +384,18 @@ void SP3::Update(double dt)
 				Entity* temp = dynamic_cast<Entity*>(go2);
                 if (go->EmpricalCheckCollisionWith(go2, dt))
                 {
-					temp->CollisionResponse(go);
+ 					temp->CollisionResponse(go);
                 }				
-			/*	else if (!go->EmpricalCheckCollisionWith(go2, dt) && go2->GetObjectType() == ENEMY)
-				{
-					Entity* temp = dynamic_cast<Entity*>(go2);
-					temp->SetMoveState(NO_STATE);
-				}*/
             }
+
+
+			if (go->GetObjectType() == ENEMY && go2->GetObjectType() == ENEMY)
+			{
+				if (go->EmpricalCheckCollisionWith(go2, dt, 40))
+				{
+					go->CollisionResponse(go2);
+				}
+			}
 
 			if (go->GetObjectType() == PLAYER && go2->GetObjectType() == ENVIRONMENT)
 			{
@@ -391,7 +407,7 @@ void SP3::Update(double dt)
 
 			if (go->GetObjectType() == PLAYER && go2->GetObjectType() == TRANSITION)
 			{
-				if (go->EmpricalCheckCollisionWith(go2, dt))
+				if (go->EmpricalCheckCollisionWith(go2, dt, 80))
 				{
 					Transition* temp = dynamic_cast<Transition*>(go2);
 					SwitchLevel(temp->GetNextTransition());
@@ -585,7 +601,7 @@ void SP3::UpdateUI2(double dt)
 
 void SP3::RenderGO(GameObject *go)
 {
-	if (go->getRotate() == true)
+	if (go->getRotate())
 	{
 		glDisable(GL_CULL_FACE);
 		modelStack.PushMatrix();
@@ -612,8 +628,8 @@ void SP3::RenderGO(GameObject *go)
 		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + 5, go->GetPosition().z);
 
 		modelStack.PushMatrix();
-		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() * 1.25 , 0, 0);
-		modelStack.Scale(5, 5, 5);
+		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() * 0.75, 0, 0);
+		modelStack.Scale(3, 3, 3);
 		switch (dynamic_cast<ElementalObject*>(go)->GetElement())
 		{
 		case FIRE: RenderMesh(meshList[GEO_FIRE_ICON], false); break;
@@ -623,7 +639,7 @@ void SP3::RenderGO(GameObject *go)
 
 		modelStack.PopMatrix();
 
-		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth() * 2, 3, 1);
+		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth(), 1, 1);
 		if (dynamic_cast<Entity*>(go)->GetMoveState() == WEAKENED || dynamic_cast<Entity*>(go)->GetMoveState() == EDIBLE)
 		{
 			RenderMesh(meshList[GEO_HEALTH_BAR_WEAKENED], false);
@@ -996,53 +1012,60 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	// Load New Maps
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
-	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 
 	switch (NextLevel)
 	{
 	case TEST:
 	{
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Official_Test.csv");
 		break;
 	}
 	case TUTORIAL_LEVEL:
 	{
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Tutorial.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//tutorial_background.tga");
 		break;
 	}
 	case HUB_LEVEL:
 	{
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Hub.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//hub_background.tga");
 		break;
 	}
 	case WATER_LEVEL:
 	{
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Water.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_background.tga");
 		break;
 	}
 	case FIRE_LEVEL:
 	{
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Fire.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//fire_background.tga");
 		break;
 	}
 	case EARTH_LEVEL:
 	{
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Earth.csv"); 
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_background.tga");
 		break;
 	}
 	case WATER_BOSS_LEVEL:
 	{
+
 		m_Map->LoadMap("Image//Maps//Water_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
 		break;
 	}
 	case EARTH_BOSS_LEVEL:
 	{
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 800);
 		m_Map->LoadMap("Image//Maps//Earth_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_boss_background.tga");
 		break;

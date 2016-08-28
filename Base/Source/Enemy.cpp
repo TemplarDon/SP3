@@ -20,7 +20,7 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	if (m_CurrElement == EARTH || m_CurrElement == FIRE || m_CurrElement == WATER)
 	{
 		//this->m_Behaviour = new BehaviourRanged();
-		this->m_Behaviour = new BehaviourRanged_2();
+		this->m_Behaviour = new BehaviourRanged_2(m_CurrElement);
 		this->enemyType = RANGED;
 	}
 	else
@@ -172,6 +172,11 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				EntityJumpUpdate(dt);
 			}
 
+			if (m_Behaviour->GetLastStand())
+			{
+				m_Behaviour->SetLastStandTimer(m_Behaviour->GetLastStandTimer() - dt);
+			}
+
 			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
 			GenerateCollisionBoundary(map);
 			CheckCollisionBoundary();
@@ -289,92 +294,90 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 
 }
 
-
-
-	
-
-
 void Enemy::CollisionResponse(GameObject* OtherGo)
 {
-
-
     Projectile* tempProj;
     tempProj = dynamic_cast<Projectile*>(OtherGo);
 
     if (OtherGo->GetObjectType() == PROJECTILE)
     {
-        if (this->m_ObjectType == ENEMY && this->m_CurrEntityMoveState==WEAKENED && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
-        {
-          //  this->debuff_Edible = true;
-			this->m_CurrEntityMoveState = EDIBLE;
-			std::cout << "HIT " << std::endl;
-        }
+		if (!tempProj->getIsHostileProjectile())
+		{
+			if (this->m_CurrEntityMoveState == WEAKENED && tempProj->GetElement() == MISC)
+			{
+				this->m_CurrEntityMoveState = EDIBLE;
+			}
+			else
+			{
+				if (tempProj->GetElement() == FIRE || tempProj->GetElement() == FIRE_2)
+				{
+					if (m_CurrElement == WATER)
+						DamagMultiplier = 0.5;
+					if (m_CurrElement == FIRE)
+						DamagMultiplier = 1;
+					if (m_CurrElement == EARTH)
+						DamagMultiplier = 1.5;
+
+					DamagMultiplier = DamagMultiplier * 0.4;
+				}
+				if (tempProj->GetElement() == WATER || tempProj->GetElement() == WATER_2)
+				{
+					if (m_CurrElement == WATER)
+						DamagMultiplier = 1;
+					if (m_CurrElement == FIRE)
+						DamagMultiplier = 1.5;
+					if (m_CurrElement == EARTH)
+						DamagMultiplier = 0.5;
+				}
+				if (tempProj->GetElement() == EARTH || tempProj->GetElement() == EARTH_2)
+				{
+					if (m_CurrElement == WATER)
+						DamagMultiplier = 1.5;
+					if (m_CurrElement == FIRE)
+						DamagMultiplier = 0.5;
+					if (m_CurrElement == EARTH)
+						DamagMultiplier == 1;
+
+					DamagMultiplier += 0.5;
+				}
+				//debuffs
+
+				//fire 2 burn
+				if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
+				{
+					if (deBuff_burning = true)
+					{
+						deBuff_BurningTimer = 0.f;
+					}
+					else
+					{
+						deBuff_burning = true;
+					}
+				}
+				//sand and fire 2 slow
+				if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER || dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER_2)
+				{
+					if (deBuff_Slowed)
+					{
+						deBuff_SlowTimer = 0.f;
+					}
+					else
+					{
+						deBuff_Slowed = true;
+					}
+				}
+
+				TakeDamage(tempProj->getDamage());
+				OtherGo->SetActive(false);
+			}
+
+		}
+
     }
 
-    if (OtherGo->GetObjectType() == PROJECTILE&& tempProj->getIsHostileProjectile() == false)
-    {
-
-        if (tempProj->GetElement() == FIRE || tempProj->GetElement() == FIRE_2)
-        {
-            if (m_CurrElement == WATER)
-                DamagMultiplier = 0.5;
-            if (m_CurrElement == FIRE)
-                DamagMultiplier = 1;
-            if (m_CurrElement == EARTH)
-                DamagMultiplier = 1.5;
-
-            DamagMultiplier = DamagMultiplier * 0.4;
-        }
-		if (tempProj->GetElement() == WATER || tempProj->GetElement() == WATER_2)
-        {
-            if (m_CurrElement == WATER)
-                DamagMultiplier = 1;
-            if (m_CurrElement == FIRE)
-                DamagMultiplier = 1.5;
-            if (m_CurrElement == EARTH)
-                DamagMultiplier = 0.5;
-        }
-		if (tempProj->GetElement() == EARTH || tempProj->GetElement() == EARTH_2)
-        {
-            if (m_CurrElement == WATER)
-                DamagMultiplier = 1.5;
-            if (m_CurrElement == FIRE)
-                DamagMultiplier = 0.5;
-            if (m_CurrElement == EARTH)
-                DamagMultiplier == 1;
-
-            DamagMultiplier += 0.5;
-        }
-        //debuffs
-
-        //fire 2 burn
-        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
-        {
-            if (deBuff_burning = true)
-            {
-                deBuff_BurningTimer = 0.f;
-            }
-            else
-            {
-                deBuff_burning = true;
-            }
-        }
-        //sand and fire 2 slow
-        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER || dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER_2)
-        {
-            if (deBuff_Slowed)
-            {
-                deBuff_SlowTimer = 0.f;
-            }
-            else
-            {
-                deBuff_Slowed = true;
-            }
-        }
-
-        TakeDamage(tempProj->getDamage());
-        OtherGo->SetActive(false);
-    }
+	if (OtherGo->GetObjectType() == ENEMY)
+	{
+	}
 }
 
 void  Enemy::setBehaviour(Behaviour* behaviour)

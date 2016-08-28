@@ -53,7 +53,6 @@ GameObject* GameObjectManager::FetchGameObject(OBJECT_TYPE ObjectType)
 			break;
 		}
 		}
-
 		return TempGameObject;
 	}
 

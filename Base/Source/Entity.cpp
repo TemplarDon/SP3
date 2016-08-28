@@ -296,77 +296,6 @@ ELEMENT Entity::GetBasicElement()
 
 void Entity::CollisionResponse(GameObject* OtherGo)
 {
-	//Projectile* tempProj;
-	//tempProj = dynamic_cast<Projectile*>(OtherGo);
-
-	//if (OtherGo->GetObjectType() == PROJECTILE)
-	//{
-	//	if (this->m_ObjectType == ENEMY && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false)
-	//	{
-	//		this->debuff_Edible = true;
-	//	}
-	//}
-	//if (this->GetObjectType() == PLAYER)
-	//{
-	//	if (OtherGo->GetObjectType() == PROJECTILE&& tempProj->getIsHostileProjectile() == true)
-	//	{
-
- //           if (tempProj->GetElement() == FIRE || tempProj->GetElement() == FIRE_2)
-	//		{
-	//			if (m_CurrElement == WATER)
-	//				DamagMultiplier = 0.5;
-	//			if (m_CurrElement == FIRE)
-	//				DamagMultiplier = 1;
-	//			if (m_CurrElement == EARTH)
-	//				DamagMultiplier = 1.5;
-	//		}
- //           if (tempProj->GetElement() == WATER)
-	//		{
-	//			if (m_CurrElement == WATER)
-	//				DamagMultiplier = 1;
-	//			if (m_CurrElement == FIRE)
-	//				DamagMultiplier = 1.5;
-	//			if (m_CurrElement == EARTH)
-	//				DamagMultiplier = 0.5;
-	//		}
- //           if (tempProj->GetElement() == EARTH)
-	//		{
-	//			if (m_CurrElement == WATER)
-	//				DamagMultiplier = 1.5;
-	//			if (m_CurrElement == FIRE)
-	//				DamagMultiplier = 0.5;
-	//			if (m_CurrElement == EARTH)
-	//				DamagMultiplier == 1;
-	//		}	
-	//		//fire 2 burn
-	//		if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
-	//		{
-	//			if (deBuff_burning = true)
-	//			{
-	//				deBuff_BurningTimer = 0.f;
-	//			}
-	//			else
-	//			{
-	//				deBuff_burning = true;
-	//			}
-	//		}
-	//		//Water
- //           if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER || dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER_2)
-	//		{
-	//			if (deBuff_Slowed)
-	//			{
-	//				deBuff_SlowTimer = 0.f;
-	//			}
-	//			else
-	//			{
-	//				deBuff_Slowed = true;
-	//			}
-	//		}
- //			TakeDamage(tempProj->getDamage());
-	//		OtherGo->SetActive(false);
-	//	}
-	//}
-   
 }
 
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
@@ -374,7 +303,7 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
     interDT = dt;
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();
-	ConstrainPlayer(25 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 60 + mapOffset_y + mapFineOffset_y, 1.5, camera);
+	ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 60 + mapOffset_y + mapFineOffset_y, 1.5, camera);
 	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 
     ExecuteAbility(dt);
