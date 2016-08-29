@@ -72,8 +72,10 @@ void SP3::Init()
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
 
-	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Tutorial.csv");
+
+	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
+	m_Map->LoadMap("Image//Maps//Water_Boss.csv");
+
 
 
 	m_GoMap = new GameObject_Map();
@@ -97,7 +99,8 @@ void SP3::Init()
 	m_Player->setMeshVector(meshList[GEO_PLAYER_RUNNING], "player Running", "Image//blue Running.tga", 1, 4);
 	m_Player->setSpriteVector(m_Player->getMeshVector()[1], 0, 3, 1, 0.8f, true);
 
-
+	m_Player->setMeshVector(meshList[GEO_PLAYER_RUNNING], "player Jumping", "Image//blue Jumping.tga", 1, 1);
+	m_Player->setSpriteVector(m_Player->getMeshVector()[2], 0,0, 1, 0.8f, true);
 	m_Player->Attacks->Init(m_Player->GetEntityDamage(), 5.0f);
 	// ------------------------------------------ // 
 
@@ -191,6 +194,7 @@ void SP3::Update(double dt)
     if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->UpdateJump(dt);
+		
 	}
 	if (m_Player->GetMoveState() != ON_GROUND)
 	{
@@ -1104,7 +1108,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case WATER_BOSS_LEVEL2:
 	{
-		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 3200);
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
 		m_Map->LoadMap("Image//Maps//Water_Boss2.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
 		break;

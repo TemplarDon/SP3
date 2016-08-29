@@ -77,7 +77,6 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 {
 
 	static bool timerBool = false;
-
 	std::cout << "timer: " << timer << std::endl;
 	//std::cout << "Curr health: " << CurrHealth << std::endl;
 
@@ -130,7 +129,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		{
 			m_CurrEntityMoveState = WEAKENED;
 		}
-		if (timer >= 10.f)
+		if (timer >= 12.0f)
 		{
 			CurrHealth = MaxHealth;
 			timerBool = false;
