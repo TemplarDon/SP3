@@ -6,8 +6,9 @@ EarthBehaviour::EarthBehaviour()
 	, m_LastStandStatus(false)
 	, m_LastStandTimer(2)
 	, m_AttackDistance(40)
-	, m_EvadeDistance(10)
+	, m_EvadeDistance(20)
 	, m_AttackCount(0)
+	, m_EffectiveAttackDist(35)
 {
 }
 
@@ -182,13 +183,13 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 
 	case ATTACK:
 	{
-		if (PlayerRight)
+		if (PlayerRight)    
 		{
-			m_DestinationToReturn = PlayerPos - Vector3(30, 0, 0);
+			m_DestinationToReturn = PlayerPos - Vector3(m_EffectiveAttackDist, 0, 0);
 		}
 		else if (PlayerLeft)
 		{
-			m_DestinationToReturn = PlayerPos + Vector3(30, 0, 0);
+			m_DestinationToReturn = PlayerPos + Vector3(m_EffectiveAttackDist, 0, 0);
 		}
 		break;
 	}

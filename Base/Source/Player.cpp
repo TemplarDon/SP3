@@ -85,14 +85,17 @@ int Player::GetHealthCharges()
 void Player::AddHealthCharges()
 {
 	++m_HealthCharges;
+	m_HealthCharges = Math::Min(m_HealthCharges, 5);
 }
 
-void Player::UpdateHealthCharges()
+void Player::UseHealthCharge()
 {
-	if (m_HealthCharges >= 5)
+	if (m_HealthCharges > 0)
 	{
-		this->MaxHealth += 2;
-		m_HealthCharges = 0;
+		--m_HealthCharges;
+		CurrHealth += 5;
+
+		CurrHealth = Math::Min(CurrHealth, MaxHealth);
 	}
 }
 

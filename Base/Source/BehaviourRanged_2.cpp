@@ -10,21 +10,24 @@ BehaviourRanged_2::BehaviourRanged_2(ELEMENT CurrElement)
 	{
 	case EARTH:
 	{
-				  m_AttackDistance = 40;
+				  m_AttackDistance = 35;
 				  m_EvadeDistance = 10;
+				  m_EffectiveAttackDist = 35;
 				  break;
 	}
 
 	case WATER:
 	{
-				  m_AttackDistance = 20;
+				  m_AttackDistance = 30;
 				  m_EvadeDistance = 10;
+				  m_EffectiveAttackDist = 20;
 				  break;
 	}
 
 	case FIRE:
 	{
-				 m_AttackDistance = 60;
+				 m_AttackDistance = 30;
+				 m_EffectiveAttackDist = 10;
 				 m_EvadeDistance = 5;
 				  break;
 	}
@@ -76,9 +79,9 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 	bool BlockedLeft = false;
 	bool BlockedRight = false;
 
-	EntityPos_X = Math::Max(0, EntityPos_X - 1);
+	EntityPos_X = Math::Max(0, EntityPos_X - 2);
 
-	GameObject* CheckGameObject_Right = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X + 2];
+	GameObject* CheckGameObject_Right = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X + 4];
 	GameObject* CheckGameObject_Left = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X];
 
 
@@ -192,11 +195,11 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 	{
 				   if (PlayerRight)
 				   {
-					   m_DestinationToReturn = PlayerPos - Vector3(m_AttackDistance, 0, 0);
+					   m_DestinationToReturn = PlayerPos - Vector3(m_EffectiveAttackDist, 0, 0);
 				   }
 				   else if (PlayerLeft)
 				   {
-					   m_DestinationToReturn = PlayerPos + Vector3(m_AttackDistance, 0, 0);
+					   m_DestinationToReturn = PlayerPos + Vector3(m_EffectiveAttackDist, 0, 0);
 				   }
 				   break;
 	}

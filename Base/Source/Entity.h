@@ -27,6 +27,8 @@ public:
 	
 	//Setter for entity health
 	virtual void SetEntityMaxHealth(int health);
+	virtual int GetEntityMaxHealth();
+
 	//Getter for entity health
 	virtual int GetEntityHealth();
 

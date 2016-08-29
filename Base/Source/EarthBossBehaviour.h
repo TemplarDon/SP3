@@ -39,6 +39,7 @@ private:
 	bool m_RunOnce;
 
 	float m_AttackDistance;
+	float m_EffectiveAttackDist;
 	float m_EvadeDistance;
 
 	float m_LastStandTimer;

@@ -73,7 +73,7 @@ void SP3::Init()
 	m_Map = new Map();
 
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Hub.csv");
+	m_Map->LoadMap("Image//Maps//Tutorial.csv");
 
 
 	m_GoMap = new GameObject_Map();
@@ -166,15 +166,6 @@ void SP3::Update(double dt)
 			m_Player->SetElement(currentSelectedEle);
 		}
 	}
-    if (Application::IsKeyPressed('R'))
-    {
-        m_Player->Attacks->Attack_Ability(m_Player->GetElement(), m_Player->GetElementLevel(m_Player->GetElement()));
-
-        if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH && m_Player->GetElement() != MISC)
-        {
-            m_Player->SetElement(currentSelectedEle);
-        }
-    }
 
 	if (!Application::IsKeyPressed('D') && !Application::IsKeyPressed('A'))
 	{
@@ -263,6 +254,17 @@ void SP3::Update(double dt)
 		bEButtonState = false;
 	}
 
+	// ----------------- Health Charges ------------------ //
+	static bool bRButtonState = false;
+	if (!bRButtonState && Application::IsKeyPressed('R'))
+	{
+		bRButtonState = true;
+	}
+	else if (bRButtonState && !Application::IsKeyPressed('R'))
+	{
+		m_Player->UseHealthCharge();
+		bRButtonState = false;
+	}
 	
 
 	// ----------------- Sort Map ------------------ //
@@ -382,8 +384,10 @@ void SP3::Update(double dt)
 			if (go->GetObjectType() == PROJECTILE && go2->GetObjectType() == ENVIRONMENT)
 			{
 				float offset = 25;
-				if (dynamic_cast<ElementalObject*>(go)->GetElement() == EARTH || dynamic_cast<ElementalObject*>(go)->GetElement() == EARTH_2)
-					offset = 45;
+				if (dynamic_cast<ElementalObject*>(go)->GetElement() == EARTH_2)
+					offset = 60;
+				else if (dynamic_cast<ElementalObject*>(go)->GetElement() == EARTH)
+					offset = 40;
 
 				if (go->EmpricalCheckCollisionWith(go2, dt, offset))
 				{
@@ -669,7 +673,7 @@ void SP3::RenderGO(GameObject *go)
 
 		modelStack.PopMatrix();
 
-		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth(), 1, 1);
+		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth() * 0.5, 1, 1);
 		if (dynamic_cast<Entity*>(go)->GetMoveState() == WEAKENED || dynamic_cast<Entity*>(go)->GetMoveState() == EDIBLE)
 		{
 			RenderMesh(meshList[GEO_HEALTH_BAR_WEAKENED], false);

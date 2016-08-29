@@ -418,31 +418,31 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 			{
 				if (tempProj->GetElement() == FIRE || tempProj->GetElement() == FIRE_2)
 				{
-					if (m_CurrElement == WATER)
+					if (m_CurrElement == WATER || m_CurrElement == WATER_2)
 						DamagMultiplier = 0.5;
-					if (m_CurrElement == FIRE)
+					if (m_CurrElement == FIRE || m_CurrElement == FIRE_2)
 						DamagMultiplier = 1;
-					if (m_CurrElement == EARTH)
+					if (m_CurrElement == EARTH || m_CurrElement == EARTH_2)
 						DamagMultiplier = 1.5;
 
 					DamagMultiplier = DamagMultiplier * 0.4f;
 				}
 				if (tempProj->GetElement() == WATER || tempProj->GetElement() == WATER_2)
 				{
-					if (m_CurrElement == WATER)
+					if (m_CurrElement == WATER || m_CurrElement == WATER_2)
 						DamagMultiplier = 1;
-					if (m_CurrElement == FIRE)
+					if (m_CurrElement == FIRE || m_CurrElement == FIRE_2)
 						DamagMultiplier = 1.5;
-					if (m_CurrElement == EARTH)
+					if (m_CurrElement == EARTH || m_CurrElement == EARTH_2)
 						DamagMultiplier = 0.5;
 				}
 				if (tempProj->GetElement() == EARTH || tempProj->GetElement() == EARTH_2)
 				{
-					if (m_CurrElement == WATER)
+					if (m_CurrElement == WATER || m_CurrElement == WATER_2)
 						DamagMultiplier = 1.5;
-					if (m_CurrElement == FIRE)
+					if (m_CurrElement == FIRE || m_CurrElement == FIRE_2)
 						DamagMultiplier = 0.5;
-					if (m_CurrElement == EARTH)
+					if (m_CurrElement == EARTH || m_CurrElement == EARTH_2)
 						DamagMultiplier = 1;
 
 					DamagMultiplier += 0.5;

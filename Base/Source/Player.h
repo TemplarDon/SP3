@@ -25,7 +25,7 @@ public:
 	int GetHealthCharges();
 	void AddHealthCharges();
 
-	void UpdateHealthCharges();
+	void UseHealthCharge();
 
 	void SetInvulnerability(bool status);
 	bool GetInvulnerability();
