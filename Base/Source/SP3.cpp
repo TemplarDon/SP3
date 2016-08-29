@@ -367,7 +367,7 @@ void SP3::Update(double dt)
 			{
 				float offset = 25;
 				if (dynamic_cast<ElementalObject*>(go)->GetElement() == EARTH || dynamic_cast<ElementalObject*>(go)->GetElement() == EARTH_2)
-					offset = 35;
+					offset = 55;
 
 				if (go->EmpricalCheckCollisionWith(go2, dt, offset))
 				{

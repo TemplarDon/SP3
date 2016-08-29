@@ -3,6 +3,8 @@
 EarthBehaviour::EarthBehaviour()
 	: m_DirectionSet(false)
 	, m_RunOnce(false)
+	, m_AttackDistance(50)
+	, m_EvadeDistance(10)
 {
 }
 
@@ -28,23 +30,23 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	}
 
 	// Change BehaviourState and BossPhase, if needed
-	if (DistanceToPlayer <= 50)
+	if (DistanceToPlayer <= m_AttackDistance)
 	{
 		behaviour = ATTACK;
 		m_CurrPhase = NORMAL_ATTACK_PHASE;
 		AttackStatus = true;
 
-		if (DistanceToPlayer <= 40)
+		if (DistanceToPlayer <= m_AttackDistance - 10)
 		{
 			m_CurrPhase = ABILITY_ATTACK_PHASE;
-			if (DistanceToPlayer <= 10)
+			if (DistanceToPlayer <= m_EvadeDistance)
 			{
 				behaviour = EVADE;
 				AttackStatus = false;
 			}
 		}
 	}
-	else if (DistanceToPlayer > 30)
+	else if (DistanceToPlayer > m_AttackDistance)
 	{
 		behaviour = NEUTRAL;
 		AttackStatus = false;
@@ -84,6 +86,22 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 		BlockedRight = false;
 	}
 	
+	// Check for 'Last Stand' behaviour
+	if ((BlockedRight || BlockedLeft) && behaviour == EVADE && !m_LastStandStatus)
+	{
+		m_LastStandStatus = true;
+	}
+
+	// Update Last Stand
+	if (m_LastStandStatus)
+	{
+		behaviour = LAST_STAND;
+		if (m_LastStandTimer <= 0)
+		{
+			m_LastStandStatus = false;
+			m_LastStandTimer = 2;
+		}
+	}
 
 	// Generate Destination and set attack bool
 	switch (this->behaviour)
@@ -178,6 +196,25 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 		}
 		break;
 	}
+
+	case COLLIDE:
+	{
+		if (BlockedRight)
+		{
+			m_DestinationToReturn = CurrPos - Vector3(5, 0, 0);
+		}
+		else
+		{
+			m_DestinationToReturn = CurrPos + Vector3(5, 0, 0);
+		}
+		break;
+	}
+
+	case LAST_STAND:
+	{
+		m_DestinationToReturn = PlayerPos;
+		break;
+	}
 	}
 }
 
@@ -189,4 +226,24 @@ Vector3 EarthBehaviour::GetDestination()
 EarthBehaviour::EARTH_PHASE EarthBehaviour::GetBossState()
 {
 	return m_CurrPhase;
+}
+
+void EarthBehaviour::SetLastStand(bool status)
+{
+	m_LastStandStatus = status;
+}
+
+bool EarthBehaviour::GetLastStand()
+{
+	return m_LastStandStatus;
+}
+
+void EarthBehaviour::SetLastStandTimer(float NewTime)
+{
+	m_LastStandTimer = NewTime;
+}
+
+float EarthBehaviour::GetLastStandTimer()
+{
+	return m_LastStandTimer;
 }

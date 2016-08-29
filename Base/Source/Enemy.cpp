@@ -44,7 +44,7 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	this->m_CurrElement = m_CurrElement;
 	this->detectionRange = detectionRange;
 
-	m_ElementsPercentageMap[m_CurrElement] = 5.f;
+	m_ElementsPercentageMap[m_CurrElement] = 3.f;
 }
 
 Enemy::~Enemy()

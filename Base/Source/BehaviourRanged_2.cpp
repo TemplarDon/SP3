@@ -10,8 +10,8 @@ BehaviourRanged_2::BehaviourRanged_2(ELEMENT CurrElement)
 	{
 	case EARTH:
 	{
-				  m_AttackDistance = 45;
-				  m_EvadeDistance = 25;
+				  m_AttackDistance = 40;
+				  m_EvadeDistance = 10;
 				  break;
 	}
 
@@ -229,8 +229,8 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 
 	case LAST_STAND:
 	{
-					   m_DestinationToReturn = PlayerPos;
-					   break;
+			m_DestinationToReturn = PlayerPos;
+			break;
 	}
 	}
 }

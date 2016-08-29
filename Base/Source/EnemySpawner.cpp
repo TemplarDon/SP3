@@ -74,7 +74,6 @@ void EnemySpawner::setEnemySpawnerVector(ELEMENT m_CurrElement, int howMany)
 }
 void EnemySpawner::Update(double dt)
 {
-
 	for (std::vector<Enemy*>::iterator it = enemyList.begin(); it != enemyList.end(); it++)
 	{
 		Enemy * enemy= *it;
@@ -89,7 +88,6 @@ void EnemySpawner::Update(double dt)
 	
 	}
 	m_timer += dt;
-
 }
 std::vector<Enemy*> EnemySpawner::getEnemySpawnerVector()
 {

@@ -123,7 +123,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 			if (temp->GetElement() == EARTH_2)
 			{
 				float TempLifeTime = temp->GetElementLevel() * 2 + 5;
-				float radius = 15;
+				float radius = 10;
 
 				Mesh* Quad = MeshBuilder::GenerateQuad("Quad", Color(1, 1, 1));
 

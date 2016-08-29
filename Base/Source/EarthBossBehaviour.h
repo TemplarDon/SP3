@@ -21,6 +21,12 @@ public:
 
 	EARTH_PHASE GetBossState();
 
+	virtual void SetLastStand(bool status);
+	virtual bool GetLastStand();
+
+	virtual void SetLastStandTimer(float NewTime);
+	virtual float GetLastStandTimer();
+
 private:
 
 	Vector3 m_DestinationToReturn;
@@ -28,6 +34,12 @@ private:
 
 	bool m_DirectionSet;
 	bool m_RunOnce;
+
+	float m_AttackDistance;
+	float m_EvadeDistance;
+
+	float m_LastStandTimer;
+	bool m_LastStandStatus;
 };
 
 #endif // !_EARTH_BOSS_BEAHVIOUR_H

@@ -301,10 +301,10 @@ void Entity::CollisionResponse(GameObject* OtherGo)
 
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
+	ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 60 + mapOffset_y + mapFineOffset_y, 1.5, camera);
     interDT = dt;
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();
-	ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 60 + mapOffset_y + mapFineOffset_y, 1.5, camera);
 	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 
     ExecuteAbility(dt);
@@ -591,7 +591,7 @@ void Entity::GainExp(ELEMENT ElementToGain, float Amount)
 {
 	m_ElementsPercentageMap[ElementToGain] += Amount;
 
-	if (m_ElementsPercentageMap[ElementToGain] >= 10)
+	if (m_ElementsPercentageMap[ElementToGain] >= m_ElementsLevelMap[ElementToGain] * 1.5)
 	{
 		LevelUp(ElementToGain);
 	}

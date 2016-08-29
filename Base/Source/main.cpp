@@ -1,7 +1,6 @@
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
-#include <vld.h>
 #include "Application.h"
 
 int main( void )
