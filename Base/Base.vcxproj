@@ -24,6 +24,7 @@
     <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Entity.cpp" />
     <ClCompile Include="Source\Environment.cpp" />
+    <ClCompile Include="Source\FireBossBehaviour.cpp" />
     <ClCompile Include="Source\GameObject.cpp" />
     <ClCompile Include="Source\GameObjectManager.cpp" />
     <ClCompile Include="Source\GameObject_Map.cpp" />

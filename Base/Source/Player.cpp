@@ -24,7 +24,7 @@ Player::~Player(void)
 // Player Init
 void Player::Init(void)
 {
-	SetEntityMaxHealth(50);
+	SetEntityMaxHealth(10);
     CurrHealth = MaxHealth;
     Damage = 3;
 	SetEntityMovementSpeed(1);

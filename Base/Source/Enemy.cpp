@@ -37,7 +37,9 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	Attacks->Init(Damage, 5.0f);
 	//Attacks->SetAttackElement(m_CurrElement);
 	MovementSpeed = 0.1f;
+
 	SlowedSpeed = MovementSpeed * 0.5;
+
 	this->estimatedDistance = estimatedDistance;
 	this->m_CurrElement = m_CurrElement;
 	this->detectionRange = detectionRange;

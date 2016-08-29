@@ -94,6 +94,7 @@ int Entity::GetEntityTakenDamage()
 void Entity::SetEntityMovementSpeed(float movementspeed)
 {
 	this->MovementSpeed = movementspeed;
+    this->SlowedSpeed = MovementSpeed / 2;
 }
 
 float Entity::GetEntityMovementSpeed()
@@ -500,11 +501,13 @@ void Entity::DebuffCheckAndApply(double dt)
     if (deBuff_Slowed)
     {
         MovementSpeed = SlowedSpeed;
-        deBuff_SlowTimer += 2 * (float)dt;
-        if (deBuff_SlowTimer >= 10.f)
+
+        deBuff_SlowTimer +=  (float)dt;
+        if (deBuff_SlowTimer >= 4)
         {
             deBuff_Slowed = false;
-			MovementSpeed = SlowedSpeed * 2;
+            MovementSpeed = SlowedSpeed * 2;
+
             deBuff_SlowTimer = 0.f;
         }
     }

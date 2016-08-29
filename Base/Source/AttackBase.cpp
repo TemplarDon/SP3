@@ -39,6 +39,8 @@ AttackBase::AttackBase()
 AttackBase::~AttackBase()
 {
     //delete[] BulletPos;
+    delete[] m_Projectiles;
+    delete[] m_AbilityProjectiles;
 }
 void AttackBase::Init(int AttackDamage, float range)
 {
