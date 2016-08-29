@@ -39,7 +39,7 @@ void Player::PlayerUpdate(double dt)
 { 
 	if (m_Invulnerability)
 	{
-		m_InvulTimer -= dt;
+		m_InvulTimer -= (float)dt;
 		if (m_InvulTimer <= 0)
 		{
 			m_Invulnerability = false;

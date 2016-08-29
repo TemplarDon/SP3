@@ -35,7 +35,7 @@ void Environment::Update(double dt, GameObject_Map* Map)
 				MinYPos = (CheckGameObject_2->GetPosition().y) + (Map->GetTileSize());
 				break;
 			}
-			MinYPos = (0.5 * Map->GetTileSize());
+			MinYPos =(float)(0.5 * Map->GetTileSize());
 		}
 
 		m_Position.y -= 10 * (float)dt;
@@ -48,7 +48,7 @@ void Environment::Update(double dt, GameObject_Map* Map)
 
 	if (m_HasLifeTime)
 	{
-		m_LifeTime -= dt;
+		m_LifeTime -= (float)dt;
 		if (m_LifeTime <= 0)
 		{
 			this->m_Active = false;

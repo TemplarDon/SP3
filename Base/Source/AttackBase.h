@@ -52,7 +52,10 @@ protected:
     Projectile *m_Projectiles = new Projectile[30];
     Projectile *m_AbilityProjectiles = new Projectile[50];
 
-    Mesh* ProjectilePH;
+    Mesh* Projectile_Fire;
+    Mesh* Projectile_Water;
+    Mesh* Projectile_Earth;
+    Mesh* Projectile_Suck;
 
     //void SetAttackType();//always corresponds to element type
 

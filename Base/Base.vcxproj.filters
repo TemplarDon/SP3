@@ -97,6 +97,9 @@
     <ClCompile Include="Source\FireBossBehaviour.cpp">
       <Filter>Source files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\EnemySpawner.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Application.h">
@@ -208,6 +211,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Collectibles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EnemySpawner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

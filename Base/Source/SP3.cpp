@@ -50,7 +50,7 @@ void SP3::Init()
 	originalUIPos_y = 0;
 
 	// Health Bar starting position x
-	healthbarpos_x = m_worldWidth * 0.5 - 85;
+	healthbarpos_x = m_worldWidth * 0.5f - 85.f;
 
 	rotateUI = 0;
 	rotateUI2 = 0;
@@ -549,7 +549,7 @@ void SP3::UpdateUI(double dt)
 		// Water
 		if (rotateUI < 140)
 		{
-			rotateUI += dt * 200;
+            rotateUI += (float)dt * 200;
 		}
 
 		break;
@@ -567,11 +567,11 @@ void SP3::UpdateUI2(double dt)
 	// X
 	if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
 	{
-		treePos_x -= (dt * 0.5);
+        treePos_x -= ((float)dt * 0.5f);
 	}
 	else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
 	{
-		treePos_x += (dt * 0.5);
+        treePos_x += ((float)dt * 0.5f);
 	}
 
 
@@ -579,21 +579,21 @@ void SP3::UpdateUI2(double dt)
 	// X
 	if (UIPos_x  < originalUIPos_x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		UIPos_x += (float)dt * 8;
+		UIPos_x += (float)dt * 8.f;
 	}
 	else if (UIPos_x  > originalUIPos_x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		UIPos_x -= (float)dt * 8;
+		UIPos_x -= (float)dt * 8.f;
 	}
 
 	// Y
 	if (UIPos_y < originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
-		UIPos_y += (float)dt * 8;
+		UIPos_y += (float)dt * 8.f;
 	}
 	else if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-		UIPos_y -= (float)dt * 8;
+		UIPos_y -= (float)dt * 8.f;
 	}
 
 	//std::cout << m_Player->GetElement() << std::endl;
@@ -992,7 +992,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	m_GoMap = NULL;
 
 	// Clear m_GoList of unwanted stuff
-	int i = 0;
+	unsigned int i = 0;
 	while (GameObjectManager::m_goList.size() > 1)
 	{
 		if (i > GameObjectManager::m_goList.size() - 1)
@@ -1110,18 +1110,18 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	// ------------------------------------------------ // 
 
 	// ------------------- Cam ------------------ // 
-	camera.position.x = m_Player->GetMapOffset_x();
-	camera.target.x = m_Player->GetMapOffset_x();
+	camera.position.x = (float)m_Player->GetMapOffset_x();
+	camera.target.x = (float)m_Player->GetMapOffset_x();
 
-	camera.position.y = m_Player->GetMapOffset_y();
-	camera.target.y = m_Player->GetMapOffset_y();
+	camera.position.y = (float)m_Player->GetMapOffset_y();
+	camera.target.y = (float)m_Player->GetMapOffset_y();
 	// ------------------------------------------ // 
 
 	treePos_x = orignalTreePos_x;
 	treePos_y = orignalTreePos_y;
 
-	UIPos_x = m_Player->GetMapOffset_x();
-	UIPos_y = m_Player->GetMapOffset_y();
+	UIPos_x = (float)m_Player->GetMapOffset_x();
+	UIPos_y = (float)m_Player->GetMapOffset_y();
 }
 
 void SP3::Exit()
