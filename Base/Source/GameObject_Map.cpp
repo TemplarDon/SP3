@@ -208,12 +208,12 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			case 25:
 			{
 					   // Water Boss
-					   Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
+					   Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Vector3(20,20,20), true, true, Quad, "Image//wood_enemy3.tga"));
 					   temp->setMeshVector(Quad, "Water Enemy", "Image//wood_enemy3.tga", 2, 5);
 					   temp->SetMesh(temp->getMeshVector()[0]);
 					   temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
 					   temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-					   temp->SetEntityMaxHealth(30);
+					   temp->SetEntityMaxHealth(500);
 					   temp->EnemyInit(200, WATER_2, 5, 400);
 					   break;
 			}
@@ -260,7 +260,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				// Water Boss portal
 				Transition* temp = dynamic_cast<Transition*>(GameObjectManager::SpawnGameObject(TRANSITION, GO_DOOR, Position, Scale, false, true, Quad, "Image//Portal//water_boss_door.tga"));
 				temp->Init(false, false);
-				temp->SetNextTransition(WATER_BOSS_LEVEL);
+				temp->SetNextTransition(WATER_BOSS_LEVEL1);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			} 
@@ -284,7 +284,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			case 36:
 			{
 				EnemySpawner* temp = dynamic_cast<EnemySpawner*>(GameObjectManager::SpawnGameObject(ENEMYSPAWNER, GO_ENEMYSPAWNER, Position, Scale, true, false, Quad));
-				temp->setEnemySpawnerVector(EARTH, 3);
+				temp->setEnemySpawnerVector(EARTH, 2);
 				break;
 			}
 			case 37:
@@ -293,7 +293,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				temp->setEnemySpawnerVector(FIRE, 3);
 				break;
 			}
-			
+	
 			}
 		}
 	}

@@ -12,6 +12,7 @@ Enemy::Enemy()
 	m_Behaviour->setEstimatedDistance(estimatedDistance);
 	m_Behaviour->setEnemyType(enemyType);*/
 	Attacks->SetisEnemy(true);
+	timer = 0;
 }
 void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage,float detectionRange)
 {
@@ -32,6 +33,11 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 			this->m_Behaviour = new EarthBehaviour();
 			this->enemyType = BOSS;
 		}
+		if (m_CurrElement == WATER_2)
+		{
+			this->m_Behaviour = new BehaviourWaterBoss();
+			this->enemyType = WATERBOSS;
+		}
 	}
 	
 	Attacks->Init(Damage, 5.0f);
@@ -44,7 +50,9 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	this->m_CurrElement = m_CurrElement;
 	this->detectionRange = detectionRange;
 
-	m_ElementsPercentageMap[m_CurrElement] = 3.f;
+	timer = 0;
+	m_ElementsPercentageMap[m_CurrElement] = 5.f;
+
 }
 
 Enemy::~Enemy()
@@ -67,18 +75,21 @@ float  Enemy::getDetectionRange()
 
 void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera)
 {
-	static float timer = 0;
+
 	static bool timerBool = false;
-	std::cout << "timer :" << timer << std::endl;
+
+	std::cout << "timer: " << timer << std::endl;
 	//std::cout << "Curr health: " << CurrHealth << std::endl;
+
 	if (this->CurrHealth <= 0)
 	{
 		Death();
 	}
-	if (CurrHealth <= (MaxHealth/2) && m_CurrEntityMoveState !=EDIBLE)
-	{
-		m_CurrEntityMoveState = WEAKENED;
+	if (CurrHealth <= (MaxHealth/2) && m_CurrEntityMoveState !=EDIBLE && this->enemyType!=WATERBOSS && this->enemyType !=BOSS)
+	{	
+			m_CurrEntityMoveState = WEAKENED;
 	}
+
 	if (timerBool == true)
 	{
 		timer += (float)dt;
@@ -174,10 +185,13 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				EntityJumpUpdate(dt);
 			}
 
+
+
 			if (m_Behaviour->GetLastStand())
 			{
 				m_Behaviour->SetLastStandTimer(m_Behaviour->GetLastStandTimer() - dt);
 			}
+
 
 			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
 			GenerateCollisionBoundary(map);
@@ -191,7 +205,115 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				this->Attacks->Attack_Basic(m_CurrElement, GetElementLevel(m_CurrElement));
 			}
 		}
+		else if (enemyType == WATERBOSS)
+		{
+			 if (CurrHealth <= 0)
+			 {
+				if (enemyType == WATERBOSS && dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->getBossState() == BehaviourWaterBoss::PHASE1)
+				{
+				dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->setBossState(BehaviourWaterBoss::PHASE2);
 
+				}
+				else if (enemyType == WATERBOSS && dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->getBossState() == BehaviourWaterBoss::PHASE2)
+				{
+				dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->setBossState(BehaviourWaterBoss::PHASE3);
+				}
+			}
+			std::cout << (m_Destination - m_Position).LengthSquared() << std::endl;
+			bool Attack = false;
+			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack);
+			this->m_Destination = this->m_Behaviour->GetDestination();
+			if ((int)m_Destination.x > (int)m_Position.x)
+			{
+				if ((m_Destination - m_Position).LengthSquared() > 4500)
+				{
+					std::cout << "YES" << std::endl;
+					this->MovementSpeed = 0.2f;
+				} 
+				else if ((m_Destination - m_Position).LengthSquared() < 500)
+				{
+					this->MovementSpeed = 0.01f;
+				}
+				else
+				{
+					this->MovementSpeed = 0.1f;
+				}
+				MoveRight(0.1f);
+				rotate = true;
+			}
+			else if ((int)m_Destination.x < (int)m_Position.x)
+			{
+				if ((m_Destination - m_Position).LengthSquared() > 4500)
+				{
+					this->MovementSpeed = 0.2f;
+				}
+				else if ((m_Destination - m_Position).LengthSquared() < 500)
+				{
+					this->MovementSpeed = 0.01f;
+				}
+				else
+				{
+					this->MovementSpeed = 0.1f;
+				}
+				MoveLeft(0.1f);
+				rotate = false;
+			}
+			else
+			{
+				if (playerPosition.x > m_Position.x)
+				{
+					rotate = true;
+				}
+				else
+				{
+					rotate = false;
+				}
+			}
+			
+
+			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
+		//	GenerateCollisionBoundary(map);
+			//CheckCollisionBoundary();
+			DebuffCheckAndApply(dt);
+
+			bool AttackDir = false;
+			if (playerPosition.x > m_Position.x)
+			{
+				AttackDir = true;
+			}
+			else
+			{
+				AttackDir = false;
+			}
+
+			static float waterAttackDuration = 1;
+			static float waterAttackTimer = 0;
+			if (Attack && DirectionLeftRight == AttackDir)
+			{
+				if (waterAttackDuration <= 3 && waterAttackDuration >= 0)
+				{
+				this->Attacks->SetisEnemy(true);
+				this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+				this->Attacks->Attack_Ability(WATER, 0);
+				
+					this->Attacks->SetisEnemy(true);
+					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+					this->Attacks->Attack_Basic(WATER, 0);
+					waterAttackDuration -= dt;	
+				}
+				else
+				{
+					waterAttackTimer += dt;
+					if (waterAttackTimer >= 3)
+					{
+						waterAttackTimer = 0;
+						waterAttackDuration = 1;
+					}
+				}
+			}
+			//waterAttackTimer += dt;
+
+		}
 		else if (enemyType == BOSS)
 		{
 			bool Attack = false;
@@ -272,26 +394,6 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			}
 		}
 	}
-	//else if (enemyType == MELEE)
-	//{
-	//	this->setDistancePlayerToEnemy(playerPosition, m_Position);
-	//	this->setDirectionBasedOnDistance(playerPosition, m_Position);
-	//	m_Behaviour->Update(dt, distancePlayerToEnemy, estimatedDistance, m_Position, Move_Left, Move_Right, m_bJumping, DirectionLeftRight, m_CurrElement, Attacks, m_CurrEntityMoveState, detectionRange);
-	//	if (Move_Left == true)
-	//	{
-	//		MoveLeft(0.1f);
-	//		//std::cout << "RUN 1" << std::endl;
-	//	}
-	//	else if (Move_Right == true)
-	//	{
-	//		MoveRight(0.1f);
-	//		//	std::cout << "RUN 2" << std::endl;
-	//	}
-	//	if (m_CurrEntityMoveState != ON_GROUND)
-	//	{
-	//		EntityJumpUpdate(dt);
-	//	}
-	//}
 
 
 }
@@ -303,6 +405,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
 
     if (OtherGo->GetObjectType() == PROJECTILE)
     {
+
 		if (!tempProj->getIsHostileProjectile())
 		{
 			if (this->m_CurrEntityMoveState == WEAKENED && tempProj->GetElement() == MISC)
@@ -344,6 +447,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
 				}
 				//debuffs
 
+
 				//fire 2 burn
 				if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
 				{
@@ -375,7 +479,17 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
 
 		}
 
+        if (this->m_ObjectType == ENEMY && this->m_CurrEntityMoveState==WEAKENED && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false && this->getEnemyType()!=WATERBOSS)
+        {
+          //  this->debuff_Edible = true;
+			this->m_CurrEntityMoveState = EDIBLE;
+			std::cout << "HIT " << std::endl;
+        }
     }
+
+
+
+    
 
 	if (OtherGo->GetObjectType() == ENEMY)
 	{
@@ -387,7 +501,7 @@ void  Enemy::setBehaviour(Behaviour* behaviour)
 	this->m_Behaviour = behaviour;
 }
 
-Behaviour*  Enemy::getBehaviour(Behaviour* behaviour)
+Behaviour*  Enemy::getBehaviour()
 {
 	return m_Behaviour;
 }

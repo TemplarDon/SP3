@@ -71,8 +71,10 @@ void SP3::Init()
 
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
+
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Earth.csv");
+	m_Map->LoadMap("Image//Maps//Hub.csv");
+
 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -85,7 +87,7 @@ void SP3::Init()
 	//	sa->m_anim = new Animation();
 	//	sa->m_anim->Set(0, 1, 1, 0.8f, true);
 	//}
-	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(20, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER]));
+	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER,m_GoMap->GetLevel()->GetStartPos(), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER]));
 	m_Player->Init();
 	m_Player->setMeshVector(meshList[GEO_PLAYER], "player ", "Image//player.tga", 1, 2); 
 	m_Player->SetMesh(m_Player->getMeshVector()[0]);
@@ -296,10 +298,11 @@ void SP3::Update(double dt)
 
 		if (go->GetType() == GO_ENEMY)
 		{
-			Enemy* temp = dynamic_cast<Enemy*>(go);
+			Enemy* temp = dynamic_cast<Enemy*>(go);	
+		
 			if (temp->GetMoveState() == EDIBLE)
 			{
-				if (temp->EmpricalCheckCollisionWith(m_Player, dt, 75))
+				if (temp->EmpricalCheckCollisionWith(m_Player, dt, 30))
 				{
 					ELEMENT tempElement;
 					if (temp->GetElement() == FIRE_2 || temp->GetElement() == FIRE)
@@ -317,7 +320,20 @@ void SP3::Update(double dt)
 					m_Player->GainExp(tempElement, temp->GetElementPercentage(tempElement));
 					temp->SetActive(false);
 				}
+				
 			}
+			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
+
+			if (temp->getEnemyType()==Enemy::WATERBOSS&&dynamic_cast<BehaviourWaterBoss*>(temp->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2)
+			{
+				temp->SetActive(false);
+				SwitchLevel(WATER_BOSS_LEVEL2);
+			}
+			else if (temp->getEnemyType() == Enemy::WATERBOSS&&dynamic_cast<BehaviourWaterBoss*>(temp->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE3)
+			{
+				temp->SetActive(false);
+				SwitchLevel(WATER_BOSS_LEVEL3);
+			}		
 			else
 			{
 				if (temp->EmpricalCheckCollisionWith(m_Player, dt, 75))
@@ -329,7 +345,7 @@ void SP3::Update(double dt)
 					}
 				}
 			}
-			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
+			
 			
 		}
 
@@ -414,6 +430,14 @@ void SP3::Update(double dt)
 					break;
 				}
 			}
+			/*if (go->GetObjectType() == ENEMY && go2->GetObjectType() == TRANSITION)
+			{
+				if (dynamic_cast<BehaviourWaterBoss*>(dynamic_cast<Enemy*>(go)->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2)
+				{
+					Transition* temp = dynamic_cast<Transition*>(go2);
+					SwitchLevel(temp->GetNextTransition());
+				}
+			}*/
 		}
 	}
 
@@ -452,7 +476,7 @@ void SP3::Update(double dt)
 
 	if (camera.position.y < OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
-        camera.position.y += (float)dt * 8;
+		camera.position.y += (float)dt * 8;
 	}
 	else if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
@@ -858,6 +882,11 @@ void SP3::RenderUIText()
 	ss2 << m_Player->GetElementLevel(EARTH);
 	RenderTextOnScreen(meshList[GEO_TEXT], ss2.str(), Color(0, 1, 0), 2.5, 15, 39.8);
 
+
+	std::ostringstream ss3;
+	ss3.precision(5);
+	ss3 << fps;
+	RenderTextOnScreen(meshList[GEO_TEXT], ss3.str(), Color(0, 1, 0), 2.5, 15, 30.f);
 	// Health Charges
 	for (int i = 0; i < 5; i++)
 	{
@@ -1056,7 +1085,21 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_background.tga");
 		break;
 	}
-	case WATER_BOSS_LEVEL:
+	case WATER_BOSS_LEVEL1:
+	{
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 3200);
+		m_Map->LoadMap("Image//Maps//Water_Boss.csv");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
+		break;
+	}
+	case WATER_BOSS_LEVEL2:
+	{
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 3200);
+		m_Map->LoadMap("Image//Maps//Water_Boss2.csv");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
+		break;
+	}
+	case WATER_BOSS_LEVEL3:
 	{
 
 		m_Map->LoadMap("Image//Maps//Water_Boss.csv");

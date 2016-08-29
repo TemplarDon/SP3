@@ -17,7 +17,7 @@ Entity::Entity()
 	m_bJumping = false;
 	JumpVel = 0.f;
 	JUMPMAXSPEED = 30.0f;
-	JUMPACCEL = 10;
+	JUMPACCEL = 10.f;
 	Gravity = -9.8f;
 	MovementSpeed = 1;
 	SlowedSpeed = MovementSpeed * 0.5f;
@@ -302,10 +302,12 @@ void Entity::CollisionResponse(GameObject* OtherGo)
 
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
-	ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 60 + mapOffset_y + mapFineOffset_y, 1.5, camera);
-    interDT = dt;
+
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();
+
+
+	ConstrainPlayer(30 + mapOffset_x + mapFineOffset_x,   75+mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 60 + mapOffset_y + mapFineOffset_y, 1.5, camera);
 	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 
     ExecuteAbility(dt);

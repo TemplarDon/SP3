@@ -79,15 +79,17 @@ void EnemySpawner::Update(double dt)
 		Enemy * enemy= *it;
 		if (!enemy->GetActive())
 		{
+			m_timer += dt;
 			if (m_timer >= 5)
 			{
 				enemy->SetActive(true);
 				m_timer = 0;
 			}
+
 		}
 	
 	}
-	m_timer += dt;
+
 }
 std::vector<Enemy*> EnemySpawner::getEnemySpawnerVector()
 {

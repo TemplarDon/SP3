@@ -117,10 +117,10 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 		case NO_ELEMENT:
 		{
-			if (temp->GetElement() != FIRE_2)
+			if (temp->GetElement() != FIRE_2 && temp->GetElement() != WATER_2)
 				OtherGo->SetActive(false);
 
-			if (temp->GetElement() == EARTH_2)
+			if (temp->GetElement() == EARTH_2 )
 			{
 				float TempLifeTime = temp->GetElementLevel() * 2 + 5;
 				float radius = 10;
