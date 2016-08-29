@@ -51,7 +51,7 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	this->detectionRange = detectionRange;
 
 	timer = 0;
-	m_ElementsPercentageMap[m_CurrElement] = 5.f;
+	m_ElementsPercentageMap[m_CurrElement] = 3.f;
 
 }
 
@@ -190,6 +190,11 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			if (m_Behaviour->GetLastStand())
 			{
 				m_Behaviour->SetLastStandTimer(m_Behaviour->GetLastStandTimer() - dt);
+			}
+
+			if (m_Behaviour->GetCollide())
+			{
+				m_Behaviour->SetCollideTimer(m_Behaviour->GetCollideTimer() - dt);
 			}
 
 
@@ -356,6 +361,16 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			if (m_CurrEntityMoveState == FALLING)
 			{
 				EntityJumpUpdate(dt);
+			}
+			
+			if (m_Behaviour->GetLastStand())
+			{
+				m_Behaviour->SetLastStandTimer(m_Behaviour->GetLastStandTimer() - dt);
+			}
+
+			if (m_Behaviour->GetCollide())
+			{
+				m_Behaviour->SetCollideTimer(m_Behaviour->GetCollideTimer() - dt);
 			}
 
 			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
@@ -524,18 +539,14 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
         if (this->m_ObjectType == ENEMY && this->m_CurrEntityMoveState==WEAKENED && tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile() == false && this->getEnemyType()!=WATERBOSS)
         {
-          //  this->debuff_Edible = true;
 			this->m_CurrEntityMoveState = EDIBLE;
-			std::cout << "HIT " << std::endl;
         }
     }
 
-
-
-    
-
 	if (OtherGo->GetObjectType() == ENEMY)
 	{
+		this->m_Behaviour->SetCollide(true);
+		dynamic_cast<Enemy*>(OtherGo)->m_Behaviour->SetCollide(true);
 	}
 }
 

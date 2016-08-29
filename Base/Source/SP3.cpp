@@ -378,6 +378,9 @@ void SP3::Update(double dt)
 		{
 			GameObject *go2 = GameObjectManager::m_goList[i2];
 
+			if (go == go2)
+				continue;
+
 			if (!go2->GetActive())
 				continue;
 
@@ -417,7 +420,7 @@ void SP3::Update(double dt)
 
 			if (go->GetObjectType() == ENEMY && go2->GetObjectType() == ENEMY)
 			{
-				if (go->EmpricalCheckCollisionWith(go2, dt, 40))
+				if (go->EmpricalCheckCollisionWith(go2, dt, 80))
 				{
 					dynamic_cast<Enemy*>(go)->CollisionResponse(go2, m_GoMap);
 				}

@@ -5,6 +5,8 @@ BehaviourRanged_2::BehaviourRanged_2(ELEMENT CurrElement)
 	, m_RunOnce(false)
 	, m_LastStandStatus(false)
 	, m_LastStandTimer(2)
+	, m_CollideStatus(false)
+	, m_CollideTimer(3)
 {
 	switch (CurrElement)
 	{
@@ -123,6 +125,17 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 		}
 	}
 
+	// Check for collide
+	if (m_CollideStatus)
+	{
+		behaviour = COLLIDE;
+		if (m_CollideTimer <= 0)
+		{
+			m_CollideStatus = false;
+			m_CollideTimer = 3;
+		}
+	}
+
 	// Generate Destination and set attack bool
 	switch (this->behaviour)
 	{
@@ -219,15 +232,24 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 
 	case COLLIDE:
 	{
-			if (BlockedRight)
-			{
-				m_DestinationToReturn = CurrPos - Vector3(5, 0, 0);
-			}
-			else
-			{
-				m_DestinationToReturn = CurrPos + Vector3(5, 0, 0);
-			}
-			break;
+		//m_RunOnce = false;
+		//if (!m_RunOnce)
+		//{
+		//	int rand = Math::RandIntMinMax(0, 1);
+		//	if (rand == 1)
+		//	{
+		//		m_DestinationToReturn = CurrPos + Vector3(50, 0, 0);
+		//		m_DirectionSet = true;
+		//	}
+		//	else if (rand == 0)
+		//	{
+		//		m_DestinationToReturn = CurrPos - Vector3(50, 0, 0);
+		//		m_DirectionSet = true;
+		//	}
+		//	m_RunOnce = true;
+		//}
+		m_DestinationToReturn = CurrPos;
+		break;
 	}
 
 	case LAST_STAND:
@@ -261,4 +283,24 @@ void BehaviourRanged_2::SetLastStandTimer(float NewTime)
 float BehaviourRanged_2::GetLastStandTimer()
 {
 	return m_LastStandTimer;
+}
+
+void BehaviourRanged_2::SetCollide(bool status)
+{
+	m_CollideStatus = status;
+}
+
+bool BehaviourRanged_2::GetCollide()
+{
+	return m_CollideStatus;
+}
+
+void BehaviourRanged_2::SetCollideTimer(float NewTime)
+{
+	m_CollideTimer = NewTime;
+}
+
+float BehaviourRanged_2::GetCollideTimer()
+{
+	return m_CollideTimer;
 }

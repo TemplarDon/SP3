@@ -18,6 +18,12 @@ public:
 	virtual void SetLastStandTimer(float NewTime);
 	virtual float GetLastStandTimer();
 
+	virtual void SetCollide(bool status);
+	virtual bool GetCollide();
+
+	virtual void SetCollideTimer(float NewTime);
+	virtual float GetCollideTimer();
+
 private:
 
 	Vector3 m_DestinationToReturn;
@@ -31,5 +37,8 @@ private:
 
 	float m_LastStandTimer;
 	bool m_LastStandStatus;
+
+	float m_CollideTimer;
+	bool m_CollideStatus;
 };
 #endif // !2_BEHAVIOUR_RANGED_H

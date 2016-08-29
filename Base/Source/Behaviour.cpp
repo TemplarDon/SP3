@@ -54,3 +54,23 @@ float Behaviour::GetLastStandTimer()
 {
 	return m_LastStandTimer;
 }
+
+void Behaviour::SetCollide(bool status)
+{
+	m_CollideStatus = status;
+}
+
+bool Behaviour::GetCollide()
+{
+	return m_CollideStatus;
+}
+
+void Behaviour::SetCollideTimer(float NewTime)
+{
+	m_CollideTimer = NewTime;
+}
+
+float Behaviour::GetCollideTimer()
+{
+	return m_CollideTimer;
+}

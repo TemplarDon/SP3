@@ -36,6 +36,12 @@ public:
 	virtual void SetLastStandTimer(float NewTime);
 	virtual float GetLastStandTimer();
 
+	virtual void SetCollide(bool status);
+	virtual bool GetCollide();
+
+	virtual void SetCollideTimer(float NewTime);
+	virtual float GetCollideTimer();
+
 protected:
 	
 	BehaviourStates behaviour;
@@ -51,6 +57,9 @@ protected:
 
 	float m_LastStandTimer;
 	bool m_LastStandStatus;
+
+	float m_CollideTimer;
+	bool m_CollideStatus;
 };
 
 
