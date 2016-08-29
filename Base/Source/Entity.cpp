@@ -17,7 +17,7 @@ Entity::Entity()
 	m_bJumping = false;
 	JumpVel = 0.f;
 	JUMPMAXSPEED = 30.0f;
-	JUMPACCEL = 10;
+	JUMPACCEL = 10.f;
 	Gravity = -9.8f;
 	MovementSpeed = 1;
 	SlowedSpeed = MovementSpeed * 0.5f;

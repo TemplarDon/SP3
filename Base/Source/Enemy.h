@@ -6,7 +6,7 @@
 #include "BehaviourMelee.h"
 #include "BehaviourRanged_2.h"
 #include "EarthBossBehaviour.h"
-
+#include "BehaviourWaterBoss.h"
 class Enemy : public Entity
 {
 
@@ -18,6 +18,7 @@ public:
 		MELEE,
 		RANGED,
 		BOSS,
+		WATERBOSS,
 	};
 	Enemy();
 	~Enemy();
@@ -37,7 +38,7 @@ public:
 	virtual void Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera);
 
 	virtual void setBehaviour(Behaviour* behaviour);
-	virtual Behaviour* getBehaviour(Behaviour* behaviour);
+	virtual Behaviour* getBehaviour();
 
 	virtual void setAttack(AttackBase* attack);
 	virtual AttackBase* getAttack();
@@ -71,6 +72,7 @@ private:
 	float detectionRange;
 
 	bool moveTowardsPlayer;
+	float timer;
 	//BehaviourRanged* behaviourRanged;
 	// BehaviourMelee* behaviourMelee;
 	/* bool moveLeft;
