@@ -32,7 +32,7 @@ public:
 
 	//Getter for entity damage
 	virtual int GetEntityDamage();
-    virtual void TakeDamage(int damagetaken);
+    virtual void TakeDamage(float damagetaken);
 	//Setter for entity taken damage
 	virtual void SetEntityTakenDamage(int takendamage);
 	//Getter for entity taken damage

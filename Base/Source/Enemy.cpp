@@ -38,7 +38,7 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	//Attacks->SetAttackElement(m_CurrElement);
 	MovementSpeed = 0.1f;
 
-	SlowedSpeed = MovementSpeed * 0.5;
+	SlowedSpeed = MovementSpeed * 0.5f;
 
 	this->estimatedDistance = estimatedDistance;
 	this->m_CurrElement = m_CurrElement;
@@ -81,7 +81,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 	}
 	if (timerBool == true)
 	{
-		timer += dt;
+		timer += (float)dt;
 	}
 	if (m_CurrEntityMoveState == EDIBLE)
 	{
@@ -320,7 +320,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
 					if (m_CurrElement == EARTH)
 						DamagMultiplier = 1.5;
 
-					DamagMultiplier = DamagMultiplier * 0.4;
+					DamagMultiplier = DamagMultiplier * 0.4f;
 				}
 				if (tempProj->GetElement() == WATER || tempProj->GetElement() == WATER_2)
 				{
@@ -338,7 +338,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
 					if (m_CurrElement == FIRE)
 						DamagMultiplier = 0.5;
 					if (m_CurrElement == EARTH)
-						DamagMultiplier == 1;
+						DamagMultiplier = 1;
 
 					DamagMultiplier += 0.5;
 				}

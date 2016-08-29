@@ -20,7 +20,8 @@ Entity::Entity()
 	JUMPACCEL = 10;
 	Gravity = -9.8f;
 	MovementSpeed = 1;
-	SlowedSpeed = MovementSpeed * 0.5;
+	SlowedSpeed = MovementSpeed * 0.5f;
+    SheildRegenTimer = 0.f;
     //for abilities
     isLockMovement = false;
     deBuff_burning = false;
@@ -223,7 +224,7 @@ int Entity::GetMapOffset_y()
 // Set mapOffset_y
 void Entity::SetMapOffset_y(int mapOffset_y)
 {
-	this->mapOffset_y = mapFineOffset_y;
+	this->mapOffset_y = (int)mapFineOffset_y;
 }
 
 // Get mapFineOffset_X
@@ -355,7 +356,7 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 		GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y /*+ 1*/][i + 1];
 		if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive() && i != PlayerPos_X)
 		{
-			m_MaxCollisionBox.x = (CheckGameObject_2->GetPosition().x) - (Map->GetTileSize()) - 0.5;
+			m_MaxCollisionBox.x = (float)(CheckGameObject_2->GetPosition().x) - (Map->GetTileSize()) - 0.5f;
 			break;
 		}
 		m_MaxCollisionBox.x = (Map->GetNumOfTiles_MapWidth() * Map->GetTileSize()) - (Map->GetTileSize());
@@ -367,10 +368,10 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 		GameObject* CheckGameObject_2 = Map->m_GameObjectMap[PlayerPos_Y /*+ 1*/][i];
 		if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive() && i != PlayerPos_X)
 		{
-			m_MinCollisionBox.x = (CheckGameObject_2->GetPosition().x) + (Map->GetTileSize()) + 0.5;
+			m_MinCollisionBox.x =(float)(CheckGameObject_2->GetPosition().x) + (Map->GetTileSize()) + 0.5f;
 			break;
 		}
-		m_MinCollisionBox.x = (Map->GetTileSize() + 0.5);
+		m_MinCollisionBox.x = (float)(Map->GetTileSize() + 0.5);
 	}
 
 
@@ -381,14 +382,14 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 		GameObject* CheckGameObject_3 = Map->m_GameObjectMap[i][PlayerPos_X + 1];
 		if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive() && i != PlayerPos_Y)
 		{
-			m_MaxCollisionBox.y = (CheckGameObject_2->GetPosition().y) - (Map->GetTileSize()) - 0.5;
+			m_MaxCollisionBox.y = (float)(CheckGameObject_2->GetPosition().y) - (Map->GetTileSize()) - 0.5f;
 			break;
 		}
 		else if (!CheckGameObject_2->GetCollidable() && !CheckGameObject_2->GetActive())
 		{
 			if (CheckGameObject_3->GetCollidable() && CheckGameObject_3->GetActive())
 			{
-				m_MaxCollisionBox.y = (CheckGameObject_3->GetPosition().y) - (Map->GetTileSize()) - 0.5;
+				m_MaxCollisionBox.y =(float)(CheckGameObject_3->GetPosition().y) - (Map->GetTileSize()) - 0.5f;
 				break;
 			}
 		}
@@ -403,19 +404,19 @@ void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 
 		if (CheckGameObject_2->GetCollidable() && CheckGameObject_2->GetActive())
 		{
-			m_MinCollisionBox.y = (CheckGameObject_2->GetPosition().y) + (Map->GetTileSize()) + 0.1;
+			m_MinCollisionBox.y = (float)(CheckGameObject_2->GetPosition().y) + (Map->GetTileSize()) + 0.1f;
 			break;
 		}
 		else if(!CheckGameObject_2->GetCollidable() && !CheckGameObject_2->GetActive())
 		{
 			if (CheckGameObject_3->GetCollidable() && CheckGameObject_3->GetActive())
 			{
-				m_MinCollisionBox.y = (CheckGameObject_3->GetPosition().y) + (Map->GetTileSize()) + 0.1;
+				m_MinCollisionBox.y = (float)(CheckGameObject_3->GetPosition().y) + (Map->GetTileSize()) + 0.1f;
 				break;
 			}
 		}
 
-		m_MinCollisionBox.y = (0.5 * Map->GetTileSize());
+		m_MinCollisionBox.y = (float)(0.5 * Map->GetTileSize());
 
 	}
 	
@@ -530,7 +531,7 @@ void Entity::DebuffCheckAndApply(double dt)
     }
 }
 
-void Entity::TakeDamage(int input)
+void Entity::TakeDamage(float input)
 {
     input = input * DamagMultiplier;
     

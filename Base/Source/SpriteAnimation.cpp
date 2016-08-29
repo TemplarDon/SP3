@@ -26,7 +26,7 @@ void SpriteAnimation::Update(double dt)
 {
 	if (m_anim->animActive) // If animation active
 	{
-		m_currentTime += dt; // Increase currTime
+		m_currentTime += (float)dt; // Increase currTime
 	 
 		// Find numFrame
 		int numFrame = Math::Max(1, m_anim->endFrame - m_anim->startFrame + 1);
