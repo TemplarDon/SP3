@@ -85,7 +85,7 @@ void SP3::Init()
 	//	sa->m_anim = new Animation();
 	//	sa->m_anim->Set(0, 1, 1, 0.8f, true);
 	//}
-	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, Vector3(20, 50, 1), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER]));
+	m_Player = dynamic_cast<Player*>(GameObjectManager::SpawnGameObject(PLAYER, GO_PLAYER, m_GoMap->GetLevel()->GetStartPos(), Vector3(m_GoMap->GetTileSize(), m_GoMap->GetTileSize(), 1), true, true, meshList[GEO_PLAYER]));
 	m_Player->Init();
 	m_Player->setMeshVector(meshList[GEO_PLAYER], "player ", "Image//player.tga", 1, 2); 
 	m_Player->SetMesh(m_Player->getMeshVector()[0]);
@@ -367,7 +367,7 @@ void SP3::Update(double dt)
 			{
 				float offset = 25;
 				if (dynamic_cast<ElementalObject*>(go)->GetElement() == EARTH || dynamic_cast<ElementalObject*>(go)->GetElement() == EARTH_2)
-					offset = 55;
+					offset = 45;
 
 				if (go->EmpricalCheckCollisionWith(go2, dt, offset))
 				{
@@ -381,10 +381,16 @@ void SP3::Update(double dt)
 
             if ((go->GetObjectType() == PROJECTILE) && (go2->GetObjectType() == PLAYER || go2->GetObjectType() == ENEMY) )
             {
-				Entity* temp = dynamic_cast<Entity*>(go2);
                 if (go->EmpricalCheckCollisionWith(go2, dt))
                 {
- 					temp->CollisionResponse(go);
+					if (go2->GetObjectType() == PLAYER)
+					{
+						dynamic_cast<Player*>(go2)->CollisionResponse(go, m_GoMap);
+					}
+					else if (go2->GetObjectType() == ENEMY)
+					{
+						dynamic_cast<Enemy*>(go2)->CollisionResponse(go, m_GoMap);
+					}
                 }				
             }
 
@@ -393,7 +399,7 @@ void SP3::Update(double dt)
 			{
 				if (go->EmpricalCheckCollisionWith(go2, dt, 40))
 				{
-					go->CollisionResponse(go2);
+					dynamic_cast<Enemy*>(go)->CollisionResponse(go2, m_GoMap);
 				}
 			}
 
@@ -401,7 +407,7 @@ void SP3::Update(double dt)
 			{
 				if (go->EmpricalCheckCollisionWith(go2, dt))
 				{
-					go->CollisionResponse(go2);
+					dynamic_cast<Player*>(go)->CollisionResponse(go2, m_GoMap);
 				}
 			}
 
@@ -456,7 +462,7 @@ void SP3::Update(double dt)
 	}
 	else if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-        camera.position.y -= (float)dt * 8;
+        camera.position.y -= (float)dt * 12;
 	}
 
 	if (camera.target.y < OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
@@ -465,7 +471,7 @@ void SP3::Update(double dt)
 	}
 	else if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-        camera.target.y -= (float)dt * 8;
+        camera.target.y -= (float)dt * 12;
 	}
 	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	//camera.target.x = OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
@@ -593,7 +599,7 @@ void SP3::UpdateUI2(double dt)
 	}
 	else if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-		UIPos_y -= (float)dt * 8.f;
+		UIPos_y -= (float)dt * 12.f;
 	}
 
 	//std::cout << m_Player->GetElement() << std::endl;
@@ -625,7 +631,7 @@ void SP3::RenderGO(GameObject *go)
 	{
 		
 		modelStack.PushMatrix();
-		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + 5, go->GetPosition().z);
+		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z);
 
 		modelStack.PushMatrix();
 		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() * 0.75, 0, 0);

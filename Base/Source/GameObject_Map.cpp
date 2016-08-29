@@ -220,15 +220,17 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 
 			case 26:
 			{
-					   // Earth Boss
-					   Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
-					   temp->setMeshVector(Quad, "Earth Enemy", "Image//wood_enemy3.tga", 2, 5);
-					   temp->SetMesh(temp->getMeshVector()[0]);
-					   temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
-					   temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-					   temp->SetEntityMaxHealth(30);
-					   temp->EnemyInit(200, EARTH_2, 5, 400);
-					   break;
+				// Earth Boss
+				Scale.x += 3;
+				Scale.y += 3;
+				Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
+				temp->setMeshVector(Quad, "Earth Enemy", "Image//wood_enemy3.tga", 2, 5);
+				temp->SetMesh(temp->getMeshVector()[0]);
+				temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
+				temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
+				temp->SetEntityMaxHealth(30);
+				temp->EnemyInit(200, EARTH_2, 5, 400);
+				break;
 			}
 
 			case 27:

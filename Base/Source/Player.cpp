@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "Environment.h"
+#include "GameObjectManager.h"
 
 Player::Player(void)
 	: jumpspeed(0)
@@ -94,84 +96,127 @@ void Player::UpdateHealthCharges()
 	}
 }
 
-void Player::CollisionResponse(GameObject* OtherGo)
+void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 {
- 	Projectile* tempProj;
-	tempProj = dynamic_cast<Projectile*>(OtherGo); 
-	if (OtherGo->GetObjectType() == ENVIRONMENT)
+	if (OtherGo->GetObjectType() == PROJECTILE)
 	{
-		if (OtherGo->GetType() == GO_CHECKPOINT)
+		Projectile* tempProj;
+		tempProj = dynamic_cast<Projectile*>(OtherGo);
+		if (OtherGo->GetObjectType() == ENVIRONMENT)
 		{
-			this->SetRespawnPos(this->m_Position);
+			if (OtherGo->GetType() == GO_CHECKPOINT)
+			{
+				this->SetRespawnPos(this->m_Position);
+				OtherGo->SetActive(false);
+			}
+
+			if (OtherGo->GetType() == GO_DROP_HEALTH)
+			{
+				this->AddHealthCharges();
+			}
+		}
+
+		if (OtherGo->GetObjectType() == PROJECTILE && tempProj->getIsHostileProjectile() == true)
+		{
+
+			if (tempProj->GetElement() == FIRE)
+			{
+				if (m_CurrElement == WATER)
+					DamagMultiplier = 0.5f;
+				if (m_CurrElement == FIRE)
+					DamagMultiplier = 1.f;
+				if (m_CurrElement == EARTH)
+					DamagMultiplier = 1.5f;
+			}
+			if (tempProj->GetElement() == WATER)
+			{
+				if (m_CurrElement == WATER)
+					DamagMultiplier = 1.f;
+				if (m_CurrElement == FIRE)
+					DamagMultiplier = 1.5f;
+				if (m_CurrElement == EARTH)
+					DamagMultiplier = 0.5f;
+			}
+			if (tempProj->GetElement() == EARTH)
+			{
+				if (m_CurrElement == WATER)
+					DamagMultiplier = 1.5f;
+				if (m_CurrElement == FIRE)
+					DamagMultiplier = 0.5f;
+				if (m_CurrElement == EARTH)
+					DamagMultiplier = 1.f;
+			}
+			//debuffs
+
+			//fire 2 burn
+			if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2)
+			{
+				if (deBuff_burning = true)
+				{
+					deBuff_BurningTimer = 0.f;
+				}
+				else
+				{
+					deBuff_burning = true;
+				}
+			}
+			//Water and Water2 slow
+			if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER || dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER_2)
+			{
+				if (deBuff_Slowed)
+				{
+					deBuff_SlowTimer = 0.f;
+				}
+				else
+				{
+					deBuff_Slowed = true;
+				}
+			}
+			TakeDamage(tempProj->getDamage());
 			OtherGo->SetActive(false);
 		}
 
-		if (OtherGo->GetType() == GO_DROP_HEALTH)
+
+		if (tempProj->GetElement() == EARTH_2 && tempProj->getIsHostileProjectile())
 		{
-			this->AddHealthCharges();
+			float TempLifeTime = tempProj->GetElementLevel() * 2 + 5;
+			float radius = 10;
+
+			Mesh* Quad = MeshBuilder::GenerateQuad("Quad", Color(1, 1, 1));
+
+			for (int offset = 0; offset < 15; offset += 5)
+			{
+				Vector3 SpawnLocation_Right = Vector3((int)this->GetPosition().x + radius, (int)this->GetPosition().y + offset, (int)this->GetPosition().z);
+				Vector3 SpawnLocation_Left = Vector3((int)this->GetPosition().x - radius, (int)this->GetPosition().y + offset, (int)this->GetPosition().z);
+
+				int LeftSpawnTile_X = (int)(SpawnLocation_Left.x / Map->GetTileSize());
+				int LeftSpawnTile_Y = (int)(SpawnLocation_Left.y / Map->GetTileSize());
+
+				int RightSpawnTile_X = (int)(SpawnLocation_Right.x / Map->GetTileSize());
+				int RightSpawnTile_Y = (int)(SpawnLocation_Right.y / Map->GetTileSize());
+
+				if (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_NONE)
+				{
+					Environment* temp1 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(RightSpawnTile_X * Map->GetTileSize(), RightSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
+					temp1->Init(true, false);
+					temp1->SetElement(EARTH);
+					temp1->SetLifeTimeBool(true);
+					temp1->SetLifeTime(TempLifeTime);
+					Map->AddIntoMap(temp1);
+				}
+
+				if (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_NONE)
+				{
+					Environment* temp2 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(LeftSpawnTile_X * Map->GetTileSize(), LeftSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
+					temp2->Init(true, false);
+					temp2->SetElement(EARTH);
+					temp2->SetLifeTimeBool(true);
+					temp2->SetLifeTime(TempLifeTime);
+					Map->AddIntoMap(temp2);
+				}
+			}
 		}
 	}
-
-	if (OtherGo->GetObjectType() == PROJECTILE && tempProj->getIsHostileProjectile() == true)
-	{
-
-		if (tempProj->GetElement() == FIRE)
-		{
-			if (m_CurrElement == WATER)
-				DamagMultiplier = 0.5f;
-			if (m_CurrElement == FIRE)
-				DamagMultiplier = 1.f;
-			if (m_CurrElement == EARTH)
-				DamagMultiplier = 1.5f;
-		}
-		if (tempProj->GetElement() == WATER)
-		{
-			if (m_CurrElement == WATER)
-				DamagMultiplier = 1.f;
-			if (m_CurrElement == FIRE)
-				DamagMultiplier = 1.5f;
-			if (m_CurrElement == EARTH)
-				DamagMultiplier = 0.5f;
-		}
-		if (tempProj->GetElement() == EARTH)
-		{
-			if (m_CurrElement == WATER)
-				DamagMultiplier = 1.5f;
-			if (m_CurrElement == FIRE)
-				DamagMultiplier = 0.5f;
-			if (m_CurrElement == EARTH)
-				DamagMultiplier = 1.f;
-		}
-		//debuffs
-		
-		//fire 2 burn
-        if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == FIRE_2 )
-		{
-			if (deBuff_burning = true)
-			{
-				deBuff_BurningTimer = 0.f;
-			}
-			else
-			{
-				deBuff_burning = true;
-			}
-		}
-		//Water and Water2 slow
-		if (dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER || dynamic_cast<Projectile*>(OtherGo)->GetElement() == WATER_2)
-		{
-			if (deBuff_Slowed)
-			{
-				deBuff_SlowTimer = 0.f;
-			}
-			else
-			{
-				deBuff_Slowed = true;
-			}
-		}
-		TakeDamage(tempProj->getDamage());
-		OtherGo->SetActive(false);
-	}
-
 }
 
 void Player::SetInvulnerability(bool status)

@@ -58,7 +58,7 @@ public:
 	virtual float getDetectionRange();
 
 	
-	virtual void CollisionResponse(GameObject* OtherGo);
+	virtual void CollisionResponse(GameObject* OtherGo, GameObject_Map* Map);
 	virtual void Death();
 
 private:

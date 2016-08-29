@@ -261,12 +261,14 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 					this->Attacks->SetisEnemy(true);
 					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
 					this->Attacks->Attack_Basic(temp, GetElementLevel(temp));
+					dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetAttackCount(dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetAttackCount() + 1);
 				}
 				else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
 				{
 					this->Attacks->SetisEnemy(true);
 					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
 					this->Attacks->Attack_Ability(temp, GetElementLevel(temp));
+					dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetAttackCount(0);
 				}
 
 			}
@@ -296,14 +298,15 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 
 }
 
-void Enemy::CollisionResponse(GameObject* OtherGo)
+void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 {
-    Projectile* tempProj;
-    tempProj = dynamic_cast<Projectile*>(OtherGo);
 
     if (OtherGo->GetObjectType() == PROJECTILE)
     {
-		if (!tempProj->getIsHostileProjectile())
+		Projectile* tempProj;
+		tempProj = dynamic_cast<Projectile*>(OtherGo);
+
+		if (!tempProj->getIsHostileProjectile() && tempProj->GetElement() != EARTH_2)
 		{
 			if (this->m_CurrEntityMoveState == WEAKENED && tempProj->GetElement() == MISC)
 			{
@@ -373,6 +376,47 @@ void Enemy::CollisionResponse(GameObject* OtherGo)
 				OtherGo->SetActive(false);
 			}
 
+		}
+		else if (!tempProj->getIsHostileProjectile() && tempProj->GetElement() == EARTH_2)
+		{
+			float TempLifeTime = tempProj->GetElementLevel() * 2 + 5;
+			float radius = 10;
+
+			Mesh* Quad = MeshBuilder::GenerateQuad("Quad", Color(1, 1, 1));
+
+			for (int offset = 0; offset < 15; offset += 5)
+			{
+				Vector3 SpawnLocation_Right = Vector3((int)this->GetPosition().x + radius, (int)this->GetPosition().y + offset, (int)this->GetPosition().z);
+				Vector3 SpawnLocation_Left = Vector3((int)this->GetPosition().x - radius, (int)this->GetPosition().y + offset, (int)this->GetPosition().z);
+
+				int LeftSpawnTile_X = (int)(SpawnLocation_Left.x / Map->GetTileSize());
+				int LeftSpawnTile_Y = (int)(SpawnLocation_Left.y / Map->GetTileSize());
+
+				int RightSpawnTile_X = (int)(SpawnLocation_Right.x / Map->GetTileSize());
+				int RightSpawnTile_Y = (int)(SpawnLocation_Right.y / Map->GetTileSize());
+
+				if (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_NONE)
+				{
+					Environment* temp1 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(RightSpawnTile_X * Map->GetTileSize(), RightSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
+					temp1->Init(true, false);
+					temp1->SetElement(EARTH);
+					temp1->SetLifeTimeBool(true);
+					temp1->SetLifeTime(TempLifeTime);
+					Map->AddIntoMap(temp1);
+				}
+
+				if (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_NONE)
+				{
+					Environment* temp2 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(LeftSpawnTile_X * Map->GetTileSize(), LeftSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
+					temp2->Init(true, false);
+					temp2->SetElement(EARTH);
+					temp2->SetLifeTimeBool(true);
+					temp2->SetLifeTime(TempLifeTime);
+					Map->AddIntoMap(temp2);
+				}
+			}
+
+			tempProj->SetActive(false);
 		}
 
     }

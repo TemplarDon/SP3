@@ -142,7 +142,7 @@ void AttackBase::Debouncers(double dt)
     }
 }
 
-void::AttackBase::Attack_Ability(ELEMENT CurrElement, int elementLevel)
+void AttackBase::Attack_Ability(ELEMENT CurrElement, int elementLevel)
 {
     m_CurrElement = CurrElement;
     m_ElementLevel = elementLevel;
@@ -259,13 +259,8 @@ void AttackBase::Ability_Run()
     {
         Projectile* temp;
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(4, 4, 2), true, true, Projectile_Earth, "Image//Projectiles/earth_projectile.tga"));
-        temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, EARTH_2, false, 60.f, m_ElementLevel);
+        temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, EARTH_2, false, 0, m_ElementLevel);
 		temp->setIsHostileProjectile(this->isEnemy);
-
-        // These Variables shouldn't change
-        // Bullet Speed = 20.0f
-        // Theta = 60.f
-
         m_AbilityProjectiles[m_AbilityCount].SetElement(EARTH_2);
         m_AbilityCount += 1;
         if (m_AbilityCount >= MAXprojectilecount)

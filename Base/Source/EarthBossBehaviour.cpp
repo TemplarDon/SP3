@@ -3,8 +3,11 @@
 EarthBehaviour::EarthBehaviour()
 	: m_DirectionSet(false)
 	, m_RunOnce(false)
-	, m_AttackDistance(50)
+	, m_LastStandStatus(false)
+	, m_LastStandTimer(2)
+	, m_AttackDistance(40)
 	, m_EvadeDistance(10)
+	, m_AttackCount(0)
 {
 }
 
@@ -33,18 +36,24 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	if (DistanceToPlayer <= m_AttackDistance)
 	{
 		behaviour = ATTACK;
-		m_CurrPhase = NORMAL_ATTACK_PHASE;
-		AttackStatus = true;
-
-		if (DistanceToPlayer <= m_AttackDistance - 10)
+		
+		if (m_AttackCount <= 200)
+		{
+			m_CurrPhase = NORMAL_ATTACK_PHASE;
+			AttackStatus = true;
+		}
+		else
 		{
 			m_CurrPhase = ABILITY_ATTACK_PHASE;
-			if (DistanceToPlayer <= m_EvadeDistance)
-			{
-				behaviour = EVADE;
-				AttackStatus = false;
-			}
+			AttackStatus = true;
 		}
+
+		if (DistanceToPlayer <= m_EvadeDistance)
+		{
+			behaviour = EVADE;
+			AttackStatus = false;
+		}
+		
 	}
 	else if (DistanceToPlayer > m_AttackDistance)
 	{
@@ -246,4 +255,14 @@ void EarthBehaviour::SetLastStandTimer(float NewTime)
 float EarthBehaviour::GetLastStandTimer()
 {
 	return m_LastStandTimer;
+}
+
+void EarthBehaviour::SetAttackCount(float NewCount)
+{
+	m_AttackCount = NewCount;
+}
+
+float EarthBehaviour::GetAttackCount()
+{
+	return m_AttackCount;
 }

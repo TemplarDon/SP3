@@ -30,7 +30,7 @@ public:
 	void SetInvulnerability(bool status);
 	bool GetInvulnerability();
 
-	virtual void CollisionResponse(GameObject* OtherGo);
+	virtual void CollisionResponse(GameObject* OtherGo, GameObject_Map* Map);
 
 private:
 	// Player's information

@@ -27,6 +27,9 @@ public:
 	virtual void SetLastStandTimer(float NewTime);
 	virtual float GetLastStandTimer();
 
+	void SetAttackCount(float NewCount);
+	float GetAttackCount();
+
 private:
 
 	Vector3 m_DestinationToReturn;
@@ -40,6 +43,8 @@ private:
 
 	float m_LastStandTimer;
 	bool m_LastStandStatus;
+
+	float m_AttackCount;
 };
 
 #endif // !_EARTH_BOSS_BEAHVIOUR_H

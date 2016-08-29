@@ -71,7 +71,7 @@ void Projectile::Update(double dt)
 
 void Projectile::UpdatePhysics(double dt, Vector3 Gravity)
 {
-	if (m_CurrElement == EARTH_2 || m_CurrElement == EARTH)
+	if (m_CurrElement == EARTH)
 	{
  		Vector3 dv = Gravity * (float) dt; // Eqn 1 (Vec3 = Vec3 * float)
 		this->m_Velocity += (dv);
