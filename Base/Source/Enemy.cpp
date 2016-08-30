@@ -400,7 +400,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
                 }
                 else if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::REST_PHASE)
                 {
-                    tempMS = 0.f;
+                    tempMS = 0.05f;
                 }
                 if (m_Position.x > playerPosition.x+10)
                 {
@@ -420,9 +420,9 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
                 {
                     m_Position.y += (float)(5.0f * tempMS * this->MovementSpeed);
                 }
-                if (((playerPosition.x <= m_Position.x + 50 && playerPosition.x >= m_Position.x - 50)
+                if (((playerPosition.x <= m_Position.x + 30 && playerPosition.x >= m_Position.x - 30)
                     &&
-                    (playerPosition.y <= m_Position.y + 20 && playerPosition.y >= m_Position.y - 20))
+                    (playerPosition.y <= m_Position.y + 10 && playerPosition.y >= m_Position.y - 10))
                     &&
                     (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::NORMAL_PHASE
                     ||
@@ -501,7 +501,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 					if (m_CurrElement == EARTH || m_CurrElement == EARTH_2)
 						DamagMultiplier = 1.5;
 
-					DamagMultiplier = DamagMultiplier * 0.4f;
+					DamagMultiplier = DamagMultiplier / 2;
 				}
 				if (tempProj->GetElement() == WATER || tempProj->GetElement() == WATER_2)
 				{
@@ -677,6 +677,12 @@ void Enemy::Death()
 {
 	this->m_Active = false;
 
-	Collectibles* temp = dynamic_cast<Collectibles*>(GameObjectManager::SpawnGameObject(COLLECTIBLE, GO_DROP_HEALTH, m_Position, Vector3(3, 3, 3), false, true, MeshBuilder::GenerateQuad("healthdrop", Color(1, 1, 1)), "Image//UI//heart_icon.tga"));
-	temp->InitCollectible(5);
+	int rand = Math::RandIntMinMax(0, 100);
+
+	if (rand > 50)
+	{
+		Collectibles* temp = dynamic_cast<Collectibles*>(GameObjectManager::SpawnGameObject(COLLECTIBLE, GO_DROP_HEALTH, m_Position, Vector3(3, 3, 3), false, true, MeshBuilder::GenerateQuad("healthdrop", Color(1, 1, 1)), "Image//UI//heart_icon.tga"));
+		temp->InitCollectible(5);
+	}
+
 }
