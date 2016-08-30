@@ -307,7 +307,7 @@ void Entity::CollisionResponse(GameObject* OtherGo)
 
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
-	ConstrainPlayer(25 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 75 + mapOffset_y + mapFineOffset_y, 1.5, camera);
+	ConstrainPlayer(10 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 75 + mapOffset_y + mapFineOffset_y, 1.5, camera);
     interDT = dt;
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();

@@ -1099,7 +1099,7 @@ void SP3::RenderGame()
 		if (m_Player->GetLeftRight())
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(m_Player->GetPosition().x + Distance_X, m_Player->GetPosition().y, 2);
+			modelStack.Translate(m_Player->GetPosition().x + Distance_X, m_Player->GetPosition().y, 5);
 			modelStack.Scale(5, 5, 1);
 			RenderMesh(meshList[GEO_TARGET], false);
 			modelStack.PopMatrix();
@@ -1107,7 +1107,7 @@ void SP3::RenderGame()
 		else
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(m_Player->GetPosition().x - Distance_X, m_Player->GetPosition().y, 2);
+			modelStack.Translate(m_Player->GetPosition().x - Distance_X, m_Player->GetPosition().y, 5);
 			modelStack.Scale(5, 5, 1);
 			RenderMesh(meshList[GEO_TARGET], false);
 			modelStack.PopMatrix();

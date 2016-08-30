@@ -101,25 +101,25 @@ void Player::UseHealthCharge()
 
 void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 {
+	if (OtherGo->GetObjectType() == ENVIRONMENT)
+	{
+		if (OtherGo->GetType() == GO_CHECKPOINT)
+		{
+			this->SetRespawnPos(this->m_Position);
+			OtherGo->SetActive(false);
+		}
+
+		if (OtherGo->GetType() == GO_DROP_HEALTH)
+		{
+			this->AddHealthCharges();
+		}
+	}
+
 	if (OtherGo->GetObjectType() == PROJECTILE)
 	{
 		Projectile* tempProj;
 		tempProj = dynamic_cast<Projectile*>(OtherGo);
-		if (OtherGo->GetObjectType() == ENVIRONMENT)
-		{
-			if (OtherGo->GetType() == GO_CHECKPOINT)
-			{
-				this->SetRespawnPos(this->m_Position);
-				OtherGo->SetActive(false);
-			}
-
-			if (OtherGo->GetType() == GO_DROP_HEALTH)
-			{
-				this->AddHealthCharges();
-			}
-		}
-
-		if (OtherGo->GetObjectType() == PROJECTILE && tempProj->getIsHostileProjectile() == true)
+		if (tempProj->getIsHostileProjectile())
 		{
 
 			if (tempProj->GetElement() == FIRE)

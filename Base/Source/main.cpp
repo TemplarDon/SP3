@@ -9,4 +9,6 @@ int main( void )
 	app.Init();
 	app.Run();
 	app.Exit();
+
+	_CrtDumpMemoryLeaks();
 }
