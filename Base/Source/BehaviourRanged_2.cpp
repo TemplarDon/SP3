@@ -6,7 +6,10 @@ BehaviourRanged_2::BehaviourRanged_2(ELEMENT CurrElement)
 	, m_LastStandStatus(false)
 	, m_LastStandTimer(2)
 	, m_CollideStatus(false)
+
 	, m_CollideTimer(1)
+
+
 {
 	switch (CurrElement)
 	{
@@ -132,7 +135,9 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 		if (m_CollideTimer <= 0)
 		{
 			m_CollideStatus = false;
+
 			m_CollideTimer = 1;
+
 		}
 	}
 

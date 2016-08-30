@@ -39,6 +39,16 @@ void Player::Init(void)
 // Player Update
 void Player::PlayerUpdate(double dt)
 { 
+	if (m_CurrLevel == WATER_BOSS_LEVEL3 || m_CurrLevel== WATER_BOSS_LEVEL1)
+	{
+		ConstrainPlayer(30 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20+ mapOffset_y + mapFineOffset_y, 50+ mapOffset_y + mapFineOffset_y, 1.5);
+	}
+	else
+	{
+		ConstrainPlayer(10 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 50 + mapOffset_y + mapFineOffset_y, 1.5);
+
+	}
+
 	if (m_Invulnerability)
 	{
 		m_InvulTimer -= (float)dt;

@@ -45,7 +45,7 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	MovementSpeed = 0.1f;
 
 	SlowedSpeed = MovementSpeed * 0.5f;
-
+	this->Damage = Damage;
 	this->estimatedDistance = estimatedDistance;
 	this->m_CurrElement = m_CurrElement;
 	this->detectionRange = detectionRange;
@@ -98,7 +98,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		Velocity = (playerPosition - m_Position); 
 		Velocity.Normalize();
  		m_Position += Velocity*dt * 10;
-		ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
+		ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
 		GenerateCollisionBoundary(map);
 		CheckCollisionBoundary();
 		DebuffCheckAndApply(dt);
@@ -116,7 +116,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			timerBool = true;
 		}
 		
-		ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
+		ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
 		GenerateCollisionBoundary(map);
 		CheckCollisionBoundary();
 		DebuffCheckAndApply(dt);
@@ -196,7 +196,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			}
 
 
-			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
+			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
 			GenerateCollisionBoundary(map);
 			CheckCollisionBoundary();
 			DebuffCheckAndApply(dt);
@@ -215,13 +215,8 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				if (enemyType == WATERBOSS && dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->getBossState() == BehaviourWaterBoss::PHASE1)
 				{
 				dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->setBossState(BehaviourWaterBoss::PHASE2);
-
 				}
-				else if (enemyType == WATERBOSS && dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->getBossState() == BehaviourWaterBoss::PHASE2)
-				{
-				dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->setBossState(BehaviourWaterBoss::PHASE3);
-				}
-			}
+		     }
 			std::cout << (m_Destination - m_Position).LengthSquared() << std::endl;
 			bool Attack = false;
 			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack);
@@ -274,9 +269,9 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			}
 			
 
-			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
-		//	GenerateCollisionBoundary(map);
-			//CheckCollisionBoundary();
+			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
+			GenerateCollisionBoundary(map);
+			CheckCollisionBoundary();
 			DebuffCheckAndApply(dt);
 
 			bool AttackDir = false;
@@ -371,7 +366,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				m_Behaviour->SetCollideTimer(m_Behaviour->GetCollideTimer() - dt);
 			}
 
-			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
+			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
 			GenerateCollisionBoundary(map);
 			CheckCollisionBoundary();
 			DebuffCheckAndApply(dt);
@@ -465,7 +460,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
                 m_Behaviour->SetLastStandTimer(m_Behaviour->GetLastStandTimer() - dt);
             }
 
-            ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
+            ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
             GenerateCollisionBoundary(map);
             CheckCollisionBoundary();
             DebuffCheckAndApply(dt);
@@ -524,7 +519,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
                     EntityJumpUpdate(dt);
                 }
 
-                ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5, camera);
+                ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
                 GenerateCollisionBoundary(map);
                 CheckCollisionBoundary();
                 DebuffCheckAndApply(dt);

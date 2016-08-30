@@ -26,11 +26,12 @@ public:
 	~Entity();
 	
 	//Setter for entity health
-	virtual void SetEntityMaxHealth(int health);
-	virtual int GetEntityMaxHealth();
+	virtual void SetEntityMaxHealth(float health);
+	virtual float GetEntityMaxHealth();
 
 	//Getter for entity health
-	virtual int GetEntityHealth();
+	virtual float GetEntityHealth();
+	virtual void setEntityHealth(float health);
 
 	//Getter for entity damage
 	virtual int GetEntityDamage();
@@ -98,7 +99,7 @@ public:
 	// Constrain the position of the player to within the border
 	virtual void ConstrainPlayer(const int leftBorder, const int rightBorder,
 		const int topBorder, const int bottomBorder,
-		float timeDiff, Camera camera);
+		float timeDiff);
 
 	// Get and Set for Entitymove state
 	virtual ENTITY_MOVE_STATE GetMoveState();
