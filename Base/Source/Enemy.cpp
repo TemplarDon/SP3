@@ -751,14 +751,11 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
         }
     }
 
-	/*if (OtherGo->GetObjectType() == ENEMY)
+	if (OtherGo->GetObjectType() == ENEMY)
 	{
-<<<<<<< Updated upstream
 		if (!this->m_Behaviour->GetCollide() && !dynamic_cast<Enemy*>(OtherGo)->m_Behaviour->GetCollide())
 			this->m_Behaviour->SetCollide(true);
 	}
-=======
-	}*/
 }
 
 void  Enemy::setBehaviour(Behaviour* behaviour)
