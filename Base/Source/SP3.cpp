@@ -66,17 +66,10 @@ void SP3::Init()
 
 	m_objectCount = 0;
 
-	// --------------------------- Background --------------------------- //
-	// ---------------------------------------------------------- // 
-
 	// ------------------------------ Map ------------------------------- //
 	m_Map = new Map();
-
-
-	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
-	m_Map->LoadMap("Image//Maps//Water_Boss.csv");
-
-
+	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
+	m_Map->LoadMap("Image//Maps//Earth.csv");
 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -902,8 +895,8 @@ void SP3::RenderUIText()
 
 	std::ostringstream ss3;
 	ss3.precision(5);
-	ss3 << fps;
-	RenderTextOnScreen(meshList[GEO_TEXT], ss3.str(), Color(0, 1, 0), 2.5, 15, 30.f);
+	ss3 << "FPS: " << fps;
+	RenderTextOnScreen(meshList[GEO_TEXT], ss3.str(), Color(0, 1, 0), 2.5, 50, 55.f);
 	// Health Charges
 	for (int i = 0; i < 5; i++)
 	{

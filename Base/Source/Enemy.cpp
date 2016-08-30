@@ -545,7 +545,6 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 	if (OtherGo->GetObjectType() == ENEMY)
 	{
 		this->m_Behaviour->SetCollide(true);
-		dynamic_cast<Enemy*>(OtherGo)->m_Behaviour->SetCollide(true);
 	}
 }
 
