@@ -25,7 +25,7 @@ public:
     void SetisEnemy(bool);
     bool GetControlLock();
     bool Attack_Basic(ELEMENT CurrElement, int elementLevel);
-    bool Attack_Ability(ELEMENT CurrElement, int elementLevel);
+    bool Attack_Ability(ELEMENT CurrElement, int elementLevel, bool ShootDown =true);
 	void Attack_Suck(ELEMENT  CurrElement, bool Direction);
 
 protected:   
@@ -78,6 +78,7 @@ protected:
 
     int ab_Obliterate_Counter;
     int ab_HailStorm_Counter;
+    bool m_Downwardshot;
     //Vector3 *BulletPos = new Vector3[];
     float ab_FIRE2_timer;
     float ab_FIRE2_CDtimer;

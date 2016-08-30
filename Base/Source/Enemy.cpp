@@ -320,304 +320,143 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
         }
         else if (enemyType == BOSS)
         {
-            bool Attack = false;
-            this->setDirectionBasedOnDistance(playerPosition, m_Position);
-            this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
-            this->m_Destination = this->m_Behaviour->GetDestination();
+            if (m_CurrElement == EARTH_2)
+            {
+                bool Attack = false;
+                this->setDirectionBasedOnDistance(playerPosition, m_Position);
+                this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
+                this->m_Destination = this->m_Behaviour->GetDestination();
 
-            if ((int)m_Destination.x > (int)m_Position.x)
-            {
-                MoveRight(0.1f);
-                rotate = true;
-            }
-            else if ((int)m_Destination.x < (int)m_Position.x)
-            {
-                MoveLeft(0.1f);
-                rotate = false;
-            }
-            else
-            {
-                if (playerPosition.x > m_Position.x)
+                if ((int)m_Destination.x > (int)m_Position.x)
                 {
+                    MoveRight(0.1f);
                     rotate = true;
+                }
+                else if ((int)m_Destination.x < (int)m_Position.x)
+                {
+                    MoveLeft(0.1f);
+                    rotate = false;
                 }
                 else
                 {
-                    rotate = false;
+                    if (playerPosition.x > m_Position.x)
+                    {
+                        rotate = true;
+                    }
+                    else
+                    {
+                        rotate = false;
+                    }
                 }
-            }
 
-            bool AttackDir = false;
-            if (playerPosition.x > m_Position.x)
-            {
-                AttackDir = true;
-            }
-            else
-            {
-                AttackDir = false;
-            }
-
-            if (m_CurrEntityMoveState == FALLING)
-            {
-                EntityJumpUpdate(dt);
-            }
-
-            if (m_Behaviour->GetLastStand())
-            {
-                m_Behaviour->SetLastStandTimer(m_Behaviour->GetLastStandTimer() - dt);
-            }
-
-            if (m_Behaviour->GetCollide())
-            {
-                m_Behaviour->SetCollideTimer(m_Behaviour->GetCollideTimer() - dt);
-            }
-
-            ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
-            GenerateCollisionBoundary(map);
-            CheckCollisionBoundary();
-            DebuffCheckAndApply(dt);
-
-            if (Attack && DirectionLeftRight == AttackDir)
-            {
-                ELEMENT temp;
-                if (m_CurrElement == FIRE_2)
+                bool AttackDir = false;
+                if (playerPosition.x > m_Position.x)
                 {
-                    temp = FIRE;
+                    AttackDir = true;
                 }
-                if (m_CurrElement == EARTH_2)
+                else
                 {
+                    AttackDir = false;
+                }
+
+                if (m_CurrEntityMoveState == FALLING)
+                {
+                    EntityJumpUpdate(dt);
+                }
+
+                ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
+                GenerateCollisionBoundary(map);
+                CheckCollisionBoundary();
+                DebuffCheckAndApply(dt);
+
+                if (Attack && DirectionLeftRight == AttackDir)
+                {
+                    ELEMENT temp;
                     temp = EARTH;
-                }
-                if (m_CurrElement == WATER_2)
-                {
-                    temp = WATER;
-                }
-                if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::NORMAL_ATTACK_PHASE)
-                {
-                    this->Attacks->SetisEnemy(true);
-                    this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-                    if (this->Attacks->Attack_Basic(temp, GetElementLevel(temp)))
+                    if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::NORMAL_ATTACK_PHASE)
                     {
-                        dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetAttackCount(dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetAttackCount() + 1);
+                        this->Attacks->SetisEnemy(true);
+                        this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+                        this->Attacks->Attack_Basic(temp, GetElementLevel(temp));
+                    }
+                    else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
+                    {
+                        this->Attacks->SetisEnemy(true);
+                        this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+                        this->Attacks->Attack_Ability(temp, GetElementLevel(temp));
                     }
                 }
-                else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
-                {
-                    this->Attacks->SetisEnemy(true);
-                    this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-                    if (this->Attacks->Attack_Ability(temp, GetElementLevel(temp)))
-                    {
-                        dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetAttackCount(0);
-                    }
-
-                }
-
             }
-        }
-    }
-    if (m_CurrEntityMoveState != WEAKENED && m_CurrEntityMoveState != EDIBLE)
-    {
-        if (enemyType == RANGED)
-        {
-            bool Attack = false;
-            this->setDirectionBasedOnDistance(playerPosition, m_Position);
-            this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
-            this->m_Destination = this->m_Behaviour->GetDestination();
-
-            if ((int)m_Destination.x > (int)m_Position.x)
+            else if (m_CurrElement == FIRE_2)
             {
-                MoveRight(0.1f);
-                rotate = true;
-            }
-            else if ((int)m_Destination.x < (int)m_Position.x)
-            {
-                MoveLeft(0.1f);
-                rotate = false;
-            }
-            else
-            {
-                if (playerPosition.x > m_Position.x)
-                {
-                    rotate = true;
-                }
-                else
-                {
-                    rotate = false;
-                }
-            }
-
-            bool AttackDir = false;
-            if (playerPosition.x > m_Position.x)
-            {
-                AttackDir = true;
-            }
-            else
-            {
-                AttackDir = false;
-            }
-
-            if (m_CurrEntityMoveState == FALLING)
-            {
-                EntityJumpUpdate(dt);
-            }
-
-            if (m_Behaviour->GetLastStand())
-            {
-                m_Behaviour->SetLastStandTimer(m_Behaviour->GetLastStandTimer() - dt);
-            }
-
-            ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
-            GenerateCollisionBoundary(map);
-            CheckCollisionBoundary();
-            DebuffCheckAndApply(dt);
-
-            if (Attack && DirectionLeftRight == AttackDir)
-            {
-                this->Attacks->SetisEnemy(true);
-                this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-                this->Attacks->Attack_Basic(m_CurrElement, GetElementLevel(m_CurrElement));
-            }
-        }
-
-    }
-    else if (enemyType == BOSS)
-    {
-            if (m_CurrElement = EARTH_2)
-        {
-            bool Attack = false;
-            this->setDirectionBasedOnDistance(playerPosition, m_Position);
-            this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
-            this->m_Destination = this->m_Behaviour->GetDestination();
-
-            if ((int)m_Destination.x > (int)m_Position.x)
-            {
-                MoveRight(0.1f);
-                rotate = true;
-            }
-            else if ((int)m_Destination.x < (int)m_Position.x)
-            {
-                MoveLeft(0.1f);
-                rotate = false;
-            }
-            else
-            {
-                if (playerPosition.x > m_Position.x)
-                {
-                    rotate = true;
-                }
-                else
-                {
-                    rotate = false;
-                }
-            }
-
-            bool AttackDir = false;
-            if (playerPosition.x > m_Position.x)
-            {
-                AttackDir = true;
-            }
-            else
-            {
-                AttackDir = false;
-            }
-
-            if (m_CurrEntityMoveState == FALLING)
-            {
-                EntityJumpUpdate(dt);
-            }
-
-            ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
-            GenerateCollisionBoundary(map);
-            CheckCollisionBoundary();
-            DebuffCheckAndApply(dt);
-
-            if (Attack && DirectionLeftRight == AttackDir)
-            {
-                ELEMENT temp;
-                temp = EARTH;
-                if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::NORMAL_ATTACK_PHASE)
-                {
-                    this->Attacks->SetisEnemy(true);
-                    this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-                    this->Attacks->Attack_Basic(temp, GetElementLevel(temp));
-                }
-                else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
-                {
-                    this->Attacks->SetisEnemy(true);
-                    this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-                    this->Attacks->Attack_Ability(temp, GetElementLevel(temp));
-                }
-            }
-        }
-        else if (m_CurrElement == FIRE_2)
-        {
-            bool Attack = false;
-            this->setDirectionBasedOnDistance(playerPosition, m_Position);
-            dynamic_cast<FireBossBehaviour*>(m_Behaviour)->SetInternalDT(dt);
-            this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
-            float tempMS;
-            if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::NORMAL_PHASE)
-            {
-                tempMS = 0.1f;
-            }
-            else if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::BERSERK_PHASE)
-            {
-                tempMS = 0.3f;
-            }
-            else if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::REST_PHASE)
-            {
-                tempMS = 0.f;
-            }
-            if (m_Position.x > playerPosition.x)
-            {
-                MoveLeft(tempMS);
-                rotate = false;
-            }
-            if (m_Position.x < playerPosition.x)
-            {
-                MoveRight(tempMS);
-                rotate = true;
-            }
-            if (m_Position.y > playerPosition.y)
-            {
-                m_Position.y -= (float)(5.0f * tempMS * this->MovementSpeed);
-            }
-            if (m_Position.y < playerPosition.y)
-            {
-                m_Position.y += (float)(5.0f * tempMS * this->MovementSpeed);
-            }
-            if (((playerPosition.x <= m_Position.x + 50 && playerPosition.x >= m_Position.x - 50)
-                &&
-                (playerPosition.y <= m_Position.y + 20 && playerPosition.y >= m_Position.y - 20))
-                &&
-                (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::NORMAL_PHASE
-                ||
-                dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::BERSERK_PHASE))
-            {
-                Attack = true;
-            }
-            if (Attack)
-            {
-                ELEMENT temp;
-                temp = FIRE;
+                bool Attack = false;
+                this->setDirectionBasedOnDistance(playerPosition, m_Position);
+                dynamic_cast<FireBossBehaviour*>(m_Behaviour)->SetInternalDT(dt);
+                this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
+                float tempMS;
                 if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::NORMAL_PHASE)
                 {
-                    this->Attacks->SetisEnemy(true);
-                    this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-                    this->Attacks->Attack_Basic(temp, GetElementLevel(temp));
+                    tempMS = 0.1f;
                 }
                 else if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::BERSERK_PHASE)
                 {
-                    this->Attacks->SetisEnemy(true);
-                    this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-                    this->Attacks->Attack_Ability(temp, GetElementLevel(temp));
+                    tempMS = 0.3f;
                 }
+                else if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::REST_PHASE)
+                {
+                    tempMS = 0.f;
+                }
+                if (m_Position.x > playerPosition.x+10)
+                {
+                    MoveLeft(tempMS);
+                    rotate = false;
+                }
+                if (m_Position.x < playerPosition.x-10)
+                {
+                    MoveRight(tempMS);
+                    rotate = true;
+                }
+                if (m_Position.y > playerPosition.y)
+                {
+                    m_Position.y -= (float)(5.0f * tempMS * this->MovementSpeed);
+                }
+                if (m_Position.y < playerPosition.y)
+                {
+                    m_Position.y += (float)(5.0f * tempMS * this->MovementSpeed);
+                }
+                if (((playerPosition.x <= m_Position.x + 50 && playerPosition.x >= m_Position.x - 50)
+                    &&
+                    (playerPosition.y <= m_Position.y + 20 && playerPosition.y >= m_Position.y - 20))
+                    &&
+                    (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::NORMAL_PHASE
+                    ||
+                    dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::BERSERK_PHASE))
+                {
+                    Attack = true;
+                }
+                if (Attack)
+                {
+                    ELEMENT temp;
+                    temp = FIRE;
+                    if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::NORMAL_PHASE)
+                    {
+                        this->Attacks->SetisEnemy(true);
+                        this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+                        this->Attacks->Attack_Basic(temp, GetElementLevel(temp));
+                    }
+                    else if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::BERSERK_PHASE)
+                    {
+                        this->Attacks->SetisEnemy(true);
+                        this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+                        this->Attacks->Attack_Ability(temp, GetElementLevel(temp));
+                    }
+                }
+
             }
 
         }
 
     }
-
 }
     //else if (enemyType == MELEE)
     //{
@@ -639,7 +478,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
     //		EntityJumpUpdate(dt);
     //	}
     //}
-}
+
 
 void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 {

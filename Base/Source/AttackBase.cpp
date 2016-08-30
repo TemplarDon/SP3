@@ -142,8 +142,9 @@ void AttackBase::Debouncers(double dt)
     }
 }
 
-bool AttackBase::Attack_Ability(ELEMENT CurrElement, int elementLevel)
+bool AttackBase::Attack_Ability(ELEMENT CurrElement, int elementLevel, bool Shootdown)
 {
+    m_Downwardshot = Shootdown;
     m_CurrElement = CurrElement;
     m_ElementLevel = elementLevel;
     if (m_CurrElement == FIRE && !ab_Obliterate_isCD)
@@ -242,6 +243,7 @@ void AttackBase::Ability_Run()
            
             for (int i = 0; i < NumOfBullets; i++)
             {
+               
                 BulletPos = Vector3(Math::RandFloatMinMax(m_EntityPos.x - RainCloudSizeOffset, m_EntityPos.x + RainCloudSizeOffset), Math::RandFloatMinMax(m_EntityPos.y + 15, m_EntityPos.y + 25), 0);
                 Projectile* temp;
                 temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1.5, 1.5, 2), true, true, Projectile_Fire, "Image//Projectiles/water_projectile.tga"));
@@ -261,9 +263,18 @@ void AttackBase::Ability_Run()
     }
     else if (ab_Cataclysm)
     {
+        float tempAngle;
+        if (m_Downwardshot)
+        {
+            tempAngle = -80.f;
+        }
+        else
+        {
+            tempAngle = 0.f;
+        }
         Projectile* temp;
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(4, 4, 2), true, true, Projectile_Earth, "Image//Projectiles/earth_projectile.tga"));
-        temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, EARTH_2, false, 0, m_ElementLevel);
+        temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, EARTH_2, false, tempAngle, m_ElementLevel);
 		temp->setIsHostileProjectile(this->isEnemy);
         m_AbilityProjectiles[m_AbilityCount].SetElement(EARTH_2);
         m_AbilityCount += 1;

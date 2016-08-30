@@ -84,7 +84,3 @@ void FireBossBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
     
 }
 
-void FireBossBehaviour::SetInternalDT(double dt)
-{
-
-}

@@ -75,9 +75,6 @@ void SP3::Init()
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//Hub.csv");
 	
-
-
-
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
 
@@ -1413,7 +1410,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case FIRE_BOSS_LEVEL:
 	{
-        m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 800);
+        m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Fire_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//fire_boss_background.tga");
 		break;
