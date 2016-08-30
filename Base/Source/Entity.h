@@ -74,6 +74,9 @@ public:
 	virtual void SetElementLevel(ELEMENT ElementType, float level);
     // Getter basic element level
     virtual ELEMENT GetBasicElement();
+    //debuff getters
+    virtual bool isDebuff_Burning();
+    virtual bool isDebuff_Slow();
 
 	// Getter for mapOffset_x
 	virtual int GetMapOffset_x();

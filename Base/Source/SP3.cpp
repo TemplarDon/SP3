@@ -982,6 +982,25 @@ void SP3::RenderUI()
 	RenderMesh(meshList[GEO_EARTH_ICON], false);
 	modelStack.PopMatrix();
 
+    //Burning debuff indicator
+    if (m_Player->isDebuff_Burning())
+    {
+        modelStack.PushMatrix();
+        modelStack.Translate(70, 75, 1);
+        modelStack.Scale(4, 4, 1);
+        RenderMesh(meshList[GEO_FIRE_ICON], false);
+        modelStack.PopMatrix();
+    }
+    //Slowed debuff indicator
+    if (m_Player->isDebuff_Slow())
+    {
+        modelStack.PushMatrix();
+        modelStack.Translate(75, 75, 1);
+        modelStack.Scale(4, 4, 1);
+        RenderMesh(meshList[GEO_WATER_ICON], false);
+        modelStack.PopMatrix();
+    }
+
 	modelStack.PopMatrix(); // Do not delete this line
 }
 
@@ -1359,6 +1378,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case FIRE_BOSS_LEVEL:
 	{
+        m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 800);
 		m_Map->LoadMap("Image//Maps//Fire_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//fire_boss_background.tga");
 		break;

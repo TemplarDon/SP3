@@ -481,7 +481,20 @@ void Entity::ExecuteAbility(double dt)
       
 }
 
-
+bool Entity::isDebuff_Burning()
+{
+    if (deBuff_burning)
+        return true;
+    else
+        return false;
+}
+bool Entity::isDebuff_Slow()
+{
+    if (deBuff_Slowed)
+        return true;
+    else
+        return false;
+}
 
 void Entity::DebuffCheckAndApply(double dt)
 {

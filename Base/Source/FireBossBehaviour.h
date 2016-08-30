@@ -10,20 +10,26 @@ public:
     enum FIRE_PHASE
     {
         NORMAL_PHASE,
-        SHOOTING_PHASE,
+        REST_PHASE,
         BERSERK_PHASE,
     };
     
-    virtual void BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack, GameObject_Map* Map = NULL);
+    virtual void BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack, GameObject_Map* Map = NULL, double dt);
     virtual Vector3 GetTargetLocation();
 
     FIRE_PHASE GetBossState();
 private:
     FIRE_PHASE m_CurrPhase;
-    int AttackCounter;
-
-    //normal phase stuff
+    float DistanceToPlayer;
     Vector3 m_TargetLocation;
+
+    float phaseTimer;
+    //normal phase stuff
+    bool isNormalPhase;
+    //rest phase
+    bool isRestPhase;
+    //berserkPhase
+    bool isBeserkPhase;
 
 
 };

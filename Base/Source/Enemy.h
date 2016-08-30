@@ -7,6 +7,8 @@
 #include "BehaviourRanged_2.h"
 #include "EarthBossBehaviour.h"
 #include "BehaviourWaterBoss.h"
+#include "FireBossBehaviour.h"
+
 class Enemy : public Entity
 {
 
