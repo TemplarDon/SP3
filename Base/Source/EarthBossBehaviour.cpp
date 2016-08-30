@@ -38,7 +38,7 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	{
 		behaviour = ATTACK;
 		
-		if (m_AttackCount <= 200)
+		if (m_AttackCount <= 5)
 		{
 			m_CurrPhase = NORMAL_ATTACK_PHASE;
 			AttackStatus = true;

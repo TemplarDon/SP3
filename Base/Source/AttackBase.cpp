@@ -142,7 +142,7 @@ void AttackBase::Debouncers(double dt)
     }
 }
 
-void AttackBase::Attack_Ability(ELEMENT CurrElement, int elementLevel)
+bool AttackBase::Attack_Ability(ELEMENT CurrElement, int elementLevel)
 {
     m_CurrElement = CurrElement;
     m_ElementLevel = elementLevel;
@@ -150,16 +150,20 @@ void AttackBase::Attack_Ability(ELEMENT CurrElement, int elementLevel)
     {
         ab_Obliterate = true;
         m_RootedForAttack = true;
+		return true;
         
     }
     if (m_CurrElement == WATER && !ab_HailStorm_isCD)
     {
         ab_HailStorm = true;
+		return true;
     }
     if (m_CurrElement == EARTH && !ab_Cataclysm_isCD)
     {
         ab_Cataclysm = true;
+		return true;
     }
+	return false;
 }
 void AttackBase::Ability_Run()
 {
@@ -276,7 +280,7 @@ bool AttackBase::GetControlLock()
 {
     return m_RootedForAttack;
 }
-void AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
+bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
 {
     m_CurrElement = elementInput;
     m_ElementLevel = Level;
@@ -307,6 +311,7 @@ void AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
                 m_AbilityCount = 0;
             }
             m_CanAttack = false;
+			return true;
         }
         else if (m_CurrElement == WATER)
         {
@@ -314,6 +319,7 @@ void AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
             temp->projectileInit(m_AttackDirection, m_EntityPos, 25.f, m_AttackDamage, 5.f, m_CurrElement, isEnemy, 0);
 			temp->setIsHostileProjectile(this->isEnemy);
             m_CanAttack = false;
+			return true;
         }
         else if (m_CurrElement == FIRE)
         {
@@ -355,8 +361,10 @@ void AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
                 m_projectileCount = 0;
             }
             m_CanAttack = false;
+			return true;
         }
     }
+	return false;
 }
 void AttackBase::Attack_Suck(ELEMENT currElement,bool Direction)
 {

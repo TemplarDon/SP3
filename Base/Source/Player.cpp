@@ -182,12 +182,27 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 		if (tempProj->GetElement() == EARTH_2 && tempProj->getIsHostileProjectile())
 		{
+			// Find if bullet is left or right of player
+			bool PlayerRight = false;
+			bool PlayerLeft = false;
+			if (tempProj->GetPosition().x > this->m_Position.x)
+			{
+				PlayerLeft = true;
+				PlayerRight = false;
+			}
+			else
+			{
+				PlayerLeft = false;
+				PlayerRight = true;
+			}
+
 			float TempLifeTime = tempProj->GetElementLevel() * 2 + 5;
 			float radius = 10;
 
 			Mesh* Quad = MeshBuilder::GenerateQuad("Quad", Color(1, 1, 1));
 
-			for (int offset = 0; offset < 15; offset += 5)
+			// Spawn base blocks
+			for (int offset = 0; offset < 10; offset += 5)
 			{
 				Vector3 SpawnLocation_Right = Vector3((int)this->GetPosition().x + radius, (int)this->GetPosition().y + offset, (int)this->GetPosition().z);
 				Vector3 SpawnLocation_Left = Vector3((int)this->GetPosition().x - radius, (int)this->GetPosition().y + offset, (int)this->GetPosition().z);
@@ -216,6 +231,35 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 					temp2->SetLifeTimeBool(true);
 					temp2->SetLifeTime(TempLifeTime);
 					Map->AddIntoMap(temp2);
+				}
+			}
+
+			// Spawn more blocks, based on direction
+			for (int offset = 10; offset < 45; offset += 5)
+			{
+				Vector3 SpawnLocation;
+				if (PlayerRight)
+				{
+					// Spawn on player's right
+					SpawnLocation = Vector3((int)this->GetPosition().x + radius, (int)this->GetPosition().y + offset, (int)this->GetPosition().z);
+				}
+				else if (PlayerLeft)
+				{
+					// Spawn on player's left
+					SpawnLocation = Vector3((int)this->GetPosition().x - radius, (int)this->GetPosition().y + offset, (int)this->GetPosition().z);
+				}
+
+				int SpawnTile_X = (int)(SpawnLocation.x / Map->GetTileSize());
+				int SpawnTile_Y = (int)(SpawnLocation.y / Map->GetTileSize());
+
+				if (Map->m_GameObjectMap[SpawnTile_Y][SpawnTile_X]->GetType() == GO_NONE)
+				{
+					Environment* temp1 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(SpawnTile_X * Map->GetTileSize(), SpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
+					temp1->Init(true, false);
+					temp1->SetElement(EARTH);
+					temp1->SetLifeTimeBool(true);
+					temp1->SetLifeTime(TempLifeTime);
+					Map->AddIntoMap(temp1);
 				}
 			}
 		}

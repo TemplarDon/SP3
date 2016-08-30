@@ -5,7 +5,7 @@
 
 
 EnemySpawner::EnemySpawner()
-	:m_timer(6)
+	:m_timer(0)
 {
 
 }

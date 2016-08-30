@@ -127,7 +127,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 				Mesh* Quad = MeshBuilder::GenerateQuad("Quad", Color(1, 1, 1));
 
-				for (int offset = 0; offset < 15; offset += 5)
+				for (int offset = 0; offset < 10; offset += 5)
 				{
 					Vector3 SpawnLocation_Right = Vector3((int)temp->GetPosition().x + radius, (int)temp->GetPosition().y + offset, (int)temp->GetPosition().z);
 					Vector3 SpawnLocation_Left = Vector3((int)temp->GetPosition().x - radius, (int)temp->GetPosition().y + offset, (int)temp->GetPosition().z);

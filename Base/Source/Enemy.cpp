@@ -395,15 +395,20 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				{
 					this->Attacks->SetisEnemy(true);
 					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-					this->Attacks->Attack_Basic(temp, GetElementLevel(temp));
-					dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetAttackCount(dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetAttackCount() + 1);
+					if (this->Attacks->Attack_Basic(temp, GetElementLevel(temp)))
+					{
+						dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetAttackCount(dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetAttackCount() + 1);
+					}
 				}
 				else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
 				{
 					this->Attacks->SetisEnemy(true);
 					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-					this->Attacks->Attack_Ability(temp, GetElementLevel(temp));
-					dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetAttackCount(0);
+					if (this->Attacks->Attack_Ability(temp, GetElementLevel(temp)))
+					{
+						dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetAttackCount(0);
+					}
+
 				}
 
 			}
@@ -500,7 +505,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 			Mesh* Quad = MeshBuilder::GenerateQuad("Quad", Color(1, 1, 1));
 
-			for (int offset = 0; offset < 15; offset += 5)
+			for (int offset = 0; offset < 10; offset += 5)
 			{
 				Vector3 SpawnLocation_Right = Vector3((int)this->GetPosition().x + radius, (int)this->GetPosition().y + offset, (int)this->GetPosition().z);
 				Vector3 SpawnLocation_Left = Vector3((int)this->GetPosition().x - radius, (int)this->GetPosition().y + offset, (int)this->GetPosition().z);

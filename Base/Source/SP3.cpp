@@ -837,7 +837,8 @@ void SP3::RenderGO(GameObject *go, float offset)
 
 		modelStack.PopMatrix();
 
-		modelStack.Scale(dynamic_cast<Entity*>(go)->GetEntityHealth() * 0.5, 1, 1);
+		float percentage = ((float)dynamic_cast<Entity*>(go)->GetEntityHealth() / (float)dynamic_cast<Entity*>(go)->GetEntityMaxHealth()) * 100;
+		modelStack.Scale(percentage * 0.1, 1, 1);
 		if (dynamic_cast<Entity*>(go)->GetMoveState() == WEAKENED || dynamic_cast<Entity*>(go)->GetMoveState() == EDIBLE)
 		{
 			RenderMesh(meshList[GEO_HEALTH_BAR_WEAKENED], false);
@@ -1037,6 +1038,20 @@ void SP3::RenderUIText()
 
 void SP3::RenderGame()
 {
+	// ------------------ Background ------------------- //
+
+	modelStack.PushMatrix();
+	modelStack.Translate(UIPos_x, UIPos_y, 0);
+
+	modelStack.PushMatrix();
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, -1);
+	modelStack.Scale(150, 77.5, 1);
+	RenderMesh(meshList[GEO_BACKGROUND], false);
+	modelStack.PopMatrix();
+
+	modelStack.PopMatrix();
+
+	// ------------------------------------------------- //
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -1047,7 +1062,6 @@ void SP3::RenderGame()
 		RenderMesh(meshList[GEO_TREE], false);
 		modelStack.PopMatrix();
 	}
-
 
 	float OffsetZ = 0.f;
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
@@ -1169,17 +1183,6 @@ void SP3::Render()
 
 	//RenderMesh(meshList[GEO_AXES], false);
 
-
-
-	// ------------------ Background ------------------- //
-
-	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 0, -1);
-	modelStack.Scale(150, 77.5, 1);
-	RenderMesh(meshList[GEO_BACKGROUND], false);
-	modelStack.PopMatrix();
-
-	// ------------------------------------------------- //
 
 	switch (GameState)
 	{

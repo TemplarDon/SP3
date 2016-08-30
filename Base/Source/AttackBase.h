@@ -24,8 +24,8 @@ public:
 	//void LaunchAttack(ELEMENT m_CurrElement);
     void SetisEnemy(bool);
     bool GetControlLock();
-    void Attack_Basic(ELEMENT CurrElement, int elementLevel);
-    void Attack_Ability(ELEMENT CurrElement, int elementLevel);
+    bool Attack_Basic(ELEMENT CurrElement, int elementLevel);
+    bool Attack_Ability(ELEMENT CurrElement, int elementLevel);
 	void Attack_Suck(ELEMENT  CurrElement, bool Direction);
 
 protected:   

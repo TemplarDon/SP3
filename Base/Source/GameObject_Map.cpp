@@ -286,7 +286,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			case 36:
 			{
 				EnemySpawner* temp = dynamic_cast<EnemySpawner*>(GameObjectManager::SpawnGameObject(ENEMYSPAWNER, GO_ENEMYSPAWNER, Position, Scale, true, false, Quad));
-				temp->setEnemySpawnerVector(EARTH, 2);
+				temp->setEnemySpawnerVector(EARTH, 3);
 				break;
 			}
 			case 37:
