@@ -69,7 +69,7 @@ void SP3::Init()
 
 	m_objectCount = 0;
 
-	// ------------------------------ Map ------------------------------- //
+	// ------------------------------ First Map ------------------------------- //
 	m_Map = new Map();
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 	m_Map->LoadMap("Image//Maps//Earth.csv");
@@ -1037,7 +1037,6 @@ void SP3::RenderUIText()
 
 void SP3::RenderGame()
 {
-	RenderUI();
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -1050,15 +1049,16 @@ void SP3::RenderGame()
 	}
 
 
+	float OffsetZ = 0.f;
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{
 		GameObject *go = (GameObject *)*it;
 		if (go->GetActive() && go->GetVisible())
 		{
-			RenderGO(go);
+			RenderGO(go, OffsetZ);
+			OffsetZ += 0.01f;
 		}
 	}
-
 
 
 	if (m_Player->GetElement() == EARTH || m_Player->GetElement() == EARTH_2)
@@ -1081,6 +1081,7 @@ void SP3::RenderGame()
 		}
 	}
 
+	RenderUI();
 	RenderUIText();
 }
 
@@ -1173,12 +1174,13 @@ void SP3::Render()
 	// ------------------ Background ------------------- //
 
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 0, 0);
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 0, -1);
 	modelStack.Scale(150, 77.5, 1);
 	RenderMesh(meshList[GEO_BACKGROUND], false);
 	modelStack.PopMatrix();
 
 	// ------------------------------------------------- //
+
 	switch (GameState)
 	{
 	case GS_MENU:
@@ -1208,9 +1210,6 @@ void SP3::Render()
 		{
 			// Arrow
 			modelStack.PushMatrix();
-			modelStack.Translate(m_Player->GetPosition().x + Distance_X, m_Player->GetPosition().y, 5);
-			modelStack.Scale(5, 5, 1);
-			RenderMesh(meshList[GEO_TARGET], false);
 			modelStack.Translate(30, 40, 2);
 			modelStack.Scale(6, 6, 1);
 			modelStack.Rotate(180, 0, 0, 1);
@@ -1223,9 +1222,6 @@ void SP3::Render()
 		{
 			// Arrow
 			modelStack.PushMatrix();
-			modelStack.Translate(m_Player->GetPosition().x - Distance_X, m_Player->GetPosition().y, 5);
-			modelStack.Scale(5, 5, 1);
-			RenderMesh(meshList[GEO_TARGET], false);
 			modelStack.Translate(30, 30, 2);
 			modelStack.Scale(6, 6, 1);
 			modelStack.Rotate(180, 0, 0, 1);
@@ -1257,21 +1253,6 @@ void SP3::Render()
 		}
 		}
 	}
-
-
-	float OffsetZ = 0.f;
-	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
-	{
-		GameObject *go = (GameObject *)*it;
-		if (go->GetActive() && go->GetVisible())
-		{
-			RenderGO(go, OffsetZ);
-			OffsetZ += 0.01f;
-		}
-	}
-
-	RenderUI();
-	RenderUIText();
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)
