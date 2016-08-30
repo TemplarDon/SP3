@@ -42,6 +42,8 @@ void SP3::Init()
 	meshList[GEO_TARGET] = MeshBuilder::GenerateQuad("earth target", Color(0.7, 0.5, 0.3), 1.f);
 	meshList[GEO_TARGET]->textureID = LoadTGA("Image//UI//target.tga");
 
+	meshList[GEO_CHATBOX] = MeshBuilder::GenerateQuad("textbox", Color(0.7, 0.5, 0.3), 1.f);
+	meshList[GEO_CHATBOX]->textureID = LoadTGA("Image//Tiles//textbox.tga");
 	//Calculating aspect ratio
 	m_worldHeight = 100.f;
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -222,7 +224,6 @@ void SP3::UpdateMenu(double dt)
 
 			if (Application::IsKeyPressed(VK_RETURN))
 			{
-				//std::cout << GameState;
 				GameState = GS_GAME;
 			}
 
@@ -369,7 +370,6 @@ void SP3::UpdateMenu(double dt)
 void SP3::UpdateGame(double dt)
 {
 	SceneBase::Update(dt);
-	std::cout << m_Player->GetPosition() << std::endl;
 
 	if (Application::IsKeyPressed('A') && m_Player->Attacks->GetControlLock() == false)
 	{
@@ -671,14 +671,20 @@ void SP3::UpdateGame(double dt)
 					break;
 				}
 			}
-			/*if (go->GetObjectType() == ENEMY && go2->GetObjectType() == TRANSITION)
+
+			if (go->GetObjectType() == PLAYER && go2->GetObjectType() == NPCS)
 			{
-			if (dynamic_cast<BehaviourWaterBoss*>(dynamic_cast<Enemy*>(go)->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2)
-			{
-			Transition* temp = dynamic_cast<Transition*>(go2);
-			SwitchLevel(temp->GetNextTransition());
+				if (go->EmpricalCheckCollisionWith(go2, dt, 80))
+				{
+					NPC* temp = dynamic_cast<NPC*>(go2);
+					temp->SetShowText(true);
+				}
+				else
+				{
+					NPC* temp = dynamic_cast<NPC*>(go2);
+					temp->SetShowText(false);
+				}
 			}
-			}*/
 		}
 	}
 
@@ -832,7 +838,6 @@ void SP3::UpdateUI(double dt)
 	}
 	
 
-	//std::cout << m_Player->GetElement() << std::endl;
 }
 
 void SP3::RenderGO(GameObject *go, float offset)
@@ -857,6 +862,7 @@ void SP3::RenderGO(GameObject *go, float offset)
 		RenderMesh(go->GetMesh(), false);
 		modelStack.PopMatrix();
 	}
+
 	if (go->GetObjectType() == ENEMY)
 	{
 		
@@ -886,6 +892,29 @@ void SP3::RenderGO(GameObject *go, float offset)
 			RenderMesh(meshList[GEO_HEALTH_BAR], false);
 		}
 		modelStack.PopMatrix();
+	}
+	else if (go->GetObjectType() == NPCS && dynamic_cast<NPC*>(go)->GetShowText())
+	{
+		float PosX = go->GetPosition().x;
+		float PosY = go->GetPosition().y + go->GetScale().y * 0.8;
+
+		modelStack.PushMatrix();
+		//modelStack.Translate(UIPos_x, UIPos_y, 1);
+		//modelStack.Translate(m_worldWidth * 0.5 - 10, 10, 1);
+		modelStack.Translate(PosX, PosY + 3, 1);
+		modelStack.Scale(30, 14, 1);
+		RenderMesh(meshList[GEO_CHATBOX], false);
+		modelStack.PopMatrix();
+
+		std::ostringstream ss;
+		for (int i = 0; i < dynamic_cast<NPC*>(go)->GetDialougeVec().size(); ++i)
+		{
+			ss << dynamic_cast<NPC*>(go)->GetDialougeVec()[i];
+			//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 0, 0), 4, 10, 10 - (i * 2.5));
+			RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 1.2, PosX / 2.1, (PosY * 0.9) - (i * 1.5));
+			ss.str("");
+		}
+
 	}
 }
 

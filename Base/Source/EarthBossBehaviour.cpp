@@ -4,13 +4,13 @@ EarthBehaviour::EarthBehaviour()
 	: m_DirectionSet(false)
 	, m_RunOnce(false)
 	, m_LastStandStatus(false)
-	, m_LastStandTimer(2)
+	, m_LastStandTimer(3)
 	, m_AttackDistance(40)
-	, m_EvadeDistance(20)
-	, m_AttackCount(0)
+	, m_EvadeDistance(30)
+	, m_AttackCount(6)
 	, m_EffectiveAttackDist(35)
 {
-}
+} 
 
 EarthBehaviour::~EarthBehaviour()
 {}
@@ -43,7 +43,8 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 			m_CurrPhase = NORMAL_ATTACK_PHASE;
 			AttackStatus = true;
 		}
-		else
+		
+		if (m_AttackCount > 5 || DistanceToPlayer < m_EffectiveAttackDist - 5)
 		{
 			m_CurrPhase = ABILITY_ATTACK_PHASE;
 			AttackStatus = true;
@@ -109,7 +110,7 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 		if (m_LastStandTimer <= 0)
 		{
 			m_LastStandStatus = false;
-			m_LastStandTimer = 2;
+			m_LastStandTimer = 3;
 		}
 	}
 
@@ -209,20 +210,13 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 
 	case COLLIDE:
 	{
-		if (BlockedRight)
-		{
-			m_DestinationToReturn = CurrPos - Vector3(5, 0, 0);
-		}
-		else
-		{
-			m_DestinationToReturn = CurrPos + Vector3(5, 0, 0);
-		}
+		m_DestinationToReturn = CurrPos;
 		break;
 	}
 
 	case LAST_STAND:
 	{
-		m_DestinationToReturn = PlayerPos;
+		m_DestinationToReturn = CurrPos;
 		break;
 	}
 	}

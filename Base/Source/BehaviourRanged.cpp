@@ -11,9 +11,6 @@ BehaviourRanged::~BehaviourRanged()
 void BehaviourRanged::Update(double dt, float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump, bool& Direction, ELEMENT m_CurrElement,int ElementLevel ,AttackBase* attack, ENTITY_MOVE_STATE &m_currEntityMoveState, float detectionRange)
 {	
 	static bool randomInit = false;
-	//std::cout << "random INit: " << randomInit << std::endl;
-	//std::cout << "move state: " << m_currEntityMoveState << std::endl;
-	//std::cout << "behaviour: " << behaviour << std::endl;
 	if (distancePlayerToEnemy < detectionRange)
 	{
 		
@@ -51,7 +48,6 @@ void BehaviourRanged::Update(double dt, float distancePlayerToEnemy, float estim
 			if (randomInit == false)
 			{
 				random = Math::RandIntMinMax(0, 100);
-				//std::cout << "YES";
 				randomInit = true;
 			}
 			else if (random > 99 && randomInit == true)

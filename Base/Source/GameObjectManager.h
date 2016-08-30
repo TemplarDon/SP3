@@ -7,6 +7,7 @@
 #include "MeshBuilder.h"
 #include "Collectibles.h"
 #include "EnemySpawner.h"
+#include "NPC.h"
 
 class GameObjectManager
 {

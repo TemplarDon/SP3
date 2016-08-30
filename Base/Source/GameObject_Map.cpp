@@ -2,6 +2,7 @@
 #include "GameObjectManager.h"
 
 #include "EnemySpawner.h"
+#include "NPC.h"
 
 GameObject_Map::GameObject_Map()
 	: m_Offset(0)
@@ -318,6 +319,17 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				EnemySpawner* temp = dynamic_cast<EnemySpawner*>(GameObjectManager::SpawnGameObject(ENEMYSPAWNER, GO_ENEMYSPAWNER, Position, Scale, true, false, Quad));
 				temp->setEnemySpawnerVector(FIRE, 1);
+				break;
+			}
+
+			case 102:
+			{
+				NPC* temp = dynamic_cast<NPC*>(GameObjectManager::SpawnGameObject(NPCS, GO_SIGNBOARD, Position, Scale, false, true, Quad, "Image//Tiles//signboardV2.tga"));
+				temp->InitNPC(false);
+				temp->SetDialouge("		Portals:     ");
+				temp->SetDialouge("    Blue: Water   ");
+				temp->SetDialouge("    Red: Fire     ");
+				temp->SetDialouge("    Green: Earth  ");
 				break;
 			}
 			}

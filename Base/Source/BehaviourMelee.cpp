@@ -11,9 +11,6 @@ BehaviourMelee::~BehaviourMelee()
 }
 void BehaviourMelee::Update(double dt, float distancePlayerToEnemy, float estimatedDistance, Vector3 &enemyPosition, bool &moveLeft, bool &moveRight, bool &jump, bool& Direction, ELEMENT m_CurrElement,int ElementLevel, AttackBase* attack, ENTITY_MOVE_STATE &m_currEntityMoveState, float detectionRange)
 {
-//	std::cout << "random INit: " << randomInit << std::endl;
-	//std::cout << "move state: " << m_currEntityMoveState << std::endl;
-	//std::cout << "behaviour: " << behaviour << std::endl;
 	if (distancePlayerToEnemy <=detectionRange)
 	{
 		if (Direction == true)
