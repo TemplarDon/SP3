@@ -75,7 +75,6 @@ float  Enemy::getDetectionRange()
 
 void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera)
 {
-
 	static bool timerBool = false;
 	std::cout << "timer: " << timer << std::endl;
 	//std::cout << "Curr health: " << CurrHealth << std::endl;
@@ -544,7 +543,8 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 	if (OtherGo->GetObjectType() == ENEMY)
 	{
-		this->m_Behaviour->SetCollide(true);
+		if (!this->m_Behaviour->GetCollide() && !dynamic_cast<Enemy*>(OtherGo)->m_Behaviour->GetCollide())
+			this->m_Behaviour->SetCollide(true);
 	}
 }
 

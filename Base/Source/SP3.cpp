@@ -633,13 +633,13 @@ void SP3::UpdateUI2(double dt)
 	//std::cout << m_Player->GetElement() << std::endl;
 }
 
-void SP3::RenderGO(GameObject *go)
+void SP3::RenderGO(GameObject *go, float offset)
 {
 	if (go->getRotate())
 	{
 		glDisable(GL_CULL_FACE);
 		modelStack.PushMatrix();
-		modelStack.Translate(go->GetPosition().x, go->GetPosition().y, go->GetPosition().z);
+		modelStack.Translate(go->GetPosition().x, go->GetPosition().y, go->GetPosition().z + offset);
 		modelStack.Rotate(180, 0, 1, 0);
 		modelStack.Scale(go->GetScale().x, go->GetScale().y, go->GetScale().z);
 		RenderMesh(go->GetMesh(), false);
@@ -649,7 +649,7 @@ void SP3::RenderGO(GameObject *go)
 	else
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(go->GetPosition().x, go->GetPosition().y, go->GetPosition().z);
+		modelStack.Translate(go->GetPosition().x, go->GetPosition().y, go->GetPosition().z + offset);
 		modelStack.Rotate(0, 0, 1, 0);
 		modelStack.Scale(go->GetScale().x, go->GetScale().y, go->GetScale().z);
 		RenderMesh(go->GetMesh(), false);
@@ -659,7 +659,7 @@ void SP3::RenderGO(GameObject *go)
 	{
 		
 		modelStack.PushMatrix();
-		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z);
+		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z + offset);
 
 		modelStack.PushMatrix();
 		modelStack.Translate(-dynamic_cast<Entity*>(go)->GetEntityHealth() * 0.75, 0, 0);
@@ -731,14 +731,7 @@ void SP3::RenderUI()
 {
 	// ------------------------------ UI ------------------------------------- //
 	modelStack.PushMatrix();
-	modelStack.Translate(UIPos_x,UIPos_y, 6);
-
-	// Background
-	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, -9);
-	modelStack.Scale(150, 77.5, 1);
-	RenderMesh(meshList[GEO_BACKGROUND], false);
-	modelStack.PopMatrix();
+	modelStack.Translate(UIPos_x,UIPos_y, 8);
 
 	// Shield Bar
 	for (int i = 0; i < m_Player->GetCurrShield(); i++)
@@ -961,19 +954,17 @@ void SP3::Render()
 
 	//RenderMesh(meshList[GEO_AXES], false);
 
-	RenderUI();
+
 
 	// ------------------ Background ------------------- //
 
+	modelStack.PushMatrix();
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 0, 0);
+	modelStack.Scale(150, 77.5, 1);
+	RenderMesh(meshList[GEO_BACKGROUND], false);
+	modelStack.PopMatrix();
 
 	// ------------------------------------------------- //
-
-	////stalagmite
-	//modelStack.PushMatrix();
-	//modelStack.Translate(treePos_x , 60 ,-1);
-	//modelStack.Scale(120, 80, 1);
-	//RenderMesh(meshList[GEO_TREE], false);
-	//modelStack.PopMatrix();
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -985,13 +976,14 @@ void SP3::Render()
 		modelStack.PopMatrix();
 	}
 
-
+	float OffsetZ = 0.f;
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
 	{
 		GameObject *go = (GameObject *)*it;
 		if (go->GetActive() && go->GetVisible())
 		{
-			RenderGO(go);
+			RenderGO(go, OffsetZ);
+			OffsetZ += 0.01f;
 		}	
 	}
 
@@ -1002,7 +994,7 @@ void SP3::Render()
 		if (m_Player->GetLeftRight())
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(m_Player->GetPosition().x + Distance_X, m_Player->GetPosition().y, 2);
+			modelStack.Translate(m_Player->GetPosition().x + Distance_X, m_Player->GetPosition().y, 5);
 			modelStack.Scale(5, 5, 1);
 			RenderMesh(meshList[GEO_TARGET], false);
 			modelStack.PopMatrix();
@@ -1010,14 +1002,14 @@ void SP3::Render()
 		else
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate(m_Player->GetPosition().x - Distance_X, m_Player->GetPosition().y, 2);
+			modelStack.Translate(m_Player->GetPosition().x - Distance_X, m_Player->GetPosition().y, 5);
 			modelStack.Scale(5, 5, 1);
 			RenderMesh(meshList[GEO_TARGET], false);
 			modelStack.PopMatrix();
 		}
 	}
 
-
+	RenderUI();
 	RenderUIText();
 }
 

@@ -46,7 +46,7 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
-	void RenderGO(GameObject *go);
+	void RenderGO(GameObject *go, float offset);
 	void RenderParallaxMap();
 
 	void SwitchLevel(LEVEL NextLevel);
