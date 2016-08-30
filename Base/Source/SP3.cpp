@@ -76,7 +76,7 @@ void SP3::Init()
 	m_Map = new Map();
 
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Hub.csv");
+	m_Map->LoadMap("Image//Maps//Tutorial.csv");
 	
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -197,6 +197,10 @@ void SP3::Update(double dt)
 	{
 		UpdateGame(dt);
 		UpdateUI(dt);
+		//if (Application::IsKeyPressed('I'))
+		//{
+		//	GameState = GS_MENU;
+		//}
 		break;
 	}
 	case GS_INSTRUCTIONS:
@@ -676,6 +680,63 @@ void SP3::UpdateGame(double dt)
 	}
 
 	// ----------------- Update Camera ------------------ //
+	//if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
+	//{
+	//	camera.position.x += (float)dt * 8;
+	//}
+	//else if (camera.position.x > OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
+	//{
+	//	camera.position.x -= (float)dt * 8;
+	//}
+
+	//if (camera.target.x < OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
+	//{
+	//	camera.target.x += (float)dt * 8;
+	//}
+	//else if (camera.target.x > OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
+	//{
+	//	camera.target.x -= (float)dt * 8;
+	//}
+
+	//if (camera.position.y < OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
+	//{
+	//	camera.position.y += (float)dt * 8;
+	//}
+	//if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
+	//{
+	//	if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
+	//	{
+ //       camera.position.y -= (float)dt * 12;
+	//	}
+	//}
+	//else
+	//{
+	//	if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() +1)
+	//	{
+	//		camera.position.y -= (float)dt * 12;
+	//	}
+	//}
+
+	//if (camera.target.y < OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
+	//{
+	//	camera.target.y += (float)dt * 8;
+	//}
+	//if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
+	//{
+	//	if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
+	//	{
+	//		camera.target.y -= (float)dt * 12;
+	//	}
+	//}
+	//else
+	//{
+	//	if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() +1)
+	//	{
+	//		camera.target.y -= (float)dt * 12;
+	//	}
+	//}
+
+	// ----------------- Update Camera ------------------ //
 	if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
 		camera.position.x += (float)dt * 8;
@@ -698,38 +759,18 @@ void SP3::UpdateGame(double dt)
 	{
 		camera.position.y += (float)dt * 8;
 	}
-	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
+	else if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-		if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
-		{
-        camera.position.y -= (float)dt * 12;
-		}
-	}
-	else
-	{
-		if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() +1)
-		{
-			camera.position.y -= (float)dt * 12;
-		}
+		camera.position.y -= (float)dt * 12;
 	}
 
 	if (camera.target.y < OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
 		camera.target.y += (float)dt * 8;
 	}
-	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
+	else if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-		if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
-		{
-			camera.target.y -= (float)dt * 12;
-		}
-	}
-	else
-	{
-		if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() +1)
-		{
-			camera.target.y -= (float)dt * 12;
-		}
+		camera.target.y -= (float)dt * 12;
 	}
 	
 	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
@@ -1119,12 +1160,12 @@ void SP3::RenderGame()
 	// ------------------------------------------------- //
 
 
-	modelStack.PushMatrix();
-	modelStack.Translate(UIPos_x, UIPos_y, 0);
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 5, -3);
-	modelStack.Scale(160, 95, 1);
-	RenderMesh(meshList[GEO_BACKGROUND], false);
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	//modelStack.Translate(UIPos_x, UIPos_y, 0);
+	//modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 5, -3);
+	//modelStack.Scale(160, 95, 1);
+	//RenderMesh(meshList[GEO_BACKGROUND], false);
+	//modelStack.PopMatrix();
 
 	float OffsetZ = 0.f;
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
