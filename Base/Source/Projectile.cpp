@@ -26,7 +26,7 @@ void Projectile::projectileInit(bool Direction, Vector3 m_Position, float bullet
 	this->rotation = rotation;
 	setVelocity();
 	//this->m_Velocity.Set(20, 20, 0);
-	//std::cout << m_Position << std::endl;
+	std::cout << m_Position << std::endl;
 
 	m_ElementLevel = level;
 }
@@ -44,12 +44,12 @@ void  Projectile::setVelocity()
 {
 	if (Direction==true)
 	{
-		m_Velocity.Set(speedBullet * cos(Math::DegreeToRadian(rotation)), speedBullet * sin(Math::DegreeToRadian(rotation)), 1);
+		m_Velocity.Set(speedBullet * cos(Math::DegreeToRadian(rotation)), speedBullet * sin(Math::DegreeToRadian(rotation)), 0);
 	}
 	else
 	{
 		//rotation = 180 - rotation;
-		m_Velocity.Set(-speedBullet * cos(Math::DegreeToRadian(rotation)), speedBullet * sin(Math::DegreeToRadian(rotation)), 1);
+		m_Velocity.Set(-speedBullet * cos(Math::DegreeToRadian(rotation)), speedBullet * sin(Math::DegreeToRadian(rotation)), 0);
 	}
 	
 }
@@ -66,6 +66,7 @@ void Projectile::Update(double dt)
 	}
 
 	UpdatePhysics(dt, Vector3(0,- 9.8f, 0));
+//	std::cout << lifeTime << std::endl;
 }
 
 

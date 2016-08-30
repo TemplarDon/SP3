@@ -37,11 +37,18 @@ void Player::Init(void)
 }
 
 // Player Update
-void Player::PlayerUpdate(double dt)
+void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 { 
-	if (m_CurrLevel == WATER_BOSS_LEVEL3 || m_CurrLevel== WATER_BOSS_LEVEL1)
+	interDT = dt;
+	GenerateCollisionBoundary(Map);
+	CheckCollisionBoundary();
+	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
+
+	ExecuteAbility(dt);
+	DebuffCheckAndApply(dt);
+	if (m_CurrLevel == WATER_BOSS_LEVEL3 || m_CurrLevel== WATER_BOSS_LEVEL1 || m_CurrLevel== WATER_LEVEL)
 	{
-		ConstrainPlayer(30 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20+ mapOffset_y + mapFineOffset_y, 50+ mapOffset_y + mapFineOffset_y, 1.5);
+		ConstrainPlayer(45  + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20+ mapOffset_y + mapFineOffset_y, 50+ mapOffset_y + mapFineOffset_y, 1.5);
 	}
 	else
 	{
@@ -57,6 +64,10 @@ void Player::PlayerUpdate(double dt)
 			m_Invulnerability = false;
 			m_InvulTimer = 1;
 		}
+	}
+	if (CurrHealth <= 0)
+	{
+		Death();
 	}
 }
 

@@ -306,9 +306,7 @@ bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
             Projectile* temp;
 
             temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(3, 3, 1), true, true, Projectile_Earth, "Image//Projectiles/earth_projectile.tga"));
-
-            temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, m_CurrElement, false, 60.f);
-
+            temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 30.f, m_CurrElement, false, 60.f);
 			temp->setIsHostileProjectile(this->isEnemy);
 
             // These Variables shouldn't change

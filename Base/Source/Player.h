@@ -13,7 +13,7 @@ public:
 	void Init(void);
 
 	// Player Update
-	void PlayerUpdate(double dt);
+	virtual void Update(double dt, GameObject_Map* Map, Camera camera);
 	void SetRespawnPos(Vector3 RespawnPos);
 	Vector3 GetRespawnPos();
 

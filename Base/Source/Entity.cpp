@@ -311,7 +311,9 @@ void Entity::CollisionResponse(GameObject* OtherGo)
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
 	
+
 	ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 50 + mapOffset_y + mapFineOffset_y, 1.5);
+
 
     interDT = dt;
 	GenerateCollisionBoundary(Map);
@@ -342,10 +344,7 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
         }
     }
     
-	if (CurrHealth <= 0)
-	{
-		Death();
-	}
+	
 }
 
 float Entity::GetCurrShield()
