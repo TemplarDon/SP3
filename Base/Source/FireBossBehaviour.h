@@ -14,8 +14,9 @@ public:
         BERSERK_PHASE,
     };
     
-    virtual void BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack, GameObject_Map* Map = NULL, double dt);
+    virtual void BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &Attack, GameObject_Map* Map = NULL);
     virtual Vector3 GetTargetLocation();
+    virtual void SetInternalDT(double dt);
 
     FIRE_PHASE GetBossState();
 private:
@@ -23,13 +24,17 @@ private:
     float DistanceToPlayer;
     Vector3 m_TargetLocation;
 
+    double internalDT;
+
     float phaseTimer;
+    float trackTimer;
     //normal phase stuff
     bool isNormalPhase;
     //rest phase
     bool isRestPhase;
     //berserkPhase
     bool isBeserkPhase;
+
 
 
 };
