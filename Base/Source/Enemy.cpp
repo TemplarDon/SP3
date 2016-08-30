@@ -82,6 +82,7 @@ float  Enemy::getDetectionRange()
 void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera)
 {
 	static bool timerBool = false;
+
 	if (this->CurrHealth <= 0)
 	{
 		Death();
@@ -199,7 +200,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			}
 
 
-			ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
+			ConstrainPlayer(30, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
 			GenerateCollisionBoundary(map);
 			CheckCollisionBoundary();
 			DebuffCheckAndApply(dt);
@@ -211,112 +212,114 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				this->Attacks->Attack_Basic(m_CurrElement, GetElementLevel(m_CurrElement));
 			}
 		}
-        else if (enemyType == WATERBOSS)
-        {
-            if (CurrHealth <= 0)
-            {
-                if (enemyType == WATERBOSS && dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->getBossState() == BehaviourWaterBoss::PHASE1)
-                {
-                    dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->setBossState(BehaviourWaterBoss::PHASE2);
-                }
-            }
-            std::cout << (m_Destination - m_Position).LengthSquared() << std::endl;
-            bool Attack = false;
-            this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack);
-            this->m_Destination = this->m_Behaviour->GetDestination();
-            if ((int)m_Destination.x > (int)m_Position.x)
-            {
-                if ((m_Destination - m_Position).LengthSquared() > 4500)
-                {
-                    std::cout << "YES" << std::endl;
-                    this->MovementSpeed = 0.2f;
-                }
-                else if ((m_Destination - m_Position).LengthSquared() < 500)
-                {
-                    this->MovementSpeed = 0.01f;
-                }
-                else
-                {
-                    this->MovementSpeed = 0.1f;
-                }
-                MoveRight(0.1f);
-                rotate = true;
-            }
-            else if ((int)m_Destination.x < (int)m_Position.x)
-            {
-                if ((m_Destination - m_Position).LengthSquared() > 4500)
-                {
-                    this->MovementSpeed = 0.2f;
-                }
-                else if ((m_Destination - m_Position).LengthSquared() < 500)
-                {
-                    this->MovementSpeed = 0.01f;
-                }
-                else
-                {
-                    this->MovementSpeed = 0.1f;
-                }
-                MoveLeft(0.1f);
-                rotate = false;
-            }
-            else
-            {
-                if (playerPosition.x > m_Position.x)
-                {
-                    rotate = true;
-                }
-                else
-                {
-                    rotate = false;
-                }
-            }
 
+		else if (enemyType == WATERBOSS)
+		{
+			 if (CurrHealth <= 0)
+			 {
+				if (enemyType == WATERBOSS && dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->getBossState() == BehaviourWaterBoss::PHASE1)
+				{
+				dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->setBossState(BehaviourWaterBoss::PHASE2);
+				}
+		     }
+			std::cout << (m_Destination - m_Position).LengthSquared() << std::endl;
+			bool Attack = false;
+			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack);
+			this->m_Destination = this->m_Behaviour->GetDestination();
+			if ((int)m_Destination.x > (int)m_Position.x)
+			{
+				if ((m_Destination - m_Position).LengthSquared() > 4500)
+				{
+					std::cout << "YES" << std::endl;
+					this->MovementSpeed = 0.2f;
+				} 
+				else if ((m_Destination - m_Position).LengthSquared() < 500)
+				{
+					this->MovementSpeed = 0.01f;
+				}
+				else
+				{
+					this->MovementSpeed = 0.1f;
+				}
+				MoveRight(0.1f);
+				rotate = true;
+			}
+			else if ((int)m_Destination.x < (int)m_Position.x)
+			{
+				if ((m_Destination - m_Position).LengthSquared() > 4500)
+				{
+					this->MovementSpeed = 0.2f;
+				}
+				else if ((m_Destination - m_Position).LengthSquared() < 500)
+				{
+					this->MovementSpeed = 0.01f;
+				}
+				else
+				{
+					this->MovementSpeed = 0.1f;
+				}
+				MoveLeft(0.1f);
+				rotate = false;
+			}
+			else
+			{
+				if (playerPosition.x > m_Position.x)
+				{
+					rotate = true;
+				}
+				else
+				{
+					rotate = false;
+				}
+			}
+			
 
-            ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
-            GenerateCollisionBoundary(map);
-            CheckCollisionBoundary();
-            DebuffCheckAndApply(dt);
+		/*	ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);*/
+			GenerateCollisionBoundary(map);
+			CheckCollisionBoundary();
+			DebuffCheckAndApply(dt);
 
-            bool AttackDir = false;
-            if (playerPosition.x > m_Position.x)
-            {
-                AttackDir = true;
-            }
-            else
-            {
-                AttackDir = false;
-            }
+			bool AttackDir = false;
+			if (playerPosition.x > m_Position.x)
+			{
+				AttackDir = true;
+			}
+			else
+			{
+				AttackDir = false;
+			}
 
-            static float waterAttackDuration = 1;
-            static float waterAttackTimer = 0;
-            if (Attack && DirectionLeftRight == AttackDir)
-            {
-                if (waterAttackDuration <= 3 && waterAttackDuration >= 0)
-                {
-                    this->Attacks->SetisEnemy(true);
-                    this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-                    this->Attacks->Attack_Ability(WATER, 0);
+			static float waterAttackDuration = 1;
+			static float waterAttackTimer = 0;
+			if (Attack && DirectionLeftRight == AttackDir)
+			{
+				if (waterAttackDuration <= 3 && waterAttackDuration >= 0)
+				{
+				this->Attacks->SetisEnemy(true);
+				this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+				this->Attacks->Attack_Ability(WATER, 0);
+				
+					this->Attacks->SetisEnemy(true);
+					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+					this->Attacks->Attack_Basic(WATER, 0);
+					waterAttackDuration -= dt;	
+				}
+				else
+				{
+					waterAttackTimer += dt;
+					if (waterAttackTimer >= 3)
+					{
+						waterAttackTimer = 0;
+						waterAttackDuration = 1;
+					}
+				}
+			}
+			//waterAttackTimer += dt;
 
-                    this->Attacks->SetisEnemy(true);
-                    this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
-                    this->Attacks->Attack_Basic(WATER, 0);
-                    waterAttackDuration -= dt;
-                }
-                else
-                {
-                    waterAttackTimer += dt;
-                    if (waterAttackTimer >= 3)
-                    {
-                        waterAttackTimer = 0;
-                        waterAttackDuration = 1;
-                    }
-                }
-            }
-            //waterAttackTimer += dt;
-
-        }
-        else if (enemyType == BOSS)
-        {
+		}
+		else if (enemyType == BOSS)
+		{
+			
             if (m_CurrElement == EARTH_2)
             {
                 bool Attack = false;

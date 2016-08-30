@@ -348,6 +348,7 @@ void SP3::UpdateGame(double dt)
 {
 	SceneBase::Update(dt);
 
+
 	if (Application::IsKeyPressed('A') && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->SetMoving_Left(true);
@@ -494,7 +495,6 @@ void SP3::UpdateGame(double dt)
 		if (go->GetType() == GO_PLAYER)
 		{
 			m_Player->Update(dt, m_GoMap, camera);
-			m_Player->PlayerUpdate(dt);
 		}
 
 		if (go->GetType() == GO_ATTACK)
@@ -603,14 +603,14 @@ void SP3::UpdateGame(double dt)
 
             if ((go->GetObjectType() == PROJECTILE) && (go2->GetObjectType() == PLAYER || go2->GetObjectType() == ENEMY) )
             {
-				if (go2->GetObjectType() == ENEMY &&dynamic_cast<Enemy*>(go2)->getEnemyType() == Enemy::WATERBOSS)
+				if (go2->GetObjectType() == ENEMY && dynamic_cast<Enemy*>(go2)->getEnemyType() == Enemy::WATERBOSS)
 				{
 					if (go->EmpricalCheckCollisionWith(go2, dt,400))
 					{
 						dynamic_cast<Enemy*>(go2)->CollisionResponse(go, m_GoMap);
 					}
 				}
-				else   if (go->EmpricalCheckCollisionWith(go2, dt))
+				else if (go->EmpricalCheckCollisionWith(go2, dt))
                 {
 					if (go2->GetObjectType() == PLAYER)
 					{
@@ -740,38 +740,58 @@ void SP3::UpdateGame(double dt)
 	// ----------------- Update Camera ------------------ //
 	if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		camera.position.x += (float)dt * 8;
+		camera.position.x += (float)dt * 9.8f;
 	}
 	else if (camera.position.x > OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		camera.position.x -= (float)dt * 8;
+		camera.position.x -= (float)dt *  9.8f;
 	}
 
 	if (camera.target.x < OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		camera.target.x += (float)dt * 8;
+		camera.target.x += (float)dt * 9.8f;
 	}
 	else if (camera.target.x > OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		camera.target.x -= (float)dt * 8;
+		camera.target.x -= (float)dt *  9.8f;
 	}
 
 	if (camera.position.y < OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
-		camera.position.y += (float)dt * 8;
+		camera.position.y += (float)dt *  9.8f;
 	}
-	else if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
+	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
 	{
-		camera.position.y -= (float)dt * 12;
+		if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
+		{
+        camera.position.y -= (float)dt * 20;
+		}
+	}
+	else
+	{
+		if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() +1)
+		{
+			camera.position.y -= (float)dt * 20;
+		}
 	}
 
 	if (camera.target.y < OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
-		camera.target.y += (float)dt * 8;
+		camera.target.y += (float)dt *  9.8f;
 	}
-	else if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
+	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
 	{
-		camera.target.y -= (float)dt * 12;
+		if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
+		{
+			camera.target.y -= (float)dt * 20;
+		}
+	}
+	else
+	{
+		if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() +1)
+		{
+			camera.target.y -= (float)dt * 20;
+		}
 	}
 	
 	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
@@ -823,21 +843,33 @@ void SP3::UpdateUI(double dt)
 	// X
 	if (UIPos_x  < originalUIPos_x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		UIPos_x += (float)dt * 8;
+		UIPos_x += (float)dt *  9.8f;
 	}
 	else if (UIPos_x  > originalUIPos_x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		UIPos_x -= (float)dt * 8;
+		UIPos_x -= (float)dt *  9.8f;
 	}
 
 	// Y
 	if (UIPos_y < originalUIPos_y + m_Player->GetMapOffset_y()+ m_Player->GetMapFineOffset_y())
 	{
-		UIPos_y += (float)dt * 8;
+
+		UIPos_y += (float)dt *  9.8f;
 	}
 	else if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y()+ m_Player->GetMapFineOffset_y() + 5)
 	{
-		UIPos_y -= (float)dt * 12;
+		if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
+		{
+		UIPos_y -= (float)dt * 20;
+		}
+	}
+	else
+	{
+		if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 1)
+		{
+			UIPos_y -= (float)dt * 20;
+		}
+
 	}
 }
 
@@ -1414,7 +1446,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case WATER_LEVEL:
 	{
-		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 1800, 1600);
 		m_Map->LoadMap("Image//Maps//Water.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_background.tga");
 		break;
@@ -1435,7 +1467,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case WATER_BOSS_LEVEL1:
 	{
-		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 3200);
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
 		m_Map->LoadMap("Image//Maps//Water_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
 		break;
@@ -1501,6 +1533,8 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 
 	camera.position.y = (float)m_Player->GetMapOffset_y();
 	camera.target.y = (float)m_Player->GetMapOffset_y();
+	/*camera.target = m_Player->GetPosition();
+	camera.position.Set(m_Player->GetPosition().x, m_Player->GetPosition().y, m_Player->GetPosition().z +1);*/
 	// ------------------------------------------ // 
 
 	treePos_x = orignalTreePos_x;
