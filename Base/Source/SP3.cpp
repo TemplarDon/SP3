@@ -457,6 +457,7 @@ void SP3::UpdateGame(double dt)
 		bEButtonState = false;
 	}
 
+
 	// ----------------- Health Charges ------------------ //
 	static bool bRButtonState = false;
 	if (!bRButtonState && Application::IsKeyPressed('R'))

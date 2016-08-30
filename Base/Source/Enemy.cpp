@@ -677,6 +677,12 @@ void Enemy::Death()
 {
 	this->m_Active = false;
 
-	Collectibles* temp = dynamic_cast<Collectibles*>(GameObjectManager::SpawnGameObject(COLLECTIBLE, GO_DROP_HEALTH, m_Position, Vector3(3, 3, 3), false, true, MeshBuilder::GenerateQuad("healthdrop", Color(1, 1, 1)), "Image//UI//heart_icon.tga"));
-	temp->InitCollectible(5);
+	int rand = Math::RandIntMinMax(0, 100);
+
+	if (rand > 50)
+	{
+		Collectibles* temp = dynamic_cast<Collectibles*>(GameObjectManager::SpawnGameObject(COLLECTIBLE, GO_DROP_HEALTH, m_Position, Vector3(3, 3, 3), false, true, MeshBuilder::GenerateQuad("healthdrop", Color(1, 1, 1)), "Image//UI//heart_icon.tga"));
+		temp->InitCollectible(5);
+	}
+
 }
