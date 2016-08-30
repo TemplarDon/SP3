@@ -203,6 +203,10 @@ void SP3::Update(double dt)
 		//}
 		break;
 	}
+	case GS_VICTORY:
+	{
+		break;
+	}
 	case GS_INSTRUCTIONS:
 	{
 		if (Application::IsKeyPressed('B'))
@@ -1304,6 +1308,15 @@ void SP3::Render()
 	case GS_GAME:
 	{
 		RenderGame();
+		break;
+	}
+	case GS_VICTORY:
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, 10);
+		modelStack.Scale(147, 77, 1);
+		RenderMesh(meshList[GEO_VICTORY], false);
+		modelStack.PopMatrix();
 		break;
 	}
 	case GS_INSTRUCTIONS:

@@ -151,6 +151,9 @@ void SceneBase::Init()
 	meshList[GEO_INSTRUCTIONS] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
 	meshList[GEO_INSTRUCTIONS]->textureID = LoadTGA("Image//Menu//instructions.tga");
 
+	meshList[GEO_VICTORY] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
+	meshList[GEO_VICTORY]->textureID = LoadTGA("Image//Background//victory.tga");
+
 	bLightEnabled = false;
 }
 

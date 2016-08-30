@@ -30,6 +30,7 @@ public:
 	{
 		GS_MENU,
 		GS_GAME,
+		GS_VICTORY,
 		GS_INSTRUCTIONS,
 		GS_QUIT,
 	};
