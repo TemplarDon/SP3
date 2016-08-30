@@ -10,11 +10,6 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "EnemySpawner.h"
-enum GAMESTATES
-{
-	PLAY,
-	LOADING,
-};
 
 class SP3 : public SceneBase
 {
@@ -25,39 +20,46 @@ public:
 
 	enum MENU_OPTIONS
 	{
-		START_GAME,
-		INSTRUCTIONS,
-		OPTIONS,
-		QUIT,
+		OP_START_GAME,
+		OP_INGAME,
+		OP_INSTRUCTIONS,
+		OP_OPTIONS,
+		OP_QUIT,
 	};
 
 	enum GAMESTATE
 	{
-		MENU,
-		GAME,
-		LOAD_LVL_1,
-		LOAD_LVL_2,
-		LOAD_LVL_3,
-		LOAD_LVL_4,
+		GS_MENU,
+		GS_GAME,
+		GS_INSTRUCTIONS,
+		GS_OPTIONS,
+		GS_QUIT,
 	};
 
 	virtual void Init();
 	virtual void Update(double dt);
+	virtual void UpdateMenu(double dt);
+	virtual void UpdateGame(double dt);
 	virtual void Render();
 	virtual void Exit();
 
 	void RenderGO(GameObject *go);
-	void RenderParallaxMap();
 
 	void SwitchLevel(LEVEL NextLevel);
 	void UpdateUI(double dt);
 	void UpdateUI2(double dt);
 	void RenderUI();
 	void RenderUIText();
+	void RenderGame();
+	void RenderMenu();
+	void RenderInstructions();
 
 protected:
 
-	//std::vector<GameObject *> m_goList;
+	// Game State
+	GAMESTATE GameState;
+	MENU_OPTIONS Options;
+	float cdMenu;
 
 	float m_speed;
 	float m_worldWidth;
@@ -78,12 +80,7 @@ protected:
 	Map* m_Map;
 	GameObject_Map* m_GoMap;
 
-	// Parallax Map
-	Map* m_ParallaxMap;
-	int paraWallOffset_x, paraWallOffset_y;
-	int paraWallTileOffset_x, paraWallTileOffset_y;
-	int paraWallFineOffset_x, paraWallFineOffset_y;
-	GameObject_Map* m_GoMap2;
+	// Parallax 
 	float treePos_x;
 	float orignalTreePos_x;
 	float treePos_y;

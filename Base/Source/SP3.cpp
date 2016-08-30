@@ -12,8 +12,6 @@
 
 
 SP3::SP3()
-	: paraWallOffset_x(0)
-	, paraWallOffset_y(0)
 {
     m_ChangeElementDebounce = 0.f;
     m_CanChangeElement = true;
@@ -28,6 +26,11 @@ std::vector<GameObject*> GameObjectManager::m_goList;
 void SP3::Init()
 {
 	SceneBase::Init();
+
+	GameState = GS_MENU;
+	Options = OP_START_GAME;
+
+	cdMenu = 0;
 
 	meshList[GEO_HEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 1, 0), 1.f);
 	meshList[GEO_HEALTH_BAR_WEAKENED] = MeshBuilder::GenerateQuad("Weakened State", Color(1, 0, 0), 1.f);
@@ -135,9 +138,231 @@ void SP3::Init()
 
 	currentSelectedEle = m_Player->GetElement();
 
+	meshList[GEO_PLAY_BUTTON] = MeshBuilder::GenerateSpriteAnimation("PLAY", 1, 6);
+	meshList[GEO_PLAY_BUTTON]->textureID = LoadTGA("Image//Menu//play_sprite.tga");
+
+	meshList[GEO_INSTRUCTION_BUTTON] = MeshBuilder::GenerateSpriteAnimation("PLAY", 1, 6);
+	meshList[GEO_INSTRUCTION_BUTTON]->textureID = LoadTGA("Image//Menu//instruction_sprite.tga");
+
+	meshList[GEO_OPTIONS_BUTTON] = MeshBuilder::GenerateSpriteAnimation("PLAY", 1, 6);
+	meshList[GEO_OPTIONS_BUTTON]->textureID = LoadTGA("Image//Menu//option_sprite.tga");
+
+	meshList[GEO_QUIT_BUTTON] = MeshBuilder::GenerateSpriteAnimation("PLAY", 1, 6);
+	meshList[GEO_QUIT_BUTTON]->textureID = LoadTGA("Image//Menu//quit_sprite.tga");
+
+	SpriteAnimation *sa = static_cast<SpriteAnimation*>(meshList[GEO_PLAY_BUTTON]);
+	if (sa)
+	{
+		sa->m_anim = new Animation();
+		sa->m_anim->Set(0, 5, 0, 1.f, true);
+	}
+
+	SpriteAnimation *sa2 = static_cast<SpriteAnimation*>(meshList[GEO_INSTRUCTION_BUTTON]);
+	if (sa2)
+	{
+		sa2->m_anim = new Animation();
+		sa2->m_anim->Set(0, 5, 0, 1.f, true);
+	}
+
+	SpriteAnimation *sa3 = static_cast<SpriteAnimation*>(meshList[GEO_OPTIONS_BUTTON]);
+	if (sa3)
+	{
+		sa3->m_anim = new Animation();
+		sa3->m_anim->Set(0, 5, 0, 1.f, true);
+	}
+
+	SpriteAnimation *sa4 = static_cast<SpriteAnimation*>(meshList[GEO_QUIT_BUTTON]);
+	if (sa4)
+	{
+		sa4->m_anim = new Animation();
+		sa4->m_anim->Set(0, 5, 0, 1.f, true);
+	}
 }
 
 void SP3::Update(double dt)
+{
+	// Runs the menu first
+	switch (GameState)
+	{
+	case GS_MENU:
+	{
+		UpdateMenu(dt);
+		break;
+	}
+	case GS_GAME:
+	{
+		UpdateGame(dt);
+		break;
+	}
+	case GS_INSTRUCTIONS:
+	{
+		break;
+	}
+	}
+}
+
+void SP3::UpdateMenu(double dt)
+{
+
+	{
+		switch (Options)
+		{
+		case OP_START_GAME:
+		{
+			SpriteAnimation *sa = dynamic_cast<SpriteAnimation*>(meshList[GEO_PLAY_BUTTON]);
+			if (sa)
+			{
+				sa->Update(dt);
+				sa->m_anim->animActive = true;
+			}
+
+			if (Application::IsKeyPressed(VK_RETURN))
+			{
+				//std::cout << GameState;
+				GameState = GS_GAME;
+			}
+
+			if (Application::IsKeyPressed(VK_UP))
+			{
+				//Options = OP_OPTIONS;
+				cdMenu += dt;
+				if (cdMenu > 0.18)
+				{
+					Options = OP_QUIT;
+					cdMenu = 0;
+				}
+			}
+
+			if (Application::IsKeyPressed(VK_DOWN))
+			{
+				cdMenu += dt;
+				if (cdMenu > 0.18)
+				{
+					Options = OP_INSTRUCTIONS;
+					cdMenu = 0;
+				}
+			}
+
+			break;
+		}
+		case OP_INSTRUCTIONS:
+		{
+
+			SpriteAnimation *sa2 = dynamic_cast<SpriteAnimation*>(meshList[GEO_INSTRUCTION_BUTTON]);
+			if (sa2)
+			{
+				sa2->Update(dt);
+				sa2->m_anim->animActive = true;
+			}
+
+
+			if (Application::IsKeyPressed(VK_RETURN))
+			{
+				GameState = GS_INSTRUCTIONS;
+			}
+
+			if (Application::IsKeyPressed(VK_UP))
+			{
+				//Options = OP_OPTIONS;
+				cdMenu += dt;
+				if (cdMenu > 0.18)
+				{
+					Options = OP_START_GAME;
+					cdMenu = 0;
+				}
+			}
+
+			if (Application::IsKeyPressed(VK_DOWN))
+			{
+				//Options = OP_OPTIONS;
+				cdMenu += dt;
+				if (cdMenu > 0.18)
+				{
+					Options = OP_OPTIONS;
+					cdMenu = 0;
+				}
+			}
+
+			break;
+		}
+		case OP_OPTIONS:
+		{
+			SpriteAnimation *sa3 = dynamic_cast<SpriteAnimation*>(meshList[GEO_OPTIONS_BUTTON]);
+			if (sa3)
+			{
+				sa3->Update(dt);
+				sa3->m_anim->animActive = true;
+			}
+
+			if (Application::IsKeyPressed(VK_RETURN))
+			{
+				GameState = GS_OPTIONS;
+			}
+
+			if (Application::IsKeyPressed(VK_UP))
+			{
+				cdMenu += dt;
+				if (cdMenu > 0.18)
+				{
+					Options = OP_INSTRUCTIONS;
+					cdMenu = 0;
+				}
+			}
+
+			if (Application::IsKeyPressed(VK_DOWN))
+			{
+				cdMenu += dt;
+				if (cdMenu > 0.18)
+				{
+					Options = OP_QUIT;
+					cdMenu = 0;
+				}
+			}
+
+			break;
+		}
+		case OP_QUIT:
+		{
+			SpriteAnimation *sa4 = dynamic_cast<SpriteAnimation*>(meshList[GEO_QUIT_BUTTON]);
+			if (sa4)
+			{
+				sa4->Update(dt);
+				sa4->m_anim->animActive = true;
+			}
+
+			if (Application::IsKeyPressed(VK_RETURN))
+			{
+				GameState = GS_QUIT;
+			}
+
+			if (Application::IsKeyPressed(VK_UP))
+			{
+				cdMenu += dt;
+				if (cdMenu > 0.18)
+				{
+					Options = OP_OPTIONS;
+					cdMenu = 0;
+				}
+			}
+
+
+			if (Application::IsKeyPressed(VK_DOWN))
+			{
+				cdMenu += dt;
+				if (cdMenu > 0.18)
+				{
+					Options = OP_START_GAME;
+					cdMenu = 0;
+				}
+			}
+		}
+		default:
+			break;
+		}
+	}
+}
+
+void SP3::UpdateGame(double dt)
 {
 	SceneBase::Update(dt);
 
@@ -148,14 +373,14 @@ void SP3::Update(double dt)
 		m_Player->SetMove_Right(false);
 	}
 
-    if (Application::IsKeyPressed('D') && m_Player->Attacks->GetControlLock() == false)
+	if (Application::IsKeyPressed('D') && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->SetMoving_Left(false);
 		m_Player->SetMove_Right(true);
 	}
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
-		m_Player->Attacks->Attack_Basic(m_Player->GetElement(),m_Player->GetElementLevel(m_Player->GetElement()));
+		m_Player->Attacks->Attack_Basic(m_Player->GetElement(), m_Player->GetElementLevel(m_Player->GetElement()));
 
 		if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH && m_Player->GetElement() != MISC)
 		{
@@ -175,19 +400,19 @@ void SP3::Update(double dt)
 		m_Player->setRotate(true);
 		m_Player->SetMesh(m_Player->getMeshVector()[1]);
 		m_Player->SetSpriteAnimation(m_Player->getSpriteVector()[1]);
-        m_Player->MoveLeft((float)dt);
+		m_Player->MoveLeft((float)dt);
 	}
 	if (m_Player->GetMoving_Right() == true)
 	{
 		m_Player->setRotate(false);
-        m_Player->MoveRight((float)dt);
+		m_Player->MoveRight((float)dt);
 		m_Player->SetMesh(m_Player->getMeshVector()[1]);
 		m_Player->SetSpriteAnimation(m_Player->getSpriteVector()[1]);
 	}
-    if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND && m_Player->Attacks->GetControlLock() == false)
+	if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->UpdateJump(dt);
-		
+
 	}
 	if (m_Player->GetMoveState() != ON_GROUND)
 	{
@@ -196,15 +421,15 @@ void SP3::Update(double dt)
 
 	// ------------------------ Vacuum --------------------------- //
 	static bool fButtonState = false;
-	if (Application::IsKeyPressed('F') )
+	if (Application::IsKeyPressed('F'))
 	{
 		ELEMENT tempElement = m_Player->GetElement();
 		m_Player->SetElement(MISC);
 		if (m_Player->GetLeftRight() == true)
 		{
-			m_Player->Attacks->Attack_Suck(m_Player->GetElement(),true);
+			m_Player->Attacks->Attack_Suck(m_Player->GetElement(), true);
 		}
-		else 
+		else
 		{
 			m_Player->Attacks->Attack_Suck(m_Player->GetElement(), false);
 		}
@@ -262,7 +487,7 @@ void SP3::Update(double dt)
 		m_Player->UseHealthCharge();
 		bRButtonState = false;
 	}
-	
+
 
 	// ----------------- Sort Map ------------------ //
 	m_GoMap->SortMap();
@@ -297,8 +522,8 @@ void SP3::Update(double dt)
 
 		if (go->GetType() == GO_ENEMY)
 		{
-			Enemy* temp = dynamic_cast<Enemy*>(go);	
-		
+			Enemy* temp = dynamic_cast<Enemy*>(go);
+
 			if (temp->GetMoveState() == EDIBLE)
 			{
 				if (temp->EmpricalCheckCollisionWith(m_Player, dt, 30))
@@ -319,11 +544,11 @@ void SP3::Update(double dt)
 					m_Player->GainExp(tempElement, temp->GetElementPercentage(tempElement));
 					temp->SetActive(false);
 				}
-				
+
 			}
 			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
 
-			if (temp->getEnemyType()==Enemy::WATERBOSS&&dynamic_cast<BehaviourWaterBoss*>(temp->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2)
+			if (temp->getEnemyType() == Enemy::WATERBOSS&&dynamic_cast<BehaviourWaterBoss*>(temp->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2)
 			{
 				temp->SetActive(false);
 				SwitchLevel(WATER_BOSS_LEVEL2);
@@ -332,7 +557,7 @@ void SP3::Update(double dt)
 			{
 				temp->SetActive(false);
 				SwitchLevel(WATER_BOSS_LEVEL3);
-			}		
+			}
 			else
 			{
 				if (temp->EmpricalCheckCollisionWith(m_Player, dt, 75))
@@ -344,8 +569,8 @@ void SP3::Update(double dt)
 					}
 				}
 			}
-			
-			
+
+
 		}
 
 		if (go->GetObjectType() == ENVIRONMENT)
@@ -353,11 +578,11 @@ void SP3::Update(double dt)
 			Environment* temp = dynamic_cast<Environment*>(go);
 			temp->Update(dt, m_GoMap);
 		}
-        if (go->GetType() == GO_SHEILD)
-        {
-            Environment* temp = dynamic_cast<Environment*>(go);
-            temp->Update_Sheild(m_Player->GetPosition());
-        }
+		if (go->GetType() == GO_SHEILD)
+		{
+			Environment* temp = dynamic_cast<Environment*>(go);
+			temp->Update_Sheild(m_Player->GetPosition());
+		}
 
 		if (go->GetObjectType() == COLLECTIBLE)
 		{
@@ -399,10 +624,10 @@ void SP3::Update(double dt)
 			if (go2->GetType() == GO_BLOCK)
 				continue;
 
-            if ((go->GetObjectType() == PROJECTILE) && (go2->GetObjectType() == PLAYER || go2->GetObjectType() == ENEMY) )
-            {
-                if (go->EmpricalCheckCollisionWith(go2, dt))
-                {
+			if ((go->GetObjectType() == PROJECTILE) && (go2->GetObjectType() == PLAYER || go2->GetObjectType() == ENEMY))
+			{
+				if (go->EmpricalCheckCollisionWith(go2, dt))
+				{
 					if (go2->GetObjectType() == PLAYER)
 					{
 						dynamic_cast<Player*>(go2)->CollisionResponse(go, m_GoMap);
@@ -411,8 +636,8 @@ void SP3::Update(double dt)
 					{
 						dynamic_cast<Enemy*>(go2)->CollisionResponse(go, m_GoMap);
 					}
-                }				
-            }
+				}
+			}
 
 
 			if (go->GetObjectType() == ENEMY && go2->GetObjectType() == ENEMY)
@@ -442,11 +667,11 @@ void SP3::Update(double dt)
 			}
 			/*if (go->GetObjectType() == ENEMY && go2->GetObjectType() == TRANSITION)
 			{
-				if (dynamic_cast<BehaviourWaterBoss*>(dynamic_cast<Enemy*>(go)->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2)
-				{
-					Transition* temp = dynamic_cast<Transition*>(go2);
-					SwitchLevel(temp->GetNextTransition());
-				}
+			if (dynamic_cast<BehaviourWaterBoss*>(dynamic_cast<Enemy*>(go)->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2)
+			{
+			Transition* temp = dynamic_cast<Transition*>(go2);
+			SwitchLevel(temp->GetNextTransition());
+			}
 			}*/
 		}
 	}
@@ -454,16 +679,16 @@ void SP3::Update(double dt)
 
 	// --------------------------------------------- //
 
-    //Update the debouncer
-    if (!m_CanChangeElement)
-    {
-        m_ChangeElementDebounce += 5 * float(dt);
-        if (m_ChangeElementDebounce >= 5.f)
-        {
-            m_CanChangeElement = true;
-            m_ChangeElementDebounce = 0.f;
-        }
-    }	
+	//Update the debouncer
+	if (!m_CanChangeElement)
+	{
+		m_ChangeElementDebounce += 5 * float(dt);
+		if (m_ChangeElementDebounce >= 5.f)
+		{
+			m_CanChangeElement = true;
+			m_ChangeElementDebounce = 0.f;
+		}
+	}
 
 	// ----------------- Update Camera ------------------ //
 	if (camera.position.x < OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
@@ -472,12 +697,12 @@ void SP3::Update(double dt)
 	}
 	else if (camera.position.x > OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-        camera.position.x -= (float)dt * 8;
+		camera.position.x -= (float)dt * 8;
 	}
 
 	if (camera.target.x < OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-        camera.target.x += (float)dt * 8;
+		camera.target.x += (float)dt * 8;
 	}
 	else if (camera.target.x > OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
@@ -490,16 +715,16 @@ void SP3::Update(double dt)
 	}
 	else if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-        camera.position.y -= (float)dt * 12;
+		camera.position.y -= (float)dt * 12;
 	}
 
 	if (camera.target.y < OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
-        camera.target.y += (float)dt * 8;
+		camera.target.y += (float)dt * 8;
 	}
 	else if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
 	{
-        camera.target.y -= (float)dt * 12;
+		camera.target.y -= (float)dt * 12;
 	}
 	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	//camera.target.x = OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
@@ -507,15 +732,7 @@ void SP3::Update(double dt)
 
 
 
-	////419 same time
-	//if (treePos >  (orignalTreePos - (m_Player->GetMapOffset_x() * 0.5) - (m_Player->GetMapFineOffset_x() * 0.5) )  )
-	//{
-	//	treePos -= (dt * 4);
-	//}
-
-	UpdateUI(dt);
-	UpdateUI2(dt);
-	m_Player->Attacks->UpdateAttack(dt,  m_Player->GetPosition(), m_Player->GetLeftRight());
+	m_Player->Attacks->UpdateAttack(dt, m_Player->GetPosition(), m_Player->GetLeftRight());
 
 	// ------------------- Earth Attack Estimated Landing ------------------------ //
 	if (m_Player->GetElement() == EARTH || m_Player->GetElement() == EARTH_2)
@@ -538,63 +755,10 @@ void SP3::Update(double dt)
 			Distance_X = bulletspeed * cos(Math::DegreeToRadian(theta)) * TimeToLand_2;
 	}
 
-	//std::cout << "Curr shield " << m_Player->GetCurrShield() << std::endl;
+	UpdateUI(dt);
 }
 
 void SP3::UpdateUI(double dt)
-{
-	// -------------------------------------- Element indicator ---------------------------------------- //
-
-	
-
-	if (rotateUI > 360.f)
-	{
-		rotateUI -= 360.f;
-	}
-	switch (m_Player->GetElement())
-	{
-	case WATER:
-	{
-		// Fire
-		if (rotateUI < 270.f)
-		{
-            rotateUI += (float)dt * 200;
-		}
-
-		break;
-	}
-	case FIRE:
-	{
-		// Earth
-		if (rotateUI < 40.f)
-		{
-            rotateUI += (float)dt * 200;
-		}
-		else if (rotateUI >= 271.f || rotateUI >= 260.f)
-		{
-			//std::cout << "HEYYYAYYAYAYAAYAYAYAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYYYYYHUE";
-            rotateUI += (float)dt * 200;
-		}
-
-		break;
-	}
-	case EARTH:
-	{
-		// Water
-		if (rotateUI < 140)
-		{
-            rotateUI += (float)dt * 200;
-		}
-
-		break;
-	}
-	default:
-		break;
-	}
-
-}
-
-void SP3::UpdateUI2(double dt)
 {
 
 	// Stalagmite
@@ -684,47 +848,6 @@ void SP3::RenderGO(GameObject *go)
 		}
 		modelStack.PopMatrix();
 	}
-}
-
-void SP3::RenderParallaxMap()
-{
-	paraWallOffset_x = (int)(m_Player->GetMapOffset_x() / 2);
-	paraWallOffset_y = 0;
-	paraWallTileOffset_y = 0;
-	paraWallTileOffset_x = (int)(paraWallOffset_x / m_ParallaxMap->GetTileSize());
-
-	if (paraWallTileOffset_x + m_ParallaxMap->GetNumOfTiles_ScreenWidth() > m_ParallaxMap->GetNumOfTiles_MapWidth())
-		paraWallTileOffset_x = m_ParallaxMap->GetNumOfTiles_MapWidth() - m_ParallaxMap->GetNumOfTiles_ScreenWidth();
-
-	paraWallFineOffset_x = paraWallOffset_x % m_ParallaxMap->GetTileSize();
-
-	int m = 0;
-	for (int i = 0; i < m_ParallaxMap->GetNumOfTiles_ScreenHeight(); i++)
-	{
-		for (int k = 0; k < m_ParallaxMap->GetNumOfTiles_ScreenWidth() + 1; k++)
-		{
-			m = paraWallTileOffset_x + k;
-			if ((paraWallTileOffset_x + k) >= m_ParallaxMap->GetNumOfTiles_MapWidth())
-				break;
-
-			switch (m_ParallaxMap->m_ScreenMap[i][m])
-			{
-			case 3:
-			{
-				//modelStack.PushMatrix();
-				//modelStack.Translate(m_worldWidth * 0.5 + m_Player->GetMapOffset_x() * 0.8, m_worldHeight * 0.5, -1);
-				//modelStack.Scale(20, 20, 1);
-				//RenderMesh(meshList[GEO_BACKGROUND], false);
-				//modelStack.PopMatrix();
-				break;
-			}
-			default:
-				break;
-			}
-
-		}
-	}
-
 }
 
 void SP3::RenderUI()
@@ -919,6 +1042,97 @@ void SP3::RenderUIText()
 	modelStack.PopMatrix(); // Do not delete this line
 }
 
+void SP3::RenderGame()
+{
+	RenderUI();
+
+	for (int i = 0; i < 3; i++)
+	{
+		// Maple Tree
+		modelStack.PushMatrix();
+		modelStack.Translate(treePos_x + (i * 60), 32, -2);
+		modelStack.Scale(35, 35, 1);
+		RenderMesh(meshList[GEO_TREE], false);
+		modelStack.PopMatrix();
+	}
+
+
+	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
+	{
+		GameObject *go = (GameObject *)*it;
+		if (go->GetActive() && go->GetVisible())
+		{
+			RenderGO(go);
+		}
+	}
+
+
+
+	if (m_Player->GetElement() == EARTH || m_Player->GetElement() == EARTH_2)
+	{
+		if (m_Player->GetLeftRight())
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(m_Player->GetPosition().x + Distance_X, m_Player->GetPosition().y, 2);
+			modelStack.Scale(5, 5, 1);
+			RenderMesh(meshList[GEO_TARGET], false);
+			modelStack.PopMatrix();
+		}
+		else
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(m_Player->GetPosition().x - Distance_X, m_Player->GetPosition().y, 2);
+			modelStack.Scale(5, 5, 1);
+			RenderMesh(meshList[GEO_TARGET], false);
+			modelStack.PopMatrix();
+		}
+	}
+
+	RenderUIText();
+}
+
+void SP3::RenderMenu()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, 1);
+	modelStack.Scale(150, 77.5, 1);
+	RenderMesh(meshList[GEO_BACKGROUND], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(50, 40, 2);
+	modelStack.Scale(20, 10, 1);
+	RenderMesh(meshList[GEO_PLAY_BUTTON], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(50, 30, 2);
+	modelStack.Scale(30, 10, 1);
+	RenderMesh(meshList[GEO_INSTRUCTION_BUTTON], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(50, 20, 2);
+	modelStack.Scale(20, 10, 1);
+	RenderMesh(meshList[GEO_OPTIONS_BUTTON], false);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(50, 10, 2);
+	modelStack.Scale(15, 10, 1);
+	RenderMesh(meshList[GEO_QUIT_BUTTON], false);
+	modelStack.PopMatrix();
+}
+
+void SP3::RenderInstructions()
+{
+	modelStack.PushMatrix();
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, 10);
+	modelStack.Scale(150, 77.5, 1);
+	RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
+	modelStack.PopMatrix();
+}
+
 void SP3::Render() 
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -959,66 +1173,78 @@ void SP3::Render()
 	//// Model matrix : an identity matrix (model will be at the origin)
 	//modelStack.LoadIdentity();
 
-	//RenderMesh(meshList[GEO_AXES], false);
-
-	RenderUI();
-
-	// ------------------ Background ------------------- //
-
-
-	// ------------------------------------------------- //
-
-	////stalagmite
-	//modelStack.PushMatrix();
-	//modelStack.Translate(treePos_x , 60 ,-1);
-	//modelStack.Scale(120, 80, 1);
-	//RenderMesh(meshList[GEO_TREE], false);
-	//modelStack.PopMatrix();
-
-	for (int i = 0; i < 3; i++)
+	switch (GameState)
 	{
-		// Maple Tree
-		modelStack.PushMatrix();
-		modelStack.Translate(treePos_x + (i * 60), 32, -2);
-		modelStack.Scale(35, 35, 1);
-		RenderMesh(meshList[GEO_TREE], false);
-		modelStack.PopMatrix();
+	case GS_MENU:
+	{
+		RenderMenu();
+		break;
+	}
+	case GS_GAME:
+	{
+		RenderGame();
+		break;
+	}
+	case GS_INSTRUCTIONS:
+	{
+		RenderInstructions();
+		break;
+	}
+	default:
+		break;
 	}
 
-
-	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
+	if (GameState == GS_MENU)
 	{
-		GameObject *go = (GameObject *)*it;
-		if (go->GetActive() && go->GetVisible())
+		switch (Options)
 		{
-			RenderGO(go);
-		}	
-	}
-
-
-
-	if (m_Player->GetElement() == EARTH || m_Player->GetElement() == EARTH_2)
-	{
-		if (m_Player->GetLeftRight())
+		case OP_START_GAME:
 		{
+			// Arrow
 			modelStack.PushMatrix();
-			modelStack.Translate(m_Player->GetPosition().x + Distance_X, m_Player->GetPosition().y, 2);
-			modelStack.Scale(5, 5, 1);
-			RenderMesh(meshList[GEO_TARGET], false);
+			modelStack.Translate(30, 40, 2);
+			modelStack.Scale(6, 6, 1);
+			modelStack.Rotate(180, 0, 0, 1);
+			RenderMesh(meshList[GEO_ARROW], false);
 			modelStack.PopMatrix();
+
+			break;
 		}
-		else
+		case OP_INSTRUCTIONS:
 		{
+			// Arrow
 			modelStack.PushMatrix();
-			modelStack.Translate(m_Player->GetPosition().x - Distance_X, m_Player->GetPosition().y, 2);
-			modelStack.Scale(5, 5, 1);
-			RenderMesh(meshList[GEO_TARGET], false);
+			modelStack.Translate(30, 30, 2);
+			modelStack.Scale(6, 6, 1);
+			modelStack.Rotate(180, 0, 0, 1);
+			RenderMesh(meshList[GEO_ARROW], false);
 			modelStack.PopMatrix();
+			break;
+		}
+		case OP_OPTIONS:
+		{
+			// Arrow
+			modelStack.PushMatrix();
+			modelStack.Translate(30, 20, 2);
+			modelStack.Scale(6, 6, 1);
+			modelStack.Rotate(180, 0, 0, 1);
+			RenderMesh(meshList[GEO_ARROW], false);
+			modelStack.PopMatrix();
+			break;
+		}
+		case OP_QUIT:
+		{
+			// Arrow
+			modelStack.PushMatrix();
+			modelStack.Translate(30, 10, 2);
+			modelStack.Scale(6, 6, 1);
+			modelStack.Rotate(180, 0, 0, 1);
+			RenderMesh(meshList[GEO_ARROW], false);
+			modelStack.PopMatrix();
+			break;
+		}
 		}
 	}
-
-
-	RenderUIText();
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)
