@@ -33,6 +33,7 @@ void SP3::Init()
 	cdMenu = 0;
 
 	meshList[GEO_HEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 1, 0), 1.f);
+	meshList[GEO_MAXHEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0.7, 0.7, 0.7), 1.f);
 	meshList[GEO_HEALTH_BAR_WEAKENED] = MeshBuilder::GenerateQuad("Weakened State", Color(1, 0, 0), 1.f);
 	meshList[GEO_SHIELD_BAR] = MeshBuilder::GenerateQuad("player", Color(1, 0.4, 0.3), 1.f);
 	meshList[GEO_FIRE_EXP_BAR] = MeshBuilder::GenerateQuad("player", Color(1, 0, 0), 1.f);
@@ -147,11 +148,11 @@ void SP3::Init()
 	meshList[GEO_INSTRUCTION_BUTTON] = MeshBuilder::GenerateSpriteAnimation("PLAY", 1, 6);
 	meshList[GEO_INSTRUCTION_BUTTON]->textureID = LoadTGA("Image//Menu//instruction_sprite.tga");
 
-	meshList[GEO_OPTIONS_BUTTON] = MeshBuilder::GenerateSpriteAnimation("PLAY", 1, 6);
-	meshList[GEO_OPTIONS_BUTTON]->textureID = LoadTGA("Image//Menu//option_sprite.tga");
-
-	meshList[GEO_QUIT_BUTTON] = MeshBuilder::GenerateSpriteAnimation("PLAY", 1, 6);
+	meshList[GEO_QUIT_BUTTON] = MeshBuilder::GenerateSpriteAnimation("PLAY", 1, 10);
 	meshList[GEO_QUIT_BUTTON]->textureID = LoadTGA("Image//Menu//quit_sprite.tga");
+
+	meshList[GEO_TITLE] = MeshBuilder::GenerateSpriteAnimation("PLAY", 1, 6);
+	meshList[GEO_TITLE]->textureID = LoadTGA("Image//Menu//title_sprite.tga");
 
 	SpriteAnimation *sa = static_cast<SpriteAnimation*>(meshList[GEO_PLAY_BUTTON]);
 	if (sa)
@@ -167,18 +168,18 @@ void SP3::Init()
 		sa2->m_anim->Set(0, 5, 0, 1.f, true);
 	}
 
-	SpriteAnimation *sa3 = static_cast<SpriteAnimation*>(meshList[GEO_OPTIONS_BUTTON]);
-	if (sa3)
-	{
-		sa3->m_anim = new Animation();
-		sa3->m_anim->Set(0, 5, 0, 1.f, true);
-	}
-
 	SpriteAnimation *sa4 = static_cast<SpriteAnimation*>(meshList[GEO_QUIT_BUTTON]);
 	if (sa4)
 	{
 		sa4->m_anim = new Animation();
-		sa4->m_anim->Set(0, 5, 0, 1.f, true);
+		sa4->m_anim->Set(0, 9, 0, 1.f, true);
+	}
+
+	SpriteAnimation *sa5 = static_cast<SpriteAnimation*>(meshList[GEO_TITLE]);
+	if (sa5)
+	{
+		sa5->m_anim = new Animation();
+		sa5->m_anim->Set(0, 5, 0, 1.f, true);
 	}
 }
 
@@ -195,9 +196,18 @@ void SP3::Update(double dt)
 	case GS_GAME:
 	{
 		UpdateGame(dt);
+		UpdateUI(dt);
 		break;
 	}
 	case GS_INSTRUCTIONS:
+	{
+		if (Application::IsKeyPressed('B'))
+		{
+			GameState = GS_MENU;
+		}
+		break;
+	}
+	case GS_QUIT:
 	{
 		break;
 	}
@@ -207,7 +217,13 @@ void SP3::Update(double dt)
 void SP3::UpdateMenu(double dt)
 {
 
+	SpriteAnimation *sa5 = dynamic_cast<SpriteAnimation*>(meshList[GEO_TITLE]);
+	if (sa5)
 	{
+		sa5->Update(dt);
+		sa5->m_anim->animActive = true;
+	}
+	
 		switch (Options)
 		{
 		case OP_START_GAME:
@@ -226,7 +242,6 @@ void SP3::UpdateMenu(double dt)
 
 			if (Application::IsKeyPressed(VK_UP))
 			{
-				//Options = OP_OPTIONS;
 				cdMenu += dt;
 				if (cdMenu > 0.18)
 				{
@@ -265,48 +280,10 @@ void SP3::UpdateMenu(double dt)
 
 			if (Application::IsKeyPressed(VK_UP))
 			{
-				//Options = OP_OPTIONS;
 				cdMenu += dt;
 				if (cdMenu > 0.18)
 				{
 					Options = OP_START_GAME;
-					cdMenu = 0;
-				}
-			}
-
-			if (Application::IsKeyPressed(VK_DOWN))
-			{
-				//Options = OP_OPTIONS;
-				cdMenu += dt;
-				if (cdMenu > 0.18)
-				{
-					Options = OP_OPTIONS;
-					cdMenu = 0;
-				}
-			}
-
-			break;
-		}
-		case OP_OPTIONS:
-		{
-			SpriteAnimation *sa3 = dynamic_cast<SpriteAnimation*>(meshList[GEO_OPTIONS_BUTTON]);
-			if (sa3)
-			{
-				sa3->Update(dt);
-				sa3->m_anim->animActive = true;
-			}
-
-			if (Application::IsKeyPressed(VK_RETURN))
-			{
-				GameState = GS_OPTIONS;
-			}
-
-			if (Application::IsKeyPressed(VK_UP))
-			{
-				cdMenu += dt;
-				if (cdMenu > 0.18)
-				{
-					Options = OP_INSTRUCTIONS;
 					cdMenu = 0;
 				}
 			}
@@ -342,7 +319,7 @@ void SP3::UpdateMenu(double dt)
 				cdMenu += dt;
 				if (cdMenu > 0.18)
 				{
-					Options = OP_OPTIONS;
+					Options = OP_INSTRUCTIONS;
 					cdMenu = 0;
 				}
 			}
@@ -361,7 +338,6 @@ void SP3::UpdateMenu(double dt)
 		default:
 			break;
 		}
-	}
 }
 
 void SP3::UpdateGame(double dt)
@@ -785,21 +761,19 @@ void SP3::UpdateGame(double dt)
 			Distance_X = bulletspeed * cos(Math::DegreeToRadian(theta)) * TimeToLand_2;
 	}
 
-	UpdateUI(dt);
 }
 
 void SP3::UpdateUI(double dt)
 {
-
 	// Stalagmite
 	// X
 	if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
 	{
-        treePos_x -= ((float)dt * 0.5f);
+		treePos_x -= (dt * 0.5);
 	}
 	else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
 	{
-        treePos_x += ((float)dt * 0.5f);
+		treePos_x += (dt * 0.5);
 	}
 
 
@@ -807,34 +781,22 @@ void SP3::UpdateUI(double dt)
 	// X
 	if (UIPos_x  < originalUIPos_x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x())
 	{
-		UIPos_x += (float)dt * 8.f;
+		UIPos_x += (float)dt * 8;
 	}
 	else if (UIPos_x  > originalUIPos_x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x() + 5)
 	{
-		UIPos_x -= (float)dt * 8.f;
+		UIPos_x -= (float)dt * 8;
 	}
 
 	// Y
-	if (UIPos_y < originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
+	if (UIPos_y < originalUIPos_y + m_Player->GetMapOffset_y()+ m_Player->GetMapFineOffset_y())
 	{
-		UIPos_y += (float)dt * 8.f;
+		UIPos_y += (float)dt * 8;
 	}
-	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
+	else if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y()+ m_Player->GetMapFineOffset_y() + 5)
 	{
-		if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
-		{
-		UIPos_y -= (float)dt * 12.f;
-		}
+		UIPos_y -= (float)dt * 12;
 	}
-	else
-	{
-		if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 1)
-		{
-			UIPos_y -= (float)dt * 12.f;
-		}
-	}
-	
-
 }
 
 void SP3::RenderGO(GameObject *go, float offset)
@@ -925,9 +887,19 @@ void SP3::RenderUI()
 	for (int i = 0; i < m_Player->GetCurrShield(); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x + 5) + (i * 1.2), 75, 1);
+		modelStack.Translate((healthbarpos_x + 5) + (i * 1.1), 75, 1);
 		modelStack.Scale(1, 3, 1);
 		RenderMesh(meshList[GEO_SHIELD_BAR], false);
+		modelStack.PopMatrix();
+	}
+
+	// Max Shield Bar
+	for (int i = 0; i < m_Player->GetMaxShield(); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate((healthbarpos_x + 5) + (i * 1.1), 75, 0);
+		modelStack.Scale(1, 3, 1);
+		RenderMesh(meshList[GEO_MAXHEALTH_BAR], false);
 		modelStack.PopMatrix();
 	}
 
@@ -935,9 +907,19 @@ void SP3::RenderUI()
 	for (int i = 0; i < m_Player->GetEntityHealth(); i++)
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x + 5) + (i * 1.2), 70, 1);
+		modelStack.Translate((healthbarpos_x + 5) + (i * 1.1), 70, 1);
 		modelStack.Scale(1, 3, 1);
 		RenderMesh(meshList[GEO_HEALTH_BAR], false);
+		modelStack.PopMatrix();
+	}
+
+	// Max Health Bar
+	for (int i = 0; i < m_Player->GetEntityMaxHealth(); i++)
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate((healthbarpos_x + 5) + (i * 1.1), 70, 0);
+		modelStack.Scale(1, 3, 1);
+		RenderMesh(meshList[GEO_MAXHEALTH_BAR], false);
 		modelStack.PopMatrix();
 	}
 
@@ -1136,15 +1118,13 @@ void SP3::RenderGame()
 
 	// ------------------------------------------------- //
 
-	for (int i = 0; i < 3; i++)
-	{
-		// Maple Tree
-		modelStack.PushMatrix();
-		modelStack.Translate(treePos_x + (i * 60), 32, -2);
-		modelStack.Scale(35, 35, 1);
-		RenderMesh(meshList[GEO_TREE], false);
-		modelStack.PopMatrix();
-	}
+
+	modelStack.PushMatrix();
+	modelStack.Translate(UIPos_x, UIPos_y, 0);
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 5, -3);
+	modelStack.Scale(160, 95, 1);
+	RenderMesh(meshList[GEO_BACKGROUND], false);
+	modelStack.PopMatrix();
 
 	float OffsetZ = 0.f;
 	for (std::vector<GameObject *>::iterator it = GameObjectManager::m_goList.begin(); it != GameObjectManager::m_goList.end(); ++it)
@@ -1180,38 +1160,39 @@ void SP3::RenderGame()
 
 	RenderUI();
 	RenderUIText();
+	RenderUI();
 }
 
 void SP3::RenderMenu()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, 1);
-	modelStack.Scale(150, 77.5, 1);
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 10, 1);
+	modelStack.Scale(155, 80, 1);
 	RenderMesh(meshList[GEO_BACKGROUND], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(50, 40, 2);
+	modelStack.Translate(m_worldWidth * 0.5 - 18, 45, 2);
 	modelStack.Scale(20, 10, 1);
 	RenderMesh(meshList[GEO_PLAY_BUTTON], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(50, 30, 2);
-	modelStack.Scale(30, 10, 1);
+	modelStack.Translate(m_worldWidth * 0.5 - 18, 35, 2);
+	modelStack.Scale(38, 10, 1);
 	RenderMesh(meshList[GEO_INSTRUCTION_BUTTON], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(50, 20, 2);
-	modelStack.Scale(20, 10, 1);
-	RenderMesh(meshList[GEO_OPTIONS_BUTTON], false);
+	modelStack.Translate(m_worldWidth * 0.5 - 18, 25, 2);
+	modelStack.Scale(15, 10, 1);
+	RenderMesh(meshList[GEO_QUIT_BUTTON], false);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(50, 10, 2);
-	modelStack.Scale(15, 10, 1);
-	RenderMesh(meshList[GEO_QUIT_BUTTON], false);
+	modelStack.Translate(m_worldWidth * 0.5 - 18, 65, 2);
+	modelStack.Scale(85, 20, 1);
+	RenderMesh(meshList[GEO_TITLE], false);
 	modelStack.PopMatrix();
 }
 
@@ -1219,8 +1200,8 @@ void SP3::RenderInstructions()
 {
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, 10);
-	modelStack.Scale(150, 77.5, 1);
-	RenderMesh(meshList[GEO_FIRE_BACKGROUND], false);
+	modelStack.Scale(147, 77, 1);
+	RenderMesh(meshList[GEO_INSTRUCTIONS], false);
 	modelStack.PopMatrix();
 }
 
@@ -1267,6 +1248,11 @@ void SP3::Render()
 	//RenderMesh(meshList[GEO_AXES], false);
 
 
+
+	// ------------------ Background ------------------- //
+
+	// ------------------------------------------------- //
+
 	switch (GameState)
 	{
 	case GS_MENU:
@@ -1296,7 +1282,7 @@ void SP3::Render()
 		{
 			// Arrow
 			modelStack.PushMatrix();
-			modelStack.Translate(30, 40, 2);
+			modelStack.Translate(m_worldWidth * 0.5 - 44, 45, 2);
 			modelStack.Scale(6, 6, 1);
 			modelStack.Rotate(180, 0, 0, 1);
 			RenderMesh(meshList[GEO_ARROW], false);
@@ -1308,18 +1294,7 @@ void SP3::Render()
 		{
 			// Arrow
 			modelStack.PushMatrix();
-			modelStack.Translate(30, 30, 2);
-			modelStack.Scale(6, 6, 1);
-			modelStack.Rotate(180, 0, 0, 1);
-			RenderMesh(meshList[GEO_ARROW], false);
-			modelStack.PopMatrix();
-			break;
-		}
-		case OP_OPTIONS:
-		{
-			// Arrow
-			modelStack.PushMatrix();
-			modelStack.Translate(30, 20, 2);
+			modelStack.Translate(m_worldWidth * 0.5 - 44, 35, 2);
 			modelStack.Scale(6, 6, 1);
 			modelStack.Rotate(180, 0, 0, 1);
 			RenderMesh(meshList[GEO_ARROW], false);
@@ -1330,7 +1305,7 @@ void SP3::Render()
 		{
 			// Arrow
 			modelStack.PushMatrix();
-			modelStack.Translate(30, 10, 2);
+			modelStack.Translate(m_worldWidth * 0.5 - 44, 25, 2);
 			modelStack.Scale(6, 6, 1);
 			modelStack.Rotate(180, 0, 0, 1);
 			RenderMesh(meshList[GEO_ARROW], false);
@@ -1339,6 +1314,7 @@ void SP3::Render()
 		}
 		}
 	}
+
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)

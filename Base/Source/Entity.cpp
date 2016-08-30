@@ -353,6 +353,11 @@ float Entity::GetCurrShield()
 	return CurrSheild;
 }
 
+float Entity::GetMaxShield()
+{
+	return MaxSheild;
+}
+
 void Entity::GenerateCollisionBoundary(GameObject_Map* Map)
 {
 	int PlayerPos_X = (int)(m_Position.x / Map->GetTileSize());

@@ -148,6 +148,8 @@ void SceneBase::Init()
 	meshList[GEO_SHIELD_ICON] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
 	meshList[GEO_SHIELD_ICON]->textureID = LoadTGA("Image//UI//shield_icon.tga");
 
+	meshList[GEO_INSTRUCTIONS] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
+	meshList[GEO_INSTRUCTIONS]->textureID = LoadTGA("Image//Menu//instructions.tga");
 
 	bLightEnabled = false;
 }

@@ -23,7 +23,6 @@ public:
 		OP_START_GAME,
 		OP_INGAME,
 		OP_INSTRUCTIONS,
-		OP_OPTIONS,
 		OP_QUIT,
 	};
 
@@ -32,7 +31,6 @@ public:
 		GS_MENU,
 		GS_GAME,
 		GS_INSTRUCTIONS,
-		GS_OPTIONS,
 		GS_QUIT,
 	};
 
@@ -53,6 +51,7 @@ public:
 	void RenderUIText();
 	void RenderGame();
 	void RenderMenu();
+	void RenderOptions();
 	void RenderInstructions();
 
 protected:

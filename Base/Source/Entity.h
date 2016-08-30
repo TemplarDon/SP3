@@ -129,6 +129,9 @@ public:
 	// Shield
 	virtual float GetCurrShield();
 
+	// Getter for max shield
+	virtual float GetMaxShield();
+
 
 protected:
     float CurrSheild;
