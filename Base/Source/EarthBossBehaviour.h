@@ -34,7 +34,6 @@ private:
 
 	Vector3 m_DestinationToReturn;
 	EARTH_PHASE m_CurrPhase;
-
 	bool m_DirectionSet;
 	bool m_RunOnce;
 
