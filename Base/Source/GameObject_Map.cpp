@@ -89,7 +89,13 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
-
+			case 5:
+			{
+				Collectibles* temp = dynamic_cast<Collectibles*>(GameObjectManager::SpawnGameObject(COLLECTIBLE, GO_DROP_HEALTH, Position, Vector3(3, 3, 3), true, true,Quad, "Image//UI//heart_icon.tga"));
+				temp->InitCollectible(5);
+				//m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
 			case 7:
 			{
 				Quad = MeshBuilder::GenerateSpriteAnimation("checkpoint", 1, 3);
@@ -213,7 +219,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 					   temp->SetMesh(temp->getMeshVector()[0]);
 					   temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
 					   temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-					   temp->SetEntityMaxHealth(500);
+					   temp->SetEntityMaxHealth(100);
 					   temp->EnemyInit(200, WATER_2, 5, 400);
 					   break;
 			}
@@ -295,7 +301,25 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				temp->setEnemySpawnerVector(FIRE, 3);
 				break;
 			}
-	
+			case 38:
+			{
+				EnemySpawner* temp = dynamic_cast<EnemySpawner*>(GameObjectManager::SpawnGameObject(ENEMYSPAWNER, GO_ENEMYSPAWNER, Position, Scale, true, false, Quad));
+				temp->setEnemySpawnerVector(WATER, 1);
+				break;
+			}
+
+			case 39:
+			{
+				EnemySpawner* temp = dynamic_cast<EnemySpawner*>(GameObjectManager::SpawnGameObject(ENEMYSPAWNER, GO_ENEMYSPAWNER, Position, Scale, true, false, Quad));
+				temp->setEnemySpawnerVector(EARTH, 1);
+				break;
+			}
+			case 40:
+			{
+				EnemySpawner* temp = dynamic_cast<EnemySpawner*>(GameObjectManager::SpawnGameObject(ENEMYSPAWNER, GO_ENEMYSPAWNER, Position, Scale, true, false, Quad));
+				temp->setEnemySpawnerVector(FIRE, 1);
+				break;
+			}
 			}
 		}
 	}

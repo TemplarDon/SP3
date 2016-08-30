@@ -86,7 +86,9 @@ void EnemySpawner::Update(double dt)
 				enemy->SetActive(true);
 				enemy->EnemyInit(enemy->getEstimatedDistance(), enemy->GetElement(), enemy->GetEntityDamage(), enemy->getDetectionRange());
 				enemy->SetMoveState(NO_STATE);
+				enemy->setEntityHealth(10);
 				m_timer = 0;
+				break;
 			}
 
 		}

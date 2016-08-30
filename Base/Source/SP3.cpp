@@ -71,8 +71,12 @@ void SP3::Init()
 
 	// ------------------------------ First Map ------------------------------- //
 	m_Map = new Map();
+
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Earth.csv");
+	m_Map->LoadMap("Image//Maps//Hub.csv");
+	
+
+
 
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -101,7 +105,7 @@ void SP3::Init()
 	// ------------------------------------------ // 
 
 	// ------------------- Set Level ------------------ // 
-
+	m_Player->SetCurrentLevel(HUB_LEVEL);
 	m_LevelLoaded = m_Player->GetCurrentLevel();
 
 	// ------------------------------------------------ // 
@@ -365,7 +369,7 @@ void SP3::UpdateMenu(double dt)
 void SP3::UpdateGame(double dt)
 {
 	SceneBase::Update(dt);
-
+	std::cout << m_Player->GetPosition() << std::endl;
 
 	if (Application::IsKeyPressed('A') && m_Player->Attacks->GetControlLock() == false)
 	{
@@ -548,16 +552,11 @@ void SP3::UpdateGame(double dt)
 			}
 			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
 
-			if (temp->getEnemyType() == Enemy::WATERBOSS&&dynamic_cast<BehaviourWaterBoss*>(temp->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2)
-			{
-				temp->SetActive(false);
-				SwitchLevel(WATER_BOSS_LEVEL2);
-			}
-			else if (temp->getEnemyType() == Enemy::WATERBOSS&&dynamic_cast<BehaviourWaterBoss*>(temp->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE3)
+			if (temp->getEnemyType()==Enemy::WATERBOSS&&dynamic_cast<BehaviourWaterBoss*>(temp->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2 && m_Player->GetCurrentLevel() != WATER_BOSS_LEVEL3)
 			{
 				temp->SetActive(false);
 				SwitchLevel(WATER_BOSS_LEVEL3);
-			}
+			}	
 			else
 			{
 				if (temp->EmpricalCheckCollisionWith(m_Player, dt, 75))
@@ -624,16 +623,23 @@ void SP3::UpdateGame(double dt)
 			if (go2->GetType() == GO_BLOCK)
 				continue;
 
-			if ((go->GetObjectType() == PROJECTILE) && (go2->GetObjectType() == PLAYER || go2->GetObjectType() == ENEMY))
-			{
-				if (go->EmpricalCheckCollisionWith(go2, dt))
+            if ((go->GetObjectType() == PROJECTILE) && (go2->GetObjectType() == PLAYER || go2->GetObjectType() == ENEMY) )
+            {
+				if (go2->GetObjectType() == ENEMY &&dynamic_cast<Enemy*>(go2)->getEnemyType() == Enemy::WATERBOSS)
 				{
+					if (go->EmpricalCheckCollisionWith(go2, dt,400))
+					{
+						dynamic_cast<Enemy*>(go2)->CollisionResponse(go, m_GoMap);
+					}
+				}
+				else   if (go->EmpricalCheckCollisionWith(go2, dt))
+                {
 					if (go2->GetObjectType() == PLAYER)
 					{
 						dynamic_cast<Player*>(go2)->CollisionResponse(go, m_GoMap);
 					}
 					else if (go2->GetObjectType() == ENEMY)
-					{
+					{	
 						dynamic_cast<Enemy*>(go2)->CollisionResponse(go, m_GoMap);
 					}
 				}
@@ -713,19 +719,40 @@ void SP3::UpdateGame(double dt)
 	{
 		camera.position.y += (float)dt * 8;
 	}
-	else if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
+	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
 	{
-		camera.position.y -= (float)dt * 12;
+		if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
+		{
+        camera.position.y -= (float)dt * 12;
+		}
+	}
+	else
+	{
+		if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() +1)
+		{
+			camera.position.y -= (float)dt * 12;
+		}
 	}
 
 	if (camera.target.y < OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
 		camera.target.y += (float)dt * 8;
 	}
-	else if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
+	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
 	{
-		camera.target.y -= (float)dt * 12;
+		if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
+		{
+			camera.target.y -= (float)dt * 12;
+		}
 	}
+	else
+	{
+		if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() +1)
+		{
+			camera.target.y -= (float)dt * 12;
+		}
+	}
+	
 	//camera.position.x = OrignialCamPos.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	//camera.target.x = OrignialCamTarget.x + m_Player->GetMapOffset_x() + m_Player->GetMapFineOffset_x();
 	// -------------------------------------------------- //
@@ -789,10 +816,21 @@ void SP3::UpdateUI(double dt)
 	{
 		UIPos_y += (float)dt * 8.f;
 	}
-	else if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 5)
+	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
 	{
+		if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
+		{
 		UIPos_y -= (float)dt * 12.f;
+		}
 	}
+	else
+	{
+		if (UIPos_y > originalUIPos_y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y() + 1)
+		{
+			UIPos_y -= (float)dt * 12.f;
+		}
+	}
+	
 
 	//std::cout << m_Player->GetElement() << std::endl;
 }
@@ -1358,20 +1396,14 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
 		break;
 	}
-	case WATER_BOSS_LEVEL2:
-	{
-		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
-		m_Map->LoadMap("Image//Maps//Water_Boss2.csv");
-		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
-		break;
-	}
 	case WATER_BOSS_LEVEL3:
 	{
-
-		m_Map->LoadMap("Image//Maps//Water_Boss.csv");
+		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
+		m_Map->LoadMap("Image//Maps//Water_Boss3.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
 		break;
 	}
+
 	case EARTH_BOSS_LEVEL:
 	{
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 800);

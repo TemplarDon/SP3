@@ -45,7 +45,7 @@ Entity::Entity()
 	
 	m_ElementsLevelMap[FIRE] = 1;
 	m_ElementsLevelMap[WATER] = 1;
-	m_ElementsLevelMap[EARTH] = 1;
+	m_ElementsLevelMap[EARTH] = 3;
 	//SetElementLevel(FIRE, 1);
 	//SetElementLevel(WATER, 1);
 	//SetElementLevel(EARTH, 1);
@@ -56,7 +56,7 @@ Entity::~Entity()
 
 }
 
-void Entity::SetEntityMaxHealth(int health)
+void Entity::SetEntityMaxHealth(float health)
 {
 	this->MaxHealth = health;
     if (!isEnemyEntity)
@@ -71,17 +71,20 @@ void Entity::SetEntityMaxHealth(int health)
     }
 }
 
-int Entity::GetEntityMaxHealth()
+float Entity::GetEntityMaxHealth()
 {
 	return MaxHealth;
 }
 
-int Entity::GetEntityHealth()
+float Entity::GetEntityHealth()
 {
 	return CurrHealth;
 }
 
-
+void Entity::setEntityHealth(float health)
+{
+	this->CurrHealth = health;
+}
 int Entity::GetEntityDamage()
 {
 	return Damage;
@@ -259,7 +262,7 @@ void Entity::SetMapFineOffset_y(int mapFineOffset_y)
 // Constrain the position of the Entity to within the border
 void Entity::ConstrainPlayer(const int leftBorder, const int rightBorder,
 	const int bottomBorder, const int topBorder,
-	float timeDiff, Camera camera)	
+	float timeDiff)	
 {
 	if (m_Position.x < leftBorder)
 	{
@@ -307,7 +310,8 @@ void Entity::CollisionResponse(GameObject* OtherGo)
 
 void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
-	ConstrainPlayer(25 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 75 + mapOffset_y + mapFineOffset_y, 1.5, camera);
+	
+	ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 50 + mapOffset_y + mapFineOffset_y, 1.5);
     interDT = dt;
 	GenerateCollisionBoundary(Map);
 	CheckCollisionBoundary();
