@@ -66,6 +66,7 @@ public:
 
 private:
 
+    int fireCount;
 	//Strategy* theStrategy;
 	Behaviour* m_Behaviour;
 	EnemyType enemyType;
