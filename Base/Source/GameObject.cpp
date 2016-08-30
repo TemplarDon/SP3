@@ -7,6 +7,7 @@ GameObject::GameObject()
 	m_Active(false),
 	m_Collidable(false),
 	m_Visible(true),
+	m_ObjectMesh(NULL),
 	m_SpriteAnimation(NULL),
 	rotate(false)
 {
@@ -14,6 +15,17 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
+	if (this->m_ObjectType != PROJECTILE && m_ObjectMesh)
+	{
+		delete m_ObjectMesh;
+		m_ObjectMesh = NULL;
+	}
+
+	if (this->m_ObjectType != PLAYER && this->m_ObjectType != ENEMY && m_SpriteAnimation)
+	{
+		delete m_SpriteAnimation;
+		m_SpriteAnimation = NULL;
+	}
 }
 
 GAMEOBJECT_TYPE GameObject::GetType()

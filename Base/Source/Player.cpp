@@ -142,7 +142,6 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 		tempProj = dynamic_cast<Projectile*>(OtherGo);
 		if (tempProj->getIsHostileProjectile())
 		{
-
 			if (tempProj->GetElement() == FIRE)
 			{
 				if (m_CurrElement == WATER)
@@ -284,7 +283,24 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 				}
 			}
 		}
+
+		if (tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile())
+		{
+			// Knock back player
+			if (tempProj->GetPosition().x > (int)m_Position.x)
+			{
+				// Knock Left
+				this->m_Position.x -= this->m_Position.Normalized().x;
+			}
+			else if (tempProj->GetPosition().x < (int)m_Position.x)
+			{
+				// Knock Right
+				this->m_Position.x += this->m_Position.Normalized().x;
+			}
+
+		}
 	}
+
 }
 
 void Player::SetInvulnerability(bool status)

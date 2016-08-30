@@ -76,7 +76,7 @@ void SP3::Init()
 	m_Map = new Map();
 
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Tutorial.csv");
+	m_Map->LoadMap("Image//Maps//Earth.csv");
 	
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -500,7 +500,7 @@ void SP3::UpdateGame(double dt)
 			m_Player->Update(dt, m_GoMap, camera);
 		}
 
-		if (go->GetType() == GO_ATTACK)
+		if (go->GetObjectType() == PROJECTILE)
 		{
 			go->Update(dt);
 		}
@@ -544,7 +544,7 @@ void SP3::UpdateGame(double dt)
 				{
 					if (!m_Player->GetInvulnerability())
 					{
-						m_Player->TakeDamage(1);
+						m_Player->TakeDamage(temp->GetEntityDamage());
 						m_Player->SetInvulnerability(true);
 					}
 				}

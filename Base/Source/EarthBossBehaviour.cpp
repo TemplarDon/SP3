@@ -6,7 +6,7 @@ EarthBehaviour::EarthBehaviour()
 	, m_LastStandStatus(false)
 	, m_LastStandTimer(3)
 	, m_AttackDistance(40)
-	, m_EvadeDistance(30)
+	, m_EvadeDistance(20)
 	, m_AttackCount(6)
 	, m_EffectiveAttackDist(35)
 {
@@ -44,7 +44,7 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 			AttackStatus = true;
 		}
 		
-		if (m_AttackCount > 5 || DistanceToPlayer < m_EffectiveAttackDist - 5)
+		if (m_AttackCount > 3 || DistanceToPlayer < m_EffectiveAttackDist - 10)
 		{
 			m_CurrPhase = ABILITY_ATTACK_PHASE;
 			AttackStatus = true;
@@ -75,26 +75,14 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	GameObject* CheckGameObject_Right = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X + 4];
 	GameObject* CheckGameObject_Left = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X];
 
-
-	if ((CheckGameObject_Right->GetCollidable() && CheckGameObject_Right->GetActive()) && (CheckGameObject_Left->GetCollidable() && CheckGameObject_Left->GetActive()))
+	if (CheckGameObject_Right->GetCollidable() && CheckGameObject_Right->GetActive())
 	{
 		BlockedRight = true;
-		BlockedLeft = true;
 	}
-	else if ((!CheckGameObject_Right->GetCollidable() && !CheckGameObject_Right->GetActive()) && (CheckGameObject_Left->GetCollidable() && CheckGameObject_Left->GetActive()))
+	
+	if (CheckGameObject_Left->GetCollidable() && CheckGameObject_Left->GetActive())
 	{
 		BlockedLeft = true;
-		BlockedRight = false;
-	}
-	else if ((CheckGameObject_Right->GetCollidable() && CheckGameObject_Right->GetActive()) && (!CheckGameObject_Left->GetCollidable() && !CheckGameObject_Left->GetActive()))
-	{
-		BlockedLeft = false;
-		BlockedRight = true;
-	}
-	else if ((!CheckGameObject_Right->GetCollidable() && !CheckGameObject_Right->GetActive()) && (!CheckGameObject_Left->GetCollidable() && !CheckGameObject_Left->GetActive()))
-	{
-		BlockedLeft = false;
-		BlockedRight = false;
 	}
 	
 	// Check for 'Last Stand' behaviour
@@ -217,6 +205,7 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	case LAST_STAND:
 	{
 		m_DestinationToReturn = CurrPos;
+		AttackStatus = true;
 		break;
 	}
 	}
