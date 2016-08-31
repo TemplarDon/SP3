@@ -95,6 +95,14 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				//m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
+			case 6:
+			{
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_DEATHBBLOCK, Position, Scale, true, false, Quad ));
+				temp->SetElement(ELEMENT::NO_ELEMENT);
+				temp->Init(true, false);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
 			case 7:
 			{
 				//Quad = MeshBuilder::GenerateSpriteAnimation("checkpoint", 1, 3);

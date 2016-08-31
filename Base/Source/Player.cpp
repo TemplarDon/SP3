@@ -70,6 +70,23 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 	{
 		Death();
 	}
+	if (!SheildRegen)
+       {
+           SheildRegenTimer += (float)dt;
+           if (SheildRegenTimer >= 4)
+           {
+               SheildRegen = true;
+               SheildRegenTimer = 0.f;
+           }
+       }
+       if (SheildRegen)
+       {
+           CurrSheild += 5 * (float)dt;
+           if (CurrSheild > MaxSheild)
+           {
+               CurrSheild = MaxSheild;
+           }
+       }
 }
 
 void Player::SetRespawnPos(Vector3 RespawnPos)
