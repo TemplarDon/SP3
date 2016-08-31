@@ -10,6 +10,7 @@
 
 #include "GameObjectManager.h"
 
+#include "Sound.h"
 
 SP3::SP3()
 {
@@ -46,6 +47,10 @@ void SP3::Init()
 
 	meshList[GEO_CHATBOX] = MeshBuilder::GenerateQuad("textbox", Color(0.7, 0.5, 0.3), 1.f);
 	meshList[GEO_CHATBOX]->textureID = LoadTGA("Image//Tiles//textbox.tga");
+
+	meshList[GEO_IDLE_CHECKPOINT] = MeshBuilder::GenerateQuad("idle checkpoint", Color(0.7, 0.5, 0.3), 1.f);
+	meshList[GEO_IDLE_CHECKPOINT]->textureID = LoadTGA("Image//Tiles//idle_checkpoint.tga");
+
 	//Calculating aspect ratio
 	m_worldHeight = 100.f;
 	m_worldWidth = m_worldHeight * (float)Application::GetWindowWidth() / Application::GetWindowHeight();
@@ -185,8 +190,6 @@ void SP3::Init()
 
 void SP3::Update(double dt)
 {
-
-	std::cout << Level << std::endl;
 	// Runs the menu first
 	switch (GameState)
 	{
@@ -912,7 +915,17 @@ void SP3::RenderGO(GameObject *go, float offset)
 		modelStack.Translate(go->GetPosition().x, go->GetPosition().y, go->GetPosition().z + offset);
 		modelStack.Rotate(180, 0, 1, 0);
 		modelStack.Scale(go->GetScale().x, go->GetScale().y, go->GetScale().z);
-		RenderMesh(go->GetMesh(), false);
+
+		if (go->GetObjectType() == CHECKPOINT && !dynamic_cast<Checkpoint*>(go)->GetCheckpointActive())
+		{
+			// Excepton for Idle Checkpoint
+			RenderMesh(meshList[GEO_IDLE_CHECKPOINT], false);
+		}
+		else
+		{
+			RenderMesh(go->GetMesh(), false);
+		}
+
 		modelStack.PopMatrix();
 		glEnable(GL_CULL_FACE);
 	}
@@ -922,7 +935,15 @@ void SP3::RenderGO(GameObject *go, float offset)
 		modelStack.Translate(go->GetPosition().x, go->GetPosition().y, go->GetPosition().z + offset);
 		modelStack.Rotate(0, 0, 1, 0);
 		modelStack.Scale(go->GetScale().x, go->GetScale().y, go->GetScale().z);
-		RenderMesh(go->GetMesh(), false);
+		if (go->GetObjectType() == CHECKPOINT && !dynamic_cast<Checkpoint*>(go)->GetCheckpointActive())
+		{
+			// Excepton for Idle Checkpoint
+			RenderMesh(meshList[GEO_IDLE_CHECKPOINT], false);
+		}
+		else
+		{
+			RenderMesh(go->GetMesh(), false);
+		}
 		modelStack.PopMatrix();
 	}
 
@@ -964,8 +985,8 @@ void SP3::RenderGO(GameObject *go, float offset)
 		modelStack.PushMatrix();
 		//modelStack.Translate(UIPos_x, UIPos_y, 1);
 		//modelStack.Translate(m_worldWidth * 0.5 - 10, 10, 1);
-		modelStack.Translate(PosX, PosY + 3, 1);
-		modelStack.Scale(30, 14, 1);
+		modelStack.Translate(PosX, PosY + 3, 2);
+		modelStack.Scale(30, 15, 1);
 		RenderMesh(meshList[GEO_CHATBOX], false);
 		modelStack.PopMatrix();
 
@@ -974,7 +995,8 @@ void SP3::RenderGO(GameObject *go, float offset)
 		{
 			ss << dynamic_cast<NPC*>(go)->GetDialougeVec()[i];
 			//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(0, 0, 0), 4, 10, 10 - (i * 2.5));
-			RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 1.2, PosX / 2.1, (PosY * 0.9) - (i * 1.5));
+			//RenderTextOnScreen(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 1.2, PosX / 2.1, (PosY * 0.9) - (i * 1.5));
+			RenderTextOnScreen2(meshList[GEO_TEXT], ss.str(), Color(1, 1, 1), 1.8, (PosX - m_Player->GetMapOffset_x() - 10), ((PosY - m_Player->GetMapOffset_y()) + 5 - (i * 1.5)));
 			ss.str("");
 		}
 

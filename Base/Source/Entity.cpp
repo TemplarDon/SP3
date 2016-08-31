@@ -610,7 +610,7 @@ void Entity::setMeshVector(Mesh* mesh, std::string Name, const char* targaName, 
 	mesh->textureID = LoadTGA(targaName);
 	AnimationMeshList.push_back(mesh);
 }
-std::vector<Mesh*>  Entity::getMeshVector()
+std::vector<Mesh*> Entity::getMeshVector()
 {
 	return AnimationMeshList;
 }
@@ -627,7 +627,7 @@ void Entity::GainExp(ELEMENT ElementToGain, float Amount)
 
 void Entity::LevelUp(ELEMENT ElementToLevel)
 {
-	m_ElementsLevelMap[ElementToLevel] += 1;
+	m_ElementsLevelMap[ElementToLevel] = Math::Min(m_ElementsLevelMap[ElementToLevel] + 1, 5);
 
 	switch (ElementToLevel)
 	{

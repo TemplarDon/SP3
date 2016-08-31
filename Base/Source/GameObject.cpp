@@ -15,17 +15,12 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
-	/*if (this->m_ObjectType != PROJECTILE && this->m_Type != GO_EARTH_WALL && m_ObjectMesh)
+	if (m_ObjectMesh && !m_ObjectMesh->mode < -10000)
 	{
 		delete m_ObjectMesh;
 		m_ObjectMesh = NULL;
 	}
 
-	if (this->m_ObjectType != PLAYER && this->m_ObjectType != ENEMY && m_SpriteAnimation)
-	{
-		delete m_SpriteAnimation;
-		m_SpriteAnimation = NULL;
-	}*/
 }
 
 GAMEOBJECT_TYPE GameObject::GetType()

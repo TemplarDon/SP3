@@ -1,6 +1,7 @@
 #include "CheckPoint.h"
 
 Checkpoint::Checkpoint()
+	: m_CheckpointActive(false)
 {
 }
 
@@ -12,6 +13,7 @@ void Checkpoint::SetCheckpoint(LEVEL CurrLevel, Vector3 MapOffset)
 {
 	m_RespawnLevel = CurrLevel;
 	m_RespawnOffset = MapOffset;
+	m_CheckpointActive = true;
 }
 
 LEVEL Checkpoint::GetLevel()
@@ -22,4 +24,9 @@ LEVEL Checkpoint::GetLevel()
 Vector3 Checkpoint::GetMapOffset()
 {
 	return m_RespawnOffset;
+}
+
+bool Checkpoint::GetCheckpointActive()
+{
+	return m_CheckpointActive;
 }
