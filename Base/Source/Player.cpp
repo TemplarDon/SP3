@@ -12,6 +12,7 @@ Player::Player(void)
     m_CurrElement = FIRE;
     isEnemyEntity = false;
     Attacks = new AttackBase;
+	m_LastCheckpoint = NULL;
 }
 
 Player::~Player(void)
@@ -95,9 +96,12 @@ Checkpoint*  Player::GetCheckpoint()
 }
 void Player::Death()
 {
-	m_Position = m_RespawnPos;
-	CurrHealth = 10;
-	CurrSheild = 10;
+	m_Position = m_LastCheckpoint->GetPosition();
+	mapOffset_x = m_LastCheckpoint->GetMapOffset().x;
+	mapOffset_y = m_LastCheckpoint->GetMapOffset().y;
+
+	CurrHealth = MaxHealth;
+	CurrSheild = MaxSheild;
 }
 
 LEVEL Player::GetCurrentLevel()
@@ -136,16 +140,20 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 {
 	if (OtherGo->GetObjectType() == ENVIRONMENT)
 	{
-		if (OtherGo->GetType() == GO_CHECKPOINT)
-		{
-			this->SetRespawnPos(this->m_Position);
-			OtherGo->SetActive(false);
-		}
-
 		if (OtherGo->GetType() == GO_DROP_HEALTH)
 		{
 			this->AddHealthCharges();
 		}
+	}
+
+	if (OtherGo->GetType() == GO_CHECKPOINT)
+	{
+		Vector3 mapoffset;
+		mapoffset.x = mapOffset_x;
+		mapoffset.y = mapOffset_y;
+
+		this->m_LastCheckpoint = dynamic_cast<Checkpoint*>(OtherGo);
+		this->m_LastCheckpoint->SetCheckpoint(m_CurrLevel, mapoffset);
 	}
 
 	if (OtherGo->GetObjectType() == PROJECTILE)
