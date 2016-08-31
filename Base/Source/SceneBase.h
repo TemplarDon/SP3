@@ -92,6 +92,8 @@ public:
 		GEO_INSTRUCTIONS,
 		GEO_VICTORY,
 
+		GEO_TREE2,
+
 		NUM_GEOMETRY,
 	};
 public:

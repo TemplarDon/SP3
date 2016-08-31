@@ -154,6 +154,9 @@ void SceneBase::Init()
 	meshList[GEO_VICTORY] = MeshBuilder::GenerateQuad("EARTH", Color(1, 1, 1), 1.f);
 	meshList[GEO_VICTORY]->textureID = LoadTGA("Image//Background//victory.tga");
 
+	meshList[GEO_TREE2] = MeshBuilder::GenerateQuad("tree", Color(1, 1, 1), 1.f);
+	meshList[GEO_TREE2]->textureID = LoadTGA("Image//crimson_tree.tga");
+
 	bLightEnabled = false;
 }
 

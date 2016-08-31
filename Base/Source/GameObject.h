@@ -5,7 +5,7 @@
 #include <vector>
 #include "SpriteAnimation.h"
 
-enum LEVEL
+enum LEVEL 
 {
 	TEST,
 	TUTORIAL_LEVEL,
