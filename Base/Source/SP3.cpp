@@ -186,7 +186,8 @@ void SP3::Init()
 void SP3::Update(double dt)
 {
 
-	std::cout << Level << std::endl;
+	//std::cout << Level << std::endl;
+
 	// Runs the menu first
 	switch (GameState)
 	{
@@ -215,6 +216,7 @@ void SP3::Update(double dt)
 	}
 	case GS_QUIT:
 	{
+		Exit();
 		break;
 	}
 	}
@@ -860,11 +862,11 @@ void SP3::UpdateUI(double dt)
 	//}
 
 
-	if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.04) - (m_Player->GetMapFineOffset_x() * 0.04)))
+	if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.05) - (m_Player->GetMapFineOffset_x() * 0.05)))
 	{
 		treePos_x -= (dt * 0.5);
 	}
-	else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.04) - (m_Player->GetMapFineOffset_x() * 0.04)))
+	else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.05) - (m_Player->GetMapFineOffset_x() * 0.05)))
 	{
 		treePos_x += (dt * 0.5);
 	}
@@ -1213,8 +1215,8 @@ void SP3::RenderGame()
 	modelStack.Translate(UIPos_x, UIPos_y, 0);
 
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, -2);
-	modelStack.Scale(150, 83, 1);
+	modelStack.Translate(m_worldWidth * 0.5 - 19, m_worldHeight * 0.5 - 8.5, -2);
+	modelStack.Scale(152, 83, 1);
 	RenderMesh(meshList[GEO_BACKGROUND], false);
 	modelStack.PopMatrix();
 
@@ -1229,7 +1231,7 @@ void SP3::RenderGame()
 		for (int i = 0; i < 4; i++)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate((treePos_x + 3) + (i * 65), 37, 1);
+			modelStack.Translate((treePos_x + 3) + (i * 65), 31.5, 0);
 			modelStack.Scale(32, 35, 1);
 			RenderMesh(meshList[GEO_TREE], false);
 			modelStack.PopMatrix();
