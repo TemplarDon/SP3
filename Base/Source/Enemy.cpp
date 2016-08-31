@@ -87,6 +87,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 	{
 		Death();
 	}
+	//std::cout << CurrHealth << std::endl;
 	if (CurrHealth <= (MaxHealth/2) && m_CurrEntityMoveState !=EDIBLE && this->enemyType!=WATERBOSS && this->enemyType !=BOSS)
 	{	
 			m_CurrEntityMoveState = WEAKENED;
@@ -94,7 +95,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 
 	if (timerBool == true)
 	{
-		timer += (float)dt;
+      		timer += (float)dt;
 	}
 	if (m_CurrEntityMoveState == EDIBLE)
 	{

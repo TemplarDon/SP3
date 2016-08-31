@@ -176,10 +176,10 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			case 15:
 			{
 				// Water Enemy
-				Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
-				temp->setMeshVector(Quad, "Water Enemy", "Image//wood_enemy3.tga", 2, 5);
+				Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//blue_enemy.tga"));
+				temp->setMeshVector(Quad, "Water Enemy", "Image//blue_enemy.tga", 1, 3);
 				temp->SetMesh(temp->getMeshVector()[0]);
-				temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
+				temp->setSpriteVector(temp->GetMesh(), 0, 2, 1, 0.8f, true);
 				temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
 				temp->SetEntityMaxHealth(10);
 				temp->EnemyInit(200, WATER, 5, 400);
@@ -203,9 +203,9 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				// Fire Enemy
 				Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
-				temp->setMeshVector(Quad, "Fire Enemy", "Image//wood_enemy3.tga", 2, 5);
+				temp->setMeshVector(Quad, "Fire Enemy", "Image//fire_enemy.tga", 1, 4);
 				temp->SetMesh(temp->getMeshVector()[0]);
-				temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
+				temp->setSpriteVector(temp->GetMesh(), 0, 3, 1, 0.8f, true);
 				temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
 				temp->SetEntityMaxHealth(10);
 				temp->EnemyInit(200, FIRE, 5, 400);
@@ -216,9 +216,9 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 					   // Water Boss
 					   Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Vector3(20,20,20), true, true, Quad, "Image//wood_enemy3.tga"));
-					   temp->setMeshVector(Quad, "Water Enemy", "Image//wood_enemy3.tga", 2, 5);
+					   temp->setMeshVector(Quad, "Water Enemy", "Image//blue.tga", 1, 9);
 					   temp->SetMesh(temp->getMeshVector()[0]);
-					   temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
+					   temp->setSpriteVector(temp->GetMesh(), 0, 8, 1, 0.8f, true);
 					   temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
 					   temp->SetEntityMaxHealth(100);
 					   temp->EnemyInit(200, WATER_2, 5, 400);
@@ -243,13 +243,13 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			case 27:
 			{
 					   // Fire Boss
-					   Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
-					   temp->setMeshVector(Quad, "Fire Enemy", "Image//wood_enemy3.tga", 2, 5);
-					   temp->SetMesh(temp->getMeshVector()[0]);
-					   temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
-					   temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-					   temp->SetEntityMaxHealth(30);
-					   temp->EnemyInit(200, FIRE_2, 5, 400);
+					  Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
+					  temp->setMeshVector(Quad, "Fire Enemy", "Image//wood_enemy3.tga", 2, 5);
+					  temp->SetMesh(temp->getMeshVector()[0]);
+					  temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
+					  temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
+					  temp->SetEntityMaxHealth(30);
+					  temp->EnemyInit(200, FIRE_2, 5, 400);
 					   break;
 			}
 

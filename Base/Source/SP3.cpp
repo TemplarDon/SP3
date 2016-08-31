@@ -666,7 +666,7 @@ void SP3::UpdateGame(double dt)
 		}
 	}
 
-
+	//std::cout << GameObjectManager::m_goList.size() << std::endl;
 	// --------------------------------------------- //
 
 	//Update the debouncer
