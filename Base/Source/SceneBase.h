@@ -82,6 +82,8 @@ public:
 
 		GEO_CHATBOX,
 
+		GEO_IDLE_CHECKPOINT,
+
 		// UI
 		GEO_PLAY_BUTTON,
 		GEO_INSTRUCTION_BUTTON,
@@ -110,6 +112,7 @@ public:
 
 	void RenderText(Mesh* mesh, std::string text, Color color);
 	void RenderTextOnScreen(Mesh* mesh, std::string text, Color color, float size, float x, float y);
+	void RenderTextOnScreen2(Mesh* mesh, std::string text, Color color, float size, float x, float y);
 	void RenderMesh(Mesh *mesh, bool enableLight);
 	void RenderGO(GameObject *go);
 	void Render2DMesh(Mesh *mesh, const bool enableLight, const float size = 1.0f, const float x = 0.0f, const float y = 0.0f, const bool rotate = false, const float sizeX = 1.f, const float sizeY = 1.f);

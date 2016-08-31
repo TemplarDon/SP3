@@ -3,7 +3,8 @@
 
 GameObject_Map::GameObject_Map()
 	: m_Offset(0)
-{}
+{
+}
 
 GameObject_Map::~GameObject_Map()
 {
@@ -328,6 +329,18 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				EnemySpawner* temp = dynamic_cast<EnemySpawner*>(GameObjectManager::SpawnGameObject(ENEMYSPAWNER, GO_ENEMYSPAWNER, Position, Scale, true, false, Quad)); 
 				temp->setEnemySpawnerVector(FIRE, 1);
+				break;
+			}
+
+			case 101:
+			{
+				NPC* temp = dynamic_cast<NPC*>(GameObjectManager::SpawnGameObject(NPCS, GO_SIGNBOARD, Position, Scale, false, true, Quad, "Image//Tiles//signboardV2.tga"));
+				temp->InitNPC(false);
+				temp->SetDialouge("	   W - Jump     ");
+				temp->SetDialouge("  A - Move Left   ");
+				temp->SetDialouge("  D - Move Right    ");
+				temp->SetDialouge("    Space - Attack  ");
+				temp->SetDialouge("    F - Vaccum    ");
 				break;
 			}
 

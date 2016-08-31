@@ -14,9 +14,12 @@ public:
 	LEVEL GetLevel();
 	Vector3 GetMapOffset();
 
+	bool GetCheckpointActive();
+
 private:
 	LEVEL m_RespawnLevel;
 	Vector3 m_RespawnOffset;
+	bool m_CheckpointActive;
 };
 
 
