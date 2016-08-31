@@ -219,10 +219,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		{
 			 if (CurrHealth <= 0)
 			 {
-				if (enemyType == WATERBOSS && dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->getBossState() == BehaviourWaterBoss::PHASE1)
-				{
-				dynamic_cast<BehaviourWaterBoss*>(m_Behaviour)->setBossState(BehaviourWaterBoss::PHASE2);
-				}
+				
 		     }
 			std::cout << (m_Destination - m_Position).LengthSquared() << std::endl;
 			bool Attack = false;

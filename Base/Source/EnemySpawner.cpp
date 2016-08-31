@@ -71,7 +71,7 @@ void EnemySpawner::setEnemySpawnerVector(ELEMENT m_CurrElement, int howMany)
 		}
 		else if (m_CurrElement == EARTH || m_CurrElement == EARTH_2)
 		{
-			tempEnemy->setMeshVector(MeshBuilder::GenerateQuad("enemy", Color(1, 1, 1)), "Enemy", temp, 1, 5);
+			tempEnemy->setMeshVector(MeshBuilder::GenerateQuad("enemy", Color(1, 1, 1)), "Enemy", temp, 2, 5);
 			tempEnemy->SetMesh(tempEnemy->getMeshVector()[0]);
 			tempEnemy->setSpriteVector(tempEnemy->GetMesh(), 2, 6, 1, 0.8f, true);
 

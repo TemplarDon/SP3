@@ -224,13 +224,13 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			case 25:
 			{
 					   // Water Boss
-					   Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Vector3(20,20,20), true, true, Quad, "Image//wood_enemy3.tga"));
-					   temp->setMeshVector(Quad, "Water Enemy", "Image//blue.tga", 1, 9);
-					   temp->SetMesh(temp->getMeshVector()[0]);
-					   temp->setSpriteVector(temp->GetMesh(), 0, 8, 1, 0.8f, true);
-					   temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-					   temp->SetEntityMaxHealth(100);
-					   temp->EnemyInit(200, WATER_2, 5, 400);
+			   Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Vector3(20,20,20), true, true, Quad, "Image//blue_boss.tga"));
+			   temp->setMeshVector(Quad, "Water Enemy", "Image//blue_boss.tga", 1, 9);
+			   temp->SetMesh(temp->getMeshVector()[0]);
+			   temp->setSpriteVector(temp->GetMesh(), 0, 8, 1, 0.8f, true);
+			   temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
+			   temp->SetEntityMaxHealth(100);
+			   temp->EnemyInit(200, WATER_2, 5, 400);
 					   break;
 			}
 

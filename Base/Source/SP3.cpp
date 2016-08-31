@@ -536,14 +536,7 @@ void SP3::UpdateGame(double dt)
 
 			}
 			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
-
-			if (temp->getEnemyType()==Enemy::WATERBOSS&&dynamic_cast<BehaviourWaterBoss*>(temp->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2 && m_Player->GetCurrentLevel() != WATER_BOSS_LEVEL3)
-			{
-				temp->SetActive(false);
-				SwitchLevel(WATER_BOSS_LEVEL3);
-			}	
-			else
-			{
+		
 				if (temp->EmpricalCheckCollisionWith(m_Player, dt, 75))
 				{
 					if (!m_Player->GetInvulnerability())
@@ -551,8 +544,8 @@ void SP3::UpdateGame(double dt)
 						m_Player->TakeDamage(temp->GetEntityDamage());
 						m_Player->SetInvulnerability(true);
 					}
-				}
-			}
+			    }
+			
 
 
 		}
@@ -1548,18 +1541,9 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 		Level = WATER_BOSS_LEVEL1;
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
 		m_Map->LoadMap("Image//Maps//Water_Boss.csv");
-		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_background.tga");
 		break;
 	}
-	case WATER_BOSS_LEVEL3:
-	{
-		Level = WATER_BOSS_LEVEL3;
-		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
-		m_Map->LoadMap("Image//Maps//Water_Boss3.csv");
-		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
-		break;
-	}
-
 	case EARTH_BOSS_LEVEL:
 	{
 		Level = EARTH_BOSS_LEVEL;
