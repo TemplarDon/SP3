@@ -218,6 +218,7 @@ void SP3::Update(double dt)
 	}
 	case GS_QUIT:
 	{
+		Exit();
 		break;
 	}
 	}
@@ -539,14 +540,7 @@ void SP3::UpdateGame(double dt)
 
 			}
 			temp->Update(dt, m_Player->GetPosition(), m_GoMap, camera);
-
-			if (temp->getEnemyType()==Enemy::WATERBOSS&&dynamic_cast<BehaviourWaterBoss*>(temp->getBehaviour())->getBossState() == BehaviourWaterBoss::PHASE2 && m_Player->GetCurrentLevel() != WATER_BOSS_LEVEL3)
-			{
-				temp->SetActive(false);
-				SwitchLevel(WATER_BOSS_LEVEL3);
-			}	
-			else
-			{
+		
 				if (temp->EmpricalCheckCollisionWith(m_Player, dt, 75))
 				{
 					if (!m_Player->GetInvulnerability())
@@ -554,8 +548,8 @@ void SP3::UpdateGame(double dt)
 						m_Player->TakeDamage(temp->GetEntityDamage());
 						m_Player->SetInvulnerability(true);
 					}
-				}
-			}
+			    }
+			
 
 
 		}
@@ -847,6 +841,9 @@ void SP3::UpdateGame(double dt)
 			Distance_X = bulletspeed * cos(Math::DegreeToRadian(theta)) * TimeToLand_2;
 	}
 
+
+	std::cout << m_Player->GetElementPercentage(WATER) << std::endl;
+
 }
 
 void SP3::UpdateUI(double dt)
@@ -863,11 +860,11 @@ void SP3::UpdateUI(double dt)
 	//}
 
 
-	if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.04) - (m_Player->GetMapFineOffset_x() * 0.04)))
+	if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.05) - (m_Player->GetMapFineOffset_x() * 0.05)))
 	{
 		treePos_x -= (dt * 0.5);
 	}
-	else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.04) - (m_Player->GetMapFineOffset_x() * 0.04)))
+	else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.05) - (m_Player->GetMapFineOffset_x() * 0.05)))
 	{
 		treePos_x += (dt * 0.5);
 	}
@@ -1001,6 +998,41 @@ void SP3::RenderGO(GameObject *go, float offset)
 		}
 
 	}
+	else if (go->GetObjectType() == PLAYER)
+	{
+		if (m_Player->isDebuff_Burning() && m_Player->isDebuff_Slow())
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(go->GetPosition().x - 1.5, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z + offset);
+			modelStack.Scale(3, 3, 3);
+			RenderMesh(meshList[GEO_FIRE_DEBUFF], false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(go->GetPosition().x + 1.5, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z + offset);
+			modelStack.Scale(3, 3, 3);
+			RenderMesh(meshList[GEO_WATER_DEBUFF], false);
+			modelStack.PopMatrix();
+
+		}
+		else if (m_Player->isDebuff_Burning())
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(go->GetPosition().x, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z + offset);
+			modelStack.Scale(3, 3, 3);
+			RenderMesh(meshList[GEO_FIRE_DEBUFF], false);
+			modelStack.PopMatrix();
+		}
+		else if (m_Player->isDebuff_Slow())
+		{
+
+			modelStack.PushMatrix();
+			modelStack.Translate(go->GetPosition().x, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z + offset);
+			modelStack.Scale(3, 3, 3);
+			RenderMesh(meshList[GEO_WATER_DEBUFF], false);
+			modelStack.PopMatrix();
+		}
+	}
 }
 
 void SP3::RenderUI()
@@ -1085,7 +1117,7 @@ void SP3::RenderUI()
 	{
 		// Arrow
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x - 2.3), 65, 1);
+		modelStack.Translate((healthbarpos_x - 2.5), 65, 1);
 		modelStack.Scale(2.5, 2.5, 1);
 		modelStack.Rotate(180, 0, 0, 1);
 		RenderMesh(meshList[GEO_ARROW], false);
@@ -1097,7 +1129,7 @@ void SP3::RenderUI()
 	{
 		// Arrow
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x - 2.3), 55, 1);
+		modelStack.Translate((healthbarpos_x - 2.5), 55, 1);
 		modelStack.Scale(2.5, 2.5, 1);
 		modelStack.Rotate(180, 0, 0, 1);
 		RenderMesh(meshList[GEO_ARROW], false);
@@ -1108,7 +1140,7 @@ void SP3::RenderUI()
 	{
 		// Arrow
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x - 2.3), 60, 1);
+		modelStack.Translate((healthbarpos_x - 2.5), 60, 1);
 		modelStack.Scale(2.5, 2.5, 1);
 		modelStack.Rotate(180, 0, 0, 1);
 		RenderMesh(meshList[GEO_ARROW], false);
@@ -1155,24 +1187,24 @@ void SP3::RenderUI()
 	RenderMesh(meshList[GEO_EARTH_ICON], false);
 	modelStack.PopMatrix();
 
-    //Burning debuff indicator
-    if (m_Player->isDebuff_Burning())
-    {
-        modelStack.PushMatrix();
-        modelStack.Translate(70, 75, 1);
-        modelStack.Scale(4, 4, 1);
-        RenderMesh(meshList[GEO_FIRE_ICON], false);
-        modelStack.PopMatrix();
-    }
-    //Slowed debuff indicator
-    if (m_Player->isDebuff_Slow())
-    {
-        modelStack.PushMatrix();
-        modelStack.Translate(75, 75, 1);
-        modelStack.Scale(4, 4, 1);
-        RenderMesh(meshList[GEO_WATER_ICON], false);
-        modelStack.PopMatrix();
-    }
+    ////Burning debuff indicator
+    //if (m_Player->isDebuff_Burning())
+    //{
+    //    modelStack.PushMatrix();
+    //    modelStack.Translate(70, 75, 1);
+    //    modelStack.Scale(4, 4, 1);
+    //    RenderMesh(meshList[GEO_FIRE_ICON], false);
+    //    modelStack.PopMatrix();
+    //}
+    ////Slowed debuff indicator
+    //if (m_Player->isDebuff_Slow())
+    //{
+    //    modelStack.PushMatrix();
+    //    modelStack.Translate(75, 75, 1);
+    //    modelStack.Scale(4, 4, 1);
+    //    RenderMesh(meshList[GEO_WATER_ICON], false);
+    //    modelStack.PopMatrix();
+    //}
 
 	modelStack.PopMatrix(); // Do not delete this line
 }
@@ -1181,7 +1213,6 @@ void SP3::RenderUIText()
 {
 	modelStack.PushMatrix();
 	modelStack.Translate(UIPos_x, UIPos_y, 6);
-
 	// Fire Element Level
 	std::ostringstream ss;
 	ss.precision(5);
@@ -1235,8 +1266,8 @@ void SP3::RenderGame()
 	modelStack.Translate(UIPos_x, UIPos_y, 0);
 
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, -2);
-	modelStack.Scale(150, 83, 1);
+	modelStack.Translate(m_worldWidth * 0.5 - 19, m_worldHeight * 0.5 - 8.5, -5);
+	modelStack.Scale(152, 83, 1);
 	RenderMesh(meshList[GEO_BACKGROUND], false);
 	modelStack.PopMatrix();
 
@@ -1251,7 +1282,7 @@ void SP3::RenderGame()
 		for (int i = 0; i < 4; i++)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate((treePos_x + 3) + (i * 65), 37, 1);
+			modelStack.Translate((treePos_x + 3) + (i * 65), 31.5, -4);
 			modelStack.Scale(32, 35, 1);
 			RenderMesh(meshList[GEO_TREE], false);
 			modelStack.PopMatrix();
@@ -1261,7 +1292,7 @@ void SP3::RenderGame()
 	case HUB_LEVEL:
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(treePos_x, 41, -0.9f);
+		modelStack.Translate(treePos_x, 41, -4.f);
 		modelStack.Scale(40, 40, 1);
 		RenderMesh(meshList[GEO_TREE2], false);
 		modelStack.PopMatrix();
@@ -1269,7 +1300,7 @@ void SP3::RenderGame()
 		for (int i = 0; i < 3; i++)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate((treePos_x + 60) + (i * 33), 41, -0.9f);
+			modelStack.Translate((treePos_x + 70) + (i * 33), 41, -4.f);
 			modelStack.Scale(40, 40, 1);
 			RenderMesh(meshList[GEO_TREE2], false);
 			modelStack.PopMatrix();
@@ -1570,18 +1601,9 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 		Level = WATER_BOSS_LEVEL1;
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
 		m_Map->LoadMap("Image//Maps//Water_Boss.csv");
-		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
+		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_background.tga");
 		break;
 	}
-	case WATER_BOSS_LEVEL3:
-	{
-		Level = WATER_BOSS_LEVEL3;
-		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
-		m_Map->LoadMap("Image//Maps//Water_Boss3.csv");
-		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
-		break;
-	}
-
 	case EARTH_BOSS_LEVEL:
 	{
 		Level = EARTH_BOSS_LEVEL;

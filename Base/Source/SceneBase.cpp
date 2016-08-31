@@ -157,6 +157,12 @@ void SceneBase::Init()
 	meshList[GEO_TREE2] = MeshBuilder::GenerateQuad("tree", Color(1, 1, 1), 1.f);
 	meshList[GEO_TREE2]->textureID = LoadTGA("Image//crimson_tree.tga");
 
+	meshList[GEO_FIRE_DEBUFF] = MeshBuilder::GenerateQuad("fire debuff", Color(0.7, 0.5, 0.3), 1.f);
+	meshList[GEO_FIRE_DEBUFF]->textureID = LoadTGA("Image//UI//burningDebuff_icon.tga");
+
+	meshList[GEO_WATER_DEBUFF] = MeshBuilder::GenerateQuad("water debuff", Color(0.7, 0.5, 0.3), 1.f);
+	meshList[GEO_WATER_DEBUFF]->textureID = LoadTGA("Image//UI//slowDebuff_icon.tga");
+
 	bLightEnabled = false;
 }
 

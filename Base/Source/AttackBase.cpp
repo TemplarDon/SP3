@@ -246,7 +246,7 @@ void AttackBase::Ability_Run()
                
                 BulletPos = Vector3(Math::RandFloatMinMax(m_EntityPos.x - RainCloudSizeOffset, m_EntityPos.x + RainCloudSizeOffset), Math::RandFloatMinMax(m_EntityPos.y + 15, m_EntityPos.y + 25), 0);
                 Projectile* temp;
-                temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1.5, 1.5, 2), true, true, Projectile_Fire, "Image//Projectiles/water_projectile.tga"));
+                temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1.5, 1.5, 2), true, true, Projectile_Water, "Image//Projectiles/water_projectile.tga"));
                 temp->projectileInit(m_AttackDirection, BulletPos, 15.0f, m_AttackDamage, 3.5f, WATER_2, false, -80.f);
 				temp->setIsHostileProjectile(this->isEnemy);
 

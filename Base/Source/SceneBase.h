@@ -96,6 +96,9 @@ public:
 
 		GEO_TREE2,
 
+		GEO_FIRE_DEBUFF,
+		GEO_WATER_DEBUFF,
+
 		NUM_GEOMETRY,
 	};
 public:

@@ -53,7 +53,7 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 	}
 	else
 	{
-		ConstrainPlayer(10 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 50 + mapOffset_y + mapFineOffset_y, 1.5);
+		ConstrainPlayer(10 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 15 + mapOffset_y + mapFineOffset_y, 80 + mapOffset_y + mapFineOffset_y, 1.5);
 
 	}
 
@@ -68,7 +68,7 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 	}
 	if (CurrHealth <= 0)
 	{
-		//Death();
+		Death();
 	}
 }
 
@@ -168,8 +168,10 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 					DamagMultiplier = 0.5f;
 				if (m_CurrElement == FIRE)
 					DamagMultiplier = 1.f;
+
 				if (m_CurrElement == EARTH)
 					DamagMultiplier = 1.5f;
+				DamagMultiplier = DamagMultiplier * 0.3f;
 			}
 			if (tempProj->GetElement() == WATER)
 			{
