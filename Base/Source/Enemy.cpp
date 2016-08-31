@@ -14,6 +14,7 @@ Enemy::Enemy()
 	m_Behaviour->setEnemyType(enemyType);*/
 	Attacks->SetisEnemy(true);
 	timer = 0;
+	timerBool = false;
 }
 void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage,float detectionRange)
 {
@@ -58,6 +59,7 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 	this->detectionRange = detectionRange;
 
 	timer = 0;
+	timerBool = false;
 	m_ElementsPercentageMap[m_CurrElement] = 3.f;
 
 }
@@ -82,14 +84,16 @@ float  Enemy::getDetectionRange()
 
 void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Camera camera)
 {
-	static bool timerBool = false;
+
 
 	if (this->CurrHealth <= 0)
 	{
 		Death();
+		timer = 0;
+		timerBool = false;
 	}
 	//std::cout << CurrHealth << std::endl;
-	if (CurrHealth <= (MaxHealth/2) && m_CurrEntityMoveState !=EDIBLE && this->enemyType!=WATERBOSS && this->enemyType !=BOSS)
+	if (CurrHealth <= (float)(MaxHealth/2) && m_CurrEntityMoveState !=EDIBLE && this->enemyType!=WATERBOSS && this->enemyType !=BOSS)
 	{	
 			m_CurrEntityMoveState = WEAKENED;
 	}
@@ -97,6 +101,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 	if (timerBool == true)
 	{
       		timer += (float)dt;
+			std::cout << timer << std::endl;
 	}
 	if (m_CurrEntityMoveState == EDIBLE)
 	{
@@ -117,7 +122,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 	
 	if (m_CurrEntityMoveState == WEAKENED)
 	{
-		if (timerBool == false)
+		if (timerBool == false && timer==0)
 		{
 			timerBool = true;
 		}
@@ -137,6 +142,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		if (timer >= 12.0f)
 		{
 			CurrHealth = MaxHealth;
+			std::cout << "IT RUNS" << std::endl;
 			timerBool = false;
 			timer = 0;
 			m_CurrEntityMoveState = NO_STATE;
@@ -551,31 +557,31 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 				if (tempProj->GetElement() == FIRE || tempProj->GetElement() == FIRE_2)
 				{
 					if (m_CurrElement == WATER || m_CurrElement == WATER_2)
-						DamagMultiplier = 0.5;
+						DamagMultiplier = 0.5f;
 					if (m_CurrElement == FIRE || m_CurrElement == FIRE_2)
-						DamagMultiplier = 1;
+						DamagMultiplier = 1.f;
 					if (m_CurrElement == EARTH || m_CurrElement == EARTH_2)
-						DamagMultiplier = 1.5;
+						DamagMultiplier = 1.5f;
 
 					DamagMultiplier = DamagMultiplier / 2;
 				}
 				if (tempProj->GetElement() == WATER || tempProj->GetElement() == WATER_2)
 				{
 					if (m_CurrElement == WATER || m_CurrElement == WATER_2)
-						DamagMultiplier = 1;
+						DamagMultiplier = 1.f;
 					if (m_CurrElement == FIRE || m_CurrElement == FIRE_2)
-						DamagMultiplier = 1.5;
+						DamagMultiplier = 1.5f;
 					if (m_CurrElement == EARTH || m_CurrElement == EARTH_2)
-						DamagMultiplier = 0.5;
+						DamagMultiplier = 0.5f;
 				}
 				if (tempProj->GetElement() == EARTH || tempProj->GetElement() == EARTH_2)
 				{
 					if (m_CurrElement == WATER || m_CurrElement == WATER_2)
-						DamagMultiplier = 1.5;
+						DamagMultiplier = 1.5f;
 					if (m_CurrElement == FIRE || m_CurrElement == FIRE_2)
-						DamagMultiplier = 0.5;
+						DamagMultiplier = 0.5f;
 					if (m_CurrElement == EARTH || m_CurrElement == EARTH_2)
-						DamagMultiplier = 1;
+						DamagMultiplier = 1.f;
 
 					DamagMultiplier += 0.5;
 				}
@@ -607,7 +613,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 					}
 				}
 
-				TakeDamage(tempProj->getDamage());
+				this->TakeDamage(tempProj->getDamage());
 				OtherGo->SetActive(false);
 			}
 
