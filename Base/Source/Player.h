@@ -37,8 +37,11 @@ public:
 
 	Checkpoint* GetCheckpoint();
 
+	void SetFireBossKill(bool);
+	void SetWaterBossKill(bool);
+	void SetEarthBossKill(bool);
 
-
+	bool CheckIfSexy();
 private:
 	// Player's information
 	int jumpspeed;
@@ -59,6 +62,8 @@ private:
 	// Invulnerability
 	bool m_Invulnerability;
 	float m_InvulTimer;
+
+	bool m_FireBossClear, m_WaterBossClear, m_EarthBossClear;
 };
 
 

@@ -352,6 +352,10 @@ void SP3::UpdateMenu(double dt)
 
 void SP3::UpdateGame(double dt)
 {
+	if (m_Player->CheckIfSexy())
+	{
+		GameState = GS_VICTORY;
+	}
 	SceneBase::Update(dt);
 
 

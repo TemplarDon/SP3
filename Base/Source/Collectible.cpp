@@ -27,7 +27,25 @@ void Collectibles::CollisionResponse(GameObject* OtherGo)
 {
 	if (OtherGo->GetObjectType() == PLAYER)
 	{
-		dynamic_cast<Player*>(OtherGo)->AddHealthCharges();
+		if (OtherGo->GetType() == GO_DROP_HEALTH)
+		{
+			dynamic_cast<Player*>(OtherGo)->AddHealthCharges();
+		}
+
+		if (OtherGo->GetType() == GO_FIRE_HEART)
+		{
+			dynamic_cast<Player*>(OtherGo)->SetFireBossKill(true);
+		}
+
+		if (OtherGo->GetType() == GO_EARTH_HEART)
+		{
+			dynamic_cast<Player*>(OtherGo)->SetEarthBossKill(true);
+		}
+
+		if (OtherGo->GetType() == GO_WATER_HEART)
+		{
+			dynamic_cast<Player*>(OtherGo)->SetWaterBossKill(true);
+		}
 		this->m_Active = false;
 	}
 }

@@ -741,4 +741,19 @@ void Enemy::Death()
 		temp->InitCollectible(5);
 	}
 
+	if (m_CurrElement == EARTH_2)
+	{
+		Collectibles* temp = dynamic_cast<Collectibles*>(GameObjectManager::SpawnGameObject(COLLECTIBLE, GO_EARTH_HEART, m_Position, Vector3(8, 8, 8), false, true, MeshBuilder::GenerateQuad("GO_EARTH_HEART", Color(1, 1, 1)), "Image//UI//earth_heart.tga"));
+		temp->InitCollectible(5);
+	}
+	if (m_CurrElement == WATER_2)
+	{
+		Collectibles* temp = dynamic_cast<Collectibles*>(GameObjectManager::SpawnGameObject(COLLECTIBLE, GO_WATER_HEART, m_Position, Vector3(8, 8, 8), false, true, MeshBuilder::GenerateQuad("GO_WATER_HEART", Color(1, 1, 1)), "Image//UI//water_heart.tga"));
+		temp->InitCollectible(5);
+	}
+	if (m_CurrElement == FIRE_2)
+	{
+		Collectibles* temp = dynamic_cast<Collectibles*>(GameObjectManager::SpawnGameObject(COLLECTIBLE, GO_FIRE_HEART, m_Position, Vector3(8, 8, 8), false, true, MeshBuilder::GenerateQuad("GO_FIRE_HEART", Color(1, 1, 1)), "Image//UI//fire_heart.tga"));
+		temp->InitCollectible(5);
+	}
 }

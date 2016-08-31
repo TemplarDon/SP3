@@ -13,6 +13,9 @@ Player::Player(void)
     isEnemyEntity = false;
     Attacks = new AttackBase;
 	m_LastCheckpoint = NULL;
+	m_FireBossClear = false;
+	m_WaterBossClear = false;
+	m_EarthBossClear = false;
 }
 
 Player::~Player(void)
@@ -71,7 +74,25 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 		Death();
 	}
 }
-
+void Player::SetFireBossKill(bool input)
+{
+	m_FireBossClear = input;
+}
+void Player::SetWaterBossKill(bool input)
+{
+	m_WaterBossClear = input;
+}
+void Player::SetEarthBossKill(bool input)
+{
+	m_EarthBossClear = input;
+}
+bool Player::CheckIfSexy()
+{
+	if (m_FireBossClear && m_WaterBossClear && m_EarthBossClear)
+		return true;
+	else
+		return false;
+}
 void Player::SetRespawnPos(Vector3 RespawnPos)
 {
 	m_RespawnPos = RespawnPos;
