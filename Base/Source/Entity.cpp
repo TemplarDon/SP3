@@ -624,7 +624,7 @@ void Entity::GainExp(ELEMENT ElementToGain, float Amount)
 {
 	m_ElementsPercentageMap[ElementToGain] += Amount;
 
-	if (m_ElementsPercentageMap[ElementToGain] >= m_ElementsLevelMap[ElementToGain] * 1.5)
+	if (m_ElementsPercentageMap[ElementToGain] >= m_ElementsLevelMap[ElementToGain] * 3)
 	{
 		LevelUp(ElementToGain);
 	}

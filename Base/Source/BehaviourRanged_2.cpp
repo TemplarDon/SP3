@@ -89,7 +89,6 @@ void BehaviourRanged_2::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
 	GameObject* CheckGameObject_Right = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X + 4];
 	GameObject* CheckGameObject_Left = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X];
 
-
 	if ((CheckGameObject_Right->GetCollidable() && CheckGameObject_Right->GetActive()) && (CheckGameObject_Left->GetCollidable() && CheckGameObject_Left->GetActive()))
 	{
 		BlockedRight = true;

@@ -509,6 +509,39 @@ void SP3::UpdateGame(double dt)
 		bRButtonState = false;
 	}
 
+	// ----------------- Shortcuts ------------------ //
+	static bool b1ButtonState = false;
+	if (!b1ButtonState && Application::IsKeyPressed('1'))
+	{
+		b1ButtonState = true;
+	}
+	else if (b1ButtonState && !Application::IsKeyPressed('1'))
+	{
+		SwitchLevel(EARTH_BOSS_LEVEL);
+		b1ButtonState = false;
+	}
+
+	static bool b2ButtonState = false;
+	if (!b2ButtonState && Application::IsKeyPressed('2'))
+	{
+		b2ButtonState = true;
+	}
+	else if (b2ButtonState && !Application::IsKeyPressed('2'))
+	{
+		SwitchLevel(WATER_BOSS_LEVEL1);
+		b2ButtonState = false;
+	}
+
+	static bool b3ButtonState = false;
+	if (!b3ButtonState && Application::IsKeyPressed('3'))
+	{
+		b3ButtonState = true;
+	}
+	else if (b3ButtonState && !Application::IsKeyPressed('3'))
+	{
+		SwitchLevel(FIRE_BOSS_LEVEL);
+		b3ButtonState = false;
+	}
 
 	// ----------------- Sort Map ------------------ //
 	m_GoMap->SortMap();

@@ -287,7 +287,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 					  temp->SetMesh(temp->getMeshVector()[0]);
 					  temp->setSpriteVector(temp->GetMesh(), 0, 3, 1, 0.8f, true);
 					  temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-					  temp->SetEntityMaxHealth(500);
+					  temp->SetEntityMaxHealth(250);
 					  temp->EnemyInit(200, FIRE_2, 5, 400);
 					  temp->SetElementLevel(FIRE, 3);
 					   break;
