@@ -61,6 +61,7 @@
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\CheckPoint.h" />
     <ClInclude Include="Source\Collectibles.h" />
+    <ClInclude Include="Source\Debugging.h" />
     <ClInclude Include="Source\EarthBossBehaviour.h" />
     <ClInclude Include="Source\ElementalObject.h" />
     <ClInclude Include="Source\Enemy.h" />

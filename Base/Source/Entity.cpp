@@ -517,7 +517,6 @@ void Entity::DebuffCheckAndApply(double dt)
         if (deBuff_BurningTimer >= 1)
         {
             CurrHealth -= MaxHealth * 0.03f;
-            //std::cout << "burn " <<CurrHealth << std::endl;
             deBuff_BurningTimer = 0.f;
             deBuff_BurnTicks += 1;
         }

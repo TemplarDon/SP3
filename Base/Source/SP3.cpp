@@ -693,7 +693,6 @@ void SP3::UpdateGame(double dt)
 		}
 	}
 
-	//std::cout << GameObjectManager::m_goList.size() << std::endl;
 	// --------------------------------------------- //
 
 	//Update the debouncer
@@ -849,10 +848,6 @@ void SP3::UpdateGame(double dt)
 		else
 			Distance_X = bulletspeed * cos(Math::DegreeToRadian(theta)) * TimeToLand_2;
 	}
-
-
-	std::cout << m_Player->GetElementPercentage(WATER) << std::endl;
-
 }
 
 void SP3::UpdateUI(double dt)
@@ -1056,7 +1051,6 @@ void SP3::RenderGO(GameObject *go, float offset)
 
 void SP3::RenderUI()
 {
-	std::cout << sizeof(Environment) << std::endl;
 	// ------------------------------ UI ------------------------------------- //
 	modelStack.PushMatrix();
 	modelStack.Translate(UIPos_x,UIPos_y, 8);
@@ -1693,13 +1687,6 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 void SP3::Exit()
 {
 	SceneBase::Exit();
-	//Cleanup GameObjects
-	while (GameObjectManager::m_goList.size() > 0)
-	{
-		GameObject *go = GameObjectManager::m_goList.back();
-		delete go;
-		GameObjectManager::m_goList.pop_back();
-	}
 
 	if (m_Map)
 	{
@@ -1711,6 +1698,14 @@ void SP3::Exit()
 	{
 		delete m_GoMap;
 		m_GoMap = NULL;
+	}
+
+	//Cleanup GameObjects
+	while (GameObjectManager::m_goList.size() > 0)
+	{
+		GameObject *go = GameObjectManager::m_goList.back();
+		delete go;
+		GameObjectManager::m_goList.pop_back();
 	}
 
 	//if (m_ParallaxMap)

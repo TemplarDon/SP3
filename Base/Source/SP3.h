@@ -1,6 +1,8 @@
 #ifndef SP3_H_
 #define SP3_H_
 
+#include "Debugging.h"
+
 #include "Environment.h"
 #include <vector>
 #include "SceneBase.h"

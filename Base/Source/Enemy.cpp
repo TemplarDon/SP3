@@ -92,7 +92,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		timer = 0;
 		timerBool = false;
 	}
-	//std::cout << CurrHealth << std::endl;
+
 	if (CurrHealth <= (float)(MaxHealth/2) && m_CurrEntityMoveState !=EDIBLE && this->enemyType!=WATERBOSS && this->enemyType !=BOSS)
 	{	
 			m_CurrEntityMoveState = WEAKENED;
@@ -101,7 +101,6 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 	if (timerBool == true)
 	{
       		timer += (float)dt;
-			std::cout << timer << std::endl;
 	}
 	if (m_CurrEntityMoveState == EDIBLE)
 	{
@@ -142,7 +141,6 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 		if (timer >= 12.0f)
 		{
 			CurrHealth = MaxHealth;
-			std::cout << "IT RUNS" << std::endl;
 			timerBool = false;
 			timer = 0;
 			m_CurrEntityMoveState = NO_STATE;
@@ -227,7 +225,6 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			 {
 				
 		     }
-			std::cout << (m_Destination - m_Position).LengthSquared() << std::endl;
 			bool Attack = false;
 			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack);
 			this->m_Destination = this->m_Behaviour->GetDestination();
@@ -235,7 +232,6 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			{
 				if ((m_Destination - m_Position).LengthSquared() > 4500)
 				{
-					std::cout << "YES" << std::endl;
 					this->MovementSpeed = 0.2f;
 				} 
 				else if ((m_Destination - m_Position).LengthSquared() < 500)

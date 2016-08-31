@@ -16,6 +16,17 @@ GameObject_Map::~GameObject_Map()
 
 	delete Quad;
 
+	for (int y = 0; y < this->GetNumOfTiles_MapHeight(); ++y)
+	{
+		for (int x = 0; x < this->GetNumOfTiles_ScreenWidth(); ++x)
+		{
+			if (this->m_GameObjectMap[y][x])
+			{
+				m_GameObjectMap[y][x] = NULL;
+			}
+		}
+	}
+
 }
 
 void GameObject_Map::Init(Map* Map, int TileSize)

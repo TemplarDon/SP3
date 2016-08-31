@@ -1,6 +1,7 @@
 #ifndef BEHAVIOUR_H_
 #define BEHAVIOUR_H_
 
+#include "Debugging.h"
 
 #include "Vector3.h"
 #include "AttackBase.h"

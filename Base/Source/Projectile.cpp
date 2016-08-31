@@ -26,7 +26,6 @@ void Projectile::projectileInit(bool Direction, Vector3 m_Position, float bullet
 	this->rotation = rotation;
 	setVelocity();
 	//this->m_Velocity.Set(20, 20, 0);
-	std::cout << m_Position << std::endl;
 
 	m_ElementLevel = level;
 }
