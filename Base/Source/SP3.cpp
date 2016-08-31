@@ -29,6 +29,7 @@ void SP3::Init()
 
 	GameState = GS_MENU;
 	Options = OP_START_GAME;
+	Level = TUTORIAL_LEVEL;
 
 	cdMenu = 0;
 
@@ -185,6 +186,8 @@ void SP3::Init()
 
 void SP3::Update(double dt)
 {
+
+	std::cout << Level << std::endl;
 	// Runs the menu first
 	switch (GameState)
 	{
@@ -197,10 +200,6 @@ void SP3::Update(double dt)
 	{
 		UpdateGame(dt);
 		UpdateUI(dt);
-		//if (Application::IsKeyPressed('I'))
-		//{
-		//	GameState = GS_MENU;
-		//}
 		break;
 	}
 	case GS_VICTORY:
@@ -758,11 +757,11 @@ void SP3::UpdateGame(double dt)
 	{
 		camera.target.x -= (float)dt *  9.8f;
 	}
-
 	if (camera.position.y < OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y())
 	{
 		camera.position.y += (float)dt *  9.8f;
 	}
+
 	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
 	{
 		if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
@@ -832,15 +831,24 @@ void SP3::UpdateUI(double dt)
 {
 	// Stalagmite
 	// X
-	if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
+	//if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
+	//{
+	//	treePos_x -= (dt * 0.5);
+	//}
+	//else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
+	//{
+	//	treePos_x += (dt * 0.5);
+	//}
+
+
+	if (treePos_x >  (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.04) - (m_Player->GetMapFineOffset_x() * 0.04)))
 	{
 		treePos_x -= (dt * 0.5);
 	}
-	else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.06) - (m_Player->GetMapFineOffset_x() * 0.06)))
+	else if (treePos_x < (orignalTreePos_x - (m_Player->GetMapOffset_x() * 0.04) - (m_Player->GetMapFineOffset_x() * 0.04)))
 	{
 		treePos_x += (dt * 0.5);
 	}
-
 
 	// Move UI with screen
 	// X
@@ -1186,8 +1194,8 @@ void SP3::RenderGame()
 	modelStack.Translate(UIPos_x, UIPos_y, 0);
 
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, -1);
-	modelStack.Scale(150, 77.5, 1);
+	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, -2);
+	modelStack.Scale(150, 83, 1);
 	RenderMesh(meshList[GEO_BACKGROUND], false);
 	modelStack.PopMatrix();
 
@@ -1195,6 +1203,39 @@ void SP3::RenderGame()
 
 	// ------------------------------------------------- //
 
+	switch (Level)
+	{
+	case TUTORIAL_LEVEL:
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate((treePos_x + 3) + (i * 65), 37, 1);
+			modelStack.Scale(32, 35, 1);
+			RenderMesh(meshList[GEO_TREE], false);
+			modelStack.PopMatrix();
+		}
+		break;
+	} 
+	case HUB_LEVEL:
+	{
+		modelStack.PushMatrix();
+		modelStack.Translate(treePos_x, 41, -0.9f);
+		modelStack.Scale(40, 40, 1);
+		RenderMesh(meshList[GEO_TREE2], false);
+		modelStack.PopMatrix();
+
+		for (int i = 0; i < 3; i++)
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate((treePos_x + 60) + (i * 33), 41, -0.9f);
+			modelStack.Scale(40, 40, 1);
+			RenderMesh(meshList[GEO_TREE2], false);
+			modelStack.PopMatrix();
+		}
+		break;
+	}
+	}
 
 	//modelStack.PushMatrix();
 	//modelStack.Translate(UIPos_x, UIPos_y, 0);
@@ -1401,6 +1442,7 @@ void SP3::Render()
 		}
 	}
 
+
 }
 
 void SP3::SwitchLevel(LEVEL NextLevel)
@@ -1444,6 +1486,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case TUTORIAL_LEVEL:
 	{
+		Level = TUTORIAL_LEVEL;
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Tutorial.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//tutorial_background.tga");
@@ -1451,6 +1494,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case HUB_LEVEL:
 	{
+		Level = HUB_LEVEL;
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Hub.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//hub_background.tga");
@@ -1458,6 +1502,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case WATER_LEVEL:
 	{
+		Level = WATER_LEVEL;
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 1800, 1600);
 		m_Map->LoadMap("Image//Maps//Water.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_background.tga");
@@ -1465,6 +1510,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case FIRE_LEVEL:
 	{
+		Level = FIRE_LEVEL;
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Fire.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//fire_background.tga");
@@ -1472,6 +1518,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case EARTH_LEVEL:
 	{
+		Level = EARTH_LEVEL;
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Earth.csv"); 
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_background.tga");
@@ -1479,6 +1526,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case WATER_BOSS_LEVEL1:
 	{
+		Level = WATER_BOSS_LEVEL1;
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
 		m_Map->LoadMap("Image//Maps//Water_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
@@ -1486,6 +1534,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case WATER_BOSS_LEVEL3:
 	{
+		Level = WATER_BOSS_LEVEL3;
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
 		m_Map->LoadMap("Image//Maps//Water_Boss3.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_boss_background.tga");
@@ -1494,6 +1543,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 
 	case EARTH_BOSS_LEVEL:
 	{
+		Level = EARTH_BOSS_LEVEL;
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 800);
 		m_Map->LoadMap("Image//Maps//Earth_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_boss_background.tga");
@@ -1501,6 +1551,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	}
 	case FIRE_BOSS_LEVEL:
 	{
+		Level = FIRE_BOSS_LEVEL;
         m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Fire_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//fire_boss_background.tga");
