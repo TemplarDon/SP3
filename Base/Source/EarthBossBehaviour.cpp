@@ -4,11 +4,12 @@ EarthBehaviour::EarthBehaviour()
 	: m_DirectionSet(false)
 	, m_RunOnce(false)
 	, m_LastStandStatus(false)
-	, m_LastStandTimer(3)
+	, m_LastStandTimer(1)
 	, m_AttackDistance(40)
 	, m_EvadeDistance(30)
 	, m_AttackCount(6)
 	, m_EffectiveAttackDist(35)
+	, m_KnockBackTimer(0.2)
 {
 } 
 
@@ -44,7 +45,7 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 			AttackStatus = true;
 		}
 		
-		if (m_AttackCount > 5 || DistanceToPlayer < m_EffectiveAttackDist - 5)
+		if (m_AttackCount > 3 || DistanceToPlayer < m_EffectiveAttackDist - 10)
 		{
 			m_CurrPhase = ABILITY_ATTACK_PHASE;
 			AttackStatus = true;
@@ -75,30 +76,18 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	GameObject* CheckGameObject_Right = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X + 4];
 	GameObject* CheckGameObject_Left = Map->m_GameObjectMap[EntityPos_Y][EntityPos_X];
 
-
-	if ((CheckGameObject_Right->GetCollidable() && CheckGameObject_Right->GetActive()) && (CheckGameObject_Left->GetCollidable() && CheckGameObject_Left->GetActive()))
+	if (CheckGameObject_Right->GetCollidable() && CheckGameObject_Right->GetActive())
 	{
 		BlockedRight = true;
-		BlockedLeft = true;
 	}
-	else if ((!CheckGameObject_Right->GetCollidable() && !CheckGameObject_Right->GetActive()) && (CheckGameObject_Left->GetCollidable() && CheckGameObject_Left->GetActive()))
+	
+	if (CheckGameObject_Left->GetCollidable() && CheckGameObject_Left->GetActive())
 	{
 		BlockedLeft = true;
-		BlockedRight = false;
-	}
-	else if ((CheckGameObject_Right->GetCollidable() && CheckGameObject_Right->GetActive()) && (!CheckGameObject_Left->GetCollidable() && !CheckGameObject_Left->GetActive()))
-	{
-		BlockedLeft = false;
-		BlockedRight = true;
-	}
-	else if ((!CheckGameObject_Right->GetCollidable() && !CheckGameObject_Right->GetActive()) && (!CheckGameObject_Left->GetCollidable() && !CheckGameObject_Left->GetActive()))
-	{
-		BlockedLeft = false;
-		BlockedRight = false;
 	}
 	
 	// Check for 'Last Stand' behaviour
-	if ((BlockedRight || BlockedLeft) && behaviour == EVADE && !m_LastStandStatus)
+	if (/*(BlockedRight || BlockedLeft) &&*/ behaviour == EVADE && !m_LastStandStatus)
 	{
 		m_LastStandStatus = true;
 	}
@@ -110,7 +99,8 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 		if (m_LastStandTimer <= 0)
 		{
 			m_LastStandStatus = false;
-			m_LastStandTimer = 3;
+			m_LastStandTimer = 1;
+			m_KnockBackTimer = 0.2;
 		}
 	}
 
@@ -216,7 +206,15 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 
 	case LAST_STAND:
 	{
-		m_DestinationToReturn = CurrPos;
+		if (PlayerRight)
+		{
+			m_DestinationToReturn = PlayerPos - Vector3(5, 0, 0);
+		}
+		else if (PlayerLeft)
+		{
+			m_DestinationToReturn = PlayerPos + Vector3(5, 0, 0);
+		}
+		AttackStatus = true;
 		break;
 	}
 	}
@@ -260,4 +258,14 @@ void EarthBehaviour::SetAttackCount(float NewCount)
 float EarthBehaviour::GetAttackCount()
 {
 	return m_AttackCount;
+}
+
+void EarthBehaviour::SetKnockBackTimer(float NewTime)
+{
+	m_KnockBackTimer = NewTime;
+}
+
+float EarthBehaviour::GetKnockBackTimer()
+{
+	return m_KnockBackTimer;
 }

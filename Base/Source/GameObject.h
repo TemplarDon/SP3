@@ -5,7 +5,7 @@
 #include <vector>
 #include "SpriteAnimation.h"
 
-enum LEVEL
+enum LEVEL 
 {
 	TEST,
 	TUTORIAL_LEVEL,
@@ -32,6 +32,7 @@ enum OBJECT_TYPE
 	COLLECTIBLE,
 	ENEMYSPAWNER,
 	NPCS,
+	CHECKPOINT,
 	TOTAL_TYPE,
 };
 
@@ -56,6 +57,7 @@ enum GAMEOBJECT_TYPE
 	GO_DROP_HEALTH,
 	GO_ENEMYSPAWNER,
 	GO_SIGNBOARD,
+	GO_KNOCK_BACK_PROJECTILE,
 	GO_TOTAL,
 };
 

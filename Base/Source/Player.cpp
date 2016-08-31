@@ -67,7 +67,7 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 	}
 	if (CurrHealth <= 0)
 	{
-		Death();
+		//Death();
 	}
 }
 
@@ -80,7 +80,18 @@ Vector3 Player::GetRespawnPos()
 {
 	return m_RespawnPos;
 }
+bool Player::CheckIsDead()
+{
+	if (CurrHealth <= 0)
+		return true;
+	else
+		return false;
+}
 
+Checkpoint*  Player::GetCheckpoint()
+{
+	return m_LastCheckpoint;
+}
 void Player::Death()
 {
 	m_Position = m_RespawnPos;

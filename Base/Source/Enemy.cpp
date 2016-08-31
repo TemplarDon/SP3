@@ -33,6 +33,7 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 		{
 			this->m_Behaviour = new EarthBehaviour();
 			this->enemyType = BOSS;
+			this->SetElementLevel(EARTH, 3);
 		}
 		if (m_CurrElement == WATER_2)
 		{
@@ -365,6 +366,16 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
                     EntityJumpUpdate(dt);
                 }
 
+				if (m_Behaviour->GetLastStand())
+				{
+					m_Behaviour->SetLastStandTimer(m_Behaviour->GetLastStandTimer() - dt);
+				}
+
+				if (m_Behaviour->GetCollide())
+				{
+					m_Behaviour->SetCollideTimer(m_Behaviour->GetCollideTimer() - dt);
+				}
+
                 ConstrainPlayer(20, map->GetNumOfTiles_MapWidth() * map->GetTileSize(), 10, map->GetNumOfTiles_MapHeight() * map->GetTileSize(), 1.5);
                 GenerateCollisionBoundary(map);
                 CheckCollisionBoundary();
@@ -374,16 +385,55 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
                 {
                     ELEMENT temp;
                     temp = EARTH;
+
 					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
                     if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::NORMAL_ATTACK_PHASE)
                     {
 						this->Attacks->SetisEnemy(true);
-						this->Attacks->Attack_Basic(temp, GetElementLevel(temp));
+						if (this->Attacks->Attack_Basic(temp, GetElementLevel(temp)))
+						{
+							dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetAttackCount(dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetAttackCount() + 1);
+						}
                     }
                     else if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::ABILITY_ATTACK_PHASE)
                     {
                         this->Attacks->SetisEnemy(true);
-                        this->Attacks->Attack_Ability(temp, GetElementLevel(temp));
+						if (m_Behaviour->getBehaviourStates() == Behaviour::LAST_STAND)
+						{
+							//this->Attacks->Attack_Ability(temp, GetElementLevel(temp), true);
+
+							// Knock-Back Attack
+							Vector3 offset;
+							offset.y = 3;
+
+							//if ((int)m_Destination.x > (int)m_Position.x)
+							//{
+							//	offset.x = 15;
+							//}
+							//else if ((int)m_Destination.x < (int)m_Position.x)
+							//{
+							//	offset.x = -15;
+							//}
+
+							if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetKnockBackTimer() > 0)
+							{
+								Projectile* temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_KNOCK_BACK_PROJECTILE, m_Position + offset, Vector3(3, 3, 1), true, true, MeshBuilder::GenerateQuad("KNOCKBACK", Color(1, 1, 1)), "Image//Projectiles//earth_projectile.tga"));
+								temp->projectileInit(DirectionLeftRight, m_Position + offset, 50, 0, 3, MISC, true, 0);
+								temp->setIsHostileProjectile(true);
+
+								dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetKnockBackTimer(dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetKnockBackTimer() - dt);
+							}
+
+							
+						}
+						else
+						{
+							if (this->Attacks->Attack_Ability(temp, GetElementLevel(temp)))
+							{
+								dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetAttackCount(0);
+							}
+						}
+
                     }
                 }
             }
@@ -488,6 +538,11 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 		Projectile* tempProj;
 		tempProj = dynamic_cast<Projectile*>(OtherGo);
 
+		if (tempProj->getIsHostileProjectile() && tempProj->GetElement() == MISC)
+		{
+			return;
+		}
+
 		if (!tempProj->getIsHostileProjectile() && tempProj->GetElement() != EARTH_2)
 		{
 			if (this->m_CurrEntityMoveState == WEAKENED && tempProj->GetElement() == MISC)
@@ -578,7 +633,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 				int RightSpawnTile_X = (int)(SpawnLocation_Right.x / Map->GetTileSize());
 				int RightSpawnTile_Y = (int)(SpawnLocation_Right.y / Map->GetTileSize());
 
-				if (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_NONE)
+				if (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_NONE || (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_EARTH_WALL && !Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetActive()))
 				{
 					Environment* temp1 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(RightSpawnTile_X * Map->GetTileSize(), RightSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
 					temp1->Init(true, false);
@@ -588,7 +643,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 					Map->AddIntoMap(temp1);
 				}
 
-				if (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_NONE)
+				if (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_NONE || (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_EARTH_WALL && !Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetActive()))
 				{
 					Environment* temp2 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(LeftSpawnTile_X * Map->GetTileSize(), LeftSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
 					temp2->Init(true, false);

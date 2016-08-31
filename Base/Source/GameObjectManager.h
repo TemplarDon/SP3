@@ -8,6 +8,8 @@
 #include "Collectibles.h"
 #include "EnemySpawner.h"
 #include "NPC.h"
+#include "CheckPoint.h"
+
 
 class GameObjectManager
 {

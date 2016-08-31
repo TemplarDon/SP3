@@ -1,9 +1,6 @@
 #include "GameObject_Map.h"
 #include "GameObjectManager.h"
 
-#include "EnemySpawner.h"
-#include "NPC.h"
-
 GameObject_Map::GameObject_Map()
 	: m_Offset(0)
 {}
@@ -99,15 +96,27 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			}
 			case 7:
 			{
+				//Quad = MeshBuilder::GenerateSpriteAnimation("checkpoint", 1, 3);
+				//
+				//SpriteAnimation* sa = static_cast<SpriteAnimation*>(Quad);
+				//if (sa)
+				//{
+				//	sa->m_anim = new Animation();
+				//	sa->m_anim->Set(0, 2, 1, 0.8f, true);
+				//}
+				//Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_CHECKPOINT, Position, Scale, false, true, Quad, "Image//Tiles//sprite_checkpoint.tga", true, sa));
+				//temp->Init(false, false);
+				//m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+
 				Quad = MeshBuilder::GenerateSpriteAnimation("checkpoint", 1, 3);
-				
+
 				SpriteAnimation* sa = static_cast<SpriteAnimation*>(Quad);
 				if (sa)
 				{
 					sa->m_anim = new Animation();
 					sa->m_anim->Set(0, 2, 1, 0.8f, true);
 				}
-				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_CHECKPOINT, Position, Scale, false, true, Quad, "Image//Tiles//sprite_checkpoint.tga",true,sa));
+				Checkpoint* temp = dynamic_cast<Checkpoint*>(GameObjectManager::SpawnGameObject(CHECKPOINT, GO_CHECKPOINT, Position, Scale, false, true, Quad, "Image//Tiles//sprite_checkpoint.tga", true, sa));
 				temp->Init(false, false);
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				
@@ -235,7 +244,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				temp->SetMesh(temp->getMeshVector()[0]);
 				temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
 				temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
-				temp->SetEntityMaxHealth(300);
+				temp->SetEntityMaxHealth(500);
 				temp->EnemyInit(200, EARTH_2, 5, 400);
 				break;
 			}

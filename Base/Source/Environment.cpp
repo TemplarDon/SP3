@@ -117,7 +117,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 		case NO_ELEMENT:
 		{
-			if (temp->GetElement() != FIRE_2) //&& temp->GetElement() != WATER_2)
+			if (temp->GetElement() != FIRE_2 /*&& temp->GetElement() != MISC*/) //&& temp->GetElement() != WATER_2)
 				OtherGo->SetActive(false);
 
 			if (temp->GetElement() == EARTH_2 )
@@ -140,7 +140,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 					if (RightSpawnTile_X < 0)
 						continue;
-					if (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_NONE)
+					if (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_NONE || (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_EARTH_WALL && !Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetActive()))
 					{
 						Environment* temp1 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(RightSpawnTile_X * Map->GetTileSize(), RightSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
 						temp1->Init(true, false);
@@ -152,7 +152,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 
 					if (LeftSpawnTile_X < 0)
 						continue;
-					if (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_NONE)
+					if (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_NONE || (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_EARTH_WALL && !Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetActive()))
 					{
 						Environment* temp2 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(LeftSpawnTile_X * Map->GetTileSize(), LeftSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
 						temp2->Init(true, false);

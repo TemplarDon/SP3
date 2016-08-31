@@ -30,9 +30,11 @@ public:
 	{
 		GS_MENU,
 		GS_GAME,
+		GS_VICTORY,
 		GS_INSTRUCTIONS,
 		GS_QUIT,
 	};
+
 
 	virtual void Init();
 	virtual void Update(double dt);
@@ -59,6 +61,7 @@ protected:
 	// Game State
 	GAMESTATE GameState;
 	MENU_OPTIONS Options;
+	LEVEL Level;
 	float cdMenu;
 
 	float m_speed;

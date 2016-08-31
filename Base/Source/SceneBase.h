@@ -90,6 +90,9 @@ public:
 
 		GEO_TITLE,
 		GEO_INSTRUCTIONS,
+		GEO_VICTORY,
+
+		GEO_TREE2,
 
 		NUM_GEOMETRY,
 	};

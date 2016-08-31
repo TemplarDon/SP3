@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "Entity.h"
+#include "CheckPoint.h"
 
 class Player : public Entity
 {
@@ -32,6 +33,12 @@ public:
 
 	virtual void CollisionResponse(GameObject* OtherGo, GameObject_Map* Map);
 
+	bool CheckIsDead();
+
+	Checkpoint* GetCheckpoint();
+
+
+
 private:
 	// Player's information
 	int jumpspeed;
@@ -41,6 +48,7 @@ private:
 
 	// Pos of last checkpoint
 	Vector3 m_RespawnPos;
+	Checkpoint* m_LastCheckpoint;
 
 	// Current Level
 	LEVEL m_CurrLevel;
