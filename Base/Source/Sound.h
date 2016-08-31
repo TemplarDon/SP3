@@ -27,4 +27,5 @@
 //	irrklang::ISound* Song;
 //	irrklang::ISound* SoundEffect;
 //};
-//#endif
+
+#endif
