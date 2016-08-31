@@ -168,8 +168,10 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 					DamagMultiplier = 0.5f;
 				if (m_CurrElement == FIRE)
 					DamagMultiplier = 1.f;
+
 				if (m_CurrElement == EARTH)
 					DamagMultiplier = 1.5f;
+				DamagMultiplier = DamagMultiplier * 0.3f;
 			}
 			if (tempProj->GetElement() == WATER)
 			{

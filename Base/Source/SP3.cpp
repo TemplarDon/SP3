@@ -839,6 +839,9 @@ void SP3::UpdateGame(double dt)
 			Distance_X = bulletspeed * cos(Math::DegreeToRadian(theta)) * TimeToLand_2;
 	}
 
+
+	std::cout << m_Player->GetElementPercentage(WATER) << std::endl;
+
 }
 
 void SP3::UpdateUI(double dt)
@@ -974,6 +977,41 @@ void SP3::RenderGO(GameObject *go, float offset)
 		}
 
 	}
+	else if (go->GetObjectType() == PLAYER)
+	{
+		if (m_Player->isDebuff_Burning() && m_Player->isDebuff_Slow())
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(go->GetPosition().x - 1.5, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z + offset);
+			modelStack.Scale(3, 3, 3);
+			RenderMesh(meshList[GEO_FIRE_DEBUFF], false);
+			modelStack.PopMatrix();
+
+			modelStack.PushMatrix();
+			modelStack.Translate(go->GetPosition().x + 1.5, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z + offset);
+			modelStack.Scale(3, 3, 3);
+			RenderMesh(meshList[GEO_WATER_DEBUFF], false);
+			modelStack.PopMatrix();
+
+		}
+		else if (m_Player->isDebuff_Burning())
+		{
+			modelStack.PushMatrix();
+			modelStack.Translate(go->GetPosition().x, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z + offset);
+			modelStack.Scale(3, 3, 3);
+			RenderMesh(meshList[GEO_FIRE_DEBUFF], false);
+			modelStack.PopMatrix();
+		}
+		else if (m_Player->isDebuff_Slow())
+		{
+
+			modelStack.PushMatrix();
+			modelStack.Translate(go->GetPosition().x, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z + offset);
+			modelStack.Scale(3, 3, 3);
+			RenderMesh(meshList[GEO_WATER_DEBUFF], false);
+			modelStack.PopMatrix();
+		}
+	}
 }
 
 void SP3::RenderUI()
@@ -1058,7 +1096,7 @@ void SP3::RenderUI()
 	{
 		// Arrow
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x - 2.3), 65, 1);
+		modelStack.Translate((healthbarpos_x - 2.5), 65, 1);
 		modelStack.Scale(2.5, 2.5, 1);
 		modelStack.Rotate(180, 0, 0, 1);
 		RenderMesh(meshList[GEO_ARROW], false);
@@ -1070,7 +1108,7 @@ void SP3::RenderUI()
 	{
 		// Arrow
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x - 2.3), 55, 1);
+		modelStack.Translate((healthbarpos_x - 2.5), 55, 1);
 		modelStack.Scale(2.5, 2.5, 1);
 		modelStack.Rotate(180, 0, 0, 1);
 		RenderMesh(meshList[GEO_ARROW], false);
@@ -1081,7 +1119,7 @@ void SP3::RenderUI()
 	{
 		// Arrow
 		modelStack.PushMatrix();
-		modelStack.Translate((healthbarpos_x - 2.3), 60, 1);
+		modelStack.Translate((healthbarpos_x - 2.5), 60, 1);
 		modelStack.Scale(2.5, 2.5, 1);
 		modelStack.Rotate(180, 0, 0, 1);
 		RenderMesh(meshList[GEO_ARROW], false);
@@ -1128,24 +1166,24 @@ void SP3::RenderUI()
 	RenderMesh(meshList[GEO_EARTH_ICON], false);
 	modelStack.PopMatrix();
 
-    //Burning debuff indicator
-    if (m_Player->isDebuff_Burning())
-    {
-        modelStack.PushMatrix();
-        modelStack.Translate(70, 75, 1);
-        modelStack.Scale(4, 4, 1);
-        RenderMesh(meshList[GEO_FIRE_ICON], false);
-        modelStack.PopMatrix();
-    }
-    //Slowed debuff indicator
-    if (m_Player->isDebuff_Slow())
-    {
-        modelStack.PushMatrix();
-        modelStack.Translate(75, 75, 1);
-        modelStack.Scale(4, 4, 1);
-        RenderMesh(meshList[GEO_WATER_ICON], false);
-        modelStack.PopMatrix();
-    }
+    ////Burning debuff indicator
+    //if (m_Player->isDebuff_Burning())
+    //{
+    //    modelStack.PushMatrix();
+    //    modelStack.Translate(70, 75, 1);
+    //    modelStack.Scale(4, 4, 1);
+    //    RenderMesh(meshList[GEO_FIRE_ICON], false);
+    //    modelStack.PopMatrix();
+    //}
+    ////Slowed debuff indicator
+    //if (m_Player->isDebuff_Slow())
+    //{
+    //    modelStack.PushMatrix();
+    //    modelStack.Translate(75, 75, 1);
+    //    modelStack.Scale(4, 4, 1);
+    //    RenderMesh(meshList[GEO_WATER_ICON], false);
+    //    modelStack.PopMatrix();
+    //}
 
 	modelStack.PopMatrix(); // Do not delete this line
 }
