@@ -53,7 +53,7 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 	}
 	else
 	{
-		ConstrainPlayer(10 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 50 + mapOffset_y + mapFineOffset_y, 1.5);
+		ConstrainPlayer(10 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 15 + mapOffset_y + mapFineOffset_y, 80 + mapOffset_y + mapFineOffset_y, 1.5);
 
 	}
 

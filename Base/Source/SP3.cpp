@@ -1207,7 +1207,7 @@ void SP3::RenderGame()
 	modelStack.Translate(UIPos_x, UIPos_y, 0);
 
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 19, m_worldHeight * 0.5 - 8.5, -2);
+	modelStack.Translate(m_worldWidth * 0.5 - 19, m_worldHeight * 0.5 - 8.5, -5);
 	modelStack.Scale(152, 83, 1);
 	RenderMesh(meshList[GEO_BACKGROUND], false);
 	modelStack.PopMatrix();
@@ -1223,7 +1223,7 @@ void SP3::RenderGame()
 		for (int i = 0; i < 4; i++)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate((treePos_x + 3) + (i * 65), 31.5, 0);
+			modelStack.Translate((treePos_x + 3) + (i * 65), 31.5, -4);
 			modelStack.Scale(32, 35, 1);
 			RenderMesh(meshList[GEO_TREE], false);
 			modelStack.PopMatrix();
@@ -1233,7 +1233,7 @@ void SP3::RenderGame()
 	case HUB_LEVEL:
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(treePos_x, 41, -0.9f);
+		modelStack.Translate(treePos_x, 41, -4.f);
 		modelStack.Scale(40, 40, 1);
 		RenderMesh(meshList[GEO_TREE2], false);
 		modelStack.PopMatrix();
@@ -1241,7 +1241,7 @@ void SP3::RenderGame()
 		for (int i = 0; i < 3; i++)
 		{
 			modelStack.PushMatrix();
-			modelStack.Translate((treePos_x + 60) + (i * 33), 41, -0.9f);
+			modelStack.Translate((treePos_x + 70) + (i * 33), 41, -4.f);
 			modelStack.Scale(40, 40, 1);
 			RenderMesh(meshList[GEO_TREE2], false);
 			modelStack.PopMatrix();
