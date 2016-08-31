@@ -261,13 +261,14 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			case 27:
 			{
 					   // Fire Boss
-					  Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
-					  temp->setMeshVector(Quad, "Fire Enemy", "Image//wood_enemy3.tga", 2, 5);
+					  Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Vector3(15,15,15), true, true, Quad, "Image//fire_enemy.tga"));
+					  temp->setMeshVector(Quad, "Fire Enemy", "Image//fire_enemy.tga", 1, 4);
 					  temp->SetMesh(temp->getMeshVector()[0]);
-					  temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
+					  temp->setSpriteVector(temp->GetMesh(), 0, 3, 1, 0.8f, true);
 					  temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
 					  temp->SetEntityMaxHealth(500);
 					  temp->EnemyInit(200, FIRE_2, 5, 400);
+					  temp->SetElementLevel(FIRE, 3);
 					   break;
 			}
 
