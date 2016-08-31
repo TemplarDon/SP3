@@ -121,7 +121,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 	
 	if (m_CurrEntityMoveState == WEAKENED)
 	{
-		if (timerBool == false && timer==0)
+		if (timerBool == false &&CurrHealth <= (float)(MaxHealth / 2) && this->GetActive()==true)
 		{
 			timerBool = true;
 		}

@@ -372,7 +372,38 @@ void SP3::UpdateGame(double dt)
 		GameState = GS_VICTORY;
 	}
 	SceneBase::Update(dt);
-
+	if (Application::IsKeyPressed('2'))
+	{
+		SwitchLevel(HUB_LEVEL);
+	}
+	if (Application::IsKeyPressed('3'))
+	{
+		SwitchLevel(FIRE_LEVEL);
+	}
+	if (Application::IsKeyPressed('4'))
+	{
+		SwitchLevel(EARTH_LEVEL);
+	}
+	if (Application::IsKeyPressed('5'))
+	{
+		SwitchLevel(WATER_LEVEL);
+	}
+	if (Application::IsKeyPressed('6'))
+	{
+		SwitchLevel(FIRE_BOSS_LEVEL);
+	}
+	if (Application::IsKeyPressed('7'))
+	{
+		SwitchLevel(EARTH_BOSS_LEVEL);
+	}
+	if (Application::IsKeyPressed('8'))
+	{
+		SwitchLevel(WATER_BOSS_LEVEL1);
+	}
+	if (Application::IsKeyPressed('9'))
+	{
+		GameState = GS_VICTORY;
+	}
 
 	if (Application::IsKeyPressed('A') && m_Player->Attacks->GetControlLock() == false)
 	{
@@ -850,7 +881,7 @@ void SP3::UpdateGame(double dt)
 		camera.position.y += (float)dt *  9.8f;
 	}
 
-	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
+	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 )
 	{
 		if (camera.position.y > OrignialCamPos.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
 		{
@@ -869,7 +900,7 @@ void SP3::UpdateGame(double dt)
 	{
 		camera.target.y += (float)dt *  9.8f;
 	}
-	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 || m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL3)
+	if (m_Player->GetCurrentLevel() == WATER_BOSS_LEVEL1 )
 	{
 		if (camera.target.y > OrignialCamTarget.y + m_Player->GetMapOffset_y() + m_Player->GetMapFineOffset_y()-1)
 		{
@@ -1536,7 +1567,7 @@ void SP3::Render()
 	case GS_VICTORY:
 	{
 		modelStack.PushMatrix();
-		modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 8.5, 10);
+		modelStack.Translate(m_worldWidth * 0.5 - 18+camera.position.x, m_worldHeight * 0.5 - 8.5+camera.position.y, 10);
 		modelStack.Scale(147, 77, 1);
 		RenderMesh(meshList[GEO_VICTORY], false);
 		modelStack.PopMatrix();

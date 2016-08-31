@@ -50,7 +50,7 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 
 	ExecuteAbility(dt);
 	DebuffCheckAndApply(dt);
-	if (m_CurrLevel == WATER_BOSS_LEVEL3 || m_CurrLevel== WATER_BOSS_LEVEL1 || m_CurrLevel== WATER_LEVEL)
+	if (m_CurrLevel== WATER_BOSS_LEVEL1 || m_CurrLevel== WATER_LEVEL)
 	{
 		ConstrainPlayer(45  + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20+ mapOffset_y + mapFineOffset_y, 50+ mapOffset_y + mapFineOffset_y, 1.5);
 	}
