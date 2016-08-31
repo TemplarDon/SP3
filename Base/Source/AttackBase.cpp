@@ -45,6 +45,9 @@ AttackBase::~AttackBase()
     delete Projectile_Fire;
     delete Projectile_Water;
     delete Projectile_Suck;
+
+//	delete temp;
+
 }
 void AttackBase::Init(int AttackDamage, float range)
 {
@@ -203,7 +206,7 @@ void AttackBase::Ability_Run()
                 else if (i == 6)
                     angletemp = 9.f;
 
-                Projectile* temp;
+                
                 temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, Projectile_Fire, "Image//Projectiles/fire_projectile.tga"));
                 temp->projectileInit(m_AttackDirection, m_EntityPos + 2, 50.0f, m_AttackDamage, templifetime, FIRE_2, false, angletemp);
 				temp->setIsHostileProjectile(this->isEnemy);
@@ -245,7 +248,7 @@ void AttackBase::Ability_Run()
             {
                
                 BulletPos = Vector3(Math::RandFloatMinMax(m_EntityPos.x - RainCloudSizeOffset, m_EntityPos.x + RainCloudSizeOffset), Math::RandFloatMinMax(m_EntityPos.y + 15, m_EntityPos.y + 25), 0);
-                Projectile* temp;
+                temp;
                 temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1.5, 1.5, 2), true, true, Projectile_Water, "Image//Projectiles/water_projectile.tga"));
                 temp->projectileInit(m_AttackDirection, BulletPos, 15.0f, m_AttackDamage, 3.5f, WATER_2, false, -80.f);
 				temp->setIsHostileProjectile(this->isEnemy);
@@ -272,7 +275,6 @@ void AttackBase::Ability_Run()
         {
             tempAngle = 0.f;
         }
-        Projectile* temp;
         temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(4, 4, 2), true, true, Projectile_Earth, "Image//Projectiles/earth_projectile.tga"));
         temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 5, EARTH_2, false, tempAngle, m_ElementLevel);
 		temp->setIsHostileProjectile(this->isEnemy);
@@ -300,10 +302,8 @@ bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
         Vector3 tempscale;
         tempscale = Vector3(2, 2, 2);
 
-        Projectile* temp;
         if (m_CurrElement == EARTH)
         {
-            Projectile* temp;
 
             temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(3, 3, 1), true, true, Projectile_Earth, "Image//Projectiles/earth_projectile.tga"));
             temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 30.f, m_CurrElement, false, 60.f);
@@ -348,7 +348,6 @@ bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
                     angletemp = 20.f;
                
 
-                Projectile* temp;
                 temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(1, 1, 2), true, true, Projectile_Fire, "Image//Projectiles/fire_projectile.tga"));
                 temp->projectileInit(m_AttackDirection, m_EntityPos + 2, 50.0f, m_AttackDamage, templifetime, m_CurrElement, false, angletemp);
 				temp->setIsHostileProjectile(this->isEnemy);
@@ -377,7 +376,6 @@ bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
 }
 void AttackBase::Attack_Suck(ELEMENT currElement,bool Direction)
 {
-	Projectile* temp;
 	if (Direction == true)
 	{
 		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(20, 1, 0), true, true, Projectile_Suck, "Image//blue Idle.tga"));

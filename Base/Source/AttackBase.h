@@ -85,6 +85,8 @@ protected:
     float ab_EARTH2_CDtimer;
     float ab_WATER2_timer;
     float ab_WATER2_CDtimer;
+
+	Projectile* temp;
 };
 
 #endif

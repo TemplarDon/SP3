@@ -1056,6 +1056,7 @@ void SP3::RenderGO(GameObject *go, float offset)
 
 void SP3::RenderUI()
 {
+	std::cout << sizeof(Environment) << std::endl;
 	// ------------------------------ UI ------------------------------------- //
 	modelStack.PushMatrix();
 	modelStack.Translate(UIPos_x,UIPos_y, 8);

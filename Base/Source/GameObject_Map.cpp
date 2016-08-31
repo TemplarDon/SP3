@@ -13,6 +13,9 @@ GameObject_Map::~GameObject_Map()
 		delete m_Level;
 		m_Level = NULL;
 	}
+
+	delete Quad;
+
 }
 
 void GameObject_Map::Init(Map* Map, int TileSize)
@@ -50,7 +53,7 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			Vector3 Scale;
 			Scale.Set(m_TileSize, m_TileSize, 1); 
 
-			Mesh* Quad = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1));
+			Quad = MeshBuilder::GenerateQuad("quad", Color(1, 1, 1));
 
 			switch (Map->m_ScreenMap[y][x])
 			{
@@ -62,7 +65,14 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
-
+			case 91:
+			{
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, false, Quad, "Image//Tiles//fire_tile2.tga"));
+				temp->SetElement(ELEMENT::NO_ELEMENT);
+				temp->Init(true, false);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
 			case 2:
 			{
 				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_BLOCK, Position, Scale, true, true, Quad, "Image//Tiles//fire_tile1.tga"));

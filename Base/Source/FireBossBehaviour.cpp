@@ -61,7 +61,7 @@ void FireBossBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
             m_TargetLocation = PlayerPos;
             trackTimer = 0.f;
         }
-        if (phaseTimer >= 3.f)
+        if (phaseTimer >= 4.5f)
         {
             trackTimer = 0.f;
             phaseTimer = 0.f;

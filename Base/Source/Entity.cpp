@@ -53,7 +53,11 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-
+	if (Attacks)
+	{
+		delete Attacks;
+		Attacks = NULL;
+	}
 }
 
 void Entity::SetEntityMaxHealth(float health)

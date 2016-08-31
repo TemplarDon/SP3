@@ -66,8 +66,8 @@ private:
 	float m_Offset;
 
 	Level* m_Level;
-
-	GameObject* m_Temp;
+	Mesh* Quad;
+	
 };
 
 #endif // !OBJECT_MAP

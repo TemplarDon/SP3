@@ -1,73 +1,200 @@
-﻿Build started 8/6/2016 12:21:27 AM.
-     1>Project "C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Base\Base.vcxproj" on node 2 (Build target(s)).
+﻿Build started 8/31/2016 4:37:02 PM.
+     1>Project "C:\Users\509n1\Desktop\SP3\Base\Base.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\/Common/Source" /I"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\/glew/include" /I"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\/glfw/include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _VARIADIC_MAX=10 /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\SceneAssignment2.cpp
-         SceneAssignment2.cpp
-     1>Source\SceneAssignment2.cpp(69): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(72): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(75): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(76): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(77): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(84): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(85): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(86): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(167): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(244): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(293): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\SceneAssignment2.cpp(296): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\SceneAssignment2.cpp(336): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\SceneAssignment2.cpp(367): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\SceneAssignment2.cpp(385): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(386): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(410): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(411): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(422): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(423): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(466): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(467): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(468): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(473): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(474): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(475): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(512): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(513): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(514): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(519): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(520): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(521): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(776): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\SceneAssignment2.cpp(836): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(837): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
-     1>Source\SceneAssignment2.cpp(860): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\SceneAssignment2.cpp(865): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\SceneAssignment2.cpp(891): warning C4305: 'argument' : truncation from 'double' to 'float'
-     1>Source\SceneAssignment2.cpp(930): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\Users\509n1\Desktop\SP3\/Common/Source /IC:\Users\509n1\Desktop\SP3\/glew/include /IC:\Users\509n1\Desktop\SP3\/glfw/include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D _VARIADIC_MAX=10 /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Source\Application.cpp Source\AttackBase.cpp Source\Behaviour.cpp Source\BehaviourMelee.cpp Source\BehaviourRanged.cpp Source\BehaviourRanged_2.cpp Source\BehaviourWaterBoss.cpp Source\Camera.cpp Source\CheckPoint.cpp Source\Collectible.cpp Source\EarthBossBehaviour.cpp Source\ElementalObject.cpp Source\Enemy.cpp Source\EnemySpawner.cpp Source\Entity.cpp Source\Environment.cpp Source\FireBossBehaviour.cpp Source\GameObject.cpp Source\GameObjectManager.cpp Source\GameObject_Map.cpp Source\Level.cpp Source\LoadOBJ.cpp Source\LoadTGA.cpp Source\main.cpp Source\Mesh.cpp Source\MeshBuilder.cpp Source\NPC.cpp Source\Platform.cpp Source\Player.cpp Source\Projectile.cpp Source\SceneBase.cpp Source\shader.cpp Source\SP3.cpp Source\SpriteAnimation.cpp Source\Transition.cpp Source\Utility.cpp
+         Application.cpp
+         AttackBase.cpp
+         Behaviour.cpp
+         BehaviourMelee.cpp
+         BehaviourRanged.cpp
+         BehaviourRanged_2.cpp
+         BehaviourWaterBoss.cpp
+         Camera.cpp
+         CheckPoint.cpp
+         Collectible.cpp
+         EarthBossBehaviour.cpp
+     1>Source\EarthBossBehaviour.cpp(13): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>Source\EarthBossBehaviour.cpp(103): warning C4305: '=' : truncation from 'double' to 'float'
+         ElementalObject.cpp
+         Enemy.cpp
+     1>Source\Enemy.cpp(55): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Enemy.cpp(106): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Enemy.cpp(196): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Enemy.cpp(201): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Enemy.cpp(304): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Enemy.cpp(308): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Enemy.cpp(368): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Enemy.cpp(373): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Enemy.cpp(421): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\Enemy.cpp(610): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Enemy.cpp(617): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Enemy.cpp(624): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Enemy.cpp(625): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Enemy.cpp(635): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Enemy.cpp(645): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         EnemySpawner.cpp
+         Entity.cpp
+     1>Source\Entity.cpp(90): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>Source\Entity.cpp(95): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Entity.cpp(100): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>Source\Entity.cpp(241): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>Source\Entity.cpp(247): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Entity.cpp(253): warning C4244: 'return' : conversion from 'float' to 'int', possible loss of data
+     1>Source\Entity.cpp(259): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Entity.cpp(376): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Entity.cpp(410): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+         Environment.cpp
+     1>Source\Environment.cpp(125): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Environment.cpp(132): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Environment.cpp(133): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Environment.cpp(145): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Environment.cpp(157): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         FireBossBehaviour.cpp
+         GameObject.cpp
+         GameObjectManager.cpp
+         GameObject_Map.cpp
+     1>Source\GameObject_Map.cpp(53): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         Compiling...
+         Level.cpp
+         LoadOBJ.cpp
+         LoadTGA.cpp
+         main.cpp
+         Mesh.cpp
+         MeshBuilder.cpp
+     1>Source\MeshBuilder.cpp(478): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Source\MeshBuilder.cpp(479): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Source\MeshBuilder.cpp(481): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Source\MeshBuilder.cpp(482): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Source\MeshBuilder.cpp(494): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>Source\MeshBuilder.cpp(505): warning C4244: 'argument' : conversion from 'unsigned int' to 'float', possible loss of data
+         NPC.cpp
+         Platform.cpp
+         Player.cpp
+     1>Source\Player.cpp(46): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(52): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>Source\Player.cpp(56): warning C4244: 'argument' : conversion from 'float' to 'const int', possible loss of data
+     1>Source\Player.cpp(99): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>Source\Player.cpp(100): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>Source\Player.cpp(151): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(152): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(220): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(241): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(249): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(250): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(260): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(270): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(286): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(291): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\Player.cpp(299): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         Projectile.cpp
+         SceneBase.cpp
+     1>Source\SceneBase.cpp(106): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SceneBase.cpp(160): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SceneBase.cpp(163): warning C4305: 'argument' : truncation from 'double' to 'float'
+         shader.cpp
+         SP3.cpp
+     1>Source\SP3.cpp(37): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(39): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(41): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(42): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(44): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(47): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(93): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\SP3.cpp(253): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(263): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(291): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(301): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(327): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(338): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(546): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Source\SP3.cpp(863): warning C4244: '-=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(867): warning C4244: '+=' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(931): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(934): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(946): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(960): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(971): warning C4018: '<' : signed/unsigned mismatch
+     1>Source\SP3.cpp(975): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(975): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(985): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(991): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1000): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1009): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1028): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1038): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1048): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1058): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1068): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1078): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1088): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1100): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1112): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1123): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1144): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(1200): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(1206): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(1212): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>Source\SP3.cpp(1223): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1232): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1249): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1339): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1345): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1351): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1357): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1363): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1372): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1441): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1464): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1476): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1487): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>Source\SP3.cpp(1615): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>Source\SP3.cpp(1620): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+         SpriteAnimation.cpp
+         Transition.cpp
+         Utility.cpp
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Release\Base.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Release" /LIBPATH:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\/glfw/lib-msvc100" /LIBPATH:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\/glew/lib" Common.lib winmm.lib opengl32.lib glu32.lib glew32.lib glfw3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Release\Base.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Release\Base.lib" /MACHINE:X86 /SAFESEH Release\Application.obj
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\509n1\Desktop\SP3\Release\Base.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\Users\509n1\Desktop\SP3\Release /LIBPATH:"C:\Users\509n1\Desktop\SP3\/glfw/lib-msvc100" /LIBPATH:C:\Users\509n1\Desktop\SP3\/glew/lib Common.lib winmm.lib opengl32.lib glu32.lib glew32.lib glfw3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\509n1\Desktop\SP3\Release\Base.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\509n1\Desktop\SP3\Release\Base.lib" /MACHINE:X86 /SAFESEH Release\Application.obj
+         Release\AttackBase.obj
+         Release\Behaviour.obj
+         Release\BehaviourMelee.obj
+         Release\BehaviourRanged.obj
+         Release\BehaviourRanged_2.obj
+         Release\BehaviourWaterBoss.obj
          Release\Camera.obj
+         Release\CheckPoint.obj
+         Release\Collectible.obj
+         Release\EarthBossBehaviour.obj
+         Release\ElementalObject.obj
+         Release\Enemy.obj
+         Release\EnemySpawner.obj
+         Release\Entity.obj
+         Release\Environment.obj
+         Release\FireBossBehaviour.obj
          Release\GameObject.obj
+         Release\GameObjectManager.obj
+         Release\GameObject_Map.obj
+         Release\Level.obj
          Release\LoadOBJ.obj
          Release\LoadTGA.obj
          Release\main.obj
          Release\Mesh.obj
          Release\MeshBuilder.obj
+         Release\NPC.obj
+         Release\Platform.obj
          Release\Player.obj
-         Release\SceneAssignment.obj
-         Release\SceneAssignment2.obj
-         Release\SceneAsteroid.obj
+         Release\Projectile.obj
          Release\SceneBase.obj
-         Release\SceneCollision.obj
-         Release\SceneKinematics.obj
          Release\shader.obj
-         Release\TopDownCamera.obj
+         Release\SP3.obj
+         Release\SpriteAnimation.obj
+         Release\Transition.obj
          Release\Utility.obj
-         Release\Wave.obj
          Generating code
-     1>c:\users\donov_000\desktop\poly stuffz\year 2\programming physics\dm2212_framework\base\source\gameobject.cpp(183): warning C4715: 'GameObject::CheckCollisionWith' : not all control paths return a value
+     1>c:\users\509n1\desktop\sp3\base\source\entity.cpp(703): warning C4715: 'Entity::GetElementPercentage' : not all control paths return a value
          Finished generating code
-         Base.vcxproj -> C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Release\Base.exe
-     1>Done Building Project "C:\Users\donov_000\Desktop\Poly Stuffz\YEAR 2\Programming Physics\DM2212_Framework\Base\Base.vcxproj" (Build target(s)).
+         Base.vcxproj -> C:\Users\509n1\Desktop\SP3\Release\Base.exe
+     1>Done Building Project "C:\Users\509n1\Desktop\SP3\Base\Base.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.45
+Time Elapsed 00:00:24.06
