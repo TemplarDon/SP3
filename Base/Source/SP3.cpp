@@ -1154,7 +1154,6 @@ void SP3::RenderUIText()
 {
 	modelStack.PushMatrix();
 	modelStack.Translate(UIPos_x, UIPos_y, 6);
-
 	// Fire Element Level
 	std::ostringstream ss;
 	ss.precision(5);

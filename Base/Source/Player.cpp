@@ -68,8 +68,7 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 	}
 	if (CurrHealth <= 0)
 	{
-		CurrHealth = 100;
-		//Death();
+		Death();
 	}
 }
 
