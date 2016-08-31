@@ -322,6 +322,20 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 				}
 			}
 		}
+
+		if (tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile())
+		{
+			if (this->m_Position.x > tempProj->GetPosition().x)
+			{
+				// Player on the right, knock player right
+				m_Position.x += m_Position.Normalized().x;
+			}
+			else
+			{
+				// Player on the left, knock player left
+				m_Position.x -= m_Position.Normalized().x;
+			}
+		}
 	}
 }
 

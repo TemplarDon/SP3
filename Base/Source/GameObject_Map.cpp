@@ -344,11 +344,11 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				NPC* temp = dynamic_cast<NPC*>(GameObjectManager::SpawnGameObject(NPCS, GO_SIGNBOARD, Position, Scale, false, true, Quad, "Image//Tiles//signboardV2.tga"));
 				temp->InitNPC(false);
-				temp->SetDialouge("	   W - Jump     ");
-				temp->SetDialouge("  A - Move Left   ");
-				temp->SetDialouge("  D - Move Right    ");
-				temp->SetDialouge("    Space - Attack  ");
-				temp->SetDialouge("    F - Vaccum    ");
+				temp->SetDialouge("W - Jump");
+				temp->SetDialouge("A - Move Left");
+				temp->SetDialouge("D - Move Right");
+				temp->SetDialouge("Space - Attack");
+				temp->SetDialouge("F - Vaccum");
 				break;
 			}
 
@@ -356,10 +356,10 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			{
 				NPC* temp = dynamic_cast<NPC*>(GameObjectManager::SpawnGameObject(NPCS, GO_SIGNBOARD, Position, Scale, false, true, Quad, "Image//Tiles//signboardV2.tga"));
 				temp->InitNPC(false);
-				temp->SetDialouge("		Portals:     ");
-				temp->SetDialouge("    Blue: Water   ");
-				temp->SetDialouge("    Red: Fire     ");
-				temp->SetDialouge("    Green: Earth  ");
+				temp->SetDialouge("Portals:");
+				temp->SetDialouge("Blue: Water");
+				temp->SetDialouge("Red: Fire");
+				temp->SetDialouge("Green: Earth");
 				break;
 			}
 			case 150:

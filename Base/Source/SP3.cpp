@@ -988,7 +988,17 @@ void SP3::RenderGO(GameObject *go, float offset)
 		//modelStack.Translate(UIPos_x, UIPos_y, 1);
 		//modelStack.Translate(m_worldWidth * 0.5 - 10, 10, 1);
 		modelStack.Translate(PosX, PosY + 3, 2);
-		modelStack.Scale(30, 15, 1);
+
+		float LargestSize = 0;
+		for (int i = 0; i < dynamic_cast<NPC*>(go)->GetDialougeVec().size() - 1; ++i)
+		{
+			if (dynamic_cast<NPC*>(go)->GetDialougeVec()[i].size() > dynamic_cast<NPC*>(go)->GetDialougeVec()[i + 1].size())
+			{
+				LargestSize = dynamic_cast<NPC*>(go)->GetDialougeVec()[i].size();
+			}
+		}
+
+		modelStack.Scale(30 + LargestSize, 15 + dynamic_cast<NPC*>(go)->GetDialougeVec().size(), 1);
 		RenderMesh(meshList[GEO_CHATBOX], false);
 		modelStack.PopMatrix();
 
