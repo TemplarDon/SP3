@@ -59,6 +59,12 @@ GameObject* GameObjectManager::FetchGameObject(OBJECT_TYPE ObjectType)
 			TempGameObject = new NPC();
 			break;
 		}
+
+		case OBJECT_TYPE::CHECKPOINT:
+		{
+			TempGameObject = new Checkpoint();
+			break;
+		}
 		}
 		return TempGameObject;
 	}

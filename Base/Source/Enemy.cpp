@@ -33,6 +33,7 @@ void Enemy::EnemyInit(float estimatedDistance, ELEMENT m_CurrElement, int Damage
 		{
 			this->m_Behaviour = new EarthBehaviour();
 			this->enemyType = BOSS;
+			this->SetElementLevel(EARTH, 3);
 		}
 		if (m_CurrElement == WATER_2)
 		{
@@ -383,6 +384,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
                 {
                     ELEMENT temp;
                     temp = EARTH;
+
 					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
                     if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::NORMAL_ATTACK_PHASE)
                     {
@@ -397,22 +399,30 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
                         this->Attacks->SetisEnemy(true);
 						if (m_Behaviour->getBehaviourStates() == Behaviour::LAST_STAND)
 						{
-							this->Attacks->Attack_Ability(temp, GetElementLevel(temp), true);
+							//this->Attacks->Attack_Ability(temp, GetElementLevel(temp), true);
 
 							// Knock-Back Attack
 							Vector3 offset;
-							if ((int)m_Destination.x > (int)m_Position.x)
+							offset.y = 3;
+
+							//if ((int)m_Destination.x > (int)m_Position.x)
+							//{
+							//	offset.x = 15;
+							//}
+							//else if ((int)m_Destination.x < (int)m_Position.x)
+							//{
+							//	offset.x = -15;
+							//}
+
+							if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetKnockBackTimer() > 0)
 							{
-								offset.x = 15;
-							}
-							else if ((int)m_Destination.x < (int)m_Position.x)
-							{
-								offset.x = -15;
+								Projectile* temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_KNOCK_BACK_PROJECTILE, m_Position + offset, Vector3(3, 3, 1), true, true, MeshBuilder::GenerateQuad("KNOCKBACK", Color(1, 1, 1)), "Image//Projectiles//earth_projectile.tga"));
+								temp->projectileInit(DirectionLeftRight, m_Position + offset, 50, 0, 3, MISC, true, 0);
+								temp->setIsHostileProjectile(true);
+
+								dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetKnockBackTimer(dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetKnockBackTimer() - dt);
 							}
 
-							Projectile* temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_KNOCK_BACK_PROJECTILE, m_Position + offset, Vector3(3, 3, 1), true, true, MeshBuilder::GenerateQuad("KNOCKBACK", Color(1, 1, 1)), "Image//Projectiles//earth_projectile.tga"));
-							temp->projectileInit(DirectionLeftRight, m_Position + offset, 50, 0, 3, MISC, true, 0);
-							temp->setIsHostileProjectile(true);
 							
 						}
 						else
@@ -622,7 +632,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 				int RightSpawnTile_X = (int)(SpawnLocation_Right.x / Map->GetTileSize());
 				int RightSpawnTile_Y = (int)(SpawnLocation_Right.y / Map->GetTileSize());
 
-				if (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_NONE)
+				if (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_NONE || (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_EARTH_WALL && !Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetActive()))
 				{
 					Environment* temp1 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(RightSpawnTile_X * Map->GetTileSize(), RightSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
 					temp1->Init(true, false);
@@ -632,7 +642,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 					Map->AddIntoMap(temp1);
 				}
 
-				if (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_NONE)
+				if (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_NONE || (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_EARTH_WALL && !Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetActive()))
 				{
 					Environment* temp2 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(LeftSpawnTile_X * Map->GetTileSize(), LeftSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
 					temp2->Init(true, false);

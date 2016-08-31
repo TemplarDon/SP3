@@ -312,38 +312,38 @@ void Entity::Update(double dt, GameObject_Map* Map, Camera camera)
 {
 	
 
-	ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 50 + mapOffset_y + mapFineOffset_y, 1.5);
+	//ConstrainPlayer(15 + mapOffset_x + mapFineOffset_x, 100 + mapOffset_x + mapFineOffset_x, 20 + mapOffset_y + mapFineOffset_y, 50 + mapOffset_y + mapFineOffset_y, 1.5);
 
 
-    interDT = dt;
-	GenerateCollisionBoundary(Map);
-	CheckCollisionBoundary();
-	mapFineOffset_x = mapOffset_x % Map->GetTileSize();
+ //   interDT = dt;
+	//GenerateCollisionBoundary(Map);
+	//CheckCollisionBoundary();
+	//mapFineOffset_x = mapOffset_x % Map->GetTileSize();
 
-    ExecuteAbility(dt);
-    DebuffCheckAndApply(dt);
-    //Sheilds
-    if (!isEnemyEntity)
-    {
-        if (!SheildRegen)
-        {
-            SheildRegenTimer += (float)dt;
-            if (SheildRegenTimer >= 4)
-            {
-                SheildRegen = true;
-                SheildRegenTimer = 0.f;
-            }
-        }
-        if (SheildRegen)
-        {
-            CurrSheild += 5 * (float)dt;
-            if (CurrSheild > MaxSheild)
-            {
-                CurrSheild = MaxSheild;
-            }
-        }
-    }
-    
+ //   ExecuteAbility(dt);
+ //   DebuffCheckAndApply(dt);
+ //   //Sheilds
+ //   if (!isEnemyEntity)
+ //   {
+ //       if (!SheildRegen)
+ //       {
+ //           SheildRegenTimer += (float)dt;
+ //           if (SheildRegenTimer >= 4)
+ //           {
+ //               SheildRegen = true;
+ //               SheildRegenTimer = 0.f;
+ //           }
+ //       }
+ //       if (SheildRegen)
+ //       {
+ //           CurrSheild += 5 * (float)dt;
+ //           if (CurrSheild > MaxSheild)
+ //           {
+ //               CurrSheild = MaxSheild;
+ //           }
+ //       }
+ //   }
+ //   
 	
 }
 

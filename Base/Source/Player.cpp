@@ -12,6 +12,7 @@ Player::Player(void)
     m_CurrElement = FIRE;
     isEnemyEntity = false;
     Attacks = new AttackBase;
+	m_LastCheckpoint = NULL;
 }
 
 Player::~Player(void)
@@ -65,9 +66,27 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 			m_InvulTimer = 1;
 		}
 	}
-	if (CurrHealth <= 0)
+
+	// Shields
+	if (!isEnemyEntity)
 	{
-		Death();
+	    if (!SheildRegen)
+	    {
+	        SheildRegenTimer += (float)dt;
+	        if (SheildRegenTimer >= 4)
+	        {
+	            SheildRegen = true;
+	            SheildRegenTimer = 0.f;
+	        }
+	    }
+	    if (SheildRegen)
+	    {
+	        CurrSheild += 5 * (float)dt;
+	        if (CurrSheild > MaxSheild)
+	        {
+	            CurrSheild = MaxSheild;
+	        }
+	    }
 	}
 }
 
@@ -81,11 +100,27 @@ Vector3 Player::GetRespawnPos()
 	return m_RespawnPos;
 }
 
+bool Player::CheckIsDead()
+{
+	if (CurrHealth <= 0)
+		return true;
+	else
+		return false;
+}
+
 void Player::Death()
 {
-	m_Position = m_RespawnPos;
-	CurrHealth = 10;
-	CurrSheild = 10;
+	m_Position = m_LastCheckpoint->GetPosition();
+	mapOffset_x = m_LastCheckpoint->GetMapOffset().x;
+	mapOffset_y = m_LastCheckpoint->GetMapOffset().y;
+
+	CurrHealth = MaxHealth;
+	CurrSheild = MaxSheild;
+}
+
+Checkpoint* Player::GetCheckpoint()
+{
+	return m_LastCheckpoint;
 }
 
 LEVEL Player::GetCurrentLevel()
@@ -124,16 +159,20 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 {
 	if (OtherGo->GetObjectType() == ENVIRONMENT)
 	{
-		if (OtherGo->GetType() == GO_CHECKPOINT)
-		{
-			this->SetRespawnPos(this->m_Position);
-			OtherGo->SetActive(false);
-		}
-
 		if (OtherGo->GetType() == GO_DROP_HEALTH)
 		{
 			this->AddHealthCharges();
 		}
+	}
+
+	if (OtherGo->GetType() == GO_CHECKPOINT)
+	{
+		Vector3 mapoffset;
+		mapoffset.x = mapOffset_x;
+		mapoffset.y = mapOffset_y;
+
+		this->m_LastCheckpoint = dynamic_cast<Checkpoint*>(OtherGo);
+		this->m_LastCheckpoint->SetCheckpoint(m_CurrLevel, mapoffset);
 	}
 
 	if (OtherGo->GetObjectType() == PROJECTILE)
@@ -233,7 +272,7 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 				int RightSpawnTile_X = (int)(SpawnLocation_Right.x / Map->GetTileSize());
 				int RightSpawnTile_Y = (int)(SpawnLocation_Right.y / Map->GetTileSize());
 
-				if (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_NONE)
+				if (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_NONE || (Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetType() == GO_EARTH_WALL && !Map->m_GameObjectMap[RightSpawnTile_Y][RightSpawnTile_X]->GetActive()))
 				{
 					Environment* temp1 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(RightSpawnTile_X * Map->GetTileSize(), RightSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
 					temp1->Init(true, false);
@@ -243,7 +282,7 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 					Map->AddIntoMap(temp1);
 				}
 
-				if (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_NONE)
+				if (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_NONE || (Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetType() == GO_EARTH_WALL && !Map->m_GameObjectMap[LeftSpawnTile_Y][LeftSpawnTile_X]->GetActive()))
 				{
 					Environment* temp2 = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_EARTH_WALL, Vector3(LeftSpawnTile_X * Map->GetTileSize(), LeftSpawnTile_Y * Map->GetTileSize(), 0), Vector3(5, 5, 5), true, true, Quad, "Image//Tiles//wood.tga"));
 					temp2->Init(true, false);
@@ -283,6 +322,7 @@ void Player::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 				}
 			}
 		}
+
 
 		if (tempProj->GetElement() == MISC && tempProj->getIsHostileProjectile())
 		{

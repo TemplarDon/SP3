@@ -76,7 +76,7 @@ void SP3::Init()
 	m_Map = new Map();
 
 	m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
-	m_Map->LoadMap("Image//Maps//Earth.csv");
+	m_Map->LoadMap("Image//Maps//Tutorial.csv");
 	
 	m_GoMap = new GameObject_Map();
 	m_GoMap->Init(m_Map);
@@ -105,9 +105,8 @@ void SP3::Init()
 	// ------------------------------------------ // 
 
 	// ------------------- Set Level ------------------ // 
-	m_Player->SetCurrentLevel(HUB_LEVEL);
+	m_Player->SetCurrentLevel(TUTORIAL_LEVEL);
 	m_LevelLoaded = m_Player->GetCurrentLevel();
-
 	// ------------------------------------------------ // 
 
 	// ------------------- Cam ------------------ // 
@@ -498,6 +497,12 @@ void SP3::UpdateGame(double dt)
 		if (go->GetType() == GO_PLAYER)
 		{
 			m_Player->Update(dt, m_GoMap, camera);
+			if (m_Player->CheckIsDead())
+			{
+				SwitchLevel(m_Player->GetCheckpoint()->GetLevel());
+				m_Player->Death();
+				break;
+			}
 		}
 
 		if (go->GetObjectType() == PROJECTILE)
@@ -557,7 +562,21 @@ void SP3::UpdateGame(double dt)
 		{
 			Environment* temp = dynamic_cast<Environment*>(go);
 			temp->Update(dt, m_GoMap);
+
+			if (go->EmpricalCheckCollisionWith(m_Player, dt))
+			{
+				m_Player->CollisionResponse(go, m_GoMap);
+			}
 		}
+
+		if (go->GetObjectType() == CHECKPOINT)
+		{
+			if (go->EmpricalCheckCollisionWith(m_Player, dt))
+			{
+				m_Player->CollisionResponse(go, m_GoMap);
+			}
+		}
+
 		if (go->GetType() == GO_SHEILD)
 		{
 			Environment* temp = dynamic_cast<Environment*>(go);

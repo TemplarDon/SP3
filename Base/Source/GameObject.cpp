@@ -15,7 +15,7 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
-	if (this->m_ObjectType != PROJECTILE && m_ObjectMesh)
+	if (this->m_ObjectType != PROJECTILE && this->m_Type != GO_EARTH_WALL && m_ObjectMesh)
 	{
 		delete m_ObjectMesh;
 		m_ObjectMesh = NULL;

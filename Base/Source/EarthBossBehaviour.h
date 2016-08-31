@@ -30,6 +30,9 @@ public:
 	void SetAttackCount(float NewCount);
 	float GetAttackCount();
 
+	void SetKnockBackTimer(float NewTime);
+	float GetKnockBackTimer();
+
 private:
 
 	Vector3 m_DestinationToReturn;
@@ -45,6 +48,8 @@ private:
 	bool m_LastStandStatus;
 
 	float m_AttackCount;
+
+	float m_KnockBackTimer;
 };
 
 #endif // !_EARTH_BOSS_BEAHVIOUR_H
