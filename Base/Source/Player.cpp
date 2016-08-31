@@ -66,10 +66,6 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 			m_InvulTimer = 1;
 		}
 	}
-	if (CurrHealth <= 0)
-	{
-		Death();
-	}
 	if (!SheildRegen)
        {
            SheildRegenTimer += (float)dt;

@@ -623,6 +623,7 @@ void Enemy::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 			float TempLifeTime = tempProj->GetElementLevel() * 2 + 5;
 			float radius = 10;
 
+
 			Mesh* Quad = MeshBuilder::GenerateQuad("Quad", Color(1, 1, 1));
 
 			for (int offset = 0; offset < 10; offset += 5)
