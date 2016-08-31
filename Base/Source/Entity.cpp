@@ -562,8 +562,8 @@ void Entity::TakeDamage(float input)
 {
     input = input * DamagMultiplier;
     
-    float DmgToHealth;
-    float DmgToSheild;
+	float DmgToHealth = 0;
+	float DmgToSheild = 0;
     SheildRegen = false;
     if (CurrSheild > 0)
     {
@@ -583,8 +583,10 @@ void Entity::TakeDamage(float input)
         DmgToHealth = input;
         DmgToSheild = 0;
     }
-    CurrSheild -= DmgToSheild;
-    CurrHealth -= DmgToHealth;
+    this->CurrSheild -= DmgToSheild;
+    this->CurrHealth -= DmgToHealth;
+
+
     
 }
 

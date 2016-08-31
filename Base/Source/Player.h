@@ -42,6 +42,7 @@ public:
 	void SetEarthBossKill(bool);
 
 	bool CheckIfSexy();
+
 private:
 	// Player's information
 	int jumpspeed;

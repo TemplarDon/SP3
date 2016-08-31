@@ -69,10 +69,23 @@ void Player::Update(double dt, GameObject_Map* Map, Camera camera)
 			m_InvulTimer = 1;
 		}
 	}
-	if (CurrHealth <= 0)
-	{
-		Death();
-	}
+	if (!SheildRegen)
+       {
+           SheildRegenTimer += (float)dt;
+           if (SheildRegenTimer >= 4)
+           {
+               SheildRegen = true;
+               SheildRegenTimer = 0.f;
+           }
+       }
+       if (SheildRegen)
+       {
+           CurrSheild += 5 * (float)dt;
+           if (CurrSheild > MaxSheild)
+           {
+               CurrSheild = MaxSheild;
+           }
+       }
 }
 void Player::SetFireBossKill(bool input)
 {

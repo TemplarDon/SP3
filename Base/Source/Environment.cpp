@@ -164,6 +164,7 @@ void Environment::CollisionResponse(GameObject* OtherGo, GameObject_Map* Map)
 				}
 			}
 			break;
+			
 		}
 		}
 	}

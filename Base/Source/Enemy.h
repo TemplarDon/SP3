@@ -76,6 +76,8 @@ private:
 
 	bool moveTowardsPlayer;
 	float timer;
+	bool timerBool;
+
 	//BehaviourRanged* behaviourRanged;
 	// BehaviourMelee* behaviourMelee;
 	/* bool moveLeft;

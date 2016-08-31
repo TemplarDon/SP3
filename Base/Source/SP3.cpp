@@ -565,10 +565,15 @@ void SP3::UpdateGame(double dt)
 
 			if (go->EmpricalCheckCollisionWith(m_Player, dt))
 			{
+				if (temp->GetType() == GO_DEATHBBLOCK)
+				{
+					SwitchLevel(m_Player->GetCheckpoint()->GetLevel());
+					m_Player->Death();
+				}
+				else
 				m_Player->CollisionResponse(go, m_GoMap);
 			}
 		}
-
 		if (go->GetObjectType() == CHECKPOINT)
 		{
 			if (go->EmpricalCheckCollisionWith(m_Player, dt))

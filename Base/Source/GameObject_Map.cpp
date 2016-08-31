@@ -95,6 +95,14 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				//m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
 				break;
 			}
+			case 6:
+			{
+				Environment* temp = dynamic_cast<Environment*>(GameObjectManager::SpawnGameObject(ENVIRONMENT, GO_DEATHBBLOCK, Position, Scale, true, false, Quad ));
+				temp->SetElement(ELEMENT::NO_ELEMENT);
+				temp->Init(true, false);
+				m_GameObjectMap[Map->GetNumOfTiles_MapHeight() - y][x] = temp;
+				break;
+			}
 			case 7:
 			{
 				//Quad = MeshBuilder::GenerateSpriteAnimation("checkpoint", 1, 3);
@@ -253,13 +261,14 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 			case 27:
 			{
 					   // Fire Boss
-					  Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Scale, true, true, Quad, "Image//wood_enemy3.tga"));
-					  temp->setMeshVector(Quad, "Fire Enemy", "Image//wood_enemy3.tga", 2, 5);
+					  Enemy* temp = dynamic_cast<Enemy*>(GameObjectManager::SpawnGameObject(ENEMY, GO_ENEMY, Position, Vector3(15,15,15), true, true, Quad, "Image//fire_enemy.tga"));
+					  temp->setMeshVector(Quad, "Fire Enemy", "Image//fire_enemy.tga", 1, 4);
 					  temp->SetMesh(temp->getMeshVector()[0]);
-					  temp->setSpriteVector(temp->GetMesh(), 2, 6, 1, 0.8f, true);
+					  temp->setSpriteVector(temp->GetMesh(), 0, 3, 1, 0.8f, true);
 					  temp->SetSpriteAnimation(temp->getSpriteVector()[0]);
 					  temp->SetEntityMaxHealth(500);
 					  temp->EnemyInit(200, FIRE_2, 5, 400);
+					  temp->SetElementLevel(FIRE, 3);
 					   break;
 			}
 
@@ -354,6 +363,48 @@ void GameObject_Map::Init(Map* Map, int TileSize)
 				temp->SetDialouge("Green: Earth");
 				break;
 			}
+			case 150:
+			{
+				NPC* temp = dynamic_cast<NPC*>(GameObjectManager::SpawnGameObject(NPCS, GO_SIGNBOARD, Position, Scale, false, true, Quad, "Image//Tiles//signboardV2.tga"));
+				temp->InitNPC(false);
+				temp->SetDialouge("Try Using the ");
+				temp->SetDialouge("Earth Ultimate ability!");
+				break;
+			}
+			case 151:
+			{
+				NPC* temp = dynamic_cast<NPC*>(GameObjectManager::SpawnGameObject(NPCS, GO_SIGNBOARD, Position, Scale, false, true, Quad, "Image//Tiles//signboardV2.tga"));
+				temp->InitNPC(false);
+				temp->SetDialouge("1:To save our mother Earth");
+				temp->SetDialouge("from any alien attack");
+				break;
+			}
+			case 152:
+			{
+				NPC* temp = dynamic_cast<NPC*>(GameObjectManager::SpawnGameObject(NPCS, GO_SIGNBOARD, Position, Scale, false, true, Quad, "Image//Tiles//signboardV2.tga"));
+				temp->InitNPC(false);
+				temp->SetDialouge("2:From vicious giant insects");
+				temp->SetDialouge(" who have once again come back");
+
+				break;
+			}
+			case 153:
+			{
+				NPC* temp = dynamic_cast<NPC*>(GameObjectManager::SpawnGameObject(NPCS, GO_SIGNBOARD, Position, Scale, false, true, Quad, "Image//Tiles//signboardV2.tga"));
+				temp->InitNPC(false);
+				temp->SetDialouge("We'll unleash all our forces,");
+				temp->SetDialouge("We won't cut them any slack ");
+				break;
+			}
+			case 154:
+			{
+				NPC* temp = dynamic_cast<NPC*>(GameObjectManager::SpawnGameObject(NPCS, GO_SIGNBOARD, Position, Scale, false, true, Quad, "Image//Tiles//signboardV2.tga"));
+				temp->InitNPC(false);
+				temp->SetDialouge("The E.D.F deploys!");
+				break;
+			}
+
+
 			}
 		}
 	}
