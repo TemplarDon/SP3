@@ -7,6 +7,8 @@ FireBossBehaviour::FireBossBehaviour()
     isNormalPhase = true;
     isRestPhase = false;
     isBeserkPhase = false;
+	playmusic = true;
+	music.playSE("Music//fire_boss.wav");
 }
 FireBossBehaviour::~FireBossBehaviour()
 {
@@ -40,7 +42,7 @@ void FireBossBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool
     phaseTimer += (float)internalDT;
     trackTimer += (float)internalDT;
     if (isNormalPhase)
-    {
+	{		
         if (trackTimer >= 0.25f)
         {
             m_TargetLocation = PlayerPos;

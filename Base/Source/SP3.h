@@ -12,6 +12,8 @@
 #include "GameObject.h"
 #include "Player.h"
 #include "EnemySpawner.h"
+#include "Sound.h"
+
 
 class SP3 : public SceneBase
 {
@@ -59,6 +61,10 @@ public:
 	void RenderInstructions();
 
 protected:
+	// Music
+	Sound music;
+	float keyCD;
+	
 
 	// Game State
 	GAMESTATE GameState;

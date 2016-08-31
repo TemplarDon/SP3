@@ -1,6 +1,8 @@
 #ifndef FIREBOSSBEHAVIOUR_H
 #define FIREBOSSBEHAVIOUR_H
 #include "Behaviour.h"
+#include "Sound.h"
+
 class FireBossBehaviour : public Behaviour
 {
 public:
@@ -20,6 +22,8 @@ public:
 
     FIRE_PHASE GetBossState();
 private:
+	Sound music;
+	bool playmusic;
     FIRE_PHASE m_CurrPhase;
     float DistanceToPlayer;
     Vector3 m_TargetLocation;

@@ -2,7 +2,7 @@
 #define NPC_H
 
 #include "GameObject.h"
-
+#include "Sound.h"
 #include <iostream>
 #include <string>
 
@@ -29,7 +29,7 @@ public:
 	virtual void CollisionResponse(GameObject* OtherGo);
 
 private:
-
+	Sound music;
 	std::vector<string> m_DialougeVec;
 	
 	bool m_ShowText;

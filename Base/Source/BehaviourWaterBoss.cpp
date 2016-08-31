@@ -4,7 +4,10 @@ BehaviourWaterBoss::BehaviourWaterBoss()
 	, m_RunOnce(false)
 	, bossState(PHASE1)
 	
-{}
+{
+	playmusic = true;
+	music.playSE("Music//water_boss.wav");
+}
 
 BehaviourWaterBoss::~BehaviourWaterBoss()
 {}

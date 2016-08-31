@@ -2,6 +2,7 @@
 #define _BEHAVIOURWATERBOSS_H_
 
 #include "Behaviour.h"
+#include "Sound.h"
 
 class BehaviourWaterBoss : public Behaviour
 {
@@ -22,7 +23,8 @@ public:
 	virtual WaterBossState getBossState();
 	virtual void setBossState(WaterBossState bossState);
 private:
-
+	Sound music;
+	bool playmusic;
 	Vector3 m_DestinationToReturn;
 
 	WaterBossState bossState;

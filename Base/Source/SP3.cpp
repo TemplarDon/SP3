@@ -10,8 +10,6 @@
 
 #include "GameObjectManager.h"
 
-#include "Sound.h"
-
 SP3::SP3()
 {
     m_ChangeElementDebounce = 0.f;
@@ -31,8 +29,10 @@ void SP3::Init()
 	GameState = GS_MENU;
 	Options = OP_START_GAME;
 	Level = TUTORIAL_LEVEL;
+	cdMenu = 0; 
+	keyCD = 0;
 
-	cdMenu = 0;
+	music.playMusic("Music//background_music.wav");
 
 	meshList[GEO_HEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 1, 0), 1.f);
 	meshList[GEO_MAXHEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0.7, 0.7, 0.7), 1.f);
@@ -202,6 +202,11 @@ void SP3::Update(double dt)
 	{
 		UpdateGame(dt);
 		UpdateUI(dt);
+		if (Application::IsKeyPressed('B'))
+		{
+			music.playSE("Music//menu.wav");
+			GameState = GS_MENU;
+		}
 		break;
 	}
 	case GS_VICTORY:
@@ -212,6 +217,7 @@ void SP3::Update(double dt)
 	{
 		if (Application::IsKeyPressed('B'))
 		{
+			music.playSE("Music//menu.wav");
 			GameState = GS_MENU;
 		}
 		break;
@@ -247,6 +253,7 @@ void SP3::UpdateMenu(double dt)
 
 			if (Application::IsKeyPressed(VK_RETURN))
 			{
+				music.playSE("Music//enter.wav");
 				GameState = GS_GAME;
 			}
 
@@ -255,6 +262,7 @@ void SP3::UpdateMenu(double dt)
 				cdMenu += dt;
 				if (cdMenu > 0.18)
 				{
+					music.playSE("Music//menu.wav");
 					Options = OP_QUIT;
 					cdMenu = 0;
 				}
@@ -265,6 +273,7 @@ void SP3::UpdateMenu(double dt)
 				cdMenu += dt;
 				if (cdMenu > 0.18)
 				{
+					music.playSE("Music//menu.wav");
 					Options = OP_INSTRUCTIONS;
 					cdMenu = 0;
 				}
@@ -285,6 +294,7 @@ void SP3::UpdateMenu(double dt)
 
 			if (Application::IsKeyPressed(VK_RETURN))
 			{
+				music.playSE("Music//enter.wav");
 				GameState = GS_INSTRUCTIONS;
 			}
 
@@ -293,6 +303,7 @@ void SP3::UpdateMenu(double dt)
 				cdMenu += dt;
 				if (cdMenu > 0.18)
 				{
+					music.playSE("Music//menu.wav");
 					Options = OP_START_GAME;
 					cdMenu = 0;
 				}
@@ -303,6 +314,7 @@ void SP3::UpdateMenu(double dt)
 				cdMenu += dt;
 				if (cdMenu > 0.18)
 				{
+					music.playSE("Music//menu.wav");
 					Options = OP_QUIT;
 					cdMenu = 0;
 				}
@@ -321,6 +333,7 @@ void SP3::UpdateMenu(double dt)
 
 			if (Application::IsKeyPressed(VK_RETURN))
 			{
+				music.playSE("Music//enter.wav");
 				GameState = GS_QUIT;
 			}
 
@@ -329,6 +342,7 @@ void SP3::UpdateMenu(double dt)
 				cdMenu += dt;
 				if (cdMenu > 0.18)
 				{
+					music.playSE("Music//menu.wav");
 					Options = OP_INSTRUCTIONS;
 					cdMenu = 0;
 				}
@@ -340,6 +354,7 @@ void SP3::UpdateMenu(double dt)
 				cdMenu += dt;
 				if (cdMenu > 0.18)
 				{
+					music.playSE("Music//menu.wav");
 					Options = OP_START_GAME;
 					cdMenu = 0;
 				}
@@ -404,6 +419,7 @@ void SP3::UpdateGame(double dt)
 	if (Application::IsKeyPressed('W') && m_Player->GetMoveState() == ON_GROUND && m_Player->Attacks->GetControlLock() == false)
 	{
 		m_Player->UpdateJump(dt);
+		music.playSE("Music//jump.wav");
 
 	}
 	if (m_Player->GetMoveState() != ON_GROUND)
@@ -435,24 +451,37 @@ void SP3::UpdateGame(double dt)
 	// ----------------- Basic Element Selection ------------------ //
 	if (Application::IsKeyPressed('Q'))
 	{
-		if (m_CanChangeElement)
+		keyCD += dt;
+		if (keyCD > 0.1)
 		{
-			if (m_Player->GetElement() == FIRE)
+			if (m_CanChangeElement)
 			{
-				m_Player->SetElement(EARTH);
-				currentSelectedEle = EARTH;
+				if (m_Player->GetElement() == FIRE)
+				{
+					m_Player->SetElement(EARTH);
+					currentSelectedEle = EARTH;
+
+					music.playSE("Music//EleSelect.wav");
+					keyCD = 0;
+				}
+				else if (m_Player->GetElement() == EARTH)
+				{
+					m_Player->SetElement(WATER);
+					currentSelectedEle = WATER;
+
+					music.playSE("Music//EleSelect.wav");
+					keyCD = 0;
+				}
+				else if (m_Player->GetElement() == WATER)
+				{
+					m_Player->SetElement(FIRE);
+					currentSelectedEle = FIRE;
+
+					music.playSE("Music//EleSelect.wav");
+					keyCD = 0;
+				}
+				m_CanChangeElement = false;
 			}
-			else if (m_Player->GetElement() == EARTH)
-			{
-				m_Player->SetElement(WATER);
-				currentSelectedEle = WATER;
-			}
-			else if (m_Player->GetElement() == WATER)
-			{
-				m_Player->SetElement(FIRE);
-				currentSelectedEle = FIRE;
-			}
-			m_CanChangeElement = false;
 		}
 	}
 
@@ -593,6 +622,7 @@ void SP3::UpdateGame(double dt)
 			if (go->EmpricalCheckCollisionWith(m_Player, dt))
 			{
 				go->CollisionResponse(m_Player);
+				music.playSE("Music//collect.wav");
 			}
 		}
 		if (go->GetObjectType() == ENEMYSPAWNER)
@@ -671,6 +701,7 @@ void SP3::UpdateGame(double dt)
 			{
 				if (go->EmpricalCheckCollisionWith(go2, dt, 80))
 				{
+					music.playSE("Music//level.wav");
 					Transition* temp = dynamic_cast<Transition*>(go2);
 					SwitchLevel(temp->GetNextTransition());
 					break;
@@ -1281,7 +1312,7 @@ void SP3::RenderGame()
 
 	modelStack.PushMatrix();
 	modelStack.Translate(m_worldWidth * 0.5 - 19, m_worldHeight * 0.5 - 8.5, -5);
-	modelStack.Scale(152, 83, 1);
+	modelStack.Scale(156, 83, 1);
 	RenderMesh(meshList[GEO_BACKGROUND], false);
 	modelStack.PopMatrix();
 
@@ -1370,8 +1401,8 @@ void SP3::RenderGame()
 void SP3::RenderMenu()
 {
 	modelStack.PushMatrix();
-	modelStack.Translate(m_worldWidth * 0.5 - 18, m_worldHeight * 0.5 - 10, 1);
-	modelStack.Scale(155, 80, 1);
+	modelStack.Translate(m_worldWidth * 0.5 - 20, m_worldHeight * 0.5 - 10, 1);
+	modelStack.Scale(156, 80, 1);
 	RenderMesh(meshList[GEO_BACKGROUND], false);
 	modelStack.PopMatrix();
 
@@ -1700,6 +1731,7 @@ void SP3::Exit()
 		m_GoMap = NULL;
 	}
 
+
 	//Cleanup GameObjects
 	while (GameObjectManager::m_goList.size() > 0)
 	{
@@ -1707,6 +1739,9 @@ void SP3::Exit()
 		delete go;
 		GameObjectManager::m_goList.pop_back();
 	}
+
+	music.stopMusic("Music//background_music.wav");
+
 
 	//if (m_ParallaxMap)
 	//{

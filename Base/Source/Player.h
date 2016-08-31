@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "CheckPoint.h"
+#include "Sound.h"
 
 class Player : public Entity
 {
@@ -44,6 +45,7 @@ public:
 	bool CheckIfSexy();
 
 private:
+	Sound music;
 	// Player's information
 	int jumpspeed;
 

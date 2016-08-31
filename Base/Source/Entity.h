@@ -5,7 +5,7 @@
 #include "AttackBase.h"
 
 #include "Camera.h"
-
+#include "Sound.h"
 #include <map>
 
 enum ENTITY_MOVE_STATE
@@ -134,6 +134,7 @@ public:
 
 
 protected:
+	Sound music;
     float CurrSheild;
     float MaxSheild;
     float SheildRegenTimer;

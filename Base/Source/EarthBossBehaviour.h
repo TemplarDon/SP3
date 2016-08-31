@@ -2,6 +2,7 @@
 #define _EARTH_BOSS_BEHAVIOUR_H
 
 #include "Behaviour.h"
+#include "Sound.h"
 
 class EarthBehaviour : public Behaviour
 {
@@ -34,7 +35,7 @@ public:
 	float GetKnockBackTimer();
 
 private:
-
+	Sound music;
 	Vector3 m_DestinationToReturn;
 	EARTH_PHASE m_CurrPhase;
 	bool m_DirectionSet;
@@ -50,6 +51,8 @@ private:
 	float m_AttackCount;
 
 	float m_KnockBackTimer;
+
+	bool playmusic;
 };
 
 #endif // !_EARTH_BOSS_BEAHVIOUR_H

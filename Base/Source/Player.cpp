@@ -162,6 +162,7 @@ void Player::UseHealthCharge()
 {
 	if (m_HealthCharges > 0)
 	{
+		music.playSE("Music//heal.wav");
 		--m_HealthCharges;
 		CurrHealth += 5;
 

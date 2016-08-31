@@ -1,7 +1,7 @@
 #ifndef ATTACKBASE_H
 #define ATTACKBASE_H
 #include "Projectile.h"
-
+#include "Sound.h"
 
 enum ATTACK_TYPE
 {
@@ -29,6 +29,7 @@ public:
 	void Attack_Suck(ELEMENT  CurrElement, bool Direction);
 
 protected:   
+	Sound music;
     bool isEnemy;
     bool m_AttackDirection;//true is right false is left
     int m_AttackDamage;

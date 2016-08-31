@@ -152,6 +152,7 @@ bool AttackBase::Attack_Ability(ELEMENT CurrElement, int elementLevel, bool Shoo
     m_ElementLevel = elementLevel;
     if (m_CurrElement == FIRE && !ab_Obliterate_isCD)
     {
+		music.playSE("Music//fire2_atk.wav");
         ab_Obliterate = true;
         m_RootedForAttack = true;
 		return true;
@@ -159,11 +160,13 @@ bool AttackBase::Attack_Ability(ELEMENT CurrElement, int elementLevel, bool Shoo
     }
     if (m_CurrElement == WATER && !ab_HailStorm_isCD)
     {
+		music.playSE("Music//water2_atk.wav");
         ab_HailStorm = true;
 		return true;
     }
     if (m_CurrElement == EARTH && !ab_Cataclysm_isCD)
     {
+		music.playSE("Music//earth2_atk.wav");
         ab_Cataclysm = true;
 		return true;
     }
@@ -304,7 +307,7 @@ bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
 
         if (m_CurrElement == EARTH)
         {
-
+			music.playSE("Music//earth_atk.wav");
             temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(3, 3, 1), true, true, Projectile_Earth, "Image//Projectiles/earth_projectile.tga"));
             temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 30.f, m_CurrElement, false, 60.f);
 			temp->setIsHostileProjectile(this->isEnemy);
@@ -324,6 +327,7 @@ bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
         }
         else if (m_CurrElement == WATER)
         {
+			music.playSE("Music//water_atk.wav");
             temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, Projectile_Water, "Image//Projectiles/water_projectile.tga"));
             temp->projectileInit(m_AttackDirection, m_EntityPos, 25.f, m_AttackDamage, 5.f, m_CurrElement, isEnemy, 0);
 			temp->setIsHostileProjectile(this->isEnemy);
@@ -332,6 +336,7 @@ bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
         }
         else if (m_CurrElement == FIRE)
         {
+			music.playSE("Music//fire_atk.wav");
             float templifetime = m_ElementLevel *0.25f + 0.3f;
             for (int i = 0; i < 5; i++)
             {
@@ -378,12 +383,14 @@ void AttackBase::Attack_Suck(ELEMENT currElement,bool Direction)
 {
 	if (Direction == true)
 	{
+		music.playSE("Music//vacuum.wav");
 		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(20, 1, 0), true, true, Projectile_Suck, "Image//blue Idle.tga"));
 		temp->projectileInit(m_AttackDirection, Vector3(m_EntityPos.x + 10, m_EntityPos.y+5, m_EntityPos.z), 1, 0, 0.5f, currElement, isEnemy, 0);
 		temp->setIsHostileProjectile(this->isEnemy);
 	}
 	else
 	{
+		music.playSE("Music//vacuum.wav");
 		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(20, 1, 0), true, true, Projectile_Suck, "Image//blue Idle.tga"));
 		temp->projectileInit(m_AttackDirection, Vector3(m_EntityPos.x -10, m_EntityPos.y+5, m_EntityPos.z), 1, 0, 0.5f, currElement, isEnemy, 0);
 		temp->setIsHostileProjectile(this->isEnemy);

@@ -11,10 +11,12 @@ EarthBehaviour::EarthBehaviour()
 	, m_EffectiveAttackDist(35)
 	, m_KnockBackTimer(0.2)
 {
+	playmusic = true;
 } 
 
 EarthBehaviour::~EarthBehaviour()
-{}
+{
+}
 
 void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &AttackStatus, GameObject_Map* Map)
 {
@@ -109,6 +111,12 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	{
 	case NEUTRAL:
 	{
+		if (playmusic == true)
+		{
+			music.playSE("Music//earth_boss.wav");
+			playmusic = false;
+		}
+		
 		// Random initial direction to walk in
 		if (!m_RunOnce)
 		{
