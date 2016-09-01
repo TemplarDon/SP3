@@ -33,7 +33,7 @@ AttackBase::AttackBase()
     ab_WATER2_timer = 0.f;
     ab_WATER2_CDtimer = 0.f;
     ab_EARTH2_CDtimer = 0.f;
-
+	pleaseplaysound = true;
 
 }
 AttackBase::~AttackBase()
@@ -154,22 +154,32 @@ bool AttackBase::Attack_Ability(ELEMENT CurrElement, int elementLevel, bool Shoo
     m_CurrElement = CurrElement;
     m_ElementLevel = elementLevel;
     if (m_CurrElement == FIRE && !ab_Obliterate_isCD)
-    {
-		music.playSE("Music//fire2_atk.wav");
+	{
+		if (pleaseplaysound == true)
+		{
+			music.playSE("Music//fire2_atk.wav");
+		}
         ab_Obliterate = true;
         m_RootedForAttack = true;
 		return true;
         
     }
+	static bool playing = false;
     if (m_CurrElement == WATER && !ab_HailStorm_isCD)
     {
-		music.playSE("Music//water2_atk.wav");
+		if (pleaseplaysound == true)
+		{
+			music.playSE("Music//water2_atk.wav");
+		}
         ab_HailStorm = true;
 		return true;
     }
     if (m_CurrElement == EARTH && !ab_Cataclysm_isCD)
     {
-		music.playSE("Music//earth2_atk.wav");
+		if (pleaseplaysound == true)
+		{
+			music.playSE("Music//earth2_atk.wav");
+		}
         ab_Cataclysm = true;
 		return true;
     }
@@ -310,6 +320,7 @@ bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
 
         if (m_CurrElement == EARTH)
         {
+			if (pleaseplaysound==true)
 			music.playSE("Music//earth_atk.wav");
             temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_AbilityProjectiles[m_AbilityCount].GetPosition(), Vector3(3, 3, 1), true, true, Projectile_Earth, "Image//Projectiles/earth_projectile.tga"));
             temp->projectileInit(m_AttackDirection, m_EntityPos, 20.0f, m_AttackDamage, 30.f, m_CurrElement, false, 60.f);
@@ -330,6 +341,7 @@ bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
         }
         else if (m_CurrElement == WATER)
         {
+			if (pleaseplaysound == true)
 			music.playSE("Music//water_atk.wav");
             temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), tempscale, true, true, Projectile_Water, "Image//Projectiles/water_projectile.tga"));
             temp->projectileInit(m_AttackDirection, m_EntityPos, 25.f, m_AttackDamage, 5.f, m_CurrElement, isEnemy, 0);
@@ -339,6 +351,7 @@ bool AttackBase::Attack_Basic(ELEMENT elementInput, int Level)
         }
         else if (m_CurrElement == FIRE)
         {
+			if (pleaseplaysound == true)
 			music.playSE("Music//fire_atk.wav");
             float templifetime = m_ElementLevel *0.25f + 0.3f;
             for (int i = 0; i < 5; i++)
@@ -406,4 +419,12 @@ void AttackBase::Attack_Suck(ELEMENT currElement,bool Direction)
 		m_projectileCount = 0;
 	}
 	m_CanAttack = false;
+}
+void AttackBase::setpleaseplaysound(bool yes)
+{
+	this->pleaseplaysound = yes;
+}
+bool AttackBase::getpleaseplaysound()
+{
+	return pleaseplaysound;
 }

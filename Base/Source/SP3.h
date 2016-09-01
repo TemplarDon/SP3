@@ -40,6 +40,8 @@ public:
 	};
 
 
+
+
 	virtual void Init();
 	virtual void Update(double dt);
 	virtual void UpdateMenu(double dt);
@@ -69,6 +71,7 @@ protected:
 	// Game State
 	GAMESTATE GameState;
 	MENU_OPTIONS Options;
+
 	LEVEL Level;
 	float cdMenu;
 
@@ -113,6 +116,10 @@ protected:
 
 	// Test Earth
 	float Distance_X;
+
+	bool playonce;
+	bool playonce2;
+	bool playonce3;
 };
 
 #endif

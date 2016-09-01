@@ -29,11 +29,13 @@ void SP3::Init()
 	GameState = GS_MENU;
 	Options = OP_START_GAME;
 	Level = TUTORIAL_LEVEL;
-	cdMenu = 0; 
-	keyCD = 0;
-
 	music.playMusic("Music//background_music.wav");
 
+	cdMenu = 0; 
+	keyCD = 0;
+	playonce = true;
+	playonce2 = true;
+	playonce3 = true;
 	meshList[GEO_HEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0, 1, 0), 1.f);
 	meshList[GEO_MAXHEALTH_BAR] = MeshBuilder::GenerateQuad("player", Color(0.7, 0.7, 0.7), 1.f);
 	meshList[GEO_HEALTH_BAR_WEAKENED] = MeshBuilder::GenerateQuad("Weakened State", Color(1, 0, 0), 1.f);
@@ -186,6 +188,8 @@ void SP3::Init()
 		sa5->m_anim = new Animation();
 		sa5->m_anim->Set(0, 5, 0, 1.f, true);
 	}
+
+
 }
 
 void SP3::Update(double dt)
@@ -215,6 +219,7 @@ void SP3::Update(double dt)
 	}
 	case GS_INSTRUCTIONS:
 	{
+
 		if (Application::IsKeyPressed('B'))
 		{
 			music.playSE("Music//menu.wav");
@@ -228,6 +233,9 @@ void SP3::Update(double dt)
 		break;
 	}
 	}
+
+
+
 }
 
 void SP3::UpdateMenu(double dt)
@@ -388,6 +396,7 @@ void SP3::UpdateGame(double dt)
 	}
 	if (Application::IsKeyPressed(VK_SPACE))
 	{
+		m_Player->Attacks->setpleaseplaysound(true);
 		m_Player->Attacks->Attack_Basic(m_Player->GetElement(), m_Player->GetElementLevel(m_Player->GetElement()));
 
 		if (m_Player->GetElement() != FIRE && m_Player->GetElement() != WATER && m_Player->GetElement() != EARTH && m_Player->GetElement() != MISC)
@@ -496,6 +505,7 @@ void SP3::UpdateGame(double dt)
 	{
 		m_Player->Attacks->Attack_Ability(m_Player->GetElement(), m_Player->GetElementLevel(m_Player->GetElement()));
 		bEButtonState = false;
+
 	}
 
 	// ----------------- Health Charges ------------------ //
@@ -1031,6 +1041,7 @@ void SP3::RenderGO(GameObject *go, float offset)
 
 	if (go->GetObjectType() == ENEMY)
 	{
+		
 		
 		modelStack.PushMatrix();
 		modelStack.Translate(go->GetPosition().x, go->GetPosition().y + go->GetScale().y * 0.8, go->GetPosition().z + offset);
@@ -1662,6 +1673,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	case HUB_LEVEL:
 	{
 		Level = HUB_LEVEL;
+
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Hub.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//hub_background.tga");
@@ -1670,6 +1682,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	case WATER_LEVEL:
 	{
 		Level = WATER_LEVEL;
+	
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 1800, 1600);
 		m_Map->LoadMap("Image//Maps//Water.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_background.tga");
@@ -1678,6 +1691,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	case FIRE_LEVEL:
 	{
 		Level = FIRE_LEVEL;
+	
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Fire.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//fire_background.tga");
@@ -1686,6 +1700,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	case EARTH_LEVEL:
 	{
 		Level = EARTH_LEVEL;
+	
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Earth.csv"); 
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_background.tga");
@@ -1694,6 +1709,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	case WATER_BOSS_LEVEL1:
 	{
 		Level = WATER_BOSS_LEVEL1;
+	
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 2400);
 		m_Map->LoadMap("Image//Maps//Water_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//water_background.tga");
@@ -1702,6 +1718,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	case EARTH_BOSS_LEVEL:
 	{
 		Level = EARTH_BOSS_LEVEL;
+	
 		m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 800);
 		m_Map->LoadMap("Image//Maps//Earth_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//earth_boss_background.tga");
@@ -1710,6 +1727,7 @@ void SP3::SwitchLevel(LEVEL NextLevel)
 	case FIRE_BOSS_LEVEL:
 	{
 		Level = FIRE_BOSS_LEVEL;
+	
         m_Map->Init(Application::GetWindowHeight(), Application::GetWindowWidth(), 24, 32, 600, 1600);
 		m_Map->LoadMap("Image//Maps//Fire_Boss.csv");
 		meshList[GEO_BACKGROUND]->textureID = LoadTGA("Image//Background//fire_boss_background.tga");

@@ -118,7 +118,11 @@ Vector3 Player::GetRespawnPos()
 bool Player::CheckIsDead()
 {
 	if (CurrHealth <= 0)
+	{
+		music.playSE("Music//death.wav");
 		return true;
+	}
+
 	else
 		return false;
 }
@@ -129,6 +133,7 @@ Checkpoint*  Player::GetCheckpoint()
 }
 void Player::Death()
 {
+
 	m_Position = m_LastCheckpoint->GetPosition();
 	mapOffset_x = m_LastCheckpoint->GetMapOffset().x;
 	mapOffset_y = m_LastCheckpoint->GetMapOffset().y;

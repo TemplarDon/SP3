@@ -151,6 +151,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 	{
 		if (enemyType == RANGED)
 		{
+			this->Attacks->setpleaseplaysound(true);
 			bool Attack = false;
 			this->setDirectionBasedOnDistance(playerPosition, m_Position);
 			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
@@ -221,10 +222,11 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 
 		else if (enemyType == WATERBOSS)
 		{
+			
 			 if (CurrHealth <= 0)
-			 {
+			{
 				
-		     }
+		    }
 			bool Attack = false;
 			this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack);
 			this->m_Destination = this->m_Behaviour->GetDestination();
@@ -294,14 +296,17 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 			static float waterAttackTimer = 0;
 			if (Attack && DirectionLeftRight == AttackDir)
 			{
+				
 				if (waterAttackDuration <= 3 && waterAttackDuration >= 0)
 				{
+					this->Attacks->setpleaseplaysound(false);
 				this->Attacks->SetisEnemy(true);
 				this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
 				this->Attacks->Attack_Ability(WATER, 0);
 				
 					this->Attacks->SetisEnemy(true);
 					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+					this->Attacks->setpleaseplaysound(true);
 					this->Attacks->Attack_Basic(WATER, 0);
 					waterAttackDuration -= dt;	
 				}
@@ -315,9 +320,10 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 					}
 				}
 			}
+				
 			//waterAttackTimer += dt;
 
-		}
+		} 
 		else if (enemyType == BOSS)
 		{
 			
@@ -382,9 +388,10 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 
                 if (Attack && DirectionLeftRight == AttackDir)
                 {
+			
                     ELEMENT temp;
                     temp = EARTH;
-
+					this->Attacks->setpleaseplaysound(true);
 					this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
                     if (dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetBossState() == EarthBehaviour::NORMAL_ATTACK_PHASE)
                     {
@@ -421,6 +428,8 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 								temp->setIsHostileProjectile(true);
 
 								dynamic_cast<EarthBehaviour*>(m_Behaviour)->SetKnockBackTimer(dynamic_cast<EarthBehaviour*>(m_Behaviour)->GetKnockBackTimer() - dt);
+
+
 							}
 
 							
@@ -491,12 +500,14 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
                     {
                         this->Attacks->SetisEnemy(true);
                         this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+						this->Attacks->setpleaseplaysound(true);
                         this->Attacks->Attack_Basic(temp, GetElementLevel(temp));
                     }
                     else if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::BERSERK_PHASE)
                     {
                         this->Attacks->SetisEnemy(true);
                         this->Attacks->UpdateAttack(dt, this->m_Position, DirectionLeftRight);
+						this->Attacks->setpleaseplaysound(false);
                         this->Attacks->Attack_Ability(temp, GetElementLevel(temp));
                     }
                 }
