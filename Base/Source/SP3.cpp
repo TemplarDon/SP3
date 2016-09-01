@@ -511,6 +511,22 @@ void SP3::UpdateGame(double dt)
 	}
 
 	// ----------------- Shortcuts ------------------ //
+	static bool buttonStates = false;
+	if (Application::IsKeyPressed('0'))
+	{
+		m_Player->setEntityHealth(m_Player->GetEntityMaxHealth());
+	}
+	if (Application::IsKeyPressed('1')&& buttonStates==false)
+	{
+		m_Player->LevelUp(FIRE);
+		m_Player->LevelUp(WATER);
+		m_Player->LevelUp(EARTH);
+		buttonStates = true;
+	}
+	if (!Application::IsKeyPressed('1'))
+	{
+		buttonStates = false;
+	}
 	if (Application::IsKeyPressed('2'))
 	{
 		SwitchLevel(HUB_LEVEL);

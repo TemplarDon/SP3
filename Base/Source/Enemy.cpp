@@ -234,7 +234,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
 				{
 					this->MovementSpeed = 0.2f;
 				} 
-				else if ((m_Destination - m_Position).LengthSquared() < 500)
+				else if ((m_Destination - m_Position).LengthSquared() < 300)
 				{
 					this->MovementSpeed = 0.01f;
 				}
@@ -442,7 +442,7 @@ void Enemy::Update(double dt, Vector3 playerPosition, GameObject_Map * map, Came
                 this->setDirectionBasedOnDistance(playerPosition, m_Position);
                 dynamic_cast<FireBossBehaviour*>(m_Behaviour)->SetInternalDT(dt);
                 this->m_Behaviour->BehaviourUpdate(playerPosition, m_Position, Attack, map);
-                float tempMS;
+                float tempMS=0.f;
                 if (dynamic_cast<FireBossBehaviour*>(m_Behaviour)->GetBossState() == FireBossBehaviour::NORMAL_PHASE)
                 {
                     tempMS = 0.1f;
