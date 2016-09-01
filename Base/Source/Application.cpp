@@ -92,7 +92,7 @@ void Application::Init()
 	m_width = mode->width;
 	//m_width = 800;
 	//m_height = 600;
-	m_window = glfwCreateWindow(m_width, m_height, "Physics", NULL, NULL);
+	m_window = glfwCreateWindow(m_width, m_height, "SP3", NULL, NULL);
 
 	//If the window couldn't be created
 	if (!m_window)
@@ -140,7 +140,7 @@ void Application::Run()
 
  	} 
 	
-	_CrtDumpMemoryLeaks();
+	//_CrtDumpMemoryLeaks();
 
 	//Check if the ESC key had been pressed or if the window had been closed
 	scene->Exit();

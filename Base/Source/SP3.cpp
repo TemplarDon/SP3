@@ -372,38 +372,8 @@ void SP3::UpdateGame(double dt)
 		GameState = GS_VICTORY;
 	}
 	SceneBase::Update(dt);
-	if (Application::IsKeyPressed('2'))
-	{
-		SwitchLevel(HUB_LEVEL);
-	}
-	if (Application::IsKeyPressed('3'))
-	{
-		SwitchLevel(FIRE_LEVEL);
-	}
-	if (Application::IsKeyPressed('4'))
-	{
-		SwitchLevel(EARTH_LEVEL);
-	}
-	if (Application::IsKeyPressed('5'))
-	{
-		SwitchLevel(WATER_LEVEL);
-	}
-	if (Application::IsKeyPressed('6'))
-	{
-		SwitchLevel(FIRE_BOSS_LEVEL);
-	}
-	if (Application::IsKeyPressed('7'))
-	{
-		SwitchLevel(EARTH_BOSS_LEVEL);
-	}
-	if (Application::IsKeyPressed('8'))
-	{
-		SwitchLevel(WATER_BOSS_LEVEL1);
-	}
-	if (Application::IsKeyPressed('9'))
-	{
-		GameState = GS_VICTORY;
-	}
+
+
 
 	if (Application::IsKeyPressed('A') && m_Player->Attacks->GetControlLock() == false)
 	{
@@ -541,37 +511,37 @@ void SP3::UpdateGame(double dt)
 	}
 
 	// ----------------- Shortcuts ------------------ //
-	static bool b1ButtonState = false;
-	if (!b1ButtonState && Application::IsKeyPressed('1'))
+	if (Application::IsKeyPressed('2'))
 	{
-		b1ButtonState = true;
+		SwitchLevel(HUB_LEVEL);
 	}
-	else if (b1ButtonState && !Application::IsKeyPressed('1'))
+	if (Application::IsKeyPressed('3'))
 	{
-		SwitchLevel(EARTH_BOSS_LEVEL);
-		b1ButtonState = false;
+		SwitchLevel(FIRE_LEVEL);
 	}
-
-	static bool b2ButtonState = false;
-	if (!b2ButtonState && Application::IsKeyPressed('2'))
+	if (Application::IsKeyPressed('4'))
 	{
-		b2ButtonState = true;
+		SwitchLevel(EARTH_LEVEL);
 	}
-	else if (b2ButtonState && !Application::IsKeyPressed('2'))
+	if (Application::IsKeyPressed('5'))
 	{
-		SwitchLevel(WATER_BOSS_LEVEL1);
-		b2ButtonState = false;
+		SwitchLevel(WATER_LEVEL);
 	}
-
-	static bool b3ButtonState = false;
-	if (!b3ButtonState && Application::IsKeyPressed('3'))
-	{
-		b3ButtonState = true;
-	}
-	else if (b3ButtonState && !Application::IsKeyPressed('3'))
+	if (Application::IsKeyPressed('6'))
 	{
 		SwitchLevel(FIRE_BOSS_LEVEL);
-		b3ButtonState = false;
+	}
+	if (Application::IsKeyPressed('7'))
+	{
+		SwitchLevel(EARTH_BOSS_LEVEL);
+	}
+	if (Application::IsKeyPressed('8'))
+	{
+		SwitchLevel(WATER_BOSS_LEVEL1);
+	}
+	if (Application::IsKeyPressed('9'))
+	{
+		GameState = GS_VICTORY;
 	}
 
 	// ----------------- Sort Map ------------------ //

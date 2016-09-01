@@ -521,7 +521,7 @@ void Entity::DebuffCheckAndApply(double dt)
             deBuff_BurnTicks += 1;
         }
             
-        if (deBuff_BurnTicks == 5)
+        if (deBuff_BurnTicks == 3)
         {
             deBuff_burning = false;
             deBuff_BurningTimer = 0.f;
