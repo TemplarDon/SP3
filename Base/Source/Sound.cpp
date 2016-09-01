@@ -9,7 +9,9 @@ Sound::Sound()
 }
 Sound::~Sound()
 {
-
+	musicEngine->drop();
+	//SoundEffect->drop();
+	SoundEffect3D->drop();
 }
 
 void Sound::playMusic(string Music)
