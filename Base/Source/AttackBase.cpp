@@ -387,14 +387,14 @@ void AttackBase::Attack_Suck(ELEMENT currElement,bool Direction)
 	if (Direction == true)
 	{
 		music.playSE("Music//vacuum.wav");
-		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(20, 1, 0), true, true, Projectile_Suck, "Image//blue Idle.tga"));
+		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(20, 1, 0), true, false, Projectile_Suck, "Image//blue Idle.tga"));
 		temp->projectileInit(m_AttackDirection, Vector3(m_EntityPos.x + 10, m_EntityPos.y+5, m_EntityPos.z), 1, 0, 0.5f, currElement, isEnemy, 0);
 		temp->setIsHostileProjectile(this->isEnemy);
 	}
 	else
 	{
 		music.playSE("Music//vacuum.wav");
-		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(20, 1, 0), true, true, Projectile_Suck, "Image//blue Idle.tga"));
+		temp = dynamic_cast<Projectile*>(GameObjectManager::SpawnGameObject(PROJECTILE, GO_ATTACK, m_Projectiles[m_projectileCount].GetPosition(), Vector3(20, 1, 0), true, false, Projectile_Suck, "Image//blue Idle.tga"));
 		temp->projectileInit(m_AttackDirection, Vector3(m_EntityPos.x -10, m_EntityPos.y+5, m_EntityPos.z), 1, 0, 0.5f, currElement, isEnemy, 0);
 		temp->setIsHostileProjectile(this->isEnemy);
 	}
