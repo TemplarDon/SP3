@@ -29,10 +29,12 @@ public:
     bool Attack_Ability(ELEMENT CurrElement, int elementLevel, bool ShootDown = false);
 	void Attack_Suck(ELEMENT  CurrElement, bool Direction);
 
-	
-
+	void setpleaseplaysound(bool yes);
+	bool getpleaseplaysound();
 protected:   
 	Sound music;
+
+	bool pleaseplaysound;
     bool isEnemy;
     bool m_AttackDirection;//true is right false is left
     int m_AttackDamage;

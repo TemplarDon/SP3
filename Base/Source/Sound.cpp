@@ -6,6 +6,7 @@ Sound::Sound()
 	SoundEffect3D = irrklang::createIrrKlangDevice();
 	SoundEffect3D->setDefault3DSoundMinDistance(1.f);
 	SoundEffect3D->setDefault3DSoundMaxDistance(10.f);
+	SoundEffect = NULL;
 }
 Sound::~Sound()
 {
@@ -39,6 +40,12 @@ void Sound::setIsPaused(bool set)
 {
 	SoundEffect->setIsPaused(set);
 }
+
+void Sound::pause()
+{
+	Song->setIsPaused(true);
+}
+
 bool Sound::getPaused()
 {
 	return SoundEffect->getIsPaused();
@@ -46,4 +53,12 @@ bool Sound::getPaused()
 void Sound::dropMusic()
 {
 	Song->drop();
+}
+irrklang::ISound* Sound::getSound()
+{
+	return SoundEffect;
+}
+void Sound::setSound(irrklang::ISound* sound)
+{
+	this->SoundEffect = sound;
 }

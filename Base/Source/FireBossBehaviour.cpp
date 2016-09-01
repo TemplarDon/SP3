@@ -7,8 +7,6 @@ FireBossBehaviour::FireBossBehaviour()
     isNormalPhase = true;
     isRestPhase = false;
     isBeserkPhase = false;
-	playmusic = true;
-	music.playSE("Music//fire_boss.wav");
 }
 FireBossBehaviour::~FireBossBehaviour()
 {

@@ -110,13 +110,7 @@ void EarthBehaviour::BehaviourUpdate(Vector3 PlayerPos, Vector3 CurrPos, bool &A
 	switch (this->behaviour)
 	{
 	case NEUTRAL:
-	{
-		if (playmusic == true)
-		{
-			music.playSE("Music//earth_boss.wav");
-			playmusic = false;
-		}
-		
+	{		
 		// Random initial direction to walk in
 		if (!m_RunOnce)
 		{

@@ -66,6 +66,7 @@ public:
 
 private:
 
+	float musictimer;
     int fireCount;
 	//Strategy* theStrategy;
 	Behaviour* m_Behaviour;
