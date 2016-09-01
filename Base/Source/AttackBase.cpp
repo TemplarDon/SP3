@@ -63,7 +63,10 @@ void AttackBase::SetisEnemy(bool isEnemy)
     this->isEnemy = isEnemy;
 }
 
-
+void AttackBase::SetAttackDamage(int Damage)
+{
+	this->m_AttackDamage = Damage;
+}
 int AttackBase::GetAttackDamage()
 {
     return m_AttackDamage;

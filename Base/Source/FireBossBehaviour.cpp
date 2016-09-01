@@ -13,6 +13,7 @@ FireBossBehaviour::FireBossBehaviour()
 FireBossBehaviour::~FireBossBehaviour()
 {
 
+
 }
 
 Vector3 FireBossBehaviour::GetTargetLocation()

@@ -30,7 +30,7 @@ Player::~Player(void)
 // Player Init
 void Player::Init(void)
 {
-	SetEntityMaxHealth(10);
+	SetEntityMaxHealth(500);
     CurrHealth = MaxHealth;
     Damage = 3;
 	SetEntityMovementSpeed(1);
@@ -135,6 +135,14 @@ void Player::Death()
 
 	CurrHealth = MaxHealth;
 	CurrSheild = MaxSheild;
+	
+
+	if (m_ElementsLevelMap[FIRE] > 0)
+		m_ElementsLevelMap[FIRE] -= 1;
+	if (m_ElementsLevelMap[WATER]>0)
+	m_ElementsLevelMap[WATER] -= 1;
+	if (m_ElementsLevelMap[EARTH]>0)
+	m_ElementsLevelMap[EARTH] -= 1;
 }
 
 LEVEL Player::GetCurrentLevel()

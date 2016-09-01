@@ -16,6 +16,7 @@ class AttackBase
 public:
     AttackBase();
     ~AttackBase();
+	void SetAttackDamage(int Damage);
     int GetAttackDamage();
     //generic update to be used in Entity classes
     void UpdateAttack(double dt, Vector3 pos, bool leftright);
@@ -27,6 +28,8 @@ public:
     bool Attack_Basic(ELEMENT CurrElement, int elementLevel);
     bool Attack_Ability(ELEMENT CurrElement, int elementLevel, bool ShootDown = false);
 	void Attack_Suck(ELEMENT  CurrElement, bool Direction);
+
+	
 
 protected:   
 	Sound music;

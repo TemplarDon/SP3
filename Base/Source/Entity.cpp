@@ -638,7 +638,7 @@ void Entity::LevelUp(ELEMENT ElementToLevel)
 	{
 	case FIRE:
 	{
-		this->Damage += 2;
+		this->Attacks->SetAttackDamage(this->Attacks->GetAttackDamage() + 2);
 		break;
 	}
 	case WATER:
