@@ -638,17 +638,26 @@ void Entity::LevelUp(ELEMENT ElementToLevel)
 	{
 	case FIRE:
 	{
-		this->Attacks->SetAttackDamage(this->Attacks->GetAttackDamage() + 2);
+		if (m_ElementsLevelMap[FIRE] < 5)
+		{
+			this->Attacks->SetAttackDamage(this->Attacks->GetAttackDamage() + 2);
+		}
 		break;
 	}
 	case WATER:
 	{
-		this->MaxHealth += 5;
+		if (m_ElementsLevelMap[WATER] < 5)
+		{
+			this->MaxHealth += 5;
+		}
 		break;
 	}
 	case EARTH:
 	{
-		this->MaxSheild += 5;
+		if (m_ElementsLevelMap[EARTH] < 5)
+		{
+			this->MaxSheild += 5;
+		}
 		break;
 	}
 	}

@@ -138,11 +138,20 @@ void Player::Death()
 	
 
 	if (m_ElementsLevelMap[FIRE] > 0)
+	{
 		m_ElementsLevelMap[FIRE] -= 1;
-	if (m_ElementsLevelMap[WATER]>0)
-	m_ElementsLevelMap[WATER] -= 1;
-	if (m_ElementsLevelMap[EARTH]>0)
-	m_ElementsLevelMap[EARTH] -= 1;
+		this->Attacks->SetAttackDamage(this->Attacks->GetAttackDamage() - 2);
+	}
+	if (m_ElementsLevelMap[WATER] > 0)
+	{
+		m_ElementsLevelMap[WATER] -= 1;
+		this->MaxHealth -= 5;
+	}
+	if (m_ElementsLevelMap[EARTH] > 0)
+	{
+		m_ElementsLevelMap[EARTH] -= 1;
+		this->MaxSheild -= 5;
+	}
 }
 
 LEVEL Player::GetCurrentLevel()
